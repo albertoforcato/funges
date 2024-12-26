@@ -6,7 +6,6 @@
   <title>Porcini Mushroom Map</title>
   <!-- Mapbox CSS -->
   <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet">
-  <link href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.css" rel="stylesheet">
   <style>
     body { margin: 0; padding: 0; font-family: Arial, sans-serif; }
     #map { position: absolute; top: 0; bottom: 0; width: 100%; }
@@ -34,9 +33,9 @@
       height: 20px;
       border-radius: 3px;
     }
-    .legend-color.yellow { background: #f7e26b; }
-    .legend-color.orange { background: #f8a65c; }
-    .legend-color.red { background: #d73c4a; }
+    .legend-color.yellow { background: #ffffcc; }
+    .legend-color.orange { background: #fbae7e; }
+    .legend-color.red { background: #800020; }
   </style>
 </head>
 <body>
@@ -45,19 +44,17 @@
   <!-- Legend -->
   <div id="legend">
     <h3>Porcini Mushroom Hunting Conditions</h3>
-    <p>The map indicates the geographical locations with the best conditions for searching for porcini mushrooms (and species that grow under similar conditions).</p>
-    <div>The locations are indexed on a color scale from pale yellow to dark red:</div>
+    <p>The map indicates the locations with best conditions for porcini mushrooms</p>
     <div class="legend-scale">
       <div class="legend-color yellow"></div> <span>Less Favorable</span>
       <div class="legend-color orange"></div> <span>Moderate</span>
       <div class="legend-color red"></div> <span>Most Favorable</span>
     </div>
-    <p>Numerical Rating: 0 (least favorable) to 10 (most favorable).</p>
+    <p>Numerical Rating: 0 to 10</p>
   </div>
 
   <!-- Mapbox JS -->
   <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
-  <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.min.js"></script>
   <script>
     // Your restricted Mapbox Access Token
     mapboxgl.accessToken = 'pk.eyJ1IjoibG9kaXN0IiwiYSI6ImNtM3g3dTVuaTE2dW8yaXM1eDE1dXVmZG4ifQ.xrGoky5Mzc6gwO5z8n6CoQ';
@@ -75,29 +72,6 @@
     // Add zoom, rotation, and fullscreen controls to the map
     map.addControl(new mapboxgl.NavigationControl());
     map.addControl(new mapboxgl.FullscreenControl());
-
-    // Add a Geocoder control for searching locations
-    const geocoder = new MapboxGeocoder({
-      accessToken: mapboxgl.accessToken,
-      mapboxgl: mapboxgl
-    });
-    map.addControl(geocoder);
-
-    // Add a marker with a popup
-    const marker = new mapboxgl.Marker()
-      .setLngLat([8.2275, 46.8182])
-      .setPopup(new mapboxgl.Popup().setText("You are here!"))
-      .addTo(map);
-
-    // Display coordinates on hover
-    map.on('mousemove', (e) => {
-      console.log(`Latitude: ${e.lngLat.lat}, Longitude: ${e.lngLat.lng}`);
-    });
-
-    // Add an event listener for clicking on the map
-    map.on('click', (e) => {
-      alert(`You clicked at Latitude: ${e.lngLat.lat}, Longitude: ${e.lngLat.lng}`);
-    });
   </script>
 </body>
 </html>
