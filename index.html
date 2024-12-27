@@ -50,19 +50,14 @@
 
     #locate-button {
       position: absolute;
-      top: 100px; /* Closer to the logo */
+      top: 53px; /* Closer to the logo */
       left: 20px;
       z-index: 10;
-      background: #007bff;
-      color: white;
-      border: none;
-      padding: 8px 12px; /* Slightly smaller button size */
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 13px;
     }
-    #locate-button:hover {
-      background: #0056b3;
+    #locate-button img {
+      width: 160px; /* Adjust the size as needed */
+      height: auto;
+      cursor: pointer;
     }
   </style>
 </head>
@@ -75,7 +70,9 @@
   </div>
 
   <!-- Locate Me Button -->
-  <button id="locate-button">Locate Me</button>
+  <div id="locate-button">
+    <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/Locate_Me.png" alt="Locate Me Button" onclick="locateUser()">
+  </div>
 
   <!-- Legend -->
   <div id="legend">
@@ -135,9 +132,6 @@
         alert('Geolocation is not supported by your browser.');
       }
     }
-
-    // Add event listener to the "Locate Me" button
-    document.getElementById('locate-button').addEventListener('click', locateUser);
   </script>
 </body>
 </html>
