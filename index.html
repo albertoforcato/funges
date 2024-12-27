@@ -44,29 +44,8 @@
       z-index: 10;
     }
     #logo img {
-      width: 160; /* Adjust the size as needed */
+      width: 100px; /* Adjust the size as needed */
       height: auto;
-    }
-
-    #locate-button {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      z-index: 15;
-      background: #007bff;
-      color: white;
-      border: none;
-      padding: 10px 15px;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 14px;
-    }
-    #locate-button:hover {
-      background: #0056b3;
-    }
-
-    .mapboxgl-ctrl {
-      margin-top: 60px; /* Push Mapbox controls down */
     }
   </style>
 </head>
@@ -77,9 +56,6 @@
   <div id="logo">
     <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/Tripped_Logo_S.png" alt="Tripped Logo">
   </div>
-
-  <!-- Locate Me Button -->
-  <button id="locate-button">Locate Me</button>
 
   <!-- Legend -->
   <div id="legend">
@@ -103,7 +79,7 @@
       container: 'map', // The ID of the HTML element to display the map in
       style: 'mapbox://styles/lodist/clzo3ivsk007d01piaoah1dfy', // Your custom Mapbox style
       center: [8.2275, 46.8182], // Starting position [longitude, latitude]
-      zoom: 5, // Starting zoom level
+      zoom: 7, // Starting zoom level
       maxZoom: 10, // Maximum zoom level
       minZoom: 3, // Minimum zoom level
     });
@@ -111,37 +87,6 @@
     // Add zoom, rotation, and fullscreen controls to the map
     map.addControl(new mapboxgl.NavigationControl());
     map.addControl(new mapboxgl.FullscreenControl());
-
-    // Add a marker for the user's location
-    let userMarker;
-
-    // Function to locate the user
-    function locateUser() {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(position => {
-          const userCoordinates = [position.coords.longitude, position.coords.latitude];
-
-          // Add or update the user's marker
-          if (userMarker) {
-            userMarker.setLngLat(userCoordinates);
-          } else {
-            userMarker = new mapboxgl.Marker({ color: 'blue' })
-              .setLngLat(userCoordinates)
-              .addTo(map);
-          }
-
-          // Center the map on the user's location
-          map.flyTo({ center: userCoordinates, zoom: 10 });
-        }, error => {
-          alert('Unable to retrieve your location.');
-        });
-      } else {
-        alert('Geolocation is not supported by your browser.');
-      }
-    }
-
-    // Add event listener to the "Locate Me" button
-    document.getElementById('locate-button').addEventListener('click', locateUser);
   </script>
 </body>
 </html>
