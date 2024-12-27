@@ -37,25 +37,14 @@
     .legend-color.orange { background: #fbae7e; }
     .legend-color.red { background: #800020; }
 
-    #logo {
-      position: absolute;
-      top: 20px;
-      left: 20px;
-      z-index: 10;
-    }
-    #logo img {
-      width: 180px; /* Adjust the size as needed */
-      height: auto;
-    }
-
     #locate-button {
       position: absolute;
-      top: 110px; /* Closer to the logo */
+      top: 20px; /* Same as logo's position */
       left: 20px;
       z-index: 10;
     }
     #locate-button img {
-      width: 60px; /* Adjust the size as needed */
+      width: 160px; /* Adjust the size as needed */
       height: auto;
       cursor: pointer;
     }
@@ -63,11 +52,6 @@
 </head>
 <body>
   <div id="map"></div>
-
-  <!-- Logo -->
-  <div id="logo">
-    <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/Tripped_Logo_S.png" alt="Tripped Logo">
-  </div>
 
   <!-- Locate Me Button -->
   <div id="locate-button">
