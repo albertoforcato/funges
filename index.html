@@ -44,7 +44,7 @@
       z-index: 10;
     }
     #logo img {
-      width: 200px; /* Adjust the size as needed */
+      width: 160; /* Adjust the size as needed */
       height: auto;
     }
 
@@ -52,7 +52,7 @@
       position: absolute;
       top: 20px;
       right: 20px;
-      z-index: 10;
+      z-index: 15;
       background: #007bff;
       color: white;
       border: none;
@@ -64,6 +64,10 @@
     #locate-button:hover {
       background: #0056b3;
     }
+
+    .mapboxgl-ctrl {
+      margin-top: 60px; /* Push Mapbox controls down */
+    }
   </style>
 </head>
 <body>
@@ -73,6 +77,9 @@
   <div id="logo">
     <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/Tripped_Logo_S.png" alt="Tripped Logo">
   </div>
+
+  <!-- Locate Me Button -->
+  <button id="locate-button">Locate Me</button>
 
   <!-- Legend -->
   <div id="legend">
@@ -84,9 +91,6 @@
     </div>
     <p>Numerical Rating: 0 to 10</p>
   </div>
-
-  <!-- Locate Me Button -->
-  <button id="locate-button">Locate Me</button>
 
   <!-- Mapbox JS -->
   <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
