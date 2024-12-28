@@ -60,17 +60,6 @@
       height: auto;
       cursor: pointer;
     }
-
-    #toggle-layers {
-      position: absolute;
-      top: 160px;
-      left: 20px;
-      z-index: 10;
-      background: white;
-      padding: 10px;
-      border-radius: 8px;
-      cursor: pointer;
-    }
   </style>
 </head>
 <body>
@@ -85,9 +74,6 @@
   <div id="numbers-button">
     <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/numbers.png" alt="Numbers Button" onclick="toggleNumbersLayers()">
   </div>
-
-  <!-- Toggle Layers Button -->
-  <div id="toggle-layers">Toggle Layers</div>
 
   <!-- Legend -->
   <div id="legend">
@@ -147,29 +133,6 @@
         alert('Geolocation is not supported by your browser.');
       }
     }
-
-    // Add toggle functionality for layers
-    const toggleLayersButton = document.getElementById('toggle-layers');
-    let layersVisible = true;
-
-    toggleLayersButton.addEventListener('click', () => {
-      layersVisible = !layersVisible;
-
-      // Loop through the layers and set visibility
-      for (let i = 1; i <= 9; i++) {
-        const layerId = `mushroom-${i} numbers`;
-        if (map.getLayer(layerId)) {
-          map.setLayoutProperty(
-            layerId,
-            'visibility',
-            layersVisible ? 'visible' : 'none'
-          );
-        }
-      }
-
-      // Change button text based on layer visibility
-      toggleLayersButton.textContent = layersVisible ? 'Hide Layers' : 'Show Layers';
-    });
 
     // Function to toggle numbers layers
     function toggleNumbersLayers() {
