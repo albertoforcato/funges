@@ -109,6 +109,9 @@
     // Add a marker for the user's location
     let userMarker;
 
+    // Initialize visibility state for layers
+    let layersVisible = true;
+
     // Function to locate the user
     function locateUser() {
       if (navigator.geolocation) {
