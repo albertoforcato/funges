@@ -156,6 +156,20 @@
       // Provide feedback to the user via console or UI if needed
       console.log(`Layers are now ${layersVisible ? 'visible' : 'hidden'}`);
     }
+
+    // Function to handle click events and open Google Maps
+    map.on('click', (event) => {
+      const coordinates = event.lngLat; // Get the clicked coordinates (longitude, latitude)
+
+      // Construct the Google Maps URL
+      const googleMapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${coordinates.lat},${coordinates.lng}`;
+
+      // Ask the user if they want to navigate to Google Maps
+      if (confirm('Go there with Google Maps?')) {
+        // Open the URL in a new tab
+        window.open(googleMapsUrl, '_blank');
+      }
+    });
   </script>
 </body>
 </html>
