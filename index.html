@@ -136,24 +136,29 @@
         alert('Geolocation is not supported by your browser.');
       }
     }
-
+    
     // Function to toggle numbers layers
     function toggleNumbersLayers() {
       layersVisible = !layersVisible;
-
-      // Loop through the layers and set visibility
-      for (let i = 1; i <= 9; i++) {
-        const layerId = `mushroom-${i} numbers`;
-        if (map.getLayer(layerId)) {
+    
+      // Get all layers from the map
+      const layers = map.getStyle().layers;
+    
+      // Loop through all layers and match their IDs against the desired pattern
+      layers.forEach(layer => {
+        const layerId = layer.id;
+        // Check if the layer ID matches the naming convention
+        if (layerId.startsWith('mushroom_') && layerId.endsWith(' numbers')) {
+          // Toggle the visibility of the layer
           map.setLayoutProperty(
             layerId,
             'visibility',
             layersVisible ? 'visible' : 'none'
           );
         }
-      }
-
-      // Provide feedback to the user via console or UI if needed
+      });
+    
+      // Provide feedback to the user
       console.log(`Layers are now ${layersVisible ? 'visible' : 'hidden'}`);
     }
   </script>
