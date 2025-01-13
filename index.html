@@ -127,43 +127,32 @@
     map.addControl(new mapboxgl.FullscreenControl());
 
     // Add a marker for the user's location
-    let markerVisible = false; // Tracks if the user marker is visible
-    let userMarker; // Holds the marker instance
+    let userMarker;
 
     // Function to locate the user
     function locateUser() {
-      if (markerVisible) {
-        // If the marker is visible, remove it
-        if (userMarker) {
-          userMarker.remove();
-          userMarker = null;
-        }
-        markerVisible = false;
-      } else {
-        // If the marker is not visible, locate the user and add the marker
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(position => {
-            const userCoordinates = [position.coords.longitude, position.coords.latitude];
-    
-            // Add the user's marker
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(position => {
+          const userCoordinates = [position.coords.longitude, position.coords.latitude];
+
+          // Add or update the user's marker
+          if (userMarker) {
+            userMarker.setLngLat(userCoordinates);
+          } else {
             userMarker = new mapboxgl.Marker({ color: '#b31800' })
               .setLngLat(userCoordinates)
               .addTo(map);
-    
-            // Center the map on the user's location
-            map.flyTo({ center: userCoordinates, zoom: 8 });
-    
-            markerVisible = true; // Set marker visibility to true
-          }, error => {
-            alert('Unable to retrieve your location.');
-          });
-        } else {
-          alert('Geolocation is not supported by your browser.');
-        }
+          }
+
+          // Center the map on the user's location
+          map.flyTo({ center: userCoordinates, zoom: 8 });
+        }, error => {
+          alert('Unable to retrieve your location.');
+        });
+      } else {
+        alert('Geolocation is not supported by your browser.');
       }
     }
-
-
 
     // Initialize visibility state for layers
     let layersVisible = false;
@@ -190,7 +179,7 @@
       });
     
       // Provide feedback to the user
-      console.log(`Layers are now ${layersVisible ? 'visible' : 'hidden'}`);
+      console.log(Layers are now ${layersVisible ? 'visible' : 'hidden'});
     }
 
     // Initialize visibility state for %dark layers
@@ -216,7 +205,7 @@
         }
       });
     
-      console.log(`Dark layers are now ${darkLayersVisible ? 'visible' : 'hidden'}`);
+      console.log(Dark layers are now ${darkLayersVisible ? 'visible' : 'hidden'});
     }
 
 
@@ -234,7 +223,7 @@
       // Set the display style based on the visibility state
       legend.style.display = legendVisible ? 'block' : 'none';
     
-      console.log(`Legend is now ${legendVisible ? 'visible' : 'hidden'}`);
+      console.log(Legend is now ${legendVisible ? 'visible' : 'hidden'});
     }
 
 
