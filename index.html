@@ -230,20 +230,18 @@
 
 
 
-      
+
     // Add a marker for the flagpole
     let flagpoleMarker;
   
-    // Variable to store the coordinates of the right-click
-    let rightClickCoordinates = null;
+    // Variable to store the coordinates of the long press or right-click
+    let activeCoordinates = null;
   
-    // Function to handle right-click on the map
-    map.on('contextmenu', (e) => {
-      const { lng, lat } = e.lngLat;
+    // Variable to track the long press
+    let longPressTimeout;
   
-      // Store the coordinates
-      rightClickCoordinates = { lng, lat };
-  
+    // Function to add or update the flagpole marker
+    function placeFlagpole(lng, lat) {
       // Add or update the flagpole marker
       if (flagpoleMarker) {
         flagpoleMarker.setLngLat([lng, lat]);
@@ -260,18 +258,51 @@
         flagpoleIcon.style.width = '40px';
         flagpoleMarker.getElement().appendChild(flagpoleIcon);
       }
+    }
+  
+    // Handle right-click on desktop
+    map.on('contextmenu', (e) => {
+      const { lng, lat } = e.lngLat;
+  
+      // Store the coordinates
+      activeCoordinates = { lng, lat };
+  
+      // Place the flagpole immediately
+      placeFlagpole(lng, lat);
+    });
+  
+    // Handle long press on mobile
+    map.on('touchstart', (e) => {
+      if (e.points.length === 1) { // Ensure it's a single touch
+        const { lng, lat } = map.unproject([e.points[0].x, e.points[0].y]);
+  
+        // Start the long press timer
+        longPressTimeout = setTimeout(() => {
+          // Store the coordinates
+          activeCoordinates = { lng, lat };
+  
+          // Place the flagpole after 2.5 seconds
+          placeFlagpole(lng, lat);
+        }, 2500); // 2.5 seconds
+      }
+    });
+  
+    map.on('touchend', () => {
+      // Cancel the long press timer if the touch ends before 2.5 seconds
+      clearTimeout(longPressTimeout);
     });
   
     // Add click event listener to the gmaps button
     const gmapsButton = document.querySelector('.button img[alt="Google Maps Button"]').parentElement;
     gmapsButton.addEventListener('click', () => {
-      if (rightClickCoordinates) {
-        const { lng, lat } = rightClickCoordinates;
+      if (activeCoordinates) {
+        const { lng, lat } = activeCoordinates;
   
         // Redirect to Google Maps
         window.open(`https://www.google.com/maps?q=${lat},${lng}`, '_blank');
       }
     });
+
 
 
 
