@@ -119,21 +119,46 @@
     // Mapbox Access Token
     mapboxgl.accessToken = 'pk.eyJ1IjoibG9kaXN0IiwiYSI6ImNtM3g3dTVuaTE2dW8yaXM1eDE1dXVmZG4ifQ.xrGoky5Mzc6gwO5z8n6CoQ';
 
+
+    
+    
+    
+    // Function to initialize the Mapbox map
+    function initializeMap() {
+      const map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/lodist/clzo3ivsk007d01piaoah1dfy',
+        center: [7.3359, 47.7508], // Starting position [longitude, latitude]
+        zoom: 4, // Starting zoom level
+        maxZoom: 20, // Maximum zoom level
+        minZoom: 2, // Minimum zoom level
+      });
+    
+      // Add controls to the map
+      map.addControl(new mapboxgl.NavigationControl({ showCompass: false }));
+      map.addControl(new mapboxgl.FullscreenControl());
+    
+      // Listen for WebGL context loss and reinitialize the map
+      map.on('webglcontextlost', () => {
+        console.error('WebGL context lost. Attempting to recreate the map.');
+        map.remove();
+        initializeMap();
+      });
+    
+      return map;
+    }
+    
     // Initialize the map
-    const map = new mapboxgl.Map({
-      container: 'map',
-      style: 'mapbox://styles/lodist/clzo3ivsk007d01piaoah1dfy',
-      center: [7.3359, 47.7508], // Starting position [longitude, latitude]
-      zoom: 4, // Starting zoom level
-      maxZoom: 20, // Maximum zoom level
-      minZoom: 2, // Minimum zoom level
+    const map = initializeMap();
+    
+    // Resize the map on visibility change to handle mobile-specific issues
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') {
+        map.resize();
+      }
     });
-  
-    // Add controls to the map
-    map.addControl(new mapboxgl.NavigationControl({ showCompass: false }));
-    map.addControl(new mapboxgl.FullscreenControl());
-  
-    // Save map state before the user leaves the page
+    
+    // Load saved map state when the page loads
     window.addEventListener('load', () => {
       try {
         const savedState = JSON.parse(localStorage.getItem('mapState'));
@@ -151,30 +176,39 @@
             map.setZoom(savedState.zoom);
             map.setBearing(savedState.bearing);
             map.setPitch(savedState.pitch);
+            console.log('Map state restored.');
           } else {
             // Clear the state if it's outdated
             localStorage.removeItem('mapState');
             console.log('Map state expired and cleared.');
           }
         }
+        map.resize(); // Ensure the map resizes correctly
       } catch (error) {
         console.error('Failed to load map state:', error);
       }
     });
-
-
-  
-    // Load saved map state when the page reloads
-    window.addEventListener('load', () => {
-      const savedState = JSON.parse(localStorage.getItem('mapState'));
-      if (savedState) {
-        map.setCenter(savedState.center);
-        map.setZoom(savedState.zoom);
-        map.setBearing(savedState.bearing);
-        map.setPitch(savedState.pitch);
-      }
+    
+    // Save the map state before the user leaves the page
+    window.addEventListener('beforeunload', () => {
+      const mapState = {
+        center: map.getCenter(),
+        zoom: map.getZoom(),
+        bearing: map.getBearing(),
+        pitch: map.getPitch(),
+        timestamp: Date.now(), // Save the current timestamp
+      };
+      localStorage.setItem('mapState', JSON.stringify(mapState));
     });
 
+
+
+
+
+
+
+
+    
     // Add a marker for the user's location
     let userMarker;
 
@@ -356,7 +390,7 @@
     
           // Show the gmaps button
           gmapsButton.style.display = 'block';
-        }, 2000); // Long press duration (2.5 seconds)
+        }, 1600); // Long press duration (1.6 seconds)
       }
     });
     
