@@ -44,8 +44,9 @@
       padding: 15px;
       border-radius: 8px;
       font-size: 12px; /* Reduced font size */
-      background: transparent; /* Make the halo invisible */
-      box-shadow: none; /* Remove shadow for the halo effect */
+      background: rgba(255, 252, 239, 0.85); /* Matches the halo color and opacity */
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Soft halo effect */
+      display: none; /* Hidden by default */
     }
     #legend h3 {
       margin: 0 0 10px;
@@ -83,7 +84,7 @@
     <div class="button" onclick="toggleNumbersLayers()">
       <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/numbers_1.png" alt="Numbers Button">
     </div>
-    <div class="button">
+    <div class="button" onclick="toggleLegend()">
       <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/info_1.png" alt="Info Button">
     </div>
     <div class="button">
@@ -179,6 +180,12 @@
     
       // Provide feedback to the user
       console.log(`Layers are now ${layersVisible ? 'visible' : 'hidden'}`);
+    }
+
+    // Function to toggle the legend visibility
+    function toggleLegend() {
+      const legend = document.getElementById('legend');
+      legend.style.display = legend.style.display === 'none' ? 'block' : 'none';
     }
   </script>
 </body>
