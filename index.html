@@ -119,9 +119,6 @@
     // Mapbox Access Token
     mapboxgl.accessToken = 'pk.eyJ1IjoibG9kaXN0IiwiYSI6ImNtM3g3dTVuaTE2dW8yaXM1eDE1dXVmZG4ifQ.xrGoky5Mzc6gwO5z8n6CoQ';
 
-
-    
-    
     
     // Function to initialize the Mapbox map
     function initializeMap() {
@@ -163,31 +160,19 @@
       try {
         const savedState = JSON.parse(localStorage.getItem('mapState'));
         if (savedState) {
-          const savedTime = new Date(savedState.timestamp);
-          const currentTime = new Date();
-    
-          // Check if the saved state is still valid
-          const isSameDay = savedTime.toDateString() === currentTime.toDateString();
-          const isBeforeCutoff = currentTime.getHours() < 22;
-    
-          if (isSameDay && isBeforeCutoff) {
-            // Restore the saved state
-            map.setCenter(savedState.center);
-            map.setZoom(savedState.zoom);
-            map.setBearing(savedState.bearing);
-            map.setPitch(savedState.pitch);
-            console.log('Map state restored.');
-          } else {
-            // Clear the state if it's outdated
-            localStorage.removeItem('mapState');
-            console.log('Map state expired and cleared.');
-          }
+          // Restore the saved state
+          map.setCenter(savedState.center);
+          map.setZoom(savedState.zoom);
+          map.setBearing(savedState.bearing);
+          map.setPitch(savedState.pitch);
+          console.log('Map state restored.');
         }
         map.resize(); // Ensure the map resizes correctly
       } catch (error) {
         console.error('Failed to load map state:', error);
       }
     });
+
     
     // Save the map state before the user leaves the page
     window.addEventListener('beforeunload', () => {
@@ -200,13 +185,6 @@
       };
       localStorage.setItem('mapState', JSON.stringify(mapState));
     });
-
-
-
-
-
-
-
 
     
     // Add a marker for the user's location
