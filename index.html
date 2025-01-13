@@ -131,28 +131,32 @@
 
     // Function to locate the user
     function locateUser() {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(position => {
-          const userCoordinates = [position.coords.longitude, position.coords.latitude];
-
-          // Add or update the user's marker
-          if (userMarker) {
-            userMarker.setLngLat(userCoordinates);
-          } else {
+      if (userMarker) {
+        // If the marker exists, remove it and set userMarker to null
+        userMarker.remove();
+        userMarker = null;
+      } else {
+        // Otherwise, get the user's location and add the marker
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(position => {
+            const userCoordinates = [position.coords.longitude, position.coords.latitude];
+    
+            // Add the user's marker
             userMarker = new mapboxgl.Marker({ color: '#b31800' })
               .setLngLat(userCoordinates)
               .addTo(map);
-          }
-
-          // Center the map on the user's location
-          map.flyTo({ center: userCoordinates, zoom: 8 });
-        }, error => {
-          alert('Unable to retrieve your location.');
-        });
-      } else {
-        alert('Geolocation is not supported by your browser.');
+    
+            // Center the map on the user's location
+            map.flyTo({ center: userCoordinates, zoom: 8 });
+          }, error => {
+            alert('Unable to retrieve your location.');
+          });
+        } else {
+          alert('Geolocation is not supported by your browser.');
+        }
       }
     }
+
 
     // Initialize visibility state for layers
     let layersVisible = false;
