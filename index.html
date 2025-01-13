@@ -230,7 +230,7 @@
 
 
 
-
+       
     // Marker for the flagpole
     let flagpoleMarker = null;
     
@@ -259,6 +259,18 @@
       flagpoleMarker.setLngLat([lng, lat]);
     }
     
+    // Function to hide the flagpole and the gmaps button
+    function hideFlagpoleAndGmaps() {
+      if (flagpoleMarker) {
+        flagpoleMarker.remove(); // Remove the flagpole from the map
+        flagpoleMarker = null; // Reset the marker variable
+      }
+      gmapsButton.style.display = 'none'; // Hide the gmaps button
+    }
+    
+    // Select the gmaps button
+    const gmapsButton = document.querySelector('.button img[alt="Google Maps Button"]').parentElement;
+    
     // Handle right-click on desktop
     map.on('contextmenu', (e) => {
       const { lng, lat } = e.lngLat;
@@ -268,6 +280,9 @@
     
       // Place the flagpole immediately
       placeFlagpole(lng, lat);
+    
+      // Show the gmaps button
+      gmapsButton.style.display = 'block';
     });
     
     // Handle long press on mobile
@@ -282,6 +297,9 @@
     
           // Place the flagpole after 2.5 seconds
           placeFlagpole(lng, lat);
+    
+          // Show the gmaps button
+          gmapsButton.style.display = 'block';
         }, 2500); // Long press duration (2.5 seconds)
       }
     });
@@ -291,8 +309,18 @@
       clearTimeout(longPressTimeout);
     });
     
+    // Add single left-click and quick tap handling to remove PNGs
+    map.on('click', () => {
+      hideFlagpoleAndGmaps();
+    });
+    
+    map.on('touchstart', (e) => {
+      if (e.points.length === 1) {
+        hideFlagpoleAndGmaps();
+      }
+    });
+    
     // Add click event listener to the Google Maps button
-    const gmapsButton = document.querySelector('.button img[alt="Google Maps Button"]').parentElement;
     gmapsButton.addEventListener('click', () => {
       if (activeCoordinates) {
         const { lng, lat } = activeCoordinates;
@@ -301,6 +329,7 @@
         window.open(`https://www.google.com/maps?q=${lat},${lng}`, '_blank');
       }
     });
+
 
 
 
