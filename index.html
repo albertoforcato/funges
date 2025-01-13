@@ -230,44 +230,36 @@
 
 
 
-    
+      
     // Add a marker for the flagpole
     let flagpoleMarker;
-    
-    // Add a new div for the Google Maps button
-    const gmapsButton = document.createElement('div');
-    gmapsButton.id = 'gmaps-button';
-    gmapsButton.style.position = 'absolute';
+  
+    // Hide the gmaps button initially
+    const gmapsButton = document.querySelector('.button img[alt="Google Maps Button"]').parentElement;
     gmapsButton.style.display = 'none'; // Initially hidden
-    gmapsButton.innerHTML = `
-      <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/gmaps_1.png" alt="Google Maps Button" style="width: 40px; cursor: pointer;">
-    `;
-    document.body.appendChild(gmapsButton);
-    
-    // Add CSS for the button
-    const style = document.createElement('style');
-    style.textContent = `
-      #gmaps-button img {
-        border-radius: 50%;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      }
-    `;
-    document.head.appendChild(style);
-    
+  
+    // Variable to store the coordinates of the right-click
+    let rightClickCoordinates = null;
+  
     // Function to handle right-click on the map
     map.on('contextmenu', (e) => {
       const { lng, lat } = e.lngLat;
-    
-      // Position the button at the click location
-      gmapsButton.style.left = `${e.originalEvent.clientX}px`;
-      gmapsButton.style.top = `${e.originalEvent.clientY}px`;
+  
+      // Store the coordinates
+      rightClickCoordinates = { lng, lat };
+  
+      // Show the gmaps button
       gmapsButton.style.display = 'block';
-    
-      // Add a click event listener to the button
-      gmapsButton.onclick = () => {
+    });
+  
+    // Add click event listener to the gmaps button
+    gmapsButton.addEventListener('click', () => {
+      if (rightClickCoordinates) {
+        const { lng, lat } = rightClickCoordinates;
+  
         // Redirect to Google Maps
         window.open(`https://www.google.com/maps?q=${lat},${lng}`, '_blank');
-    
+  
         // Add or update the flagpole marker
         if (flagpoleMarker) {
           flagpoleMarker.setLngLat([lng, lat]);
@@ -277,17 +269,17 @@
           })
             .setLngLat([lng, lat])
             .addTo(map);
-    
+  
           // Set the marker's custom icon
           const flagpoleIcon = document.createElement('img');
           flagpoleIcon.src = 'https://raw.githubusercontent.com/lodist/tripped-map/main/flagpole_1.png';
           flagpoleIcon.style.width = '40px';
           flagpoleMarker.getElement().appendChild(flagpoleIcon);
         }
-    
-        // Hide the button after clicking
+  
+        // Hide the gmaps button after clicking
         gmapsButton.style.display = 'none';
-      };
+      }
     });
 
 
