@@ -122,8 +122,8 @@
       minZoom: 2, // Minimum zoom level
     });
 
-    // Add zoom, rotation, and fullscreen controls to the map
-    map.addControl(new mapboxgl.NavigationControl());
+    // Add zoom, and fullscreen controls to the map
+    map.addControl(new mapboxgl.NavigationControl({ showCompass: false }));
     map.addControl(new mapboxgl.FullscreenControl());
 
     // Add a marker for the user's location
