@@ -127,16 +127,20 @@
     map.addControl(new mapboxgl.FullscreenControl());
 
     // Add a marker for the user's location
-    let userMarker;
+    let markerVisible = false; // Tracks if the user marker is visible
+    let userMarker; // Holds the marker instance
 
     // Function to locate the user
     function locateUser() {
-      if (userMarker) {
-        // If the marker exists, remove it and set userMarker to null
-        userMarker.remove();
-        userMarker = null;
+      if (markerVisible) {
+        // If the marker is visible, remove it
+        if (userMarker) {
+          userMarker.remove();
+          userMarker = null;
+        }
+        markerVisible = false;
       } else {
-        // Otherwise, get the user's location and add the marker
+        // If the marker is not visible, locate the user and add the marker
         if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(position => {
             const userCoordinates = [position.coords.longitude, position.coords.latitude];
@@ -148,6 +152,8 @@
     
             // Center the map on the user's location
             map.flyTo({ center: userCoordinates, zoom: 8 });
+    
+            markerVisible = true; // Set marker visibility to true
           }, error => {
             alert('Unable to retrieve your location.');
           });
@@ -156,6 +162,7 @@
         }
       }
     }
+
 
 
     // Initialize visibility state for layers
