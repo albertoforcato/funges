@@ -234,10 +234,6 @@
     // Add a marker for the flagpole
     let flagpoleMarker;
   
-    // Hide the gmaps button initially
-    const gmapsButton = document.querySelector('.button img[alt="Google Maps Button"]').parentElement;
-    gmapsButton.style.display = 'none'; // Initially hidden
-  
     // Variable to store the coordinates of the right-click
     let rightClickCoordinates = null;
   
@@ -248,37 +244,32 @@
       // Store the coordinates
       rightClickCoordinates = { lng, lat };
   
-      // Show the gmaps button
-      gmapsButton.style.display = 'block';
+      // Add or update the flagpole marker
+      if (flagpoleMarker) {
+        flagpoleMarker.setLngLat([lng, lat]);
+      } else {
+        flagpoleMarker = new mapboxgl.Marker({
+          element: document.createElement('div'),
+        })
+          .setLngLat([lng, lat])
+          .addTo(map);
+  
+        // Set the marker's custom icon
+        const flagpoleIcon = document.createElement('img');
+        flagpoleIcon.src = 'https://raw.githubusercontent.com/lodist/tripped-map/main/flagpole_1.png';
+        flagpoleIcon.style.width = '40px';
+        flagpoleMarker.getElement().appendChild(flagpoleIcon);
+      }
     });
   
     // Add click event listener to the gmaps button
+    const gmapsButton = document.querySelector('.button img[alt="Google Maps Button"]').parentElement;
     gmapsButton.addEventListener('click', () => {
       if (rightClickCoordinates) {
         const { lng, lat } = rightClickCoordinates;
   
         // Redirect to Google Maps
         window.open(`https://www.google.com/maps?q=${lat},${lng}`, '_blank');
-  
-        // Add or update the flagpole marker
-        if (flagpoleMarker) {
-          flagpoleMarker.setLngLat([lng, lat]);
-        } else {
-          flagpoleMarker = new mapboxgl.Marker({
-            element: document.createElement('div'),
-          })
-            .setLngLat([lng, lat])
-            .addTo(map);
-  
-          // Set the marker's custom icon
-          const flagpoleIcon = document.createElement('img');
-          flagpoleIcon.src = 'https://raw.githubusercontent.com/lodist/tripped-map/main/flagpole_1.png';
-          flagpoleIcon.style.width = '40px';
-          flagpoleMarker.getElement().appendChild(flagpoleIcon);
-        }
-  
-        // Hide the gmaps button after clicking
-        gmapsButton.style.display = 'none';
       }
     });
 
