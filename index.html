@@ -129,12 +129,6 @@
     // Add a marker for the user's location
     let userMarker;
 
-    // Initialize visibility state for layers
-    let layersVisible = false;
-    
-    // Initialize visibility state for %dark layers
-    let darkLayersVisible = false;
-
     // Function to locate the user
     function locateUser() {
       if (navigator.geolocation) {
@@ -159,6 +153,9 @@
         alert('Geolocation is not supported by your browser.');
       }
     }
+
+    // Initialize visibility state for layers
+    let layersVisible = false;
     
     // Function to toggle numbers layers
     function toggleNumbersLayers() {
@@ -184,7 +181,10 @@
       // Provide feedback to the user
       console.log(`Layers are now ${layersVisible ? 'visible' : 'hidden'}`);
     }
-    
+
+    // Initialize visibility state for %dark layers
+    let darkLayersVisible = false;
+  
     // Function to toggle %dark layers
     function toggleDarkLayers() {
       darkLayersVisible = !darkLayersVisible;
@@ -210,17 +210,22 @@
 
 
     // Function to toggle the legend visibility
+    // Initialize visibility state for the legend
+    let legendVisible = false;
+    
+    // Function to toggle the legend visibility
     function toggleLegend() {
       const legend = document.getElementById('legend');
     
-      // Check the current display state
-      const isHidden = window.getComputedStyle(legend).display === 'none';
+      // Toggle the visibility state
+      legendVisible = !legendVisible;
     
-      // Toggle the display state
-      legend.style.display = isHidden ? 'block' : 'none';
+      // Set the display style based on the visibility state
+      legend.style.display = legendVisible ? 'block' : 'none';
     
-      console.log(`Legend is now ${isHidden ? 'visible' : 'hidden'}`);
+      console.log(`Legend is now ${legendVisible ? 'visible' : 'hidden'}`);
     }
+
 
   </script>
 </body>
