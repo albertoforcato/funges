@@ -9,10 +9,31 @@
   <style>
     body { margin: 0; padding: 0; font-family: Arial, sans-serif; }
     #map { position: absolute; top: 0; bottom: 0; width: 100%; }
+    #button-bar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 70px;
+      background-color: rgba(255, 252, 239, 0.85);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 10px 0;
+      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    }
+    .button {
+      margin: 10px 0;
+      cursor: pointer;
+    }
+    .button img {
+      width: 50px;
+      height: auto;
+    }
     #legend {
       position: absolute;
       bottom: 20px;
-      left: 20px;
+      left: 90px;
       background: rgba(255, 255, 255, 0.8);
       padding: 15px;
       border-radius: 8px;
@@ -36,43 +57,34 @@
     .legend-color.yellow { background: #ffffcc; }
     .legend-color.orange { background: #fbae7e; }
     .legend-color.red { background: #800020; }
-
-    #locate-button {
-      position: absolute;
-      top: 20px; /* Same as logo's position */
-      left: 20px;
-      z-index: 10;
-    }
-    #locate-button img {
-      width: 65px; /* Adjust the size as needed */
-      height: auto;
-      cursor: pointer;
-    }
-
-    #numbers-button {
-      position: absolute;
-      top: 100px; /* Directly under locate button */
-      left: 20px;
-      z-index: 10;
-    }
-    #numbers-button img {
-      width: 65px; /* Same size as locate button */
-      height: auto;
-      cursor: pointer;
-    }
   </style>
 </head>
 <body>
   <div id="map"></div>
 
-  <!-- Locate Me Button -->
-  <div id="locate-button">
-    <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/Locate_Me_1.png" alt="Locate Me Button" onclick="locateUser()">
-  </div>
-
-  <!-- Numbers Button -->
-  <div id="numbers-button">
-    <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/numbers_1.png" alt="Numbers Button" onclick="toggleNumbersLayers()">
+  <!-- Button Bar -->
+  <div id="button-bar">
+    <div class="button">
+      <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/logo_1.png" alt="Logo">
+    </div>
+    <div class="button" onclick="locateUser()">
+      <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/location_1.png" alt="Locate Me Button">
+    </div>
+    <div class="button">
+      <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/sunmoon_1.png" alt="Sun/Moon Button">
+    </div>
+    <div class="button" onclick="toggleNumbersLayers()">
+      <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/numbers_1.png" alt="Numbers Button">
+    </div>
+    <div class="button">
+      <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/info_1.png" alt="Info Button">
+    </div>
+    <div class="button">
+      <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/support_1.png" alt="Support Button">
+    </div>
+    <div class="button">
+      <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/gmaps_1.png" alt="Google Maps Button">
+    </div>
   </div>
 
   <!-- Legend -->
