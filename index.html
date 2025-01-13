@@ -78,7 +78,7 @@
     <div class="button" onclick="locateUser()">
       <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/location_1.png" alt="Locate Me Button">
     </div>
-    <div class="button">
+    <div class="button" onclick="toggleDarkLayers()">
       <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/sunmoon_1.png" alt="Sun/Moon Button">
     </div>
     <div class="button" onclick="toggleNumbersLayers()">
@@ -131,6 +131,9 @@
 
     // Initialize visibility state for layers
     let layersVisible = false;
+    
+    // Initialize visibility state for %dark layers
+    let darkLayersVisible = false;
 
     // Function to locate the user
     function locateUser() {
@@ -181,6 +184,32 @@
       // Provide feedback to the user
       console.log(`Layers are now ${layersVisible ? 'visible' : 'hidden'}`);
     }
+    
+    // Function to toggle %dark layers
+    function toggleDarkLayers() {
+      darkLayersVisible = !darkLayersVisible;
+    
+      // Get all layers from the map
+      const layers = map.getStyle().layers;
+    
+      // Loop through all layers and match their IDs against the desired pattern
+      layers.forEach(layer => {
+        const layerId = layer.id;
+        // Check if the layer ID ends with '%dark'
+        if (layerId.endsWith('%dark')) {
+          // Toggle the visibility of the layer
+          map.setLayoutProperty(
+            layerId,
+            'visibility',
+            darkLayersVisible ? 'visible' : 'none'
+          );
+        }
+      });
+    
+      // Provide feedback to the user
+      console.log(`%dark layers are now ${darkLayersVisible ? 'visible' : 'hidden'}`);
+    }
+
 
     // Function to toggle the legend visibility
     function toggleLegend() {
