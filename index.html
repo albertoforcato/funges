@@ -138,15 +138,30 @@
       try {
         const savedState = JSON.parse(localStorage.getItem('mapState'));
         if (savedState) {
-          map.setCenter(savedState.center);
-          map.setZoom(savedState.zoom);
-          map.setBearing(savedState.bearing);
-          map.setPitch(savedState.pitch);
+          const savedTime = new Date(savedState.timestamp);
+          const currentTime = new Date();
+    
+          // Check if the saved state is still valid
+          const isSameDay = savedTime.toDateString() === currentTime.toDateString();
+          const isBeforeCutoff = currentTime.getHours() < 22;
+    
+          if (isSameDay && isBeforeCutoff) {
+            // Restore the saved state
+            map.setCenter(savedState.center);
+            map.setZoom(savedState.zoom);
+            map.setBearing(savedState.bearing);
+            map.setPitch(savedState.pitch);
+          } else {
+            // Clear the state if it's outdated
+            localStorage.removeItem('mapState');
+            console.log('Map state expired and cleared.');
+          }
         }
       } catch (error) {
         console.error('Failed to load map state:', error);
       }
     });
+
 
   
     // Load saved map state when the page reloads
