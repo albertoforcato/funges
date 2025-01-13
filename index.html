@@ -19,14 +19,18 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 10px 0;
+      padding: 20px 0; /* Increased space by 20% */
       box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
     }
     .button {
-      margin: 10px 0;
+      margin: 12px 0; /* Adjust spacing between buttons */
       cursor: pointer;
     }
     .button img {
+      width: 40px;
+      height: auto;
+    }
+    .button.logo img {
       width: 50px;
       height: auto;
     }
@@ -34,11 +38,11 @@
       position: absolute;
       bottom: 20px;
       left: 90px;
-      background: rgba(255, 255, 255, 0.8);
       padding: 15px;
       border-radius: 8px;
       font-size: 12px; /* Reduced font size */
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      visibility: hidden; /* Make legend invisible */
     }
     #legend h3 {
       margin: 0 0 10px;
@@ -64,7 +68,7 @@
 
   <!-- Button Bar -->
   <div id="button-bar">
-    <div class="button">
+    <div class="button logo">
       <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/logo_1.png" alt="Logo">
     </div>
     <div class="button" onclick="locateUser()">
