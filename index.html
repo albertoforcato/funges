@@ -230,11 +230,12 @@
 
 
 
-       
+
+        
     // Marker for the flagpole
     let flagpoleMarker = null;
     
-    // Store the coordinates for the long press or right-click
+    // Store the coordinates for the right-click or long press
     let activeCoordinates = null;
     
     // Timer for tracking long press duration
@@ -273,6 +274,8 @@
     
     // Handle right-click on desktop
     map.on('contextmenu', (e) => {
+      e.preventDefault(); // Prevent the default context menu
+    
       const { lng, lat } = e.lngLat;
     
       // Store the clicked coordinates
@@ -329,6 +332,7 @@
         window.open(`https://www.google.com/maps?q=${lat},${lng}`, '_blank');
       }
     });
+
 
 
 
