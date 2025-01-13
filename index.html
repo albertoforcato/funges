@@ -231,77 +231,77 @@
 
 
 
-    // Add a marker for the flagpole
-    let flagpoleMarker;
-  
-    // Variable to store the coordinates of the long press or right-click
+    // Marker for the flagpole
+    let flagpoleMarker = null;
+    
+    // Store the coordinates for the long press or right-click
     let activeCoordinates = null;
-  
-    // Variable to track the long press
+    
+    // Timer for tracking long press duration
     let longPressTimeout;
-  
-    // Function to add or update the flagpole marker
-    function placeFlagpole(lng, lat) {
-      // Add or update the flagpole marker
-      if (flagpoleMarker) {
-        flagpoleMarker.setLngLat([lng, lat]);
-      } else {
-        flagpoleMarker = new mapboxgl.Marker({
-          element: document.createElement('div'),
-        })
-          .setLngLat([lng, lat])
-          .addTo(map);
-  
-        // Set the marker's custom icon
-        const flagpoleIcon = document.createElement('img');
-        flagpoleIcon.src = 'https://raw.githubusercontent.com/lodist/tripped-map/main/flagpole_1.png';
-        flagpoleIcon.style.width = '30px';
-        flagpoleMarker.getElement().appendChild(flagpoleIcon);
-      }
+    
+    // Function to create a flagpole marker at the given coordinates
+    function createFlagpoleMarker() {
+      const flagpoleIcon = document.createElement('img');
+      flagpoleIcon.src = 'https://raw.githubusercontent.com/lodist/tripped-map/main/flagpole_1.png';
+      flagpoleIcon.style.width = '30px'; // Set flagpole width
+      flagpoleIcon.style.height = '30px'; // Set flagpole height
+    
+      return new mapboxgl.Marker({ element: flagpoleIcon });
     }
-  
+    
+    // Function to place or update the flagpole
+    function placeFlagpole(lng, lat) {
+      if (!flagpoleMarker) {
+        flagpoleMarker = createFlagpoleMarker();
+        flagpoleMarker.addTo(map);
+      }
+      flagpoleMarker.setLngLat([lng, lat]);
+    }
+    
     // Handle right-click on desktop
     map.on('contextmenu', (e) => {
       const { lng, lat } = e.lngLat;
-  
-      // Store the coordinates
+    
+      // Store the clicked coordinates
       activeCoordinates = { lng, lat };
-  
+    
       // Place the flagpole immediately
       placeFlagpole(lng, lat);
     });
-  
+    
     // Handle long press on mobile
     map.on('touchstart', (e) => {
       if (e.points.length === 1) { // Ensure it's a single touch
         const { lng, lat } = map.unproject([e.points[0].x, e.points[0].y]);
-  
+    
         // Start the long press timer
         longPressTimeout = setTimeout(() => {
           // Store the coordinates
           activeCoordinates = { lng, lat };
-  
+    
           // Place the flagpole after 2.5 seconds
           placeFlagpole(lng, lat);
-        }, 2500); // 2.5 seconds
+        }, 2500); // Long press duration (2.5 seconds)
       }
     });
-  
+    
+    // Cancel long press if touch ends early
     map.on('touchend', () => {
-      // Cancel the long press timer if the touch ends before 2.5 seconds
       clearTimeout(longPressTimeout);
     });
-  
-    // Add click event listener to the gmaps button
+    
+    // Add click event listener to the Google Maps button
     const gmapsButton = document.querySelector('.button img[alt="Google Maps Button"]').parentElement;
     gmapsButton.addEventListener('click', () => {
       if (activeCoordinates) {
         const { lng, lat } = activeCoordinates;
-  
+    
         // Redirect to Google Maps
         window.open(`https://www.google.com/maps?q=${lat},${lng}`, '_blank');
       }
     });
+
 
 
 
