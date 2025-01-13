@@ -194,12 +194,8 @@
     
       layers.forEach(layer => {
         const layerId = layer.id;
-    
         // Check if the layer ID ends with " dark"
-        if (layerId.endsWith(' dark')) {
-          const currentVisibility = map.getLayoutProperty(layerId, 'visibility');
-          console.log(`Toggling layer: ${layerId}, current visibility: ${currentVisibility}`);
-    
+        if (layerId.endsWith(' dark')) {    
           // Toggle the visibility
           map.setLayoutProperty(
             layerId,
