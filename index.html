@@ -192,12 +192,15 @@
       // Get all layers from the map
       const layers = map.getStyle().layers;
     
-      // Loop through all layers and match their IDs against the desired pattern
       layers.forEach(layer => {
         const layerId = layer.id;
-        // Check if the layer ID ends with '%dark'
-        if (layerId.endsWith('%dark')) {
-          // Toggle the visibility of the layer
+    
+        // Check if the layer ID ends with " dark"
+        if (layerId.endsWith(' dark')) {
+          const currentVisibility = map.getLayoutProperty(layerId, 'visibility');
+          console.log(`Toggling layer: ${layerId}, current visibility: ${currentVisibility}`);
+    
+          // Toggle the visibility
           map.setLayoutProperty(
             layerId,
             'visibility',
@@ -206,9 +209,9 @@
         }
       });
     
-      // Provide feedback to the user
-      console.log(`%dark layers are now ${darkLayersVisible ? 'visible' : 'hidden'}`);
+      console.log(`Dark layers are now ${darkLayersVisible ? 'visible' : 'hidden'}`);
     }
+
 
 
     // Function to toggle the legend visibility
