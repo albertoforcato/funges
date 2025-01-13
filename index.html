@@ -209,12 +209,19 @@
     }
 
 
-
     // Function to toggle the legend visibility
     function toggleLegend() {
       const legend = document.getElementById('legend');
-      legend.style.display = legend.style.display === 'none' ? 'block' : 'none';
+    
+      // Check the current display state
+      const isHidden = window.getComputedStyle(legend).display === 'none';
+    
+      // Toggle the display state
+      legend.style.display = isHidden ? 'block' : 'none';
+    
+      console.log(`Legend is now ${isHidden ? 'visible' : 'hidden'}`);
     }
+
   </script>
 </body>
 </html>
