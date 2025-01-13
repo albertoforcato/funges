@@ -121,17 +121,44 @@
 
     // Initialize the map
     const map = new mapboxgl.Map({
-      container: 'map', // The ID of the HTML element to display the map in
-      style: 'mapbox://styles/lodist/clzo3ivsk007d01piaoah1dfy', // Mapbox Style V4 Numbers
+      container: 'map',
+      style: 'mapbox://styles/your-style-id',
       center: [7.3359, 47.7508], // Starting position [longitude, latitude]
       zoom: 4, // Starting zoom level
       maxZoom: 20, // Maximum zoom level
       minZoom: 2, // Minimum zoom level
     });
-
-    // Add zoom, and fullscreen controls to the map
+  
+    // Add controls to the map
     map.addControl(new mapboxgl.NavigationControl({ showCompass: false }));
     map.addControl(new mapboxgl.FullscreenControl());
+  
+    // Save map state before the user leaves the page
+    window.addEventListener('load', () => {
+      try {
+        const savedState = JSON.parse(localStorage.getItem('mapState'));
+        if (savedState) {
+          map.setCenter(savedState.center);
+          map.setZoom(savedState.zoom);
+          map.setBearing(savedState.bearing);
+          map.setPitch(savedState.pitch);
+        }
+      } catch (error) {
+        console.error('Failed to load map state:', error);
+      }
+    });
+
+  
+    // Load saved map state when the page reloads
+    window.addEventListener('load', () => {
+      const savedState = JSON.parse(localStorage.getItem('mapState'));
+      if (savedState) {
+        map.setCenter(savedState.center);
+        map.setZoom(savedState.zoom);
+        map.setBearing(savedState.bearing);
+        map.setPitch(savedState.pitch);
+      }
+    });
 
     // Add a marker for the user's location
     let userMarker;
