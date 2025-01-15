@@ -26,7 +26,7 @@
       position: absolute;
       top: 0;
       left: 0;
-      bottom: 0;
+      height: 100%; /* Use full height of the screen */
       width: 80px;
       background-color: rgba(255, 252, 239, 0.85);
       display: flex;
@@ -34,9 +34,9 @@
       align-items: center;
       padding: 10px 0; /* Adjusted top padding for space above logo */
       box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-      overflow-y: auto; /* Enable scrolling within the sidebar */
-      max-height: 100vh; /* Prevent the sidebar from exceeding the viewport height */
+      overflow-y: auto; /* Enable scrolling within the sidebar if content overflows */
     }
+
     
     #footer {
       height: 30px;
