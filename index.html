@@ -65,6 +65,25 @@
       text-decoration: underline; /* Underline on hover */
     }
     
+    #loading-spinner {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 1000; /* Ensures it's above all other elements */
+      background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+      padding: 20px;
+      border-radius: 8px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    #loading-spinner img {
+      width: 50px; /* Adjust spinner size */
+      height: auto;
+    }
+
     /* Adjustments for mobile devices */
     @media (max-width: 768px) {
       #map {
@@ -181,6 +200,10 @@
     </p>
     </div>
 
+    <!-- Loading Spinner -->
+  <div id="loading-spinner" style="display: none;">
+    <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/loading_1.gif" alt="Loading">
+  </div>
 
   <!-- Mapbox JS -->
   <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
@@ -263,26 +286,35 @@
     
     function locateUser() {
       const now = Date.now();
+      const spinner = document.getElementById('loading-spinner'); // Get the spinner element
     
-      // Check if the cache is valid (5 minutes = 300000 milliseconds)
+      // Show the loading spinner
+      spinner.style.display = 'flex';
+    
+      // Check if the cached location is valid (1 minute = 60000 milliseconds)
       if (cachedCoordinates && cacheTimestamp && now - cacheTimestamp < 60000) {
         console.log('Using cached location');
-        toggleUserMarker(cachedCoordinates);
+        setTimeout(() => {
+          toggleUserMarker(cachedCoordinates);
+          spinner.style.display = 'none'; // Hide the spinner after processing
+        }, 500); // Simulate a short delay for smoother UX
       } else {
         console.log('Fetching new location');
-        // Fetch location from the device
         navigator.geolocation.getCurrentPosition(
           position => {
             cachedCoordinates = [position.coords.longitude, position.coords.latitude];
-            cacheTimestamp = Date.now(); // Update the cache timestamp
+            cacheTimestamp = Date.now(); // Update cache timestamp
             toggleUserMarker(cachedCoordinates);
+            spinner.style.display = 'none'; // Hide the spinner after fetching the location
           },
           error => {
             alert('Unable to retrieve your location.');
+            spinner.style.display = 'none'; // Hide the spinner even if an error occurs
           }
         );
       }
     }
+
     
     // Function to toggle the marker
     function toggleUserMarker(coordinates) {
@@ -418,6 +450,9 @@
         flagpoleMarker.setLngLat([lng, lat]);
       }
     }
+
+
+    
     
     // Function to hide the flagpole and the gmaps button
     function hideFlagpoleAndGmaps() {
@@ -493,14 +528,6 @@
         window.open(`https://www.google.com/maps?q=${lat},${lng}`, '_blank');
       }
     });
-
-
-
-
-
-
-
-
 
     
   </script>
