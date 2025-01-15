@@ -7,8 +7,18 @@
   <!-- Mapbox CSS -->
   <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet">
   <style>
-    body { margin: 0; padding: 0; font-family: Arial, sans-serif; }
-    #map { position: absolute; top: 0; bottom: 0; width: 100%; }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+    #map {
+      flex: 1;
+      position: relative;
+    }
     #button-bar {
       position: absolute;
       top: 0;
@@ -22,6 +32,26 @@
       padding: 10px 0; /* Adjusted top padding for space above logo */
       box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
     }
+  
+    #footer {
+      height: 40px;
+      background-color: rgba(255, 252, 239, 0.85);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+      flex-shrink: 0;
+    }
+    #footer a {
+      margin: 0 15px;
+      text-decoration: none;
+      color: #333;
+      font-weight: bold;
+    }
+    #footer a:hover {
+      text-decoration: underline;
+    }
+  
     .button {
       margin: 12px 0; /* Adjust spacing between buttons */
       cursor: pointer;
@@ -62,10 +92,17 @@
       height: 20px;
       border-radius: 3px;
     }
-    .legend-color.yellow { background: #ffffcc; }
-    .legend-color.orange { background: #fbae7e; }
-    .legend-color.red { background: #800020; }
+    .legend-color.yellow {
+      background: #ffffcc;
+    }
+    .legend-color.orange {
+      background: #fbae7e;
+    }
+    .legend-color.red {
+      background: #800020;
+    }
   </style>
+
 </head>
 <body>
   <div id="map"></div>
@@ -93,6 +130,12 @@
     <div class="button">
       <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/gmaps_1.png" alt="Google Maps Button">
     </div>
+  </div>
+
+  <!-- Footer -->
+  <div id="footer">
+    <a href="impressum.html" target="_blank">Impressum</a>
+    <a href="privacy.html" target="_blank">Privacy Policy</a>
   </div>
 
   <!-- Legend -->
