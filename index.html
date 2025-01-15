@@ -17,16 +17,17 @@
       height: 100vh;
       overflow: hidden; /* Disable scrolling */
     }
+    
     #map {
-      height: calc(95% - 4px); /* Adjust map height to avoid overlapping the footer */
+      flex: 1; /* Allow the map to take up remaining space */
       position: relative;
-      overflow: hidden; /* Ensure no overflow */
     }
+    
     #button-bar {
       position: absolute;
       top: 0;
       left: 0;
-      height: 100%; /* Use full height of the screen */
+      height: 100%; /* Full height of the map */
       width: 80px;
       background-color: rgba(255, 252, 239, 0.85);
       display: flex;
@@ -34,11 +35,12 @@
       align-items: center;
       padding: 10px 0; /* Adjusted top padding for space above logo */
       box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-      overflow: hidden; /* Enable scrolling within the sidebar if content overflows */
+      overflow-y: auto; /* Enable vertical scrolling within the sidebar */
+      overflow-x: hidden; /* Prevent horizontal scrolling */
     }
     
     #footer {
-      height: 5%; /* 5% of the viewport height */
+      height: 40px; /* Fixed height for footer */
       background-color: rgba(255, 252, 239, 1);
       display: flex;
       justify-content: center;
@@ -61,6 +63,7 @@
     #footer a:hover {
       text-decoration: underline;
     }
+    
 
 
 
