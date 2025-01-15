@@ -71,18 +71,19 @@
       left: 50%;
       transform: translate(-50%, -50%);
       z-index: 1000; /* Ensures it's above all other elements */
-      background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
-      padding: 20px;
-      border-radius: 8px;
       display: flex;
       justify-content: center;
       align-items: center;
+      background: none; /* Remove background color */
+      padding: 0; /* Remove padding around the spinner */
+      border-radius: 0; /* No border radius */
     }
     
     #loading-spinner img {
-      width: 50px; /* Adjust spinner size */
+      width: 150px; /* Adjust spinner size */
       height: auto;
     }
+
 
     /* Adjustments for mobile devices */
     @media (max-width: 768px) {
@@ -288,8 +289,10 @@
       const now = Date.now();
       const spinner = document.getElementById('loading-spinner'); // Get the spinner element
     
-      // Show the loading spinner
-      spinner.style.display = 'flex';
+      // Only show the spinner if the marker does not exist
+      if (!userMarker) {
+        spinner.style.display = 'flex';
+      }
     
       // Check if the cached location is valid (1 minute = 60000 milliseconds)
       if (cachedCoordinates && cacheTimestamp && now - cacheTimestamp < 60000) {
@@ -314,6 +317,7 @@
         );
       }
     }
+
 
     
     // Function to toggle the marker
