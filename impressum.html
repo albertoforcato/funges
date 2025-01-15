@@ -11,7 +11,7 @@
       font-family: Arial, sans-serif;
       display: flex;
       justify-content: center;
-      align-items: center;
+      align-items: flex-start; /* Align content at the top */
       height: 100vh;
       background-color: rgba(0, 0, 0, 0.9); /* Semi-transparent background */
       color: #fff; /* Default text color */
@@ -30,14 +30,14 @@
     }
     #logo {
       position: absolute;
-      top: 50px; /* 50px above the logo */
+      top: 30px; /* Space from the top */
       left: 15px;
       width: 200px;
       height: auto;
     }
     #close-button {
       position: absolute;
-      top: 50px; /* 50px above the close button */
+      top: 30px; /* Align with the logo */
       right: 15px;
       width: 30px;
       height: 30px;
@@ -53,7 +53,7 @@
       text-align: center;
     }
     h1 {
-      margin-top: 100px; /* 100px to reach "Legal Notice" */
+      margin-top: 150px; /* Increased space below the logo */
       font-size: 24px;
       color: #444; /* Dark grey for headings */
     }
