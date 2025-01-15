@@ -7,7 +7,7 @@
   <!-- Mapbox CSS -->
   <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet">
   <style>
-
+    
     body {
       margin: 0;
       padding: 0;
@@ -17,7 +17,7 @@
       height: 100vh;
     }
     #map {
-      height: 92%; /* 95% of the viewport height */
+      flex: 1; /* Take all available space above the footer */
       position: relative;
       overflow: hidden; /* Ensure no overflow */
     }
@@ -35,8 +35,7 @@
       box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
       overflow-y: auto; /* Enable scrolling within the sidebar if content overflows */
     }
-
-        
+    
     #footer {
       height: 5%; /* 5% of the viewport height */
       background-color: rgba(255, 252, 239, 1);
