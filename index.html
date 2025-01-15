@@ -319,49 +319,71 @@
     let cacheTimestamp = null; // Timestamp when the location was cached
     
     function locateUser() {
-      const now = Date.now();
-      const spinner = document.getElementById('loading-spinner'); // Get the spinner element
-      const timeoutDuration = 20000; // 10 seconds
-      let timeoutId; // To store the timeout ID
+        const now = Date.now();
+        const spinner = document.getElementById('loading-spinner'); // Get the spinner element
+        const timeoutDuration = 10000; // Reduced timeout to 10 seconds
+        let timeoutId;
     
-      // Only show the spinner if the marker does not exist
-      if (!userMarker) {
-        spinner.style.display = 'flex';
-      }
+        // Use cached location if valid
+        if (cachedCoordinates && cacheTimestamp && now - cacheTimestamp < 60000) {
+            console.log('Using cached location');
+            toggleUserMarker(cachedCoordinates);
+            return;
+        }
     
-      // Timeout function to handle location retrieval failure
-      timeoutId = setTimeout(() => {
-        spinner.style.display = 'none'; // Hide the spinner
-        alert('Location cannot be retrieved. Reload page or retry.'); // Show an error message
-        console.error('Location retrieval timed out.');
-      }, timeoutDuration);
+        // Show spinner only if fetching a new location
+        if (!userMarker) {
+            spinner.style.display = 'flex';
+        }
     
-      // Check if the cached location is valid (1 minute = 60000 milliseconds)
-      if (cachedCoordinates && cacheTimestamp && now - cacheTimestamp < 60000) {
-        console.log('Using cached location');
-        setTimeout(() => {
-          toggleUserMarker(cachedCoordinates);
-          spinner.style.display = 'none'; // Hide the spinner after processing
-          clearTimeout(timeoutId); // Clear the timeout since location was retrieved successfully
-        }, 500); // Simulate a short delay for smoother UX
-      } else {
+        // Timeout to handle location retrieval failure
+        timeoutId = setTimeout(() => {
+            spinner.style.display = 'none'; // Hide the spinner
+            alert('Location retrieval timed out. Please try again.');
+            console.error('Location retrieval timed out.');
+        }, timeoutDuration);
+    
+        // Fetch new location
         console.log('Fetching new location');
         navigator.geolocation.getCurrentPosition(
-          position => {
-            cachedCoordinates = [position.coords.longitude, position.coords.latitude];
-            cacheTimestamp = Date.now(); // Update cache timestamp
-            toggleUserMarker(cachedCoordinates);
-            spinner.style.display = 'none'; // Hide the spinner after fetching the location
-            clearTimeout(timeoutId); // Clear the timeout since location was retrieved successfully
-          },
-          error => {
-            alert('Unable to retrieve your location.');
-            spinner.style.display = 'none'; // Hide the spinner even if an error occurs
-            clearTimeout(timeoutId); // Clear the timeout since an error occurred
-          }
+            position => {
+                cachedCoordinates = [position.coords.longitude, position.coords.latitude];
+                cacheTimestamp = Date.now(); // Update cache timestamp
+                toggleUserMarker(cachedCoordinates);
+                spinner.style.display = 'none'; // Hide the spinner
+                clearTimeout(timeoutId); // Clear the timeout
+            },
+            () => {
+                spinner.style.display = 'none'; // Hide the spinner
+                clearTimeout(timeoutId); // Clear the timeout
+                alert('Unable to retrieve your location.');
+            },
+            { enableHighAccuracy: true, timeout: timeoutDuration, maximumAge: 0 } // Optimize geolocation options
         );
-      }
     }
+    
+    // Function to toggle the marker
+    function toggleUserMarker(coordinates) {
+        if (userMarker) {
+            userMarker.setLngLat(coordinates); // Update marker position
+            console.log('User marker updated:', coordinates);
+        } else {
+            const pinElement = document.createElement('img');
+            pinElement.src = 'https://raw.githubusercontent.com/lodist/tripped-map/main/pin_1.png';
+            pinElement.style.width = '40px';
+            pinElement.style.height = 'auto';
+    
+            userMarker = new mapboxgl.Marker({ element: pinElement })
+                .setLngLat(coordinates)
+                .addTo(map);
+    
+            console.log('User marker added:', coordinates);
+        }
+    
+        // Center the map on the user's location
+        map.flyTo({ center: coordinates, zoom: 8, speed: 2 });
+    }
+
     
     // Function to ensure pin is added and map is focused on location
     function ensurePinAndFocus(coordinates) {
@@ -384,31 +406,6 @@
       // Center the map on the user's location
       map.flyTo({ center: coordinates, zoom: 8 });
       console.log('User marker added at:', coordinates);
-    }
-
-
-    // Function to toggle the marker
-    function toggleUserMarker(coordinates) {
-      if (userMarker) {
-        // If the marker exists, remove it
-        userMarker.remove();
-        userMarker = null;
-        console.log('User marker removed');
-      } else {
-        // Create a new marker if it doesn't exist
-        const pinElement = document.createElement('img');
-        pinElement.src = 'https://raw.githubusercontent.com/lodist/tripped-map/main/pin_1.png';
-        pinElement.style.width = '40px';
-        pinElement.style.height = 'auto';
-    
-        userMarker = new mapboxgl.Marker({ element: pinElement })
-          .setLngLat(coordinates)
-          .addTo(map);
-    
-        // Center the map on the user's location
-        map.flyTo({ center: coordinates, zoom: 8 });
-        console.log('User marker added at:', coordinates);
-      }
     }
 
 
