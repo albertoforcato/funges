@@ -265,7 +265,7 @@
       const now = Date.now();
     
       // Check if the cache is valid (5 minutes = 300000 milliseconds)
-      if (cachedCoordinates && cacheTimestamp && now - cacheTimestamp < 300000) {
+      if (cachedCoordinates && cacheTimestamp && now - cacheTimestamp < 60000) {
         console.log('Using cached location');
         toggleUserMarker(cachedCoordinates);
       } else {
@@ -295,7 +295,7 @@
         // Create the custom marker element
         const pinElement = document.createElement('img');
         pinElement.src = 'https://raw.githubusercontent.com/lodist/tripped-map/main/pin_1.png';
-        pinElement.style.width = '50px';
+        pinElement.style.width = '40px';
         pinElement.style.height = 'auto';
     
         // Add the custom marker to the map
