@@ -76,13 +76,6 @@
         height: calc(100vh - 40px); /* Adjust height for mobile */
       }
     }
-
-
-
-
-
-
-
   
     .button {
       margin: 12px 0; /* Adjust spacing between buttons */
@@ -264,47 +257,59 @@
 
     
     // Add a marker for the user's location
-    // Add a marker for the user's location
     let userMarker = null;
+    let cachedCoordinates = null; // Cache for the user's location
+    let cacheTimestamp = null; // Timestamp when the location was cached
     
-    // Function to locate the user and toggle the marker
     function locateUser() {
-      if (navigator.geolocation) {
+      const now = Date.now();
+    
+      // Check if the cache is valid (5 minutes = 300000 milliseconds)
+      if (cachedCoordinates && cacheTimestamp && now - cacheTimestamp < 300000) {
+        console.log('Using cached location');
+        toggleUserMarker(cachedCoordinates);
+      } else {
+        console.log('Fetching new location');
+        // Fetch location from the device
         navigator.geolocation.getCurrentPosition(
           position => {
-            const userCoordinates = [position.coords.longitude, position.coords.latitude];
-    
-            if (userMarker) {
-              // Remove the marker if it already exists
-              userMarker.remove();
-              userMarker = null;
-              console.log('User marker removed');
-            } else {
-              // Create the custom marker element
-              const pinElement = document.createElement('img');
-              pinElement.src = 'https://raw.githubusercontent.com/lodist/tripped-map/main/pin_1.png';
-              pinElement.style.width = '30px';
-              pinElement.style.height = 'auto';
-    
-              // Add the custom marker to the map
-              userMarker = new mapboxgl.Marker({ element: pinElement })
-                .setLngLat(userCoordinates)
-                .addTo(map);
-    
-              // Center the map on the user's location
-              map.flyTo({ center: userCoordinates, zoom: 8 });
-    
-              console.log('User marker added at:', userCoordinates);
-            }
+            cachedCoordinates = [position.coords.longitude, position.coords.latitude];
+            cacheTimestamp = Date.now(); // Update the cache timestamp
+            toggleUserMarker(cachedCoordinates);
           },
           error => {
             alert('Unable to retrieve your location.');
           }
         );
-      } else {
-        alert('Geolocation is not supported by your browser.');
       }
     }
+    
+    // Function to toggle the marker
+    function toggleUserMarker(coordinates) {
+      if (userMarker) {
+        // Remove the marker if it already exists
+        userMarker.remove();
+        userMarker = null;
+        console.log('User marker removed');
+      } else {
+        // Create the custom marker element
+        const pinElement = document.createElement('img');
+        pinElement.src = 'https://raw.githubusercontent.com/lodist/tripped-map/main/pin_1.png';
+        pinElement.style.width = '30px';
+        pinElement.style.height = 'auto';
+    
+        // Add the custom marker to the map
+        userMarker = new mapboxgl.Marker({ element: pinElement })
+          .setLngLat(coordinates)
+          .addTo(map);
+    
+        // Center the map on the user's location
+        map.flyTo({ center: coordinates, zoom: 8 });
+    
+        console.log('User marker added at:', coordinates);
+      }
+    }
+
 
     // Initialize visibility state for layers
     let layersVisible = false;
