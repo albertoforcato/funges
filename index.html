@@ -493,27 +493,39 @@
     // Function to place or update the flagpole
     function placeFlagpole(lng, lat) {
       if (!flagpoleMarker) {
-        flagpoleMarker = createFlagpoleMarker(lng, lat).addTo(map);
+        // Create and add the marker for the first time
+        const flagpoleIcon = document.createElement('img');
+        flagpoleIcon.src = 'https://raw.githubusercontent.com/lodist/tripped-map/main/flagpole_1.png';
+        flagpoleIcon.style.width = '30px'; // Set flagpole width
+        flagpoleIcon.style.height = '30px'; // Set flagpole height
+    
+        flagpoleMarker = new mapboxgl.Marker({ element: flagpoleIcon }).setLngLat([lng, lat]).addTo(map);
       } else {
+        // Update the position of the existing marker
         flagpoleMarker.setLngLat([lng, lat]);
       }
     
-      // Save flagpole state in localStorage
+      // Save the flagpole position in localStorage
       localStorage.setItem('flagpoleState', JSON.stringify({ lng, lat }));
-      localStorage.setItem('gmapsVisible', true); // Save gmaps button state
+      console.log('Flagpole position saved.');
     }
+
     
     // Function to hide the flagpole and the gmaps button
     function hideFlagpoleAndGmaps() {
       if (flagpoleMarker) {
-        flagpoleMarker.remove();
-        flagpoleMarker = null;
+        flagpoleMarker.remove(); // Remove the flagpole from the map
+        flagpoleMarker = null; // Reset the marker variable
       }
     
+      // Hide the Google Maps button
       gmapsButton.style.display = 'none';
-      localStorage.removeItem('flagpoleState'); // Remove flagpole state
-      localStorage.setItem('gmapsVisible', false); // Save gmaps button state
+    
+      // Remove the flagpole state from localStorage
+      localStorage.removeItem('flagpoleState');
+      console.log('Flagpole state cleared.');
     }
+
 
 
     
