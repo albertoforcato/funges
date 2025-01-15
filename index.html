@@ -7,7 +7,7 @@
   <!-- Mapbox CSS -->
   <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet">
   <style>
-        
+            
     body {
       margin: 0;
       padding: 0;
@@ -19,7 +19,7 @@
     }
     
     #map {
-      flex: 1; /* Allow the map to take up remaining space */
+      height: calc(100vh - 40px); /* Subtract the footer height from the viewport height */
       position: relative;
     }
     
@@ -27,20 +27,20 @@
       position: absolute;
       top: 0;
       left: 0;
-      height: 100%; /* Full height of the map */
+      height: calc(100vh - 40px); /* Same height as the map */
       width: 80px;
       background-color: rgba(255, 252, 239, 0.85);
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 10px 0; /* Adjusted top padding for space above logo */
+      padding: 10px 0;
       box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-      overflow-y: auto; /* Enable vertical scrolling within the sidebar */
-      overflow-x: hidden; /* Prevent horizontal scrolling */
+      overflow-y: auto;
+      overflow-x: hidden;
     }
     
     #footer {
-      height: 40px; /* Fixed height for footer */
+      height: 40px; /* Fixed height for the footer */
       background-color: rgba(255, 252, 239, 1);
       display: flex;
       justify-content: center;
@@ -48,8 +48,8 @@
       box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
       flex-shrink: 0;
       position: fixed;
-      bottom: 0; /* Stick to the bottom of the viewport */
-      width: 100%; /* Full width footer */
+      bottom: 0;
+      width: 100%;
     }
     
     #footer a {
@@ -63,7 +63,7 @@
     #footer a:hover {
       text-decoration: underline;
     }
-    
+
 
 
 
