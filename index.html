@@ -326,6 +326,13 @@
         spinner.style.display = 'none'; // Hide the spinner
         alert('Location cannot be retrieved. Reload page or retry.'); // Show an error message
         console.error('Location retrieval timed out.');
+    
+        // Ensure the marker is reset if location retrieval fails
+        if (userMarker) {
+          userMarker.remove();
+          userMarker = null; // Reset the marker state
+          console.log('User marker reset due to location retrieval failure.');
+        }
       }, timeoutDuration);
     
       // Check if the cached location is valid (1 minute = 60000 milliseconds)
@@ -350,6 +357,13 @@
             alert('Unable to retrieve your location.');
             spinner.style.display = 'none'; // Hide the spinner even if an error occurs
             clearTimeout(timeoutId); // Clear the timeout since an error occurred
+    
+            // Ensure the marker is reset if location retrieval fails
+            if (userMarker) {
+              userMarker.remove();
+              userMarker = null; // Reset the marker state
+              console.log('User marker reset due to location retrieval error.');
+            }
           }
         );
       }
