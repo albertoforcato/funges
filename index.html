@@ -258,12 +258,34 @@
           map.setPitch(savedState.pitch);
           console.log('Map state restored.');
         }
+    
+        // Restore flagpole
+        const flagpoleState = JSON.parse(localStorage.getItem('flagpoleState'));
+        if (flagpoleState) {
+          placeFlagpole(flagpoleState.lng, flagpoleState.lat);
+        }
+    
+        // Restore gmaps button visibility
+        const gmapsVisible = localStorage.getItem('gmapsVisible') === 'true';
+        gmapsButton.style.display = gmapsVisible ? 'block' : 'none';
+    
+        // Restore numbers layers visibility
+        const numbersLayersVisible = localStorage.getItem('numbersLayersVisible') === 'true';
+        if (numbersLayersVisible !== layersVisible) {
+          toggleNumbersLayers(); // Update layers visibility to match the stored state
+        }
+    
+        // Restore dark layers visibility
+        const darkLayersVisible = localStorage.getItem('darkLayersVisible') === 'true';
+        if (darkLayersVisible !== darkLayersVisible) {
+          toggleDarkLayers(); // Update layers visibility to match the stored state
+        }
+    
         map.resize(); // Ensure the map resizes correctly
       } catch (error) {
         console.error('Failed to load map state:', error);
       }
     });
-
     
     // Save the map state before the user leaves the page
     window.addEventListener('beforeunload', () => {
@@ -274,7 +296,12 @@
         pitch: map.getPitch(),
         timestamp: Date.now(), // Save the current timestamp
       };
+    
+      // Save map state
       localStorage.setItem('mapState', JSON.stringify(mapState));
+    
+      // Flagpole state is already saved in `placeFlagpole` or `hideFlagpoleAndGmaps`
+      // Layers visibility is saved in respective toggle functions
     });
 
     
@@ -363,22 +390,17 @@
     function toggleNumbersLayers() {
       layersVisible = !layersVisible;
     
-      // Get all layers from the map
       const layers = map.getStyle().layers;
-    
-      // Loop through all layers and match their IDs against the desired pattern
       layers.forEach(layer => {
         const layerId = layer.id;
-        // Check if the layer ID matches the naming convention
         if (layerId.startsWith('mushroom_') && layerId.endsWith(' numbers')) {
-          // Toggle the visibility of the layer
-          map.setLayoutProperty(
-            layerId,
-            'visibility',
-            layersVisible ? 'visible' : 'none'
-          );
+          map.setLayoutProperty(layerId, 'visibility', layersVisible ? 'visible' : 'none');
         }
       });
+    
+      localStorage.setItem('numbersLayersVisible', layersVisible); // Save state
+      console.log(`Layers are now ${layersVisible ? 'visible' : 'hidden'}`);
+    }
     
       // Provide feedback to the user
       console.log(`Layers are now ${layersVisible ? 'visible' : 'hidden'}`);
@@ -391,22 +413,15 @@
     function toggleDarkLayers() {
       darkLayersVisible = !darkLayersVisible;
     
-      // Get all layers from the map
       const layers = map.getStyle().layers;
-    
       layers.forEach(layer => {
         const layerId = layer.id;
-        // Check if the layer ID ends with " dark"
-        if (layerId.endsWith(' dark')) {    
-          // Toggle the visibility
-          map.setLayoutProperty(
-            layerId,
-            'visibility',
-            darkLayersVisible ? 'visible' : 'none'
-          );
+        if (layerId.endsWith(' dark')) {
+          map.setLayoutProperty(layerId, 'visibility', darkLayersVisible ? 'visible' : 'none');
         }
       });
     
+      localStorage.setItem('darkLayersVisible', darkLayersVisible); // Save state
       console.log(`Dark layers are now ${darkLayersVisible ? 'visible' : 'hidden'}`);
     }
 
@@ -456,13 +471,28 @@
     // Function to place or update the flagpole
     function placeFlagpole(lng, lat) {
       if (!flagpoleMarker) {
-        // Create and add the marker for the first time
         flagpoleMarker = createFlagpoleMarker(lng, lat).addTo(map);
       } else {
-        // Update the position of the existing marker
         flagpoleMarker.setLngLat([lng, lat]);
       }
+    
+      // Save flagpole state in localStorage
+      localStorage.setItem('flagpoleState', JSON.stringify({ lng, lat }));
+      localStorage.setItem('gmapsVisible', true); // Save gmaps button state
     }
+    
+    // Function to hide the flagpole and the gmaps button
+    function hideFlagpoleAndGmaps() {
+      if (flagpoleMarker) {
+        flagpoleMarker.remove();
+        flagpoleMarker = null;
+      }
+    
+      gmapsButton.style.display = 'none';
+      localStorage.removeItem('flagpoleState'); // Remove flagpole state
+      localStorage.setItem('gmapsVisible', false); // Save gmaps button state
+    }
+
 
     
     // Function to hide the flagpole and the gmaps button
