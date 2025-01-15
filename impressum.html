@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Impressum</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, 0.9); /* Semi-transparent background */
+      color: #fff;
+      overflow: hidden;
+    }
+    #container {
+      background-color: rgba(255, 255, 255, 0.9); /* Opaque white background */
+      width: 90%;
+      max-width: 600px;
+      padding: 20px;
+      border-radius: 8px;
+      position: relative;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+      overflow-y: auto;
+      max-height: 90%;
+    }
+    #logo {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      width: 60px;
+      height: auto;
+    }
+    #close-button {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      width: 30px;
+      height: 30px;
+      background-color: rgba(0, 0, 0, 0.8);
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 18px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+    h1 {
+      margin-top: 80px; /* Space for the logo */
+      font-size: 24px;
+      color: #333;
+    }
+    p {
+      margin-bottom: 15px;
+      line-height: 1.6;
+      color: #333;
+    }
+    strong {
+      color: #000;
+    }
+    a {
+      color: #007BFF;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <!-- Logo -->
+    <img id="logo" src="logo_funges.png" alt="Logo">
+
+    <!-- Close Button -->
+    <button id="close-button" onclick="closeImpressum()">X</button>
+
+    <!-- Impressum Content -->
+    <h1>Legal Notice</h1>
+    <h2>Impressum</h2>
+    <p><strong>Responsible Entity (Legally Responsible):</strong><br>
+    Dario Lutz<br>
+    Hohlstrasse 101<br>
+    8005 Zurich<br>
+    Switzerland</p>
+
+    <p><strong>Administrator (Operational Responsibility):</strong><br>
+    Loris Di Stefano<br>
+    Krautgasse 10<br>
+    3177 Laupen<br>
+    Switzerland<br>
+    Email: <a href="mailto:funges@gmail.com">funges@gmail.com</a></p>
+
+    <h2>Disclaimer</h2>
+    <p>The author assumes no liability for the correctness, accuracy, timeliness, reliability and completeness of the information. Liability claims against the author for material or immaterial damage resulting from access to, use or non-use of the published information, from misuse of the connection or from technical malfunctions are excluded.</p>
+
+    <h2>Disclaimer for Content and Links</h2>
+    <p>References and links to third party websites are outside our area of responsibility. It rejected any responsibility for such websites. Access to and use of such websites is at the user's own risk.</p>
+    <p>The icons in this app have been sourced from flaticon.com and freepik.com, with proper attribution as required by their licensing terms.</p>
+  </div>
+
+  <script>
+    // Close Impressum and go back to the main page
+    function closeImpressum() {
+      window.location.href = "index.html";
+    }
+  </script>
+</body>
+</html>
