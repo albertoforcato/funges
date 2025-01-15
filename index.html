@@ -324,7 +324,7 @@
       const timeoutDuration = 10000; // 10 seconds
       let timeoutId; // To store the timeout ID
     
-      // Only show the spinner if no pin exists
+      // Only show the spinner if the marker does not exist
       if (!userMarker) {
         spinner.style.display = 'flex';
       }
@@ -340,7 +340,7 @@
       if (cachedCoordinates && cacheTimestamp && now - cacheTimestamp < 60000) {
         console.log('Using cached location');
         setTimeout(() => {
-          ensurePinAndFocus(cachedCoordinates);
+          toggleUserMarker(cachedCoordinates);
           spinner.style.display = 'none'; // Hide the spinner after processing
           clearTimeout(timeoutId); // Clear the timeout since location was retrieved successfully
         }, 500); // Simulate a short delay for smoother UX
@@ -350,7 +350,7 @@
           position => {
             cachedCoordinates = [position.coords.longitude, position.coords.latitude];
             cacheTimestamp = Date.now(); // Update cache timestamp
-            ensurePinAndFocus(cachedCoordinates);
+            toggleUserMarker(cachedCoordinates);
             spinner.style.display = 'none'; // Hide the spinner after fetching the location
             clearTimeout(timeoutId); // Clear the timeout since location was retrieved successfully
           },
@@ -387,29 +387,26 @@
     }
 
 
-    
     // Function to toggle the marker
     function toggleUserMarker(coordinates) {
       if (userMarker) {
-        // Remove the marker if it already exists
+        // If the marker exists, remove it
         userMarker.remove();
         userMarker = null;
         console.log('User marker removed');
       } else {
-        // Create the custom marker element
+        // Create a new marker if it doesn't exist
         const pinElement = document.createElement('img');
         pinElement.src = 'https://raw.githubusercontent.com/lodist/tripped-map/main/pin_1.png';
         pinElement.style.width = '40px';
         pinElement.style.height = 'auto';
     
-        // Add the custom marker to the map
         userMarker = new mapboxgl.Marker({ element: pinElement })
           .setLngLat(coordinates)
           .addTo(map);
     
         // Center the map on the user's location
         map.flyTo({ center: coordinates, zoom: 8 });
-    
         console.log('User marker added at:', coordinates);
       }
     }
