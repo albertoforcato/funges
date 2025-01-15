@@ -286,11 +286,20 @@
     function locateUser() {
       const now = Date.now();
       const spinner = document.getElementById('loading-spinner'); // Get the spinner element
+      const timeoutDuration = 10000; // 10 seconds
+      let timeoutId; // To store the timeout ID
     
       // Only show the spinner if the marker does not exist
       if (!userMarker) {
         spinner.style.display = 'flex';
       }
+    
+      // Timeout function to handle location retrieval failure
+      timeoutId = setTimeout(() => {
+        spinner.style.display = 'none'; // Hide the spinner
+        alert('Location cannot be retrieved.'); // Show an error message
+        console.error('Location retrieval timed out.');
+      }, timeoutDuration);
     
       // Check if the cached location is valid (1 minute = 60000 milliseconds)
       if (cachedCoordinates && cacheTimestamp && now - cacheTimestamp < 60000) {
@@ -298,6 +307,7 @@
         setTimeout(() => {
           toggleUserMarker(cachedCoordinates);
           spinner.style.display = 'none'; // Hide the spinner after processing
+          clearTimeout(timeoutId); // Clear the timeout since location was retrieved successfully
         }, 500); // Simulate a short delay for smoother UX
       } else {
         console.log('Fetching new location');
@@ -307,14 +317,17 @@
             cacheTimestamp = Date.now(); // Update cache timestamp
             toggleUserMarker(cachedCoordinates);
             spinner.style.display = 'none'; // Hide the spinner after fetching the location
+            clearTimeout(timeoutId); // Clear the timeout since location was retrieved successfully
           },
           error => {
             alert('Unable to retrieve your location.');
             spinner.style.display = 'none'; // Hide the spinner even if an error occurs
+            clearTimeout(timeoutId); // Clear the timeout since an error occurred
           }
         );
       }
     }
+
     
     // Function to toggle the marker
     function toggleUserMarker(coordinates) {
