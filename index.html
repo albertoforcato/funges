@@ -297,7 +297,7 @@
       // Timeout function to handle location retrieval failure
       timeoutId = setTimeout(() => {
         spinner.style.display = 'none'; // Hide the spinner
-        alert('Location cannot be retrieved.'); // Show an error message
+        alert('Location cannot be retrieved. Reload page or retry.'); // Show an error message
         console.error('Location retrieval timed out.');
       }, timeoutDuration);
     
