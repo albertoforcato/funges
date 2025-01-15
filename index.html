@@ -17,10 +17,9 @@
       height: 100vh;
     }
     #map {
-      flex: 1; /* Allow the map to take available vertical space */
+      height: 95%; /* 95% of the viewport height */
       position: relative;
-      min-height: 0; /* Prevent overflow on small screens */
-      overflow: hidden; /* Ensure the map content doesn't overflow */
+      overflow: hidden; /* Ensure no overflow */
     }
     #button-bar {
       position: absolute;
@@ -37,26 +36,28 @@
       overflow-y: auto; /* Enable scrolling within the sidebar if content overflows */
     }
 
-    
+        
     #footer {
-      height: 30px;
+      height: 5%; /* 5% of the viewport height */
       background-color: rgba(255, 252, 239, 1);
       display: flex;
       justify-content: center;
       align-items: center;
       box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
       flex-shrink: 0;
-      position: fixed; /* Ensure the footer is always visible */
+      position: fixed;
       bottom: 0; /* Stick to the bottom of the viewport */
       width: 100%; /* Full width footer */
     }
+    
     #footer a {
       margin: 0 15px;
-      font-size: 11px; 
+      font-size: 11px;
       text-decoration: none;
       color: #333;
       font-weight: bold;
     }
+    
     #footer a:hover {
       text-decoration: underline;
     }
