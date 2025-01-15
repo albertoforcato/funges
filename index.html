@@ -14,16 +14,14 @@
       font-family: Arial, sans-serif;
       display: flex;
       flex-direction: column;
-      height: 100vh; /* Viewport height */
-      overflow: hidden; /* Prevent scrolling */
+      height: 100vh;
     }
-    
     #map {
-      height: calc(100vh - 30px); /* Viewport height minus the footer height */
+      flex: 1; /* Allow the map to take available vertical space */
       position: relative;
       min-height: 0; /* Prevent overflow on small screens */
+      overflow: hidden; /* Ensure the map content doesn't overflow */
     }
-    
     #button-bar {
       position: absolute;
       top: 0;
@@ -39,15 +37,17 @@
     }
     
     #footer {
-      height: 30px; /* Fixed footer height */
+      height: 30px;
       background-color: rgba(255, 252, 239, 1);
       display: flex;
       justify-content: center;
       align-items: center;
       box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
       flex-shrink: 0;
+      position: fixed; /* Ensure the footer is always visible */
+      bottom: 0; /* Stick to the bottom of the viewport */
+      width: 100%; /* Full width footer */
     }
-    
     #footer a {
       margin: 0 15px;
       font-size: 11px; 
@@ -55,10 +55,10 @@
       color: #333;
       font-weight: bold;
     }
-    
     #footer a:hover {
       text-decoration: underline;
     }
+
 
 
   
