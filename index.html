@@ -264,28 +264,43 @@
 
     
     // Add a marker for the user's location
-    let userMarker;
-
-    // Function to locate the user
+    // Add a marker for the user's location
+    let userMarker = null;
+    
+    // Function to locate the user and toggle the marker
     function locateUser() {
       if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(position => {
-          const userCoordinates = [position.coords.longitude, position.coords.latitude];
-
-          // Add or update the user's marker
-          if (userMarker) {
-            userMarker.setLngLat(userCoordinates);
-          } else {
-            userMarker = new mapboxgl.Marker({ color: '#b31800' })
-              .setLngLat(userCoordinates)
-              .addTo(map);
+        navigator.geolocation.getCurrentPosition(
+          position => {
+            const userCoordinates = [position.coords.longitude, position.coords.latitude];
+    
+            if (userMarker) {
+              // Remove the marker if it already exists
+              userMarker.remove();
+              userMarker = null;
+              console.log('User marker removed');
+            } else {
+              // Create the custom marker element
+              const pinElement = document.createElement('img');
+              pinElement.src = 'https://raw.githubusercontent.com/lodist/tripped-map/main/pin_1.png';
+              pinElement.style.width = '30px';
+              pinElement.style.height = 'auto';
+    
+              // Add the custom marker to the map
+              userMarker = new mapboxgl.Marker({ element: pinElement })
+                .setLngLat(userCoordinates)
+                .addTo(map);
+    
+              // Center the map on the user's location
+              map.flyTo({ center: userCoordinates, zoom: 8 });
+    
+              console.log('User marker added at:', userCoordinates);
+            }
+          },
+          error => {
+            alert('Unable to retrieve your location.');
           }
-
-          // Center the map on the user's location
-          map.flyTo({ center: userCoordinates, zoom: 8 });
-        }, error => {
-          alert('Unable to retrieve your location.');
-        });
+        );
       } else {
         alert('Geolocation is not supported by your browser.');
       }
