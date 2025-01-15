@@ -324,6 +324,14 @@
         const timeoutDuration = 10000; // Reduced timeout to 10 seconds
         let timeoutId;
     
+        // If the marker exists, remove it and stop further execution
+        if (userMarker) {
+            userMarker.remove(); // Remove the marker
+            userMarker = null;
+            console.log('User marker removed');
+            return;
+        }
+    
         // Use cached location if valid
         if (cachedCoordinates && cacheTimestamp && now - cacheTimestamp < 60000) {
             console.log('Using cached location');
@@ -332,9 +340,7 @@
         }
     
         // Show spinner only if fetching a new location
-        if (!userMarker) {
-            spinner.style.display = 'flex';
-        }
+        spinner.style.display = 'flex';
     
         // Timeout to handle location retrieval failure
         timeoutId = setTimeout(() => {
@@ -365,8 +371,9 @@
     // Function to toggle the marker
     function toggleUserMarker(coordinates) {
         if (userMarker) {
-            userMarker.setLngLat(coordinates); // Update marker position
-            console.log('User marker updated:', coordinates);
+            userMarker.remove(); // Remove the marker if it exists
+            userMarker = null;
+            console.log('User marker removed');
         } else {
             const pinElement = document.createElement('img');
             pinElement.src = 'https://raw.githubusercontent.com/lodist/tripped-map/main/pin_1.png';
