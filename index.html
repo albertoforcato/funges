@@ -329,6 +329,7 @@
             userMarker.remove(); // Remove the marker
             userMarker = null;
             console.log('User marker removed');
+            spinner.style.display = 'none'; // Hide spinner if displayed
             return;
         }
     
@@ -390,6 +391,7 @@
         // Center the map on the user's location
         map.flyTo({ center: coordinates, zoom: 8, speed: 2 });
     }
+
 
     
     // Function to ensure pin is added and map is focused on location
