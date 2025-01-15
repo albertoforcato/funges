@@ -324,7 +324,7 @@
       const timeoutDuration = 10000; // 10 seconds
       let timeoutId; // To store the timeout ID
     
-      // Only show the spinner if the marker does not exist
+      // Only show the spinner if no pin exists
       if (!userMarker) {
         spinner.style.display = 'flex';
       }
@@ -334,20 +334,13 @@
         spinner.style.display = 'none'; // Hide the spinner
         alert('Location cannot be retrieved. Reload page or retry.'); // Show an error message
         console.error('Location retrieval timed out.');
-    
-        // Ensure the marker is reset if location retrieval fails
-        if (userMarker) {
-          userMarker.remove();
-          userMarker = null; // Reset the marker state
-          console.log('User marker reset due to location retrieval failure.');
-        }
       }, timeoutDuration);
     
       // Check if the cached location is valid (1 minute = 60000 milliseconds)
       if (cachedCoordinates && cacheTimestamp && now - cacheTimestamp < 60000) {
         console.log('Using cached location');
         setTimeout(() => {
-          toggleUserMarker(cachedCoordinates);
+          ensurePinAndFocus(cachedCoordinates);
           spinner.style.display = 'none'; // Hide the spinner after processing
           clearTimeout(timeoutId); // Clear the timeout since location was retrieved successfully
         }, 500); // Simulate a short delay for smoother UX
@@ -357,7 +350,7 @@
           position => {
             cachedCoordinates = [position.coords.longitude, position.coords.latitude];
             cacheTimestamp = Date.now(); // Update cache timestamp
-            toggleUserMarker(cachedCoordinates);
+            ensurePinAndFocus(cachedCoordinates);
             spinner.style.display = 'none'; // Hide the spinner after fetching the location
             clearTimeout(timeoutId); // Clear the timeout since location was retrieved successfully
           },
@@ -365,17 +358,34 @@
             alert('Unable to retrieve your location.');
             spinner.style.display = 'none'; // Hide the spinner even if an error occurs
             clearTimeout(timeoutId); // Clear the timeout since an error occurred
-    
-            // Ensure the marker is reset if location retrieval fails
-            if (userMarker) {
-              userMarker.remove();
-              userMarker = null; // Reset the marker state
-              console.log('User marker reset due to location retrieval error.');
-            }
           }
         );
       }
     }
+    
+    // Function to ensure pin is added and map is focused on location
+    function ensurePinAndFocus(coordinates) {
+      if (userMarker) {
+        userMarker.remove(); // Remove existing marker
+        userMarker = null;
+        console.log('User marker removed');
+      }
+    
+      // Create and drop a new marker
+      const pinElement = document.createElement('img');
+      pinElement.src = 'https://raw.githubusercontent.com/lodist/tripped-map/main/pin_1.png';
+      pinElement.style.width = '40px';
+      pinElement.style.height = 'auto';
+    
+      userMarker = new mapboxgl.Marker({ element: pinElement })
+        .setLngLat(coordinates)
+        .addTo(map);
+    
+      // Center the map on the user's location
+      map.flyTo({ center: coordinates, zoom: 8 });
+      console.log('User marker added at:', coordinates);
+    }
+
 
     
     // Function to toggle the marker
