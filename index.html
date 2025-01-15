@@ -14,12 +14,12 @@
       font-family: Arial, sans-serif;
       display: flex;
       flex-direction: column;
-      height: 100vh;
+      height: 100dvh; /* Use dynamic viewport height where supported */
       overflow: hidden; /* Disable scrolling */
     }
     
     #map {
-      height: calc(100vh - 40px); /* Subtract the footer height from the viewport height */
+      height: calc(100dvh - 40px); /* Subtract the footer height from the viewport height */
       position: relative;
     }
     
@@ -27,7 +27,7 @@
       position: absolute;
       top: 0;
       left: 0;
-      height: calc(100vh - 40px); /* Same height as the map */
+      height: calc(100dvh - 40px); /* Same height as the map */
       width: 80px;
       background-color: rgba(255, 252, 239, 0.85);
       display: flex;
@@ -63,6 +63,18 @@
     #footer a:hover {
       text-decoration: underline;
     }
+    
+    /* Adjustments for mobile devices */
+    @media (max-width: 768px) {
+      #map {
+        height: calc(100vh - 40px); /* Fallback for mobile browsers that don't support dynamic viewport units */
+      }
+    
+      #button-bar {
+        height: calc(100vh - 40px); /* Adjust height for mobile */
+      }
+    }
+
 
 
 
