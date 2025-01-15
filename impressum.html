@@ -62,6 +62,9 @@
       line-height: 1.6;
       color: #555; /* Darker grey for paragraph text */
     }
+    p:last-of-type {
+      margin-bottom: 80px; /* Add 4 empty lines under the last paragraph */
+    }
     strong {
       color: #333; /* Slightly darker grey for strong emphasis */
     }
@@ -73,7 +76,6 @@
       text-decoration: underline;
     }
   </style>
-
 </head>
 <body>
   <div id="container">
@@ -110,7 +112,7 @@
   <script>
     // Close Impressum and go back to the main page
     function closeImpressum() {
-      window.location.href = "index.html";
+      window.location.href = "https://funges.ch"; // Redirect to funges.ch
     }
   </script>
 </body>
