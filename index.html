@@ -217,7 +217,8 @@
   <script>
     // Mapbox Access Token
     mapboxgl.accessToken = 'pk.eyJ1IjoibG9kaXN0IiwiYSI6ImNtM3g3dTVuaTE2dW8yaXM1eDE1dXVmZG4ifQ.xrGoky5Mzc6gwO5z8n6CoQ';
-
+    mapboxgl.setTelemetryEnabled(false);
+      
     // Function to initialize the Mapbox map
     function initializeMap() {
       const map = new mapboxgl.Map({
