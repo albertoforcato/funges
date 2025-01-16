@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Porcini Mushroom Map</title>
+  <!-- Mapbox CSS -->
+  <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      height: 100dvh; /* Use dynamic viewport height where supported */
+      overflow: hidden; /* Disable scrolling */
+    }
+    
+    #map {
+      height: calc(100dvh - 40px); /* Subtract the footer height from the viewport height */
+      position: relative;
+    }
+    
+    #button-bar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: calc(100dvh - 40px); /* Same height as the map */
+      width: 80px;
+      background-color: rgba(255, 252, 239, 0.90);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 10px 0;
+      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+        
+    #footer {
+      height: 40px; /* Footer height */
+      background-color: rgba(255, 252, 239, 1); /* Footer background */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+      flex-shrink: 0;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      padding: 0 0 0 0px;
+    }
+        
+    #footer a {
+      font-size: 12px; /* Smaller text size */
+      margin: 0 10px; /* Reduced spacing between links */
+      text-decoration: none;
+      color: #333; /* Text color */
+      font-weight: normal; /* Make the font weight normal */
+    }
+        
+    #footer a:hover {
+      text-decoration: underline; /* Underline on hover */
+    }
+    
+    #loading-spinner {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 1000; /* Ensures it's above all other elements */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: none; /* Remove background color */
+      padding: 0; /* Remove padding around the spinner */
+      border-radius: 0; /* No border radius */
+    }
+    
+    #loading-spinner img {
+      width: 210px; /* Adjust spinner size */
+      height: auto;
+    }
+
+
+    /* Adjustments for mobile devices */
+    @media (max-width: 768px) {
+      #map {
+        height: calc(100vh - 40px); /* Fallback for mobile browsers that don't support dynamic viewport units */
+        margin-bottom: 35px; /* Add spacing below the map if needed */
+      }
+      
+      #button-bar {
+        height: calc(100vh - 40px); /* Adjust height for mobile */
+      }
+    }
+  
+    .button {
+      margin: 12px 0; /* Adjust spacing between buttons */
+      cursor: pointer;
+    }
+    .logo {
+      margin-bottom: 60px; /* Adjust spacing below the logo */
+    }
+    .button img {
+      width: 40px;
+      height: auto;
+    }
+    .logo img {
+      width: 65px;
+      height: auto;
+    }
+    #legend {
+      position: absolute;
+      bottom: 150px;
+      left: 90px;
+      padding: 15px;
+      border-radius: 8px;
+      font-size: 12px; /* Reduced font size */
+      background: rgba(255, 252, 239, 0.90); /* Matches the halo color and opacity */
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Soft halo effect */
+      display: none; /* Hidden by default */
+    }
+    #legend h3 {
+      margin: 0 0 10px;
+      font-size: 12px; /* Reduced font size for heading */
+    }
+    .legend-scale {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .legend-color {
+      width: 20px;
+      height: 20px;
+      border-radius: 3px;
+    }
+    .legend-color.yellow {
+      background: #ffffcc;
+    }
+    .legend-color.orange {
+      background: #fbae7e;
+    }
+    .legend-color.red {
+      background: #800020;
+    }
+  </style>
+
+</head>
+<body>
+  <div id="map"></div>
+
+  <!-- Button Bar -->
+  <div id="button-bar">
+    <div class="logo">
+      <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/logo_1.png" alt="Logo">
+    </div>
+    <div class="button" onclick="locateUser()">
+      <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/location_1.png" alt="Locate Me Button">
+    </div>
+    <div class="button" onclick="toggleDarkLayers()">
+      <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/sunmoon_1.png" alt="Sun/Moon Button">
+    </div>
+    <div class="button" onclick="toggleNumbersLayers()">
+      <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/numbers_1.png" alt="Numbers Button">
+    </div>
+    <div class="button" onclick="toggleLegend()">
+      <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/info_1.png" alt="Info Button">
+    </div>
+    <div class="button">
+      <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/support_1.png" alt="Support Button">
+    </div>
+    <div class="button">
+      <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/gmaps_1.png" alt="Google Maps Button">
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div id="footer">
+    <a href="impressum.html">Impressum</a>
+    <a href="privacy-policy.html">Privacy Policy</a>
+    <a href="termsuse.html">Terms of Use</a>
+  </div>
+
+  <!-- Legend -->
+  <div id="legend">
+    <h3>Porcini Mushroom Conditions</h3>
+    <div class="legend-scale">
+      <div class="legend-color yellow"></div> <span>Nah</span>
+      <div class="legend-color orange"></div> <span>Alright</span>
+      <div class="legend-color red"></div> <span>Let's Go!</span>
+    </div>
+    <p>Rating: 0 to 10</p>
+    <p>
+      <strong>Go to Location:</strong><br>
+      <strong>Long Press (Mobile)</strong> / <strong>Right-Click (Desktop)</strong>:<br>
+        Mark the target location<br>
+        Click the button to the left to open in Google Maps.<br>
+    </p>
+    </div>
+
+    <!-- Loading Spinner -->
+  <div id="loading-spinner" style="display: none;">
+    <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/loading_1.gif" alt="Loading">
+  </div>
+
+  <!-- Mapbox JS -->
+  <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
+  <script>
+    // Mapbox Access Token
+    mapboxgl.accessToken = 'pk.eyJ1IjoibG9kaXN0IiwiYSI6ImNtM3g3dTVuaTE2dW8yaXM1eDE1dXVmZG4ifQ.xrGoky5Mzc6gwO5z8n6CoQ';
+
+    // Function to initialize the Mapbox map
+    function initializeMap() {
+      const map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/lodist/clzo3ivsk007d01piaoah1dfy',
+        center: [7.3359, 47.7508], // Starting position [longitude, latitude]
+        zoom: 4, // Starting zoom level
+        maxZoom: 20, // Maximum zoom level
+        minZoom: 2, // Minimum zoom level
+      });
+    
+      // Add controls to the map
+      map.addControl(new mapboxgl.NavigationControl({ showCompass: false }));
+      map.addControl(new mapboxgl.FullscreenControl());
+    
+      // Listen for WebGL context loss and reinitialize the map
+      map.on('webglcontextlost', () => {
+        console.error('WebGL context lost. Attempting to recreate the map.');
+        map.remove();
+        initializeMap();
+      });
+    
+      return map;
+    }
+    
+    // Initialize the map
+    const map = initializeMap();
+    
+    // Resize the map on visibility change to handle mobile-specific issues
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') {
+        map.resize();
+      }
+    });
+    
+    // Load saved map state when the page loads
+    window.addEventListener('load', () => {
+      try {
+        // Remove any existing flagpole and hide the GMaps button
+        if (flagpoleMarker) {
+          flagpoleMarker.remove(); // Remove the flagpole from the map
+          flagpoleMarker = null; // Reset the flagpole variable
+        }
+        gmapsButton.style.display = 'none'; // Ensure the GMaps button is hidden
+        localStorage.removeItem('flagpoleState'); // Clear flagpole state
+        localStorage.removeItem('gmapsVisible'); // Clear GMaps visibility state
+        console.log('Flagpole and GMaps button cleared on load.');
+    
+        // Restore map state
+        const savedState = JSON.parse(localStorage.getItem('mapState'));
+        if (savedState) {
+          map.setCenter(savedState.center);
+          map.setZoom(savedState.zoom);
+          map.setBearing(savedState.bearing);
+          map.setPitch(savedState.pitch);
+          console.log('Map state restored.');
+        }
+    
+        // Restore numbers layers visibility
+        const numbersLayersVisible = localStorage.getItem('numbersLayersVisible') === 'true';
+        if (numbersLayersVisible !== layersVisible) {
+          toggleNumbersLayers(); // Update layers visibility to match the stored state
+          console.log(`Numbers layers visibility restored: ${numbersLayersVisible}`);
+        }
+    
+        // Restore dark layers visibility
+        const darkLayersState = localStorage.getItem('darkLayersVisible') === 'true';
+        if (darkLayersState !== darkLayersVisible) {
+          toggleDarkLayers(); // Update layers visibility to match the stored state
+          console.log(`Dark layers visibility restored: ${darkLayersState}`);
+        }
+    
+        map.resize(); // Ensure the map resizes correctly
+      } catch (error) {
+        console.error('Failed to load map state:', error);
+      }
+    });
+
+
+    
+    // Save the map state before the user leaves the page
+    window.addEventListener('beforeunload', () => {
+      const mapState = {
+        center: map.getCenter(),
+        zoom: map.getZoom(),
+        bearing: map.getBearing(),
+        pitch: map.getPitch(),
+        timestamp: Date.now(), // Save the current timestamp
+      };
+      localStorage.setItem('mapState', JSON.stringify(mapState));
+    
+      // Reset userMarker and gmapsButton on unload
+      if (userMarker) {
+        userMarker.remove();
+        userMarker = null; // Reset the marker state
+        console.log('User marker reset on page unload.');
+      }
+      gmapsButton.style.display = 'none'; // Hide Google Maps button on page unload
+    });
+
+
+    
+    // Add a marker for the user's location
+    let userMarker = null;
+    let cachedCoordinates = null; // Cache for the user's location
+    let cacheTimestamp = null; // Timestamp when the location was cached
+    
+    function locateUser() {
+        const now = Date.now();
+        const spinner = document.getElementById('loading-spinner'); // Get the spinner element
+        const timeoutDuration = 12000; // Reduced timeout to 10 seconds
+        let timeoutId;
+    
+        // If the marker exists, remove it and stop further execution
+        if (userMarker) {
+            userMarker.remove(); // Remove the marker
+            userMarker = null;
+            console.log('User marker removed');
+            spinner.style.display = 'none'; // Hide spinner if displayed
+            return;
+        }
+    
+        // Use cached location if valid
+        if (cachedCoordinates && cacheTimestamp && now - cacheTimestamp < 60000) {
+            console.log('Using cached location');
+            toggleUserMarker(cachedCoordinates);
+            return;
+        }
+    
+        // Show spinner only if fetching a new location
+        spinner.style.display = 'flex';
+    
+        // Timeout to handle location retrieval failure
+        timeoutId = setTimeout(() => {
+            spinner.style.display = 'none'; // Hide the spinner
+            alert('Location retrieval timed out. Please try again.');
+            console.error('Location retrieval timed out.');
+        }, timeoutDuration);
+    
+        // Fetch new location
+        console.log('Fetching new location');
+        navigator.geolocation.getCurrentPosition(
+            position => {
+                cachedCoordinates = [position.coords.longitude, position.coords.latitude];
+                cacheTimestamp = Date.now(); // Update cache timestamp
+                toggleUserMarker(cachedCoordinates);
+                spinner.style.display = 'none'; // Hide the spinner
+                clearTimeout(timeoutId); // Clear the timeout
+            },
+            () => {
+                spinner.style.display = 'none'; // Hide the spinner
+                clearTimeout(timeoutId); // Clear the timeout
+                alert('Unable to retrieve your location.');
+            },
+            { enableHighAccuracy: true, timeout: timeoutDuration, maximumAge: 0 } // Optimize geolocation options
+        );
+    }
+    
+    // Function to toggle the marker
+    function toggleUserMarker(coordinates) {
+        if (userMarker) {
+            userMarker.remove(); // Remove the marker if it exists
+            userMarker = null;
+            console.log('User marker removed');
+        } else {
+            const pinElement = document.createElement('img');
+            pinElement.src = 'https://raw.githubusercontent.com/lodist/tripped-map/main/pin_1.png';
+            pinElement.style.width = '40px';
+            pinElement.style.height = 'auto';
+    
+            userMarker = new mapboxgl.Marker({ element: pinElement })
+                .setLngLat(coordinates)
+                .addTo(map);
+    
+            console.log('User marker added:', coordinates);
+        }
+    
+        // Center the map on the user's location
+        map.flyTo({ center: coordinates, zoom: 8, speed: 2 });
+    }
+
+
+    
+    // Function to ensure pin is added and map is focused on location
+    function ensurePinAndFocus(coordinates) {
+      if (userMarker) {
+        userMarker.remove(); // Remove existing marker
+        userMarker = null;
+        console.log('User marker removed');
+      }
+    
+      // Create and drop a new marker
+      const pinElement = document.createElement('img');
+      pinElement.src = 'https://raw.githubusercontent.com/lodist/tripped-map/main/pin_1.png';
+      pinElement.style.width = '40px';
+      pinElement.style.height = 'auto';
+    
+      userMarker = new mapboxgl.Marker({ element: pinElement })
+        .setLngLat(coordinates)
+        .addTo(map);
+    
+      // Center the map on the user's location
+      map.flyTo({ center: coordinates, zoom: 8 });
+      console.log('User marker added at:', coordinates);
+    }
+
+
+    // Initialize visibility state for layers
+    let layersVisible = false;
+    
+    // Function to toggle numbers layers
+    function toggleNumbersLayers() {
+      layersVisible = !layersVisible;
+    
+      const layers = map.getStyle().layers;
+      layers.forEach(layer => {
+        const layerId = layer.id;
+        if (layerId.startsWith('mushroom_') && layerId.endsWith(' numbers')) {
+          map.setLayoutProperty(layerId, 'visibility', layersVisible ? 'visible' : 'none');
+        }
+      });
+    
+      localStorage.setItem('numbersLayersVisible', layersVisible); // Save state
+      console.log(`Layers are now ${layersVisible ? 'visible' : 'hidden'}`);
+    }
+    
+      // Provide feedback to the user
+      console.log(`Layers are now ${layersVisible ? 'visible' : 'hidden'}`);
+
+    // Initialize visibility state for %dark layers
+    let darkLayersVisible = false;
+  
+    // Function to toggle %dark layers
+    function toggleDarkLayers() {
+      darkLayersVisible = !darkLayersVisible;
+    
+      const layers = map.getStyle().layers;
+      layers.forEach(layer => {
+        const layerId = layer.id;
+        if (layerId.endsWith(' dark')) {
+          map.setLayoutProperty(layerId, 'visibility', darkLayersVisible ? 'visible' : 'none');
+        }
+      });
+    
+      localStorage.setItem('darkLayersVisible', darkLayersVisible); // Save state
+      console.log(`Dark layers are now ${darkLayersVisible ? 'visible' : 'hidden'}`);
+    }
+
+
+    // Function to toggle the legend visibility
+    // Initialize visibility state for the legend
+    let legendVisible = false;
+    
+    // Function to toggle the legend visibility
+    function toggleLegend() {
+      const legend = document.getElementById('legend');
+    
+      // Toggle the visibility state
+      legendVisible = !legendVisible;
+    
+      // Set the display style based on the visibility state
+      legend.style.display = legendVisible ? 'block' : 'none';
+    
+      console.log(`Legend is now ${legendVisible ? 'visible' : 'hidden'}`);
+    }
+
+
+
+
+
+
+        
+    // Marker for the flagpole
+    let flagpoleMarker = null;
+    
+    // Store the coordinates for the right-click or long press
+    let activeCoordinates = null;
+    
+    // Timer for tracking long press duration
+    let longPressTimeout;
+    
+    // Function to create and return a flagpole marker
+    function createFlagpoleMarker(lng, lat) {
+      const flagpoleIcon = document.createElement('img');
+      flagpoleIcon.src = 'https://raw.githubusercontent.com/lodist/tripped-map/main/flagpole_1.png';
+      flagpoleIcon.style.width = '30px'; // Set flagpole width
+      flagpoleIcon.style.height = '30px'; // Set flagpole height
+    
+      return new mapboxgl.Marker({ element: flagpoleIcon }).setLngLat([lng, lat]);
+    }
+    
+    // Function to place or update the flagpole
+    function placeFlagpole(lng, lat) {
+      if (!flagpoleMarker) {
+        // Create and add the marker for the first time
+        const flagpoleIcon = document.createElement('img');
+        flagpoleIcon.src = 'https://raw.githubusercontent.com/lodist/tripped-map/main/flagpole_1.png';
+        flagpoleIcon.style.width = '30px'; // Set flagpole width
+        flagpoleIcon.style.height = '30px'; // Set flagpole height
+    
+        flagpoleMarker = new mapboxgl.Marker({ element: flagpoleIcon }).setLngLat([lng, lat]).addTo(map);
+      } else {
+        // Update the position of the existing marker
+        flagpoleMarker.setLngLat([lng, lat]);
+      }
+    
+      // Save the flagpole position in localStorage
+      localStorage.setItem('flagpoleState', JSON.stringify({ lng, lat }));
+      console.log('Flagpole position saved.');
+    }
+
+    
+    // Function to hide the flagpole and the gmaps button
+    function hideFlagpoleAndGmaps() {
+      if (flagpoleMarker) {
+        flagpoleMarker.remove(); // Remove the flagpole from the map
+        flagpoleMarker = null; // Reset the marker variable
+      }
+    
+      // Hide the Google Maps button
+      gmapsButton.style.display = 'none';
+    
+      // Remove the flagpole state from localStorage
+      localStorage.removeItem('flagpoleState');
+      console.log('Flagpole state cleared.');
+    }
+
+
+    
+    // Select the gmaps button
+    const gmapsButton = document.querySelector('.button img[alt="Google Maps Button"]').parentElement;
+
+    gmapsButton.style.display = 'none'; // Add this line to hide the button initially
+
+    // Handle right-click on desktop
+    map.on('contextmenu', (e) => {
+      e.preventDefault(); // Prevent the default context menu
+    
+      const { lng, lat } = e.lngLat;
+    
+      // Store the clicked coordinates
+      activeCoordinates = { lng, lat };
+    
+      // Place the flagpole immediately
+      placeFlagpole(lng, lat);
+    
+      // Show the gmaps button
+      gmapsButton.style.display = 'block';
+    });
+    
+    // Handle long press on mobile
+    map.on('touchstart', (e) => {
+      if (e.points.length === 1) { // Ensure it's a single touch
+        const { lng, lat } = map.unproject([e.points[0].x, e.points[0].y]);
+    
+        // Start the long press timer
+        longPressTimeout = setTimeout(() => {
+          // Store the coordinates
+          activeCoordinates = { lng, lat };
+    
+          // Place the flagpole after 2.5 seconds
+          placeFlagpole(lng, lat);
+    
+          // Show the gmaps button
+          gmapsButton.style.display = 'block';
+        }, 1600); // Long press duration (1.6 seconds)
+      }
+    });
+    
+    // Cancel long press if touch ends early
+    map.on('touchend', () => {
+      clearTimeout(longPressTimeout);
+    });
+    
+    // Add single left-click and quick tap handling to remove PNGs
+    map.on('click', () => {
+      hideFlagpoleAndGmaps();
+    });
+    
+    map.on('touchstart', (e) => {
+      if (e.points.length === 1) {
+        hideFlagpoleAndGmaps();
+      }
+    });
+    
+    // Add click event listener to the Google Maps button
+    gmapsButton.addEventListener('click', () => {
+      if (activeCoordinates) {
+        const { lng, lat } = activeCoordinates;
+    
+        // Redirect to Google Maps
+        window.open(`https://www.google.com/maps?q=${lat},${lng}`, '_blank');
+      }
+    });
+
+  </script>
+</body>
+</html>
