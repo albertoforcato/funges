@@ -540,16 +540,6 @@
     }
 
 
-
-    
-    // Function to hide the flagpole and the gmaps button
-    function hideFlagpoleAndGmaps() {
-      if (flagpoleMarker) {
-        flagpoleMarker.remove(); // Remove the flagpole from the map
-        flagpoleMarker = null; // Reset the marker variable
-      }
-      gmapsButton.style.display = 'none'; // Hide the gmaps button
-    }
     
     // Select the gmaps button
     const gmapsButton = document.querySelector('.button img[alt="Google Maps Button"]').parentElement;
