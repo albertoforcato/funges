@@ -217,7 +217,6 @@
   <script>
     // Mapbox Access Token
     mapboxgl.accessToken = 'pk.eyJ1IjoibG9kaXN0IiwiYSI6ImNtM3g3dTVuaTE2dW8yaXM1eDE1dXVmZG4ifQ.xrGoky5Mzc6gwO5z8n6CoQ';
-    mapboxgl.setTelemetryEnabled(false);
       
     // Function to initialize the Mapbox map
     function initializeMap() {
@@ -228,6 +227,8 @@
         zoom: 4, // Starting zoom level
         maxZoom: 20, // Maximum zoom level
         minZoom: 2, // Minimum zoom level
+        collectResourceTiming: false, // Ensures telemetry and resource collection are disabled
+        attributionControl: false // Optional: Removes the default attribution
       });
     
       // Add controls to the map
