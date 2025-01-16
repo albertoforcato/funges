@@ -146,7 +146,6 @@
       background: #800020;
     }
   </style>
- <script id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="7c46a62f-eb40-4780-8865-2a663c9d5bbf" data-blockingmode="auto" type="text/javascript"></script>
 
 </head>
 <body>
@@ -207,19 +206,11 @@
   </div>
 
   <!-- Mapbox JS -->
+  <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
   <script>
-    document.addEventListener('CookieConsentEvent', function () {
-      if (Cookiebot.consent.necessary) {
-        const script = document.createElement('script');
-        script.src = "https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js";
-        script.onload = function () {
-          mapboxgl.accessToken = 'pk.eyJ1IjoibG9kaXN0IiwiYSI6ImNtM3g3dTVuaTE2dW8yaXM1eDE1dXVmZG4ifQ.xrGoky5Mzc6gwO5z8n6CoQ';
-          initializeMap(); // Initialize the map after the script is loaded
-        };
-        document.body.appendChild(script);
-      }
-    });
-    
+    // Mapbox Access Token
+    mapboxgl.accessToken = 'pk.eyJ1IjoibG9kaXN0IiwiYSI6ImNtM3g3dTVuaTE2dW8yaXM1eDE1dXVmZG4ifQ.xrGoky5Mzc6gwO5z8n6CoQ';
+
     // Function to initialize the Mapbox map
     function initializeMap() {
       const map = new mapboxgl.Map({
@@ -245,7 +236,8 @@
       return map;
     }
     
-
+    // Initialize the map
+    const map = initializeMap();
     
     // Resize the map on visibility change to handle mobile-specific issues
     document.addEventListener('visibilitychange', () => {
