@@ -223,8 +223,8 @@
       });
     
       // Add controls to the map
-      map.addControl(new mapboxgl.NavigationControl({ showCompass: false }));
-      map.addControl(new mapboxgl.FullscreenControl());
+      map.addControl(new mapboxgl.NavigationControl({ showCompass: false }), 'top-right');
+      map.addControl(new mapboxgl.FullscreenControl(), 'top-right');
     
       // Listen for WebGL context loss and reinitialize the map
       map.on('webglcontextlost', () => {
