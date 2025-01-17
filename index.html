@@ -574,13 +574,22 @@
       gmapsButton.style.display = 'block';
     });
     
-    // Variable to track if the user is moving the map
+    // Variable to track if the user is dragging the map
     let isDragging = false;
+    let isLongPressActive = false;
     
     // Listen for drag events on the map
     map.on('dragstart', () => {
       isDragging = true;
+    
+      // If the user starts dragging, cancel any active long press
+      if (isLongPressActive) {
+        clearTimeout(longPressTimeout);
+        isLongPressActive = false; // Reset the long press state
+        console.log('Long press canceled due to dragging.');
+      }
     });
+    
     map.on('dragend', () => {
       // Reset dragging state after dragging stops
       isDragging = false;
@@ -592,6 +601,7 @@
         const { lng, lat } = map.unproject([e.points[0].x, e.points[0].y]);
     
         // Start the long press timer
+        isLongPressActive = true; // Mark the long press as active
         longPressTimeout = setTimeout(() => {
           // Only place the pole if the map was not dragged
           if (!isDragging) {
@@ -607,14 +617,17 @@
           } else {
             console.log('Flagpole placement prevented due to dragging.');
           }
+          isLongPressActive = false; // Reset the long press state
         }, 1600); // Long press duration (1.6 seconds)
       }
     });
     
-    // Cancel long press if touch ends early
+    // Cancel long press if touch ends early or dragging begins
     map.on('touchend', () => {
       clearTimeout(longPressTimeout);
+      isLongPressActive = false; // Reset the long press state
     });
+
     
     // Add single left-click and quick tap handling to remove PNGs
     map.on('click', () => {
