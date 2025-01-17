@@ -574,6 +574,18 @@
       gmapsButton.style.display = 'block';
     });
     
+    // Variable to track if the user is moving the map
+    let isDragging = false;
+    
+    // Listen for drag events on the map
+    map.on('dragstart', () => {
+      isDragging = true;
+    });
+    map.on('dragend', () => {
+      // Reset dragging state after dragging stops
+      isDragging = false;
+    });
+    
     // Handle long press on mobile
     map.on('touchstart', (e) => {
       if (e.points.length === 1) { // Ensure it's a single touch
@@ -581,14 +593,20 @@
     
         // Start the long press timer
         longPressTimeout = setTimeout(() => {
-          // Store the coordinates
-          activeCoordinates = { lng, lat };
+          // Only place the pole if the map was not dragged
+          if (!isDragging) {
+            // Store the coordinates
+            activeCoordinates = { lng, lat };
     
-          // Place the flagpole after 2.5 seconds
-          placeFlagpole(lng, lat);
+            // Place the flagpole after 1.6 seconds
+            placeFlagpole(lng, lat);
     
-          // Show the gmaps button
-          gmapsButton.style.display = 'block';
+            // Show the gmaps button
+            gmapsButton.style.display = 'block';
+            console.log('Flagpole placed on long press.');
+          } else {
+            console.log('Flagpole placement prevented due to dragging.');
+          }
         }, 1600); // Long press duration (1.6 seconds)
       }
     });
