@@ -574,28 +574,54 @@
       gmapsButton.style.display = 'block';
     });
     
-    // Handle long press on mobile
+    let longPressTimeout;
+    let isTouchMoving = false; // Flag to track if the touch is moving
+    let initialTouchPosition = null; // To store the starting touch position
+    
+    // Handle touch start
     map.on('touchstart', (e) => {
       if (e.points.length === 1) { // Ensure it's a single touch
-        const { lng, lat } = map.unproject([e.points[0].x, e.points[0].y]);
+        isTouchMoving = false; // Reset the flag
+        initialTouchPosition = { x: e.points[0].x, y: e.points[0].y }; // Store the initial position
     
         // Start the long press timer
         longPressTimeout = setTimeout(() => {
-          // Store the coordinates
-          activeCoordinates = { lng, lat };
+          // Only place the flagpole if the touch hasn't moved
+          if (!isTouchMoving) {
+            const { lng, lat } = map.unproject([e.points[0].x, e.points[0].y]);
+            activeCoordinates = { lng, lat };
     
-          // Place the flagpole after 2.5 seconds
-          placeFlagpole(lng, lat);
+            // Place the flagpole
+            placeFlagpole(lng, lat);
     
-          // Show the gmaps button
-          gmapsButton.style.display = 'block';
+            // Show the GMaps button
+            gmapsButton.style.display = 'block';
+            console.log('Flagpole placed:', lng, lat);
+          } else {
+            console.log('Flagpole placement canceled due to touch movement.');
+          }
         }, 1200); // Long press duration (1.2 seconds)
       }
     });
     
-    // Cancel long press if touch ends early
+    // Handle touch move
+    map.on('touchmove', (e) => {
+      if (e.points.length === 1 && initialTouchPosition) { // Ensure it's a single touch
+        const { x, y } = e.points[0];
+        const dx = Math.abs(x - initialTouchPosition.x); // Calculate horizontal movement
+        const dy = Math.abs(y - initialTouchPosition.y); // Calculate vertical movement
+    
+        // If the touch has moved significantly, set the flag
+        if (dx > 10 || dy > 10) { // Adjust the threshold as needed
+          isTouchMoving = true;
+        }
+      }
+    });
+    
+    // Cancel long press on touch end
     map.on('touchend', () => {
-      clearTimeout(longPressTimeout);
+      clearTimeout(longPressTimeout); // Cancel the timer
+      initialTouchPosition = null; // Reset the initial position
     });
     
     // Add single left-click and quick tap handling to remove PNGs
