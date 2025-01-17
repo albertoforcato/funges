@@ -574,8 +574,9 @@
       gmapsButton.style.display = 'block';
     });
     
-    // Variable to track if the user is dragging the map
+    // Variable to track if the user is dragging the map or zooming
     let isDragging = false;
+    let isZooming = false;
     let isLongPressActive = false;
     
     // Listen for drag events on the map
@@ -595,6 +596,23 @@
       isDragging = false;
     });
     
+    // Listen for zoom events
+    map.on('zoomstart', () => {
+      isZooming = true;
+    
+      // Cancel any active long press during zoom
+      if (isLongPressActive) {
+        clearTimeout(longPressTimeout);
+        isLongPressActive = false; // Reset the long press state
+        console.log('Long press canceled due to zooming.');
+      }
+    });
+    
+    map.on('zoomend', () => {
+      // Reset zooming state after zooming stops
+      isZooming = false;
+    });
+    
     // Handle long press on mobile
     map.on('touchstart', (e) => {
       if (e.points.length === 1) { // Ensure it's a single touch
@@ -603,8 +621,8 @@
         // Start the long press timer
         isLongPressActive = true; // Mark the long press as active
         longPressTimeout = setTimeout(() => {
-          // Only place the pole if the map was not dragged
-          if (!isDragging) {
+          // Only place the pole if the map was not dragged or zoomed
+          if (!isDragging && !isZooming) {
             // Store the coordinates
             activeCoordinates = { lng, lat };
     
@@ -615,12 +633,13 @@
             gmapsButton.style.display = 'block';
             console.log('Flagpole placed on long press.');
           } else {
-            console.log('Flagpole placement prevented due to dragging.');
+            console.log('Flagpole placement prevented due to dragging or zooming.');
           }
           isLongPressActive = false; // Reset the long press state
         }, 1600); // Long press duration (1.6 seconds)
       }
     });
+
     
     // Cancel long press if touch ends early or dragging begins
     map.on('touchend', () => {
