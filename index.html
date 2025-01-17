@@ -286,14 +286,14 @@
         const numbersLayersVisible = localStorage.getItem('numbersLayersVisible') === 'true';
         if (numbersLayersVisible !== layersVisible) {
           toggleNumbersLayers(); // Update layers visibility to match the stored state
-          console.log(Numbers layers visibility restored: ${numbersLayersVisible});
+          console.log(`Numbers layers visibility restored: ${numbersLayersVisible}`);
         }
     
         // Restore dark layers visibility
         const darkLayersState = localStorage.getItem('darkLayersVisible') === 'true';
         if (darkLayersState !== darkLayersVisible) {
           toggleDarkLayers(); // Update layers visibility to match the stored state
-          console.log(Dark layers visibility restored: ${darkLayersState});
+          console.log(`Dark layers visibility restored: ${darkLayersState}`);
         }
     
         map.resize(); // Ensure the map resizes correctly
@@ -447,11 +447,11 @@
       });
     
       localStorage.setItem('numbersLayersVisible', layersVisible); // Save state
-      console.log(Layers are now ${layersVisible ? 'visible' : 'hidden'});
+      console.log(`Layers are now ${layersVisible ? 'visible' : 'hidden'}`);
     }
     
       // Provide feedback to the user
-      console.log(Layers are now ${layersVisible ? 'visible' : 'hidden'});
+      console.log(`Layers are now ${layersVisible ? 'visible' : 'hidden'}`);
 
     // Initialize visibility state for %dark layers
     let darkLayersVisible = false;
@@ -469,7 +469,7 @@
       });
     
       localStorage.setItem('darkLayersVisible', darkLayersVisible); // Save state
-      console.log(Dark layers are now ${darkLayersVisible ? 'visible' : 'hidden'});
+      console.log(`Dark layers are now ${darkLayersVisible ? 'visible' : 'hidden'}`);
     }
 
 
@@ -487,7 +487,7 @@
       // Set the display style based on the visibility state
       legend.style.display = legendVisible ? 'block' : 'none';
     
-      console.log(Legend is now ${legendVisible ? 'visible' : 'hidden'});
+      console.log(`Legend is now ${legendVisible ? 'visible' : 'hidden'}`);
     }
 
 
@@ -615,7 +615,7 @@
         const { lng, lat } = activeCoordinates;
     
         // Redirect to Google Maps
-        window.open(https://www.google.com/maps?q=${lat},${lng}, '_blank');
+        window.open(`https://www.google.com/maps?q=${lat},${lng}`, '_blank');
       }
     });
 
