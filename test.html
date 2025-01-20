@@ -238,6 +238,15 @@
     </div>
   </div>
 
+  <!-- Region Container-->
+  <div id="region-dropdown-container">
+    <button id="region-button">Region</button>
+    <div id="region-options">
+      <div class="region-option" onclick="selectRegion('Western Europe')">Western Europe</div>
+      <div class="region-option" onclick="selectRegion('Eastern Europe')">Eastern Europe</div>
+    </div>
+  </div>
+
   <!-- Footer -->
   <div id="footer">
     <a href="impressum.html">Impressum</a>
@@ -269,6 +278,7 @@
 
   <!-- Mapbox JS -->
   <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
+  
   <script>
     // Mapbox Access Token
     mapboxgl.accessToken = 'pk.eyJ1IjoibG9kaXN0IiwiYSI6ImNtM3g3dTVuaTE2dW8yaXM1eDE1dXVmZG4ifQ.xrGoky5Mzc6gwO5z8n6CoQ';
@@ -352,8 +362,6 @@
         console.error('Failed to load map state:', error);
       }
     });
-
-
     
     // Save the map state before the user leaves the page
     window.addEventListener('beforeunload', () => {
@@ -456,8 +464,6 @@
         map.flyTo({ center: coordinates, zoom: 8, speed: 2 });
     }
 
-
-    
     // Function to ensure pin is added and map is focused on location
     function ensurePinAndFocus(coordinates) {
       if (userMarker) {
@@ -523,8 +529,6 @@
       console.log(`Dark layers are now ${darkLayersVisible ? 'visible' : 'hidden'}`);
     }
 
-
-    // Function to toggle the legend visibility
     // Initialize visibility state for the legend
     let legendVisible = false;
     
@@ -542,20 +546,12 @@
     }
 
 
-
-
-
-
-        
     // Marker for the flagpole
     let flagpoleMarker = null;
-    
     // Store the coordinates for the right-click or long press
     let activeCoordinates = null;
-    
     // Timer for tracking long press duration
     let longPressTimeout;
-    
     // Function to create and return a flagpole marker
     function createFlagpoleMarker(lng, lat) {
       const flagpoleIcon = document.createElement('img');
@@ -602,8 +598,6 @@
       console.log('Flagpole state cleared.');
     }
 
-
-    
     // Select the gmaps button
     const gmapsButton = document.querySelector('.button img[alt="Google Maps Button"]').parentElement;
 
@@ -720,17 +714,8 @@
       }
     });
 
-  </script>
+    
   
-  <div id="region-dropdown-container">
-    <button id="region-button">Region</button>
-    <div id="region-options">
-      <div class="region-option" onclick="selectRegion('Western Europe')">Western Europe</div>
-      <div class="region-option" onclick="selectRegion('Eastern Europe')">Eastern Europe</div>
-    </div>
-  </div>
-  
-  <script>
     // Toggle dropdown visibility
     const regionButton = document.getElementById('region-button');
     const regionDropdown = document.getElementById('region-dropdown-container');
@@ -738,14 +723,6 @@
     regionButton.addEventListener('click', () => {
       regionDropdown.classList.toggle('active');
     });
-  
-    // Function to handle region selection
-    function selectRegion(region) {
-      alert(`Selected region: ${region}`);
-      // Hide dropdown after selection
-      regionDropdown.classList.remove('active');
-    } 
-    <script>
 
   // Function to toggle between regions
   function selectRegion(region) {
@@ -797,6 +774,7 @@
   
     alert(`Region switched to: ${region}`);
   }
+  </script>  
   
 </body>
 </html>
