@@ -726,51 +726,31 @@
 
   // Function to toggle between regions
   function selectRegion(region) {
-    const westernLayers = [
-      'lodist.mushroom_WE_1',
-      'lodist.mushroom_WE_2',
-      'lodist.mushroom_WE_3',
-      'lodist.mushroom_WE_4',
-      'lodist.mushroom_WE_5',
-      'lodist.mushroom_WE_6',
-      'lodist.mushroom_WE_7',
-      'lodist.mushroom_WE_8',
-      'lodist.mushroom_WE_9',
-      'lodist.mushroom_WE_10',
-      'lodist.mushroom_WE_11',
-    ];
-    
-    const easternLayers = [
-      'lodist.mushroom_ES_PT_1',
-      'lodist.mushroom_ES_PT_2',
-      'lodist.mushroom_ES_PT_3',
-
-    ];
-    
-    // Show or hide layers based on selected region
-    if (region === 'Western Europe') {
-      westernLayers.forEach((layer) => {
-        if (map.getLayer(layer)) {
-          map.setLayoutProperty(layer, 'visibility', 'visible');
-        }
-      });
-      easternLayers.forEach((layer) => {
-        if (map.getLayer(layer)) {
-          map.setLayoutProperty(layer, 'visibility', 'none');
-        }
-      });
-    } else if (region === 'Eastern Europe') {
-      easternLayers.forEach((layer) => {
-        if (map.getLayer(layer)) {
-          map.setLayoutProperty(layer, 'visibility', 'visible');
-        }
-      });
-      westernLayers.forEach((layer) => {
-        if (map.getLayer(layer)) {
-          map.setLayoutProperty(layer, 'visibility', 'none');
-        }
-      });
-    }
+    // Define sources for Western Europe and Eastern Europe
+    const sources = {
+      'Western Europe': {
+        'mushroom_WE_11': 'lodist.mushroom_WE_11',
+        'mushroom_WE_10': 'lodist.mushroom_WE_10',
+        // Add other Western Europe layers here...
+      },
+      'Eastern Europe': {
+        'mushroom_WE_11': 'lodist.mushroom_ES_PT_1',
+        'mushroom_WE_10': 'lodist.mushroom_ES_PT_2',
+        // Add other Eastern Europe layers here...
+      },
+    };
+  
+    // Get the new source mapping for the selected region
+    const regionSources = sources[region];
+  
+    // Update each layer's source
+    Object.keys(regionSources).forEach(layerId => {
+      if (map.getLayer(layerId)) {
+        const newSource = regionSources[layerId];
+        map.getSource(layerId).setData(newSource); // Update the source
+        console.log(`Updated layer ${layerId} to source ${newSource}`);
+      }
+    });
   
     alert(`Region switched to: ${region}`);
   }
