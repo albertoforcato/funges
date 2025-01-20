@@ -20,6 +20,33 @@
       height: 100dvh; /* Use dynamic viewport height where supported */
       overflow: hidden; /* Disable scrolling */
     }
+
+    #region-dropdown-container {
+      position: fixed;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1100; /* Ensure it appears above other elements */
+      background-color: rgba(255, 252, 239, 0.95);
+      border-radius: 8px;
+      padding: 10px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      font-family: Arial, sans-serif;
+    }
+
+    #region-dropdown-container label {
+      font-size: 14px;
+      font-weight: bold;
+      margin-right: 10px;
+    }
+
+    #region-dropdown {
+      padding: 8px;
+      font-size: 14px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      outline: none;
+    }
     
     #map {
       height: calc(100dvh - 40px); /* Subtract the footer height from the viewport height */
@@ -670,5 +697,14 @@
     });
 
   </script>
+
+  <div id="region-dropdown-container">
+    <label for="region-dropdown">Region:</label>
+    <select id="region-dropdown">
+      <option value="western-europe">Western Europe</option>
+      <option value="eastern-europe">Eastern Europe</option>
+    </select>
+  </div>
+  
 </body>
 </html>
