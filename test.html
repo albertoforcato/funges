@@ -20,33 +20,57 @@
       height: 100dvh; /* Use dynamic viewport height where supported */
       overflow: hidden; /* Disable scrolling */
     }
-
-    #region-dropdown-container {
-      position: fixed;
-      top: 10px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 1100; /* Ensure it appears above other elements */
-      background-color: rgba(255, 252, 239, 0.95);
-      border-radius: 8px;
-      padding: 10px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-      font-family: Arial, sans-serif;
-    }
-
-    #region-dropdown-container label {
-      font-size: 14px;
-      font-weight: bold;
-      margin-right: 10px;
-    }
-
-    #region-dropdown {
-      padding: 8px;
-      font-size: 14px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-      outline: none;
-    }
+  
+  /* Dropdown container */
+  #region-dropdown-container {
+    position: fixed;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1100; /* Above other elements */
+  }
+  
+  /* Button styling */
+  #region-button {
+    background-color: rgba(255, 252, 239, 0.90); /* Matches the left bar color and opacity */
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Dropdown options container */
+  #region-options {
+    display: none; /* Hidden by default */
+    position: absolute;
+    top: 100%; /* Position it below the button */
+    left: 0;
+    background-color: rgba(255, 252, 239, 0.90); /* Matches the left bar */
+    border-radius: 8px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 10px 0;
+    width: 150px;
+  }
+  
+  /* Dropdown option */
+  .region-option {
+    padding: 10px 20px;
+    font-size: 14px;
+    cursor: pointer;
+    text-align: center;
+  }
+  
+  .region-option:hover {
+    background-color: rgba(200, 200, 200, 0.2); /* Subtle hover effect */
+  }
+  
+  /* Show dropdown on hover or click */
+  #region-dropdown-container.active #region-options {
+    display: block;
+  }
     
     #map {
       height: calc(100dvh - 40px); /* Subtract the footer height from the viewport height */
@@ -697,14 +721,31 @@
     });
 
   </script>
-
+  
   <div id="region-dropdown-container">
-    <label for="region-dropdown">Region:</label>
-    <select id="region-dropdown">
-      <option value="western-europe">Western Europe</option>
-      <option value="eastern-europe">Eastern Europe</option>
-    </select>
+    <button id="region-button">Region</button>
+    <div id="region-options">
+      <div class="region-option" onclick="selectRegion('Western Europe')">Western Europe</div>
+      <div class="region-option" onclick="selectRegion('Eastern Europe')">Eastern Europe</div>
+    </div>
   </div>
+  
+  <script>
+    // Toggle dropdown visibility
+    const regionButton = document.getElementById('region-button');
+    const regionDropdown = document.getElementById('region-dropdown-container');
+  
+    regionButton.addEventListener('click', () => {
+      regionDropdown.classList.toggle('active');
+    });
+  
+    // Function to handle region selection
+    function selectRegion(region) {
+      alert(`Selected region: ${region}`);
+      // Hide dropdown after selection
+      regionDropdown.classList.remove('active');
+    }
+  </script>
   
 </body>
 </html>
