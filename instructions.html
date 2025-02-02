@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Instructions</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, 0.9);
+      color: #fff;
+      overflow: hidden;
+    }
+    
+    #container {
+      background-color: rgba(255, 255, 255, 0.9);
+      padding: 20px;
+      border-radius: 8px;
+      position: relative;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+      overflow-y: auto;
+      max-height: 90%;
+      width: 90%;
+      max-width: 900px; /* Adjust width as needed */
+      margin: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    #close-button {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      width: 30px;
+      height: 30px;
+      background-color: rgba(0, 0, 0, 0.8);
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 18px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    iframe {
+      width: 100%;
+      height: 85vh;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="container">
+    <!-- Close Button -->
+    <button id="close-button" onclick="closeInstructions()">X</button>
+
+    <!-- Embedded PDF -->
+    <iframe src="Instructions_Funges.pdf"></iframe>
+  </div>
+
+  <script>
+    function closeInstructions() {
+      window.history.back(); // Go back to the previous page
+    }
+  </script>
+
+</body>
+</html>
