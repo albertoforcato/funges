@@ -174,8 +174,10 @@
     <div class="button" onclick="toggleNumbersLayers()">
       <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/numbers_1.png" alt="Numbers Button">
     </div>
-    <div class="button" onclick="openPDFPopup()">
-      <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/info_1.png" alt="Info Button">
+    <div class="button">
+      <a href="Instructions_Funges.pdf">
+        <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/info_1.png" alt="Info Button">
+      </a>
     </div>
     <!--
     <div class="button">
@@ -471,24 +473,6 @@
       localStorage.setItem('darkLayersVisible', darkLayersVisible); // Save state
       console.log(`Dark layers are now ${darkLayersVisible ? 'visible' : 'hidden'}`);
     }
-
-
-    // Function to toggle the instruction visibility in the PDF
-    let pdfWindow = null;
-    
-    function openPDFPopup() {
-      // Check if the window is already open
-      if (pdfWindow && !pdfWindow.closed) {
-        pdfWindow.focus(); // Bring the window to the front if it's already open
-      } else {
-        pdfWindow = window.open('Instructions_Funges.pdf', 'PDFInstructions', 'width=800,height=600,scrollbars=yes');
-      }
-    }
-
-
-
-
-
 
 
         
