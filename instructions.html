@@ -17,18 +17,16 @@
       color: #fff;
       overflow: hidden;
     }
-    
+
     #container {
       background-color: rgba(255, 255, 255, 0.9);
       padding: 20px;
       border-radius: 8px;
       position: relative;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-      overflow-y: auto;
       max-height: 90%;
       width: 90%;
-      max-width: 900px; /* Adjust width as needed */
-      margin: 20px;
+      max-width: 900px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -61,10 +59,7 @@
 <body>
 
   <div id="container">
-    <!-- Close Button -->
     <button id="close-button" onclick="closeInstructions()">X</button>
-
-    <!-- Embedded PDF -->
     <iframe src="Instructions_Funges.pdf"></iframe>
   </div>
 
