@@ -174,7 +174,7 @@
     <div class="button" onclick="toggleNumbersLayers()">
       <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/numbers_1.png" alt="Numbers Button">
     </div>
-    <div class="button" onclick="toggleLegend()">
+    <div class="button" onclick="openPDFPopup()">
       <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/info_1.png" alt="Info Button">
     </div>
     <!--
@@ -473,22 +473,18 @@
     }
 
 
-    // Function to toggle the legend visibility
-    // Initialize visibility state for the legend
-    let legendVisible = false;
+    // Function to toggle the instruction visibility in the PDF
+    let pdfWindow = null;
     
-    // Function to toggle the legend visibility
-    function toggleLegend() {
-      const legend = document.getElementById('legend');
-    
-      // Toggle the visibility state
-      legendVisible = !legendVisible;
-    
-      // Set the display style based on the visibility state
-      legend.style.display = legendVisible ? 'block' : 'none';
-    
-      console.log(`Legend is now ${legendVisible ? 'visible' : 'hidden'}`);
+    function openPDFPopup() {
+      // Check if the window is already open
+      if (pdfWindow && !pdfWindow.closed) {
+        pdfWindow.focus(); // Bring the window to the front if it's already open
+      } else {
+        pdfWindow = window.open('Instructions_Funges.pdf', 'PDFInstructions', 'width=800,height=600,scrollbars=yes');
+      }
     }
+
 
 
 
