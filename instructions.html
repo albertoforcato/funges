@@ -9,35 +9,28 @@
       margin: 0;
       padding: 0;
       font-family: Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      height: 100vh;
       background-color: rgba(0, 0, 0, 0.9);
       color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
       overflow: hidden;
     }
 
     #container {
-      background-color: rgba(255, 255, 255, 0.9);
-      padding: 20px;
-      border-radius: 8px;
       position: relative;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-      max-height: 90%;
-      width: 90%;
-      max-width: 900px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(255, 255, 255, 1);
     }
 
     #close-button {
       position: absolute;
       top: 15px;
       right: 15px;
-      width: 30px;
-      height: 30px;
+      width: 40px;
+      height: 40px;
       background-color: rgba(0, 0, 0, 0.8);
       color: #fff;
       border: none;
@@ -47,11 +40,12 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      z-index: 10;
     }
 
     iframe {
-      width: 100%;
-      height: 85vh;
+      width: 100vw; /* Full width */
+      height: 100vh; /* Full height */
       border: none;
     }
   </style>
@@ -65,7 +59,7 @@
 
   <script>
     function closeInstructions() {
-      window.history.back(); // Go back to the previous page
+      window.history.back();
     }
   </script>
 
