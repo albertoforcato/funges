@@ -83,20 +83,6 @@ async function loadModels() {
 
 loadModels();
 
-// ========== LOAD CLASS NAMES ==========
-let CLASS_NAMES = {};
-async function loadClassNames() {
-    try {
-        let response = await fetch("https://pub-92765923660e431daff3170fbef6471d.r2.dev/class_names.js");
-        CLASS_NAMES = await response.json();
-        console.log("✅ Class names loaded!");
-    } catch (error) {
-        console.error("❌ Failed to load class names:", error);
-        alert("❌ Failed to load class names.");
-    }
-}
-
-loadClassNames();
 
 // ========== IMAGE PREPROCESSING ==========
 function preprocessImage(image) {
@@ -110,6 +96,11 @@ function preprocessImage(image) {
 async function predict(image) {
     if (!modelsLoaded) {
         alert("⏳ Please wait... Models are still loading.");
+        return;
+    }
+
+    if (typeof CLASS_NAMES === 'undefined') {
+        alert("⏳ Please wait... Class names are still loading.");
         return;
     }
 
@@ -145,6 +136,7 @@ async function predict(image) {
     // Display results
     displayResults(sortedPredictions);
 }
+
 
 // ========== DISPLAY RESULTS ==========
 function displayResults(predictions) {
