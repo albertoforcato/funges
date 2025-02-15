@@ -179,6 +179,17 @@
         <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/info_1.png" alt="Info Button">
       </a>
     </div>
+    
+    <div id="upload-section">
+        <button onclick="openFileInput()">📸 Take Photo / Upload Image</button>
+        <input type="file" id="fileInput" accept="image/*" capture="environment" style="display: none;" onchange="handleImageUpload(event)">
+        <br><br>
+        <img id="uploadedImage" width="224" height="224" style="display: none;">
+        <br><br>
+        <button onclick="predict()">🔍 Predict</button>
+        <br><br>
+    </div>
+    <div id="result"></div>
 
     <!--
     <div class="button">
@@ -218,6 +229,8 @@
   <div id="loading-spinner" style="display: none;">
     <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/loading_1.gif" alt="Loading">
   </div>
+
+  <script src="class_names.js"></script>
   
   <!-- TensorFlow.js & TFLite -->
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
