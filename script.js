@@ -221,12 +221,39 @@ async function predict(image) {
 
 // ========== DISPLAY RESULTS ==========
 function displayResults(predictions) {
+    console.log("📢 Displaying results...");
+    console.log("📊 Sorted Predictions:", predictions);
+
     let resultDiv = document.getElementById('result');
-    resultDiv.innerHTML = "";
+
+    if (!resultDiv) {
+        console.error("❌ Error: Result div not found!");
+        return;
+    }
+
+    resultDiv.innerHTML = ""; // Clear previous results
+
+    if (predictions.length === 0) {
+        console.error("❌ No predictions to display!");
+        resultDiv.innerText = "❌ No predictions available!";
+        return;
+    }
+
     let classIndex = predictions[0][0];
     let prob = predictions[0][1].toFixed(2);
-    let className = CLASS_NAMES[classIndex] || `Unknown Class ${classIndex}`;
+
+    if (!CLASS_NAMES[classIndex]) {
+        console.error(`❌ Class ${classIndex} not found in CLASS_NAMES!`);
+        resultDiv.innerText = `❌ Unknown Class ${classIndex}`;
+        return;
+    }
+
+    let className = CLASS_NAMES[classIndex];
+
+    console.log(`🍄 Predicted: ${className} (Confidence: ${prob})`);
+
     let p = document.createElement("p");
     p.innerText = `🍄 ${className} (Confidence: ${prob})`;
     resultDiv.appendChild(p);
 }
+
