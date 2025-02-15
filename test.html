@@ -20,57 +20,6 @@
       height: 100dvh; /* Use dynamic viewport height where supported */
       overflow: hidden; /* Disable scrolling */
     }
-  
-  /* Dropdown container */
-  #region-dropdown-container {
-    position: fixed;
-    top: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 1100; /* Above other elements */
-  }
-  
-  /* Button styling */
-  #region-button {
-    background-color: rgba(255, 252, 239, 0.90); /* Matches the left bar color and opacity */
-    border: none;
-    border-radius: 8px;
-    padding: 10px 20px;
-    font-size: 18px;
-    font-weight: bold;
-    cursor: pointer;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Dropdown options container */
-  #region-options {
-    display: none; /* Hidden by default */
-    position: absolute;
-    top: 100%; /* Position it below the button */
-    left: 0;
-    background-color: rgba(255, 252, 239, 0.90); /* Matches the left bar */
-    border-radius: 8px;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
-    padding: 10px 0;
-    width: 150px;
-  }
-  
-  /* Dropdown option */
-  .region-option {
-    padding: 10px 20px;
-    font-size: 18px;
-    cursor: pointer;
-    text-align: center;
-  }
-  
-  .region-option:hover {
-    background-color: rgba(200, 200, 200, 0.2); /* Subtle hover effect */
-  }
-  
-  /* Show dropdown on hover or click */
-  #region-dropdown-container.active > #region-options {
-    display: block;
-  }
     
     #map {
       height: calc(100dvh - 40px); /* Subtract the footer height from the viewport height */
@@ -167,8 +116,8 @@
       height: auto;
     }
     .mapboxgl-ctrl-top-right {
-      top: 30px; /* Moves the controls 30px down from the top */
-      right: 12px; /* Keeps them 12px away from the right edge */
+      top: 70px; /* Moves the controls down from the top */
+      right: 9px; /* Keeps them px away from the right edge */
     }
 
     #legend {
@@ -225,9 +174,12 @@
     <div class="button" onclick="toggleNumbersLayers()">
       <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/numbers_1.png" alt="Numbers Button">
     </div>
-    <div class="button" onclick="toggleLegend()">
-      <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/info_1.png" alt="Info Button">
+    <div class="button">
+      <a href="instructions.html">
+        <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/info_1.png" alt="Info Button">
+      </a>
     </div>
+
     <!--
     <div class="button">
       <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/support_1.png" alt="Support Button">
@@ -235,15 +187,6 @@
     -->
     <div class="button">
       <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/gmaps_1.png" alt="Google Maps Button">
-    </div>
-  </div>
-
-  <!-- Region Container-->
-  <div id="region-dropdown-container">
-    <button id="region-button">Region</button>
-    <div id="region-options">
-      <div class="region-option" onclick="selectRegion('Western Europe')">Western Europe</div>
-      <div class="region-option" onclick="selectRegion('Eastern Europe')">Eastern Europe</div>
     </div>
   </div>
 
@@ -275,10 +218,13 @@
   <div id="loading-spinner" style="display: none;">
     <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/loading_1.gif" alt="Loading">
   </div>
-
+  
+  <!-- TensorFlow.js & TFLite -->
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-tflite"></script>
+    
   <!-- Mapbox JS -->
   <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
-  
   <script>
     // Mapbox Access Token
     mapboxgl.accessToken = 'pk.eyJ1IjoibG9kaXN0IiwiYSI6ImNtM3g3dTVuaTE2dW8yaXM1eDE1dXVmZG4ifQ.xrGoky5Mzc6gwO5z8n6CoQ';
@@ -291,7 +237,7 @@
         center: [7.3359, 47.7508], // Starting position [longitude, latitude]
         zoom: 4, // Starting zoom level
         maxZoom: 20, // Maximum zoom level
-        minZoom: 2, // Minimum zoom level
+        minZoom: 4, // Minimum zoom level
         collectResourceTiming: false, // Ensures telemetry and resource collection are disabled
         performanceMetricsCollection: false
       });
@@ -362,6 +308,8 @@
         console.error('Failed to load map state:', error);
       }
     });
+
+
     
     // Save the map state before the user leaves the page
     window.addEventListener('beforeunload', () => {
@@ -464,6 +412,8 @@
         map.flyTo({ center: coordinates, zoom: 8, speed: 2 });
     }
 
+
+    
     // Function to ensure pin is added and map is focused on location
     function ensurePinAndFocus(coordinates) {
       if (userMarker) {
@@ -529,29 +479,17 @@
       console.log(`Dark layers are now ${darkLayersVisible ? 'visible' : 'hidden'}`);
     }
 
-    // Initialize visibility state for the legend
-    let legendVisible = false;
-    
-    // Function to toggle the legend visibility
-    function toggleLegend() {
-      const legend = document.getElementById('legend');
-    
-      // Toggle the visibility state
-      legendVisible = !legendVisible;
-    
-      // Set the display style based on the visibility state
-      legend.style.display = legendVisible ? 'block' : 'none';
-    
-      console.log(`Legend is now ${legendVisible ? 'visible' : 'hidden'}`);
-    }
 
-
+        
     // Marker for the flagpole
     let flagpoleMarker = null;
+    
     // Store the coordinates for the right-click or long press
     let activeCoordinates = null;
+    
     // Timer for tracking long press duration
     let longPressTimeout;
+    
     // Function to create and return a flagpole marker
     function createFlagpoleMarker(lng, lat) {
       const flagpoleIcon = document.createElement('img');
@@ -598,6 +536,8 @@
       console.log('Flagpole state cleared.');
     }
 
+
+    
     // Select the gmaps button
     const gmapsButton = document.querySelector('.button img[alt="Google Maps Button"]').parentElement;
 
@@ -681,7 +621,7 @@
             console.log('Flagpole placement prevented due to dragging or zooming.');
           }
           isLongPressActive = false; // Reset the long press state
-        }, 1600); // Long press duration (1.6 seconds)
+        }, 1200); // Long press duration (1.2 seconds)
       }
     });
 
@@ -714,47 +654,6 @@
       }
     });
 
-    
-  
-    // Toggle dropdown visibility
-    const regionButton = document.getElementById('region-button');
-    const regionDropdown = document.getElementById('region-dropdown-container');
-  
-    regionButton.addEventListener('click', () => {
-      regionDropdown.classList.toggle('active');
-    });
-
-  // Function to toggle between regions
-  function selectRegion(region) {
-    // Define sources for Western Europe and Eastern Europe
-    const sources = {
-      'Western Europe': {
-        'mushroom_WE_11': 'lodist.mushroom_WE_11',
-        'mushroom_WE_10': 'lodist.mushroom_WE_10',
-        // Add other Western Europe layers here...
-      },
-      'Eastern Europe': {
-        'mushroom_WE_11': 'lodist.mushroom_ES_PT_1',
-        'mushroom_WE_10': 'lodist.mushroom_ES_PT_2',
-        // Add other Eastern Europe layers here...
-      },
-    };
-  
-    // Get the new source mapping for the selected region
-    const regionSources = sources[region];
-  
-    // Update each layer's source
-    Object.keys(regionSources).forEach(layerId => {
-      if (map.getLayer(layerId)) {
-        const newSource = regionSources[layerId];
-        map.getSource(layerId).setData(newSource); // Update the source
-        console.log(`Updated layer ${layerId} to source ${newSource}`);
-      }
-    });
-  
-    alert(`Region switched to: ${region}`);
-  }
-  </script>  
-  
+  </script>
 </body>
 </html>
