@@ -219,15 +219,24 @@
     <button id="picture-button" onclick="openImageMask()">📸 Picture</button>
     
     <!-- Image Upload Mask (Popup) -->
-    <!-- Image Upload Mask (Popup) -->
     <div id="image-mask">
         <div id="image-mask-content">
             <p>Drag an image here or use the camera</p>
-            <input type="file" id="fileInput" accept="image/*" capture="environment" onchange="handleImage(event)">
+    
+            <!-- Hidden File Input for Manual Upload -->
+            <input type="file" id="fileInput" accept="image/*" capture="environment" onchange="handleImage(event)" style="display: none;">
+    
+            <!-- Button to trigger File Selection -->
+            <button onclick="document.getElementById('fileInput').click()">📷 Select Image</button>
+    
+            <!-- Drop Zone -->
             <div id="drop-zone">Drop Image Here</div>
-            <div id="result" style="margin-top: 15px; font-size: 14px; font-weight: bold;"></div> <!-- ✅ ADD THIS -->
+    
+            <!-- Result Display -->
+            <div id="result" style="margin-top: 15px; font-size: 14px; font-weight: bold;"></div>
         </div>
     </div>
+
 
     <!--
     <div class="button">
