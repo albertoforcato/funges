@@ -60,10 +60,10 @@ function processImage(file) {
 let models = [];
 let modelsLoaded = false;
 const modelUrls = [
-    "https://lodist.github.io/tripped-map/mushroom_classification_model_0.tflite",
-    "https://lodist.github.io/tripped-map/mushroom_classification_model_1.tflite",
-    "https://lodist.github.io/tripped-map/mushroom_classification_model_2.tflite",
-    "https://lodist.github.io/tripped-map/mushroom_classification_model_3.tflite"
+    "https://pub-92765923660e431daff3170fbef6471d.r2.dev/mushroom_classification_model_0.tflite",
+    "https://pub-92765923660e431daff3170fbef6471d.r2.dev/mushroom_classification_model_1.tflite",
+    "https://pub-92765923660e431daff3170fbef6471d.r2.dev/mushroom_classification_model_2.tflite",
+    "https://pub-92765923660e431daff3170fbef6471d.r2.dev/mushroom_classification_model_3.tflite"
 ];
 
 // Load models on page load
@@ -87,7 +87,7 @@ loadModels();
 let CLASS_NAMES = {};
 async function loadClassNames() {
     try {
-        let response = await fetch("https://lodist.github.io/tripped-map/class_names.json");
+        let response = await fetch("https://pub-92765923660e431daff3170fbef6471d.r2.dev/class_names.js");
         CLASS_NAMES = await response.json();
         console.log("✅ Class names loaded!");
     } catch (error) {
