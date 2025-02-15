@@ -133,35 +133,70 @@ function preprocessImage(image) {
 
 // ========== PREDICTION ==========
 async function predict(image) {
+    console.log("🚀 Starting prediction...");
+
     if (!modelsLoaded) {
+        console.error("❌ Models are NOT loaded.");
         alert("⏳ Please wait... Models are still loading.");
         return;
     }
+    
     if (Object.keys(CLASS_NAMES).length === 0) {
+        console.error("❌ Class names are NOT loaded.");
         alert("⏳ Please wait... Class names are still loading.");
         return;
     }
-    let tensor = preprocessImage(image);
-    let allPredictions = [];
-    for (let model of models) {
-        let outputTensor = await model.predict(tensor);
-        let predictions = await outputTensor.data();
-        allPredictions.push(predictions);
-    }
-    let combinedPredictions = {};
-    let totalScores = 0;
-    allPredictions.forEach((predictions) => {
-        predictions.forEach((prob, classIndex) => {
-            combinedPredictions[classIndex] = (combinedPredictions[classIndex] || 0) + prob;
-            totalScores += prob;
+
+    console.log("✅ Models & Class Names Loaded!");
+
+    try {
+        console.log("🖼 Preprocessing image...");
+        let tensor = preprocessImage(image);
+        console.log("📊 Image converted to tensor:", tensor);
+
+        let allPredictions = [];
+
+        for (let model of models) {
+            console.log(`🔍 Running inference on model: ${model}`);
+
+            let outputTensor = await model.predict(tensor);
+            console.log("📤 Raw model output:", outputTensor);
+
+            let predictions = await outputTensor.data();
+            console.log("📈 Model predictions:", predictions);
+
+            allPredictions.push(predictions);
+        }
+
+        console.log("📊 Combining predictions...");
+
+        let combinedPredictions = {};
+        let totalScores = 0;
+
+        allPredictions.forEach((predictions) => {
+            predictions.forEach((prob, classIndex) => {
+                combinedPredictions[classIndex] = (combinedPredictions[classIndex] || 0) + prob;
+                totalScores += prob;
+            });
         });
-    });
-    Object.keys(combinedPredictions).forEach((key) => {
-        combinedPredictions[key] /= totalScores;
-    });
-    let sortedPredictions = Object.entries(combinedPredictions).sort((a, b) => b[1] - a[1]);
-    displayResults(sortedPredictions);
+
+        console.log("📏 Normalizing predictions...");
+        Object.keys(combinedPredictions).forEach((key) => {
+            combinedPredictions[key] /= totalScores;
+        });
+
+        let sortedPredictions = Object.entries(combinedPredictions).sort((a, b) => b[1] - a[1]);
+
+        console.log("📊 Final sorted predictions:", sortedPredictions);
+
+        displayResults(sortedPredictions);
+
+    } catch (error) {
+        console.error("❌ Prediction Error:", error);
+        alert("❌ Something went wrong during prediction.");
+    }
 }
+
 
 // ========== DISPLAY RESULTS ==========
 function displayResults(predictions) {
