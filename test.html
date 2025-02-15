@@ -219,17 +219,15 @@
     <button id="picture-button" onclick="openImageMask()">📸 Picture</button>
     
     <!-- Image Upload Mask (Popup) -->
+    <!-- Image Upload Mask (Popup) -->
     <div id="image-mask">
         <div id="image-mask-content">
             <p>Drag an image here or use the camera</p>
             <input type="file" id="fileInput" accept="image/*" capture="environment" onchange="handleImage(event)">
             <div id="drop-zone">Drop Image Here</div>
+            <div id="result" style="margin-top: 15px; font-size: 14px; font-weight: bold;"></div> <!-- ✅ ADD THIS -->
         </div>
     </div>
-    
-    <!-- Image Preview -->
-    <img id="uploadedImage" width="224" height="224" style="display: none;">
-
 
     <!--
     <div class="button">
@@ -270,12 +268,16 @@
     <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/loading_1.gif" alt="Loading">
   </div>
 
+  <!-- Class Names -->
   <script src="class_names.js"></script>
-  <script src="script.js"></script>
 
   <!-- TensorFlow.js & TFLite -->
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-tflite"></script>
+
+  <!-- Load script.js AFTER TensorFlow -->
+  <script src="script.js"></script>
+
     
   <!-- Mapbox JS -->
   <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
