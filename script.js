@@ -223,6 +223,7 @@ async function predict(image) {
 function displayResults(predictions) {
     console.log("📢 Displaying results...");
     console.log("📊 Sorted Predictions:", predictions);
+    console.log("📜 CLASS_NAMES object:", CLASS_NAMES);
 
     let resultDiv = document.getElementById('result');
 
@@ -233,7 +234,7 @@ function displayResults(predictions) {
 
     resultDiv.innerHTML = ""; // Clear previous results
 
-    if (predictions.length === 0) {
+    if (!Array.isArray(predictions) || predictions.length === 0) {
         console.error("❌ No predictions to display!");
         resultDiv.innerText = "❌ No predictions available!";
         return;
@@ -242,7 +243,9 @@ function displayResults(predictions) {
     let classIndex = predictions[0][0];
     let prob = predictions[0][1].toFixed(2);
 
-    if (!CLASS_NAMES[classIndex]) {
+    console.log("🔢 Predicted Class Index:", classIndex);
+
+    if (!CLASS_NAMES.hasOwnProperty(classIndex)) {
         console.error(`❌ Class ${classIndex} not found in CLASS_NAMES!`);
         resultDiv.innerText = `❌ Unknown Class ${classIndex}`;
         return;
@@ -250,10 +253,19 @@ function displayResults(predictions) {
 
     let className = CLASS_NAMES[classIndex];
 
+    // Handle list-based class names (pick first entry)
+    if (Array.isArray(className)) {
+        console.log("📜 Multiple class names found, selecting first:", className);
+        className = className[0]; // Take the first entry
+    } else if (typeof className !== "string") {
+        console.error("❌ Invalid class name format:", className);
+        resultDiv.innerText = `❌ Invalid Class Name ${classIndex}`;
+        return;
+    }
+
     console.log(`🍄 Predicted: ${className} (Confidence: ${prob})`);
 
     let p = document.createElement("p");
     p.innerText = `🍄 ${className} (Confidence: ${prob})`;
     resultDiv.appendChild(p);
 }
-
