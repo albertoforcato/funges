@@ -38,19 +38,13 @@ dropZone.addEventListener('drop', (event) => {
 // ========== PROCESS IMAGE ==========
 function processImage(file) {
     if (!file) return;
-
-    // Hide the mask after image selection
     document.getElementById('image-mask').style.display = 'none';
-
-    // Read the image but do NOT display it
     const reader = new FileReader();
     reader.onload = function (e) {
         let img = new Image();
         img.src = e.target.result;
-
-        // Wait until the image is loaded before running prediction
         img.onload = function () {
-            predict(img); // Pass the image directly to prediction
+            predict(img);
         };
     };
     reader.readAsDataURL(file);
@@ -66,25 +60,44 @@ const modelUrls = [
     "https://pub-92765923660e431daff3170fbef6471d.r2.dev/mushroom_classification_model_3.tflite"
 ];
 
-// Load models on page load
+async function ensureTFLiteLoaded() {
+    return new Promise((resolve, reject) => {
+        let checkInterval = setInterval(() => {
+            if (tflite && tflite.loadTFLiteModel) {
+                clearInterval(checkInterval);
+                resolve();
+            }
+        }, 200);
+        setTimeout(() => {
+            clearInterval(checkInterval);
+            reject("❌ TFLite failed to load in time.");
+        }, 5000);
+    });
+}
+
 async function loadModels() {
     console.log("📢 Starting model loading process...");
-
-    if (!window.tflite || !tflite.loadTFLiteModel) {
-        console.error("❌ TensorFlow Lite Web API is NOT loaded!");
-        alert("❌ TensorFlow Lite is not properly initialized. Check your script order.");
+    try {
+        await ensureTFLiteLoaded();
+    } catch (error) {
+        console.error(error);
+        alert(error);
         return;
     }
-
     try {
         for (let url of modelUrls) {
             console.log(`📥 Fetching model: ${url}`);
             let model = await tflite.loadTFLiteModel(url);
-            console.log(`✅ Model loaded successfully: ${url}`);
+            console.log(`✅ Model loaded: ${url}`, model);
+            if (!model || typeof model.predict !== "function") {
+                console.error(`❌ Model at ${url} is not valid.`);
+                alert(`❌ Model at ${url} failed to load.`);
+                return;
+            }
             models.push(model);
         }
         modelsLoaded = true;
-        console.log("✅ All models loaded!");
+        console.log("✅ All models loaded successfully!");
     } catch (error) {
         console.error("❌ Error loading models:", error);
         alert("❌ Failed to load models. Check CORS, network, and file integrity.");
@@ -93,15 +106,12 @@ async function loadModels() {
 
 loadModels();
 
-
-
-
 // ========== IMAGE PREPROCESSING ==========
 function preprocessImage(image) {
     return tf.browser.fromPixels(image)
-        .resizeNearestNeighbor([224, 224]) // Resize to match model input
+        .resizeNearestNeighbor([224, 224])
         .toFloat()
-        .expandDims(); // Add batch dimension
+        .expandDims();
 }
 
 // ========== PREDICTION ==========
@@ -110,55 +120,39 @@ async function predict(image) {
         alert("⏳ Please wait... Models are still loading.");
         return;
     }
-
-    if (typeof CLASS_NAMES === 'undefined') {
+    if (Object.keys(CLASS_NAMES).length === 0) {
         alert("⏳ Please wait... Class names are still loading.");
         return;
     }
-
     let tensor = preprocessImage(image);
-    
     let allPredictions = [];
-
     for (let model of models) {
         let outputTensor = await model.predict(tensor);
         let predictions = await outputTensor.data();
         allPredictions.push(predictions);
     }
-
-    // Combine predictions
     let combinedPredictions = {};
     let totalScores = 0;
-
     allPredictions.forEach((predictions) => {
         predictions.forEach((prob, classIndex) => {
             combinedPredictions[classIndex] = (combinedPredictions[classIndex] || 0) + prob;
             totalScores += prob;
         });
     });
-
-    // Normalize predictions
     Object.keys(combinedPredictions).forEach((key) => {
         combinedPredictions[key] /= totalScores;
     });
-
-    // Sort predictions
     let sortedPredictions = Object.entries(combinedPredictions).sort((a, b) => b[1] - a[1]);
-
-    // Display results
     displayResults(sortedPredictions);
 }
-
 
 // ========== DISPLAY RESULTS ==========
 function displayResults(predictions) {
     let resultDiv = document.getElementById('result');
     resultDiv.innerHTML = "";
-
     let classIndex = predictions[0][0];
     let prob = predictions[0][1].toFixed(2);
     let className = CLASS_NAMES[classIndex] || `Unknown Class ${classIndex}`;
-
     let p = document.createElement("p");
     p.innerText = `🍄 ${className} (Confidence: ${prob})`;
     resultDiv.appendChild(p);
