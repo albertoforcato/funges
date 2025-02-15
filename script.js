@@ -69,24 +69,38 @@ const modelUrls = [
 // Load models on page load
 async function loadModels() {
     if (!tflite || !tflite.loadTFLiteModel) {
-        console.error("❌ TensorFlow Lite Web API not available!");
+        console.error("❌ TensorFlow Lite Web API is not available!");
         alert("❌ TensorFlow Lite is not loaded properly.");
         return;
     }
 
+    console.log("📢 Starting model loading process...");
+
     try {
         for (let url of modelUrls) {
-            console.log(`📥 Loading model: ${url}`);
+            console.log(`📥 Fetching model: ${url}`);
+
+            // Measure load time
+            const startTime = performance.now();
+
             let model = await tflite.loadTFLiteModel(url);
+
+            const endTime = performance.now();
+            console.log(`✅ Model loaded: ${url} (Time: ${(endTime - startTime).toFixed(2)} ms)`);
+
             models.push(model);
         }
+
         modelsLoaded = true;
         console.log("✅ All models loaded successfully!");
     } catch (error) {
         console.error("❌ Error loading models:", error);
-        alert("❌ Failed to load models. Check CORS and file availability.");
+        alert("❌ Failed to load models. Check CORS, network, and file integrity.");
     }
 }
+
+loadModels();
+
 
 
 // ========== IMAGE PREPROCESSING ==========
