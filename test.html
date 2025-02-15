@@ -154,6 +154,41 @@
     .legend-color.red {
       background: #800020;
     }
+    
+    /* Image Upload Mask (Popup) */
+    #image-mask {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: none;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    #image-mask-content {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        text-align: center;
+        width: 80%;
+        max-width: 400px;
+    }
+    
+    #drop-zone {
+        width: 100%;
+        height: 150px;
+        border: 2px dashed #ccc;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 10px;
+        font-size: 16px;
+        color: #555;
+    }
+
   </style>
 </head>
 <body>
