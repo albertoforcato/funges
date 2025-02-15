@@ -68,20 +68,25 @@ const modelUrls = [
 
 // Load models on page load
 async function loadModels() {
+    if (!tflite || !tflite.loadTFLiteModel) {
+        console.error("❌ TensorFlow Lite Web API not available!");
+        alert("❌ TensorFlow Lite is not loaded properly.");
+        return;
+    }
+
     try {
         for (let url of modelUrls) {
+            console.log(`📥 Loading model: ${url}`);
             let model = await tflite.loadTFLiteModel(url);
             models.push(model);
         }
         modelsLoaded = true;
-        console.log("✅ All models loaded!");
+        console.log("✅ All models loaded successfully!");
     } catch (error) {
         console.error("❌ Error loading models:", error);
-        alert("❌ Failed to load models. Check your internet connection.");
+        alert("❌ Failed to load models. Check CORS and file availability.");
     }
 }
-
-loadModels();
 
 
 // ========== IMAGE PREPROCESSING ==========
