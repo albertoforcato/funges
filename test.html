@@ -179,17 +179,22 @@
         <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/info_1.png" alt="Info Button">
       </a>
     </div>
+        
+    <!-- Picture Button -->
+    <button id="picture-button" onclick="openImageMask()">📸 Picture</button>
     
-    <div id="upload-section">
-        <button onclick="openFileInput()">📸 Take Photo / Upload Image</button>
-        <input type="file" id="fileInput" accept="image/*" capture="environment" style="display: none;" onchange="handleImageUpload(event)">
-        <br><br>
-        <img id="uploadedImage" width="224" height="224" style="display: none;">
-        <br><br>
-        <button onclick="predict()">🔍 Predict</button>
-        <br><br>
+    <!-- Image Upload Mask (Popup) -->
+    <div id="image-mask">
+        <div id="image-mask-content">
+            <p>Drag an image here or use the camera</p>
+            <input type="file" id="fileInput" accept="image/*" capture="environment" onchange="handleImage(event)">
+            <div id="drop-zone">Drop Image Here</div>
+        </div>
     </div>
-    <div id="result"></div>
+    
+    <!-- Image Preview -->
+    <img id="uploadedImage" width="224" height="224" style="display: none;">
+
 
     <!--
     <div class="button">
