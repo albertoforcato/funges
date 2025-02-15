@@ -38,25 +38,27 @@ dropZone.addEventListener('drop', (event) => {
 // ========== PROCESS IMAGE ==========
 function processImage(file) {
     if (!file) return;
-    
-    // Hide mask
+
+    // Hide the mask after image selection
     document.getElementById('image-mask').style.display = 'none';
 
-    // Read and display image
+    // Read the image but do NOT display it
     const reader = new FileReader();
     reader.onload = function (e) {
-        const img = document.getElementById('uploadedImage');
+        let img = new Image();
         img.src = e.target.result;
-        img.style.display = 'block';
 
-        // Start prediction after the image loads
-        img.onload = () => predict();
+        // Wait until the image is loaded before running prediction
+        img.onload = function () {
+            predict(img); // Pass the image directly to prediction
+        };
     };
     reader.readAsDataURL(file);
 }
 
 // ========== MODEL LOADING ==========
 let models = [];
+let modelsLoaded = false;
 const modelUrls = [
     "https://lodist.github.io/tripped-map/mushroom_classification_model_0.tflite",
     "https://lodist.github.io/tripped-map/mushroom_classification_model_1.tflite",
@@ -66,37 +68,57 @@ const modelUrls = [
 
 // Load models on page load
 async function loadModels() {
-    for (let url of modelUrls) {
-        let model = await tflite.loadTFLiteModel(url);
-        models.push(model);
+    try {
+        for (let url of modelUrls) {
+            let model = await tflite.loadTFLiteModel(url);
+            models.push(model);
+        }
+        modelsLoaded = true;
+        console.log("✅ All models loaded!");
+    } catch (error) {
+        console.error("❌ Error loading models:", error);
+        alert("❌ Failed to load models. Check your internet connection.");
     }
-    console.log("✅ All models loaded!");
 }
 
 loadModels();
 
+// ========== LOAD CLASS NAMES ==========
+let CLASS_NAMES = {};
+async function loadClassNames() {
+    try {
+        let response = await fetch("https://lodist.github.io/tripped-map/class_names.json");
+        CLASS_NAMES = await response.json();
+        console.log("✅ Class names loaded!");
+    } catch (error) {
+        console.error("❌ Failed to load class names:", error);
+        alert("❌ Failed to load class names.");
+    }
+}
+
+loadClassNames();
+
 // ========== IMAGE PREPROCESSING ==========
 function preprocessImage(image) {
     return tf.browser.fromPixels(image)
-        .resizeNearestNeighbor([224, 224]) // Resize to model input size
+        .resizeNearestNeighbor([224, 224]) // Resize to match model input
         .toFloat()
         .expandDims(); // Add batch dimension
 }
 
 // ========== PREDICTION ==========
-async function predict() {
-    if (models.length === 0) {
-        alert("Models are still loading...");
+async function predict(image) {
+    if (!modelsLoaded) {
+        alert("⏳ Please wait... Models are still loading.");
         return;
     }
 
-    let image = document.getElementById('uploadedImage');
     let tensor = preprocessImage(image);
     
     let allPredictions = [];
 
     for (let model of models) {
-        let outputTensor = model.predict(tensor);
+        let outputTensor = await model.predict(tensor);
         let predictions = await outputTensor.data();
         allPredictions.push(predictions);
     }
