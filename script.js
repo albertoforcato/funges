@@ -1,3 +1,20 @@
+// ✅ Set the WASM path before using TFLite
+tflite.setWasmPath("https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-tflite/dist/");
+
+console.log("Checking TFLite WASM Features:", tflite.getWasmFeatures());
+
+// ✅ Ensure TFLite WASM is initialized before loading models
+(async function() {
+    console.log("Loading TFLite model...");
+    try {
+        let model = await tflite.loadTFLiteModel("https://pub-92765923660e431daff3170fbef6471d.r2.dev/mushroom_classification_model_0.tflite");
+        console.log("✅ Model loaded successfully!", model);
+    } catch (error) {
+        console.error("❌ Error loading model:", error);
+    }
+})();
+
+
 // ========== OPEN IMAGE MASK ==========
 function openImageMask() {
     document.getElementById('image-mask').style.display = 'flex';
