@@ -48,11 +48,11 @@ function processImage(file) {
         const img = document.getElementById('uploadedImage');
         img.src = e.target.result;
         img.style.display = 'block';
+
+        // Start prediction after the image loads
+        img.onload = () => predict();
     };
     reader.readAsDataURL(file);
-
-    // Start prediction
-    predict();
 }
 
 // ========== MODEL LOADING ==========
@@ -74,6 +74,14 @@ async function loadModels() {
 }
 
 loadModels();
+
+// ========== IMAGE PREPROCESSING ==========
+function preprocessImage(image) {
+    return tf.browser.fromPixels(image)
+        .resizeNearestNeighbor([224, 224]) // Resize to model input size
+        .toFloat()
+        .expandDims(); // Add batch dimension
+}
 
 // ========== PREDICTION ==========
 async function predict() {
