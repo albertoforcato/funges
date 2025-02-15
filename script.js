@@ -54,18 +54,39 @@ dropZone.addEventListener('drop', (event) => {
 
 // ========== PROCESS IMAGE ==========
 function processImage(file) {
-    if (!file) return;
+    if (!file) {
+        console.error("❌ No file selected.");
+        return;
+    }
+
+    console.log("📂 File selected:", file.name);
     document.getElementById('image-mask').style.display = 'none';
+
     const reader = new FileReader();
+    
     reader.onload = function (e) {
+        console.log("📸 Image loaded into memory!");
+
         let img = new Image();
         img.src = e.target.result;
+
         img.onload = function () {
+            console.log("✅ Image fully loaded:", img);
             predict(img);
         };
+
+        img.onerror = function () {
+            console.error("❌ Error loading image!");
+        };
     };
+
+    reader.onerror = function () {
+        console.error("❌ FileReader failed to read the file!");
+    };
+
     reader.readAsDataURL(file);
 }
+
 
 // ========== MODEL LOADING ==========
 let models = [];
@@ -140,7 +161,7 @@ async function predict(image) {
         alert("⏳ Please wait... Models are still loading.");
         return;
     }
-    
+
     if (Object.keys(CLASS_NAMES).length === 0) {
         console.error("❌ Class names are NOT loaded.");
         alert("⏳ Please wait... Class names are still loading.");
@@ -148,22 +169,22 @@ async function predict(image) {
     }
 
     console.log("✅ Models & Class Names Loaded!");
-
+    
     try {
         console.log("🖼 Preprocessing image...");
         let tensor = preprocessImage(image);
-        console.log("📊 Image converted to tensor:", tensor);
+        console.log("📊 Tensor shape:", tensor.shape);
 
         let allPredictions = [];
 
-        for (let model of models) {
-            console.log(`🔍 Running inference on model: ${model}`);
+        for (let i = 0; i < models.length; i++) {
+            console.log(`🔍 Running inference on model ${i + 1}...`);
 
-            let outputTensor = await model.predict(tensor);
-            console.log("📤 Raw model output:", outputTensor);
+            let outputTensor = await models[i].predict(tensor);
+            console.log(`📤 Model ${i + 1} output:`, outputTensor);
 
             let predictions = await outputTensor.data();
-            console.log("📈 Model predictions:", predictions);
+            console.log(`📈 Model ${i + 1} predictions:`, predictions);
 
             allPredictions.push(predictions);
         }
