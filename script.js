@@ -235,43 +235,32 @@ function displayResults(predictions) {
         return;
     }
 
-    // ✅ Extract class index and model index correctly
-    let topPrediction = predictions[0];
-    
-    if (!Array.isArray(topPrediction) || topPrediction.length < 3) {
-        console.error("❌ ERROR: Invalid prediction format!", topPrediction);
-        predictionText.innerText = "❌ Prediction format error!";
-        return;
-    }
-    
-    let classIndex = parseInt(topPrediction[0]);  
-    let modelIndex = parseInt(topPrediction[2]);  
-    
-    console.log(`📌 Model Index: ${modelIndex}, Class Index: ${classIndex}`);
+    // ✅ Ensure at least 3 predictions exist
+    let topPredictions = predictions.slice(0, 3);
+    let resultText = "🍄 **Top Predictions:**\n";
 
+    topPredictions.forEach((pred, rank) => {
+        let classIndex = parseInt(pred[0]);
+        let modelIndex = parseInt(pred[2]);
+        let probability = (pred[1] * 100).toFixed(2); // Convert to %
 
-    console.log(`📌 Model Index: ${modelIndex}, Class Index: ${classIndex}`);
+        // ✅ Check if model and class exist
+        if (!CLASS_NAMES[modelIndex] || !CLASS_NAMES[modelIndex][classIndex]) {
+            console.error(`❌ ERROR: CLASS_NAMES[${modelIndex}][${classIndex}] does not exist!`);
+            resultText += `${rank + 1}. ❌ Unknown Class (${classIndex})\n`;
+            return;
+        }
 
-    // ✅ Check if the modelIndex is valid
-    if (!CLASS_NAMES[modelIndex]) {
-        console.error(`❌ ERROR: CLASS_NAMES[${modelIndex}] does not exist!`);
-        predictionText.innerText = `❌ Unknown Model ${modelIndex}`;
-        return;
-    }
+        let className = CLASS_NAMES[modelIndex][classIndex];
+        resultText += `${rank + 1}. ${className} (${probability}%)\n`;
 
-    // ✅ Check if the classIndex is valid
-    if (!CLASS_NAMES[modelIndex][classIndex]) {
-        console.error(`❌ ERROR: CLASS_NAMES[${modelIndex}][${classIndex}] does not exist!`);
-        predictionText.innerText = `❌ Unknown Class ${classIndex}`;
-        return;
-    }
+        console.log(`📌 Rank ${rank + 1}: ${className} (${probability}%)`);
+    });
 
-    let className = CLASS_NAMES[modelIndex][classIndex];  
-    let prob = topPrediction[1].toFixed(2);
+    console.log("📢 Final Prediction Output:\n" + resultText);
 
-    console.log(`🍄 Predicted: ${className} (Confidence: ${prob})`);
-
-    predictionText.innerText = `🍄 ${className} (Confidence: ${prob})`;
+    // ✅ Display ranked predictions in UI
+    predictionText.innerText = resultText;
 
     // Hide the box after 5 seconds
     setTimeout(() => {
