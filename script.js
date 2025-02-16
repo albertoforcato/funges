@@ -189,8 +189,12 @@ async function predict(image) {
 
             // ✅ Store predictions with their model index
             predictions.forEach((prob, classIndex) => {
-                allPredictions.push([classIndex, prob, i]); // 🔥 Includes model index
+                allPredictions.push([classIndex, prob, i]); 
             });
+            
+            // ✅ Ensure all predictions include the model index
+            console.log("📊 Raw predictions with model indices:", allPredictions);
+
         }
 
         console.log("📊 Combining predictions...");
@@ -232,9 +236,19 @@ function displayResults(predictions) {
     }
 
     // ✅ Extract class index and model index correctly
-    let topPrediction = predictions[0];  
+    let topPrediction = predictions[0];
+    
+    if (!Array.isArray(topPrediction) || topPrediction.length < 3) {
+        console.error("❌ ERROR: Invalid prediction format!", topPrediction);
+        predictionText.innerText = "❌ Prediction format error!";
+        return;
+    }
+    
     let classIndex = parseInt(topPrediction[0]);  
     let modelIndex = parseInt(topPrediction[2]);  
+    
+    console.log(`📌 Model Index: ${modelIndex}, Class Index: ${classIndex}`);
+
 
     console.log(`📌 Model Index: ${modelIndex}, Class Index: ${classIndex}`);
 
