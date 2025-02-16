@@ -272,3 +272,11 @@ function displayResults(predictions) {
     }
 }
 
+// Close prediction box when clicking outside
+document.addEventListener('click', function (event) {
+    let predictionBox = document.getElementById('prediction-box');
+    
+    if (predictionBox && predictionBox.style.display === "block" && !predictionBox.contains(event.target)) {
+        predictionBox.style.display = "none";
+    }
+});
