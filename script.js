@@ -269,3 +269,7 @@ function displayResults(predictions) {
     // ✅ Display ranked predictions in UI
     predictionText.innerHTML = resultText;
 }
+
+function closePredictionBox() {
+    document.getElementById('prediction-box').style.display = "none";
+}
