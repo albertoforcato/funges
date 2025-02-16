@@ -232,29 +232,24 @@
         <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/info_1.png" alt="Info Button">
       </a>
     </div>
-        
     <!-- Picture Button -->
-    <button id="picture-button" onclick="openImageMask()">📸 Picture</button>
-    
+    <div class="button" onclick="openImageMask()">
+        <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/id_mushroom.png" alt="Mushroom ID Button">
+    </div>
     <!-- Image Upload Mask (Popup) -->
     <div id="image-mask">
         <div id="image-mask-content">
             <p>Drag an image here or use the camera</p>
-    
             <!-- Hidden File Input for Manual Upload -->
             <input type="file" id="fileInput" accept="image/*" capture="environment" onchange="handleImage(event)" style="display: none;">
-    
             <!-- Button to trigger File Selection -->
             <button onclick="document.getElementById('fileInput').click()">📷 Select Image</button>
-    
             <!-- Drop Zone -->
             <div id="drop-zone">Drop Image Here</div>
-    
             <!-- Result Display -->
             <div id="result" style="margin-top: 15px; font-size: 14px; font-weight: bold;"></div>
         </div>
     </div>
-
 
     <!--
     <div class="button">
