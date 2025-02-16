@@ -256,7 +256,7 @@ function displayResults(predictions) {
 
             // ✅ Add prediction with DuckDuckGo search link
             resultHTML += `${rank + 1}. <strong>${className}</strong> (${probability}%)<br>`;
-            resultHTML += `<a href="${searchURL}" target="_blank" style="color: #007BFF; text-decoration: underline;">🔍 Search on DuckDuckGo</a><br><br>`;
+            resultHTML += `<a href="${searchURL}" target="_blank" style="color: #ff9900; text-decoration: underline;">🔍 Search on DuckDuckGo</a><br><br>`;
 
             console.log(`📌 Rank ${rank + 1}: ${className} (${probability}%)`);
         });
