@@ -224,31 +224,28 @@ function displayResults(predictions) {
     console.log("📢 Displaying results...");
     console.log("📊 Sorted Predictions:", predictions);
 
-    let resultDiv = document.getElementById('result');
+    let predictionBox = document.getElementById('prediction-box');
+    let predictionText = document.getElementById('prediction-text');
 
-    if (!resultDiv) {
-        console.error("❌ Error: Result div not found!");
+    if (!predictionBox || !predictionText) {
+        console.error("❌ Error: Prediction box elements not found!");
         return;
     }
 
-    resultDiv.innerHTML = ""; // Clear previous results
+    predictionBox.style.display = "block"; // Show the box
 
     if (predictions.length === 0) {
         console.error("❌ No predictions to display!");
-        resultDiv.innerText = "❌ No predictions available!";
+        predictionText.innerText = "❌ No predictions available!";
         return;
     }
 
     let classIndex = predictions[0][0];
     let prob = predictions[0][1].toFixed(2);
 
-    // 🔍 DEBUGGING LOGS
-    console.log("🔍 Checking CLASS_NAMES keys:", Object.keys(CLASS_NAMES));
-    console.log(`🔍 Trying to access CLASS_NAMES[${classIndex}] ->`, CLASS_NAMES[classIndex]);
-
     if (!CLASS_NAMES[classIndex]) {
         console.error(`❌ Class ${classIndex} not found in CLASS_NAMES!`);
-        resultDiv.innerText = `❌ Unknown Class ${classIndex}`;
+        predictionText.innerText = `❌ Unknown Class ${classIndex}`;
         return;
     }
 
@@ -256,8 +253,11 @@ function displayResults(predictions) {
 
     console.log(`🍄 Predicted: ${className} (Confidence: ${prob})`);
 
-    let p = document.createElement("p");
-    p.innerText = `🍄 ${className} (Confidence: ${prob})`;
-    resultDiv.appendChild(p);
+    predictionText.innerText = `🍄 ${className} (Confidence: ${prob})`;
+
+    // Hide the box after 5 seconds
+    setTimeout(() => {
+        predictionBox.style.display = "none";
+    }, 5000);
 }
 
