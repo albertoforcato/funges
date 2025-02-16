@@ -236,7 +236,7 @@ function displayResults(predictions) {
 
     // ✅ Ensure at least 3 predictions exist
     let topPredictions = predictions.slice(0, 3);
-    let resultHTML = "<strong>🍄 Top Predictions:</strong><br>";
+    let resultHTML = "<strong>🍄 Top Predictions:</strong><br><br>";
 
     try {
         topPredictions.forEach((pred, rank) => {
