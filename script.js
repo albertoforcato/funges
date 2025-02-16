@@ -241,17 +241,29 @@ function displayResults(predictions) {
         return;
     }
 
-    let modelIndex = predictions[0][2]; // ✅ Get model index from predictions
-    let classIndex = predictions[0][0]; // ✅ Get class index
+    // ✅ Fix: Extract the correct model and class index
+    let topPrediction = predictions[0];  // Highest confidence prediction
+    let classIndex = parseInt(topPrediction[0]);  // Class index (integer)
+    let modelIndex = parseInt(topPrediction[2]);  // Model index (integer)
 
-    if (!CLASS_NAMES[modelIndex] || !CLASS_NAMES[modelIndex][classIndex]) {
-        console.error(`❌ Class ${classIndex} not found for Model ${modelIndex} in CLASS_NAMES!`);
+    console.log(`📌 Model Index: ${modelIndex}, Class Index: ${classIndex}`);
+
+    // ✅ Fix: Ensure CLASS_NAMES[modelIndex] exists
+    if (!CLASS_NAMES[modelIndex]) {
+        console.error(`❌ ERROR: CLASS_NAMES[${modelIndex}] does not exist!`);
+        predictionText.innerText = `❌ Unknown Model ${modelIndex}`;
+        return;
+    }
+
+    // ✅ Fix: Ensure CLASS_NAMES[modelIndex][classIndex] exists
+    if (!CLASS_NAMES[modelIndex][classIndex]) {
+        console.error(`❌ ERROR: CLASS_NAMES[${modelIndex}][${classIndex}] does not exist!`);
         predictionText.innerText = `❌ Unknown Class ${classIndex}`;
         return;
     }
 
-    let className = CLASS_NAMES[modelIndex][classIndex]; // ✅ Correctly mapped class name
-    let prob = predictions[0][1].toFixed(2);
+    let className = CLASS_NAMES[modelIndex][classIndex];  // ✅ Correct class mapping
+    let prob = topPrediction[1].toFixed(2);
 
     console.log(`🍄 Predicted: ${className} (Confidence: ${prob})`);
 
