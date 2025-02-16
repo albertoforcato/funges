@@ -189,6 +189,24 @@
         color: #555;
     }
 
+    #prediction-box {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(255, 252, 239, 0.90); /* Same color as the halo */
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        font-size: 18px;
+        font-weight: bold;
+        display: none; /* Hidden by default */
+        z-index: 1000;
+        min-width: 300px;
+        max-width: 80%;
+    }
+
   </style>
 </head>
 <body>
@@ -275,6 +293,11 @@
     <!-- Loading Spinner -->
   <div id="loading-spinner" style="display: none;">
     <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/loading_1.gif" alt="Loading">
+  </div>
+  
+  <!-- Prediction Result Box -->
+  <div id="prediction-box">
+      <p id="prediction-text">Prediction will appear here</p>
   </div>
 
   <!-- Class Names -->
