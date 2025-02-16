@@ -154,6 +154,59 @@
     .legend-color.red {
       background: #800020;
     }
+    
+    /* Image Upload Mask (Popup) */
+    #image-mask {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: none;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    #image-mask-content {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        text-align: center;
+        width: 80%;
+        max-width: 400px;
+    }
+    
+    #drop-zone {
+        width: 100%;
+        height: 150px;
+        border: 2px dashed #ccc;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 10px;
+        font-size: 16px;
+        color: #555;
+    }
+
+    #prediction-box {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(255, 252, 239, 0.90); /* Same color as the halo */
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        font-size: 18px;
+        font-weight: bold;
+        display: none; /* Hidden by default */
+        z-index: 1000;
+        min-width: 300px;
+        max-width: 80%;
+    }
+
   </style>
 </head>
 <body>
@@ -164,6 +217,10 @@
   <div id="button-bar">
     <div class="logo">
       <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/logo_1.png" alt="Logo">
+    </div>
+    <!-- Picture Button -->
+    <div class="button" onclick="openImageMask()">
+        <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/id_mushroom.png" alt="Mushroom ID Button">
     </div>
     <div class="button" onclick="locateUser()">
       <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/location_1.png" alt="Locate Me Button">
@@ -178,6 +235,21 @@
       <a href="instructions.html">
         <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/info_1.png" alt="Info Button">
       </a>
+    </div>
+
+    <!-- Image Upload Mask (Popup) -->
+    <div id="image-mask">
+        <div id="image-mask-content">
+            <p>Drag an image here or use the camera</p>
+            <!-- Hidden File Input for Manual Upload -->
+            <input type="file" id="fileInput" accept="image/*" capture="environment" onchange="handleImage(event)" style="display: none;">
+            <!-- Button to trigger File Selection -->
+            <button onclick="document.getElementById('fileInput').click()" style="font-size: 24px;">📷</button>
+            <!-- Drop Zone -->
+            <div id="drop-zone">Drop Image Here</div>
+            <!-- Result Display -->
+            <div id="result" style="margin-top: 15px; font-size: 14px; font-weight: bold;"></div>
+        </div>
     </div>
 
     <!--
@@ -218,7 +290,23 @@
   <div id="loading-spinner" style="display: none;">
     <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/loading_1.gif" alt="Loading">
   </div>
+  
+  <!-- Prediction Result Box -->
+  <div id="prediction-box">
+      <p id="prediction-text">Prediction will appear here</p>
+  </div>
 
+  <!-- Class Names -->
+  <script src="https://pub-92765923660e431daff3170fbef6471d.r2.dev/class_names.js"></script>
+
+  <!-- TensorFlow.js & TFLite -->
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-tflite"></script>
+
+  <!-- Load script.js AFTER TensorFlow -->
+  <script src="script.js"></script>
+
+    
   <!-- Mapbox JS -->
   <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
   <script>
