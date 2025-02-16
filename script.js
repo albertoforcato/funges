@@ -221,7 +221,7 @@ function displayResults(predictions) {
 
     let predictionBox = document.getElementById('prediction-box');
     let predictionText = document.getElementById('prediction-text');
-
+    
     if (!predictionBox || !predictionText) {
         console.error("❌ Error: Prediction box elements not found!");
         return;
@@ -237,7 +237,7 @@ function displayResults(predictions) {
 
     // ✅ Ensure at least 3 predictions exist
     let topPredictions = predictions.slice(0, 3);
-    let resultText = "🍄 **Top Predictions:**\n";
+    let resultText = `<strong>🍄 Top Predictions:</strong><br><br>`;
 
     topPredictions.forEach((pred, rank) => {
         let classIndex = parseInt(pred[0]);
@@ -247,12 +247,19 @@ function displayResults(predictions) {
         // ✅ Check if model and class exist
         if (!CLASS_NAMES[modelIndex] || !CLASS_NAMES[modelIndex][classIndex]) {
             console.error(`❌ ERROR: CLASS_NAMES[${modelIndex}][${classIndex}] does not exist!`);
-            resultText += `${rank + 1}. ❌ Unknown Class (${classIndex})\n`;
+            resultText += `${rank + 1}. ❌ Unknown Class (${classIndex})<br>`;
             return;
         }
 
         let className = CLASS_NAMES[modelIndex][classIndex];
-        resultText += `${rank + 1}. ${className} (${probability}%)\n`;
+        let searchUrl = `https://duckduckgo.com/?q=${encodeURIComponent(className)}`;
+
+        resultText += `
+            <div style="margin-bottom: 10px;">
+                <span>${rank + 1}. <strong>${className}</strong> (${probability}%)</span><br>
+                <a href="${searchUrl}" target="_blank" style="color: #007BFF; text-decoration: none;">🔍 Search on DuckDuckGo</a>
+            </div>
+        `;
 
         console.log(`📌 Rank ${rank + 1}: ${className} (${probability}%)`);
     });
@@ -260,10 +267,5 @@ function displayResults(predictions) {
     console.log("📢 Final Prediction Output:\n" + resultText);
 
     // ✅ Display ranked predictions in UI
-    predictionText.innerText = resultText;
-
-    // Hide the box after 5 seconds
-    setTimeout(() => {
-        predictionBox.style.display = "none";
-    }, 5000);
+    predictionText.innerHTML = resultText;
 }
