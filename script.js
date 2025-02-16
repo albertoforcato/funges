@@ -213,6 +213,9 @@ async function predict(image) {
 }
 
 
+function closeImageMask() {
+    document.getElementById('image-mask').style.display = 'none';
+}
 
 // ========== DISPLAY RESULTS ==========
 function displayResults(predictions) {
