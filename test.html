@@ -206,6 +206,20 @@
         min-width: 300px;
         max-width: 80%;
     }
+    
+    #close-mask {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        background: none;
+        border: none;
+        font-size: 20px;
+        cursor: pointer;
+        color: black;
+    }
+    #close-mask:hover {
+        color: red;
+    }
 
   </style>
 </head>
@@ -239,6 +253,7 @@
     <!-- Image Upload Mask (Popup) -->
     <div id="image-mask">
         <div id="image-mask-content">
+            <button id="close-mask" onclick="closeImageMask()">❌</button>
             <p>Drag an image here or use the camera</p>
             <!-- Hidden File Input for Manual Upload -->
             <input type="file" id="fileInput" accept="image/*" capture="environment" onchange="handleImage(event)" style="display: none;">
