@@ -187,27 +187,16 @@ async function predict(image) {
             let predictions = await outputTensor.data();
             console.log(`📈 Model ${i + 1} predictions:`, predictions);
 
-            allPredictions.push(predictions);
+            // ✅ Store predictions with their model index
+            predictions.forEach((prob, classIndex) => {
+                allPredictions.push([classIndex, prob, i]); // 🔥 Includes model index
+            });
         }
 
         console.log("📊 Combining predictions...");
 
-        let combinedPredictions = {};
-        let totalScores = 0;
-
-        allPredictions.forEach((predictions) => {
-            predictions.forEach((prob, classIndex) => {
-                combinedPredictions[classIndex] = (combinedPredictions[classIndex] || 0) + prob;
-                totalScores += prob;
-            });
-        });
-
-        console.log("📏 Normalizing predictions...");
-        Object.keys(combinedPredictions).forEach((key) => {
-            combinedPredictions[key] /= totalScores;
-        });
-
-        let sortedPredictions = Object.entries(combinedPredictions).sort((a, b) => b[1] - a[1]);
+        // ✅ Sort predictions by probability
+        let sortedPredictions = allPredictions.sort((a, b) => b[1] - a[1]);
 
         console.log("📊 Final sorted predictions:", sortedPredictions);
 
@@ -218,6 +207,7 @@ async function predict(image) {
         alert("❌ Something went wrong during prediction.");
     }
 }
+
 
 
 // ========== DISPLAY RESULTS ==========
@@ -241,28 +231,28 @@ function displayResults(predictions) {
         return;
     }
 
-    // ✅ Fix: Extract the correct model and class index
-    let topPrediction = predictions[0];  // Highest confidence prediction
-    let classIndex = parseInt(topPrediction[0]);  // Class index (integer)
-    let modelIndex = parseInt(topPrediction[2]);  // Model index (integer)
+    // ✅ Extract class index and model index correctly
+    let topPrediction = predictions[0];  
+    let classIndex = parseInt(topPrediction[0]);  
+    let modelIndex = parseInt(topPrediction[2]);  
 
     console.log(`📌 Model Index: ${modelIndex}, Class Index: ${classIndex}`);
 
-    // ✅ Fix: Ensure CLASS_NAMES[modelIndex] exists
+    // ✅ Check if the modelIndex is valid
     if (!CLASS_NAMES[modelIndex]) {
         console.error(`❌ ERROR: CLASS_NAMES[${modelIndex}] does not exist!`);
         predictionText.innerText = `❌ Unknown Model ${modelIndex}`;
         return;
     }
 
-    // ✅ Fix: Ensure CLASS_NAMES[modelIndex][classIndex] exists
+    // ✅ Check if the classIndex is valid
     if (!CLASS_NAMES[modelIndex][classIndex]) {
         console.error(`❌ ERROR: CLASS_NAMES[${modelIndex}][${classIndex}] does not exist!`);
         predictionText.innerText = `❌ Unknown Class ${classIndex}`;
         return;
     }
 
-    let className = CLASS_NAMES[modelIndex][classIndex];  // ✅ Correct class mapping
+    let className = CLASS_NAMES[modelIndex][classIndex];  
     let prob = topPrediction[1].toFixed(2);
 
     console.log(`🍄 Predicted: ${className} (Confidence: ${prob})`);
