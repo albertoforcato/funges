@@ -18,6 +18,9 @@ console.log("Checking TFLite WASM Features:", tflite.getWasmFeatures());
 // ========== OPEN IMAGE MASK ==========
 function openImageMask() {
     document.getElementById('image-mask').style.display = 'flex';
+
+    // ✅ Reset file input field when opening the mask
+    document.getElementById('fileInput').value = "";
 }
 
 // Close mask if user clicks outside
@@ -29,9 +32,21 @@ document.getElementById('image-mask').addEventListener('click', function (event)
 
 // ========== HANDLE IMAGE UPLOAD ==========
 function handleImage(event) {
-    const file = event.target.files[0];
+    const fileInput = event.target;
+    
+    if (!fileInput.files || fileInput.files.length === 0) {
+        console.error("❌ No file selected.");
+        return;
+    }
+
+    const file = fileInput.files[0];
+
+    // ✅ Reset input field so same file can be selected again
+    fileInput.value = "";
+
     processImage(file);
 }
+
 
 // ========== HANDLE DRAG & DROP ==========
 const dropZone = document.getElementById('drop-zone');
