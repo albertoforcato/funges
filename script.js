@@ -246,24 +246,23 @@ function displayResults(predictions) {
         // ✅ Check if model and class exist
         if (!CLASS_NAMES[modelIndex] || !CLASS_NAMES[modelIndex][classIndex]) {
             console.error(`❌ ERROR: CLASS_NAMES[${modelIndex}][${classIndex}] does not exist!`);
-            resultHTML += `${rank + 1}. ❌ Unknown Class (${classIndex})<br>`;
+            resultText += `${rank + 1}. ❌ Unknown Class (${classIndex})\n`;
             return;
         }
 
         let className = CLASS_NAMES[modelIndex][classIndex];
-        let searchURL = `https://duckduckgo.com/?q=${encodeURIComponent(className)}`;
-
-        // ✅ Add prediction with DuckDuckGo search link
-        resultHTML += `${rank + 1}. <strong>${className}</strong> (${probability}%)<br>`;
-        resultHTML += `<a href="${searchURL}" target="_blank" style="color: #ff9900; text-decoration: underline;">🔍 Search on DuckDuckGo</a><br><br>`;
+        resultText += `${rank + 1}. ${className} (${probability}%)\n`;
 
         console.log(`📌 Rank ${rank + 1}: ${className} (${probability}%)`);
     });
 
-    console.log("📢 Final Prediction Output:\n" + resultHTML);
+    console.log("📢 Final Prediction Output:\n" + resultText);
 
-    // ✅ Display predictions in UI
-    predictionText.innerHTML = resultHTML; // Use `innerHTML` to allow links
+    // ✅ Display ranked predictions in UI
+    predictionText.innerText = resultText;
 
-    // Keep the box open until the user closes it
+    // Hide the box after 5 seconds
+    setTimeout(() => {
+        predictionBox.style.display = "none";
+    }, 5000);
 }
