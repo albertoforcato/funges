@@ -236,33 +236,39 @@ function displayResults(predictions) {
 
     // ✅ Ensure at least 3 predictions exist
     let topPredictions = predictions.slice(0, 3);
-    let resultText = "🍄 **Top Predictions:**\n";
+    let resultHTML = "<strong>🍄 Top Predictions:</strong><br>";
 
-    topPredictions.forEach((pred, rank) => {
-        let classIndex = parseInt(pred[0]);
-        let modelIndex = parseInt(pred[2]);
-        let probability = (pred[1] * 100).toFixed(2); // Convert to %
+    try {
+        topPredictions.forEach((pred, rank) => {
+            let classIndex = parseInt(pred[0]);
+            let modelIndex = parseInt(pred[2]);
+            let probability = (pred[1] * 100).toFixed(2); // Convert to %
 
-        // ✅ Check if model and class exist
-        if (!CLASS_NAMES[modelIndex] || !CLASS_NAMES[modelIndex][classIndex]) {
-            console.error(`❌ ERROR: CLASS_NAMES[${modelIndex}][${classIndex}] does not exist!`);
-            resultText += `${rank + 1}. ❌ Unknown Class (${classIndex})\n`;
-            return;
-        }
+            // ✅ Check if model and class exist
+            if (!CLASS_NAMES[modelIndex] || !CLASS_NAMES[modelIndex][classIndex]) {
+                console.error(`❌ ERROR: CLASS_NAMES[${modelIndex}][${classIndex}] does not exist!`, { modelIndex, classIndex });
+                resultHTML += `${rank + 1}. ❌ Unknown Class (${classIndex})<br>`;
+                return;
+            }
 
-        let className = CLASS_NAMES[modelIndex][classIndex];
-        resultText += `${rank + 1}. ${className} (${probability}%)\n`;
+            let className = CLASS_NAMES[modelIndex][classIndex];
+            let searchURL = `https://duckduckgo.com/?q=${encodeURIComponent(className)}`;
 
-        console.log(`📌 Rank ${rank + 1}: ${className} (${probability}%)`);
-    });
+            // ✅ Add prediction with DuckDuckGo search link
+            resultHTML += `${rank + 1}. <strong>${className}</strong> (${probability}%)<br>`;
+            resultHTML += `<a href="${searchURL}" target="_blank" style="color: #007BFF; text-decoration: underline;">🔍 Search on DuckDuckGo</a><br><br>`;
 
-    console.log("📢 Final Prediction Output:\n" + resultText);
+            console.log(`📌 Rank ${rank + 1}: ${className} (${probability}%)`);
+        });
 
-    // ✅ Display ranked predictions in UI
-    predictionText.innerText = resultText;
+        console.log("📢 Final Prediction Output:\n" + resultHTML);
 
-    // Hide the box after 5 seconds
-    setTimeout(() => {
-        predictionBox.style.display = "none";
-    }, 5000);
+        // ✅ Display predictions in UI
+        predictionText.innerHTML = resultHTML; // Use `innerHTML` to allow links
+
+    } catch (error) {
+        console.error("❌ ERROR in displayResults:", error);
+        predictionText.innerText = "❌ Error displaying predictions!";
+    }
 }
+
