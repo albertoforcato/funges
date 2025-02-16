@@ -149,6 +149,7 @@ function preprocessImage(image) {
     return tf.browser.fromPixels(image)
         .resizeNearestNeighbor([224, 224])
         .toFloat()
+        .div(tf.scalar(255.0)) 
         .expandDims();
 }
 
@@ -240,16 +241,17 @@ function displayResults(predictions) {
         return;
     }
 
-    let classIndex = predictions[0][0];
-    let prob = predictions[0][1].toFixed(2);
+    let modelIndex = predictions[0][2]; // ✅ Get model index from predictions
+    let classIndex = predictions[0][0]; // ✅ Get class index
 
-    if (!CLASS_NAMES[classIndex]) {
-        console.error(`❌ Class ${classIndex} not found in CLASS_NAMES!`);
+    if (!CLASS_NAMES[modelIndex] || !CLASS_NAMES[modelIndex][classIndex]) {
+        console.error(`❌ Class ${classIndex} not found for Model ${modelIndex} in CLASS_NAMES!`);
         predictionText.innerText = `❌ Unknown Class ${classIndex}`;
         return;
     }
 
-    let className = CLASS_NAMES[classIndex];
+    let className = CLASS_NAMES[modelIndex][classIndex]; // ✅ Correctly mapped class name
+    let prob = predictions[0][1].toFixed(2);
 
     console.log(`🍄 Predicted: ${className} (Confidence: ${prob})`);
 
@@ -260,4 +262,3 @@ function displayResults(predictions) {
         predictionBox.style.display = "none";
     }, 5000);
 }
-
