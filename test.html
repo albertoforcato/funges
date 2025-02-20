@@ -27,7 +27,7 @@
       position: fixed;
       top: 0;
       left: 0;
-      width: 100%; /* Cover full width */
+      width: 100%;
       height: 100vh;
       background: white;
       display: flex;
@@ -38,36 +38,40 @@
       z-index: 1000;
     }
     
-    /* Make logo larger */
+    /* Make the logo larger */
     #welcome-screen img {
-      width: 200px; /* Increase size */
-      margin-bottom: 30px; /* Increase spacing */
+      width: 200px; /* Increased size */
+      margin-bottom: 20px;
     }
     
-    /* Buttons smaller */
+    /* Adjust button grid to prevent large buttons */
     .button-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px; /* Reduce gap */
+      grid-template-columns: repeat(2, auto); /* Keeps buttons small */
+      gap: 8px;
       text-align: center;
     }
     
+    /* Ensure buttons are small */
     .welcome-button {
       display: flex;
       flex-direction: column;
       align-items: center;
       cursor: pointer;
+      padding: 5px; /* Reduce padding */
+      width: 70px; /* Set fixed width */
     }
     
     .welcome-button img {
-      width: 40px; /* Reduce button size */
+      width: 35px; /* Smaller image */
       height: auto;
     }
     
     .welcome-button p {
-      margin: 3px 0 0; /* Reduce spacing */
-      font-size: 12px; /* Smaller text */
+      margin: 2px 0 0;
+      font-size: 16px; /* Smaller text */
     }
+
 
 
     #scroll-indicator {
