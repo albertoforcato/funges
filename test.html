@@ -37,48 +37,53 @@
       justify-content: center;
       transition: opacity 0.8s ease-in-out;
       z-index: 1000;
-      padding: 20px;
+      padding: 10px;
       box-sizing: border-box;
     }
     
     /* Smaller Logo */
     #welcome-screen img {
-      width: 150px; /* Reduced logo size */
-      margin-bottom: 50px; /* More space under the logo */
+      width: 120px; /* Much smaller logo */
+      margin-bottom: 40px; /* Space below the logo */
     }
     
-    /* Button grid with more spacing */
-    .button-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 50px 120px; /* More space vertically (50px) and horizontally (120px) */
-      text-align: center;
-      width: 90%;
-      max-width: 400px; /* Increased to allow proper spacing */
+    /* Button container with better spacing */
+    .button-container {
+      display: flex;
+      flex-direction: column;
+      gap: 15px; /* Space between rows */
     }
     
-    /* Even smaller buttons */
+    /* Button row layout */
+    .button-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 40px; /* Space between buttons */
+    }
+    
+    /* Small buttons */
     .welcome-button {
       display: flex;
       flex-direction: column;
       align-items: center;
       cursor: pointer;
-      padding: 3px; /* Minimal padding */
-      max-width: 10px; /* Tiny buttons */
+      padding: 5px; /* Minimal padding */
+      width: 30px; /* Smaller button size */
     }
     
-    /* Tiny button icons */
+    /* Small button icons */
     .welcome-button img {
-      width: 12px; /* Much smaller icons */
+      width: 16px; /* Tiny icons */
       height: auto;
     }
     
     /* Button text (unchanged) */
     .welcome-button p {
-      font-size: 16px; /* Kept as per your request */
+      font-size: 16px;
       margin: 3px 0 0;
       text-align: center;
     }
+
 
 
 
