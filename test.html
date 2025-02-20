@@ -23,7 +23,6 @@
     }
 
     /* Welcome Screen */
-    /* Welcome Screen */
     #welcome-screen {
       position: fixed;
       top: 0;
@@ -41,39 +40,33 @@
       box-sizing: border-box;
     }
     
-    /* Smaller Logo */
+    /* Much Smaller Logo */
     #welcome-screen img {
-      width: 120px; /* Much smaller logo */
-      margin-bottom: 40px; /* Space below the logo */
+      width: 100px; /* Tiny logo */
+      margin-bottom: 30px; /* Space below the logo */
     }
     
-    /* Button container with better spacing */
-    .button-container {
-      display: flex;
-      flex-direction: column;
-      gap: 15px; /* Space between rows */
+    /* Perfectly spaced button grid */
+    .button-grid {
+      display: grid;
+      grid-template-columns: repeat(2, auto); /* Ensures two columns */
+      gap: 20px 60px; /* Vertical spacing (20px), horizontal spacing (60px) */
+      text-align: center;
     }
     
-    /* Button row layout */
-    .button-row {
-      display: flex;
-      justify-content: space-between;
-      gap: 40px; /* Space between buttons */
-    }
-    
-    /* Small buttons */
+    /* Super small buttons */
     .welcome-button {
       display: flex;
       flex-direction: column;
       align-items: center;
       cursor: pointer;
-      padding: 5px; /* Minimal padding */
-      width: 30px; /* Smaller button size */
+      padding: 2px; /* Minimal padding */
+      width: 15px; /* Small button */
     }
     
-    /* Small button icons */
+    /* Tiny button icons */
     .welcome-button img {
-      width: 16px; /* Tiny icons */
+      width: 12px; /* Very small icons */
       height: auto;
     }
     
