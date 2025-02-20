@@ -38,39 +38,41 @@
       z-index: 1000;
     }
     
-    /* Make the logo larger */
+    /* Logo più grande */
     #welcome-screen img {
-      width: 200px; /* Increased size */
-      margin-bottom: 20px;
+      width: 180px; /* Logo ingrandito */
+      margin-bottom: 30px;
     }
     
-    /* Adjust button grid to prevent large buttons */
+    /* Griglia dei pulsanti con più spazio */
     .button-grid {
       display: grid;
-      grid-template-columns: repeat(2, auto); /* Keeps buttons small */
-      gap: 8px;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px; /* Distanza tra i bottoni */
       text-align: center;
+      width: 80%; /* Mantiene proporzioni corrette */
+      max-width: 400px; /* Evita che si allarghi troppo */
     }
     
-    /* Ensure buttons are small */
+    /* Bottoni più piccoli */
     .welcome-button {
       display: flex;
       flex-direction: column;
       align-items: center;
       cursor: pointer;
-      padding: 5px; /* Reduce padding */
-      width: 70px; /* Set fixed width */
+      padding: 10px; /* Mantenere un buon spazio interno */
     }
     
     .welcome-button img {
-      width: 35px; /* Smaller image */
+      width: 45px; /* Immagine più piccola */
       height: auto;
     }
     
     .welcome-button p {
-      margin: 2px 0 0;
-      font-size: 16px; /* Smaller text */
+      margin: 5px 0 0;
+      font-size: 12px; /* Testo leggermente più piccolo */
     }
+
 
 
 
