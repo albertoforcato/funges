@@ -16,12 +16,17 @@
       margin: 0;
       padding: 0;
       font-family: Arial, sans-serif;
-      overflow-y: auto; /* ENABLE SCROLLING */
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
     }
-
 
     /* Welcome Screen */
     #welcome-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
       width: 100%;
       height: 100vh;
       background: white;
@@ -29,8 +34,9 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      transition: opacity 0.8s ease-in-out;
+      z-index: 1000;
     }
-
 
     #welcome-screen img {
       width: 120px;
@@ -278,26 +284,25 @@
   <div id="welcome-screen">
     <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/logo_1.png" alt="Logo">
     <div class="button-grid">
-      <div class="welcome-button">
+      <div class="welcome-button" onclick="closeWelcomeScreen()">
         <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/id_mushroom.png" alt="ID Mushroom">
         <p>Identify mushrooms</p>
       </div>
-      <div class="welcome-button">
+      <div class="welcome-button" onclick="closeWelcomeScreen()">
         <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/sunmoon_1.png" alt="Dark Mode">
         <p>Toggle map theme</p>
       </div>
-      <div class="welcome-button">
+      <div class="welcome-button" onclick="closeWelcomeScreen()">
         <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/numbers_1.png" alt="Numbers">
         <p>Show mushroom data</p>
       </div>
-      <div class="welcome-button">
+      <div class="welcome-button" onclick="closeWelcomeScreen()">
         <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/support_1.png" alt="Support">
         <p>Help us grow</p>
       </div>
     </div>
     <p id="scroll-indicator">↓ Scroll Down for Map</p>
   </div>
-
 
   <div id="map"></div>
 
@@ -401,6 +406,15 @@
   <script>
     // Mapbox Access Token
     mapboxgl.accessToken = 'pk.eyJ1IjoibG9kaXN0IiwiYSI6ImNtM3g3dTVuaTE2dW8yaXM1eDE1dXVmZG4ifQ.xrGoky5Mzc6gwO5z8n6CoQ';
+    
+    function closeWelcomeScreen() {
+    const welcomeScreen = document.getElementById('welcome-screen');
+    welcomeScreen.style.opacity = '0';
+    
+    setTimeout(() => {
+      welcomeScreen.style.display = 'none';
+    }, 800); // Dopo 0.8 secondi la nasconde
+  }
 
     // Function to initialize the Mapbox map
     function initializeMap() {
