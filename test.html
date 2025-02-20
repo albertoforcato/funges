@@ -19,16 +19,15 @@
       display: flex;
       flex-direction: column;
       height: 100vh;
-      overflow-y: auto;
-
+      overflow: hidden;
     }
 
     /* Welcome Screen */
     #welcome-screen {
-      position: relative;
+      position: fixed;
       top: 0;
       left: 0;
-      width: 100%;
+      width: 100%; /* Cover full width */
       height: 100vh;
       background: white;
       display: flex;
@@ -38,35 +37,38 @@
       transition: opacity 0.8s ease-in-out;
       z-index: 1000;
     }
-
+    
+    /* Make logo larger */
     #welcome-screen img {
-      width: 120px;
-      margin-bottom: 20px;
+      width: 200px; /* Increase size */
+      margin-bottom: 30px; /* Increase spacing */
     }
-
+    
+    /* Buttons smaller */
     .button-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 20px;
+      gap: 10px; /* Reduce gap */
       text-align: center;
     }
-
+    
     .welcome-button {
       display: flex;
       flex-direction: column;
       align-items: center;
       cursor: pointer;
     }
-
+    
     .welcome-button img {
-      width: 50px;
+      width: 40px; /* Reduce button size */
       height: auto;
     }
-
+    
     .welcome-button p {
-      margin: 5px 0 0;
-      font-size: 14px;
+      margin: 3px 0 0; /* Reduce spacing */
+      font-size: 12px; /* Smaller text */
     }
+
 
     #scroll-indicator {
       margin-top: 20px;
@@ -283,27 +285,28 @@
 
   <!-- Welcome Screen -->
   <div id="welcome-screen">
-    <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/logo_1.png" alt="Logo">
-    <div class="button-grid">
-      <div class="welcome-button" onclick="closeWelcomeScreen()">
-        <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/id_mushroom.png" alt="ID Mushroom">
-        <p>Identify mushrooms</p>
+      <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/logo_1.png" alt="Logo">
+      <div class="button-grid">
+        <div class="welcome-button">
+          <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/id_mushroom.png" alt="ID Mushroom">
+          <p>Identify mushrooms</p>
+        </div>
+        <div class="welcome-button">
+          <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/sunmoon_1.png" alt="Dark Mode">
+          <p>Toggle map theme</p>
+        </div>
+        <div class="welcome-button">
+          <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/numbers_1.png" alt="Numbers">
+          <p>Show mushroom data</p>
+        </div>
+        <div class="welcome-button">
+          <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/support_1.png" alt="Support">
+          <p>Help us grow</p>
+        </div>
       </div>
-      <div class="welcome-button" onclick="closeWelcomeScreen()">
-        <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/sunmoon_1.png" alt="Dark Mode">
-        <p>Toggle map theme</p>
-      </div>
-      <div class="welcome-button" onclick="closeWelcomeScreen()">
-        <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/numbers_1.png" alt="Numbers">
-        <p>Show mushroom data</p>
-      </div>
-      <div class="welcome-button" onclick="closeWelcomeScreen()">
-        <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/support_1.png" alt="Support">
-        <p>Help us grow</p>
-      </div>
-    </div>
-    <p id="scroll-indicator">↓ Scroll Down for Map</p>
+      <p id="scroll-indicator" onclick="closeWelcomeScreen()">↓ GO TO MAP</p>
   </div>
+
 
   <div id="map"></div>
 
@@ -452,13 +455,6 @@
       if (document.visibilityState === 'visible') {
         map.resize();
       }
-    });
-    
-    window.addEventListener('scroll', function() {
-        const mapSection = document.getElementById('map');
-        if (window.scrollY > 50) { // Adjusts when to auto-scroll
-            mapSection.scrollIntoView({ behavior: 'smooth' });
-        }
     });
     
     // Load saved map state when the page loads
