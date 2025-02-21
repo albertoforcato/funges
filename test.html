@@ -11,101 +11,14 @@
   <!-- Mapbox CSS -->
   <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet">
   <style>
-    
     body {
       margin: 0;
       padding: 0;
       font-family: Arial, sans-serif;
       display: flex;
       flex-direction: column;
-      height: 100vh;
-      overflow: hidden;
-    }
-
-    /* Welcome Screen */
-    #welcome-screen {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100vh;
-      background: white;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      transition: opacity 0.8s ease-in-out;
-      z-index: 1000;
-      padding: 10px;
-      box-sizing: border-box;
-    }
-    
-    /* Much Smaller Logo */
-    #welcome-screen img {
-      width: 80px; /* Tiny logo */
-      margin-bottom: 30px; /* Space below the logo */
-    }
-    
-    /* Perfectly spaced button grid */
-    .button-grid {
-      display: grid;
-      grid-template-columns: repeat(2, auto); /* Ensures two columns */
-      gap: 20px 350px; /* Vertical spacing (20px), horizontal spacing (60px) */
-      text-align: center;
-    }
-    
-    /* Super small buttons */
-    .welcome-button {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      cursor: pointer;
-      padding: 2px; /* Minimal padding */
-      width: 15px; /* Small button */
-    }
-    
-    /* Tiny button icons */
-    .welcome-button img {
-      width: 12px; /* Very small icons */
-      height: auto;
-    }
-    
-    /* Button text (unchanged) */
-    .welcome-button p {
-      font-size: 16px;
-      margin: 3px 0 0;
-      text-align: center;
-    }
-
-
-
-
-
-
-
-
-    #scroll-indicator {
-      margin-top: 20px;
-      font-size: 14px;
-      opacity: 0.6;
-    }
-
-    /* Loading Screen */
-    #loading-screen {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100vh;
-      background: white;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 999;
-    }
-
-    #loading-screen img {
-      width: 210px;
+      height: 100dvh; /* Use dynamic viewport height where supported */
+      overflow: hidden; /* Disable scrolling */
     }
     
     #map {
@@ -296,32 +209,7 @@
   </style>
 </head>
 <body>
-
-  <!-- Welcome Screen -->
-  <div id="welcome-screen">
-      <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/logo_funges.png" alt="Logo">
-      <div class="button-grid">
-        <div class="welcome-button">
-          <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/id_mushroom.png" alt="ID Mushroom">
-          <p>Identify mushrooms</p>
-        </div>
-        <div class="welcome-button">
-          <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/sunmoon_1.png" alt="Dark Mode">
-          <p>Toggle map theme</p>
-        </div>
-        <div class="welcome-button">
-          <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/numbers_1.png" alt="Numbers">
-          <p>Show mushroom data</p>
-        </div>
-        <div class="welcome-button">
-          <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/support_1.png" alt="Support">
-          <p>Help us grow</p>
-        </div>
-      </div>
-      <p id="scroll-indicator" onclick="closeWelcomeScreen()">↓ GO TO MAP</p>
-  </div>
-
-
+  
   <div id="map"></div>
 
   <!-- Button Bar -->
@@ -424,16 +312,7 @@
   <script>
     // Mapbox Access Token
     mapboxgl.accessToken = 'pk.eyJ1IjoibG9kaXN0IiwiYSI6ImNtM3g3dTVuaTE2dW8yaXM1eDE1dXVmZG4ifQ.xrGoky5Mzc6gwO5z8n6CoQ';
-    
-    function closeWelcomeScreen() {
-    const welcomeScreen = document.getElementById('welcome-screen');
-    welcomeScreen.style.opacity = '0';
-    
-    setTimeout(() => {
-      welcomeScreen.style.display = 'none';
-    }, 800); // Dopo 0.8 secondi la nasconde
-  }
-
+      
     // Function to initialize the Mapbox map
     function initializeMap() {
       const map = new mapboxgl.Map({
