@@ -603,11 +603,10 @@
         });
     
         if (darkLayersVisible) showLoadingSpinner(); // Show loading only when enabling layers
-    
+
         localStorage.setItem('darkLayersVisible', darkLayersVisible); // Save state
         console.log(`Dark layers are now ${darkLayersVisible ? 'visible' : 'hidden'}`);
-
-
+    } 
         
     // Marker for the flagpole
     let flagpoleMarker = null;
