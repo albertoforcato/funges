@@ -372,23 +372,23 @@
             map.on('error', function (e) {
                 console.error("⚠️ Mapbox failed, switching to OpenStreetMap.");
                 setTimeout(() => {
-                    map.remove(); // ✅ Completely remove Mapbox
+                    map.remove(); // ✅ Remove Mapbox
+                    document.getElementById("map").innerHTML = ""; // ✅ Clear container
                     fallbackToOSM(); // ✅ Properly switch to OSM
-                }, 500); // Short delay to prevent overlap issues
+                }, 1500); // Short delay to prevent overlap issues
             });
     
             console.log("✅ Mapbox initialized successfully.");
             return map;
         } catch (error) {
             console.error("⚠️ Mapbox initialization failed, switching to OpenStreetMap.");
+            document.getElementById("map").innerHTML = ""; // ✅ Clear container
             fallbackToOSM();
         }
     }
     
     // ✅ Function to switch to OpenStreetMap **only if Mapbox fails**
     function fallbackToOSM() {
-        document.getElementById("map").innerHTML = ""; // ✅ Clear the map container before switching
-    
         map = L.map("map", {
             center: [47.7508, 7.3359],
             zoom: 4,
@@ -405,6 +405,7 @@
     
     // ✅ Try to initialize Mapbox first, fallback to OSM only if it fails
     initializeMapbox();
+
 
 
     
