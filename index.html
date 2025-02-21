@@ -21,6 +21,35 @@
       overflow: hidden; /* Disable scrolling */
     }
     
+    /* Splash Screen */
+    #splash-screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 252, 239, 0.90); /* Same white halo color */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 2000; /* Ensure it stays on top */
+        animation: fadeOut 4s ease-out forwards;
+    }
+    
+    /* Make the splash screen logo smaller */
+    #splash-screen img {
+        width: 60vw; /* 60% of the viewport width */
+        max-width: 550px; /* Optional: prevent it from getting too big on large screens */
+        height: auto; /* Maintain aspect ratio */
+    }
+
+    
+    /* Fade out animation */
+    @keyframes fadeOut {
+        0% { opacity: 1; }
+        100% { opacity: 0; visibility: hidden; }
+    }
+
     #map {
       height: calc(100dvh - 40px); /* Subtract the footer height from the viewport height */
       position: relative;
@@ -211,7 +240,12 @@
 <body>
   
   <div id="map"></div>
-
+  
+  <!-- Splash Screen -->
+  <div id="splash-screen">
+      <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/logo_funges.png" alt="Logo">
+  </div>
+  
   <!-- Button Bar -->
   <div id="button-bar">
     <div class="logo">
@@ -522,48 +556,57 @@
     }
 
 
+
+    // Function to show and hide loading spinner
+    function showLoadingSpinner() {
+        const loadingElement = document.getElementById('loading-spinner');
+        loadingElement.style.display = 'flex'; // Show spinner
+        setTimeout(() => {
+            loadingElement.style.display = 'none'; // Hide after 2 seconds
+        }, 2000);
+    }  
+    
     // Initialize visibility state for layers
     let layersVisible = false;
     
     // Function to toggle numbers layers
     function toggleNumbersLayers() {
-      layersVisible = !layersVisible;
+        layersVisible = !layersVisible;
+        const layers = map.getStyle().layers;
     
-      const layers = map.getStyle().layers;
-      layers.forEach(layer => {
-        const layerId = layer.id;
-        if (layerId.startsWith('mushroom_') && layerId.endsWith(' numbers')) {
-          map.setLayoutProperty(layerId, 'visibility', layersVisible ? 'visible' : 'none');
-        }
-      });
+        layers.forEach(layer => {
+            const layerId = layer.id;
+            if (layerId.startsWith('mushroom_') && layerId.endsWith(' numbers')) {
+                map.setLayoutProperty(layerId, 'visibility', layersVisible ? 'visible' : 'none');
+            }
+        });
     
-      localStorage.setItem('numbersLayersVisible', layersVisible); // Save state
-      console.log(`Layers are now ${layersVisible ? 'visible' : 'hidden'}`);
+        if (layersVisible) showLoadingSpinner(); // Show loading only when enabling layers
+    
+        localStorage.setItem('numbersLayersVisible', layersVisible); // Save state
+        console.log(`Numbers layers are now ${layersVisible ? 'visible' : 'hidden'}`);
     }
-    
-      // Provide feedback to the user
-      console.log(`Layers are now ${layersVisible ? 'visible' : 'hidden'}`);
 
     // Initialize visibility state for %dark layers
     let darkLayersVisible = false;
   
-    // Function to toggle %dark layers
+    // Function to toggle dark layers
     function toggleDarkLayers() {
-      darkLayersVisible = !darkLayersVisible;
+        darkLayersVisible = !darkLayersVisible;
+        const layers = map.getStyle().layers;
     
-      const layers = map.getStyle().layers;
-      layers.forEach(layer => {
-        const layerId = layer.id;
-        if (layerId.endsWith(' dark')) {
-          map.setLayoutProperty(layerId, 'visibility', darkLayersVisible ? 'visible' : 'none');
-        }
-      });
+        layers.forEach(layer => {
+            const layerId = layer.id;
+            if (layerId.endsWith(' dark')) {
+                map.setLayoutProperty(layerId, 'visibility', darkLayersVisible ? 'visible' : 'none');
+            }
+        });
     
-      localStorage.setItem('darkLayersVisible', darkLayersVisible); // Save state
-      console.log(`Dark layers are now ${darkLayersVisible ? 'visible' : 'hidden'}`);
-    }
+        if (darkLayersVisible) showLoadingSpinner(); // Show loading only when enabling layers
 
-
+        localStorage.setItem('darkLayersVisible', darkLayersVisible); // Save state
+        console.log(`Dark layers are now ${darkLayersVisible ? 'visible' : 'hidden'}`);
+    } 
         
     // Marker for the flagpole
     let flagpoleMarker = null;
@@ -738,6 +781,15 @@
       }
     });
 
+    // Splash screen fade-out and removal
+    window.onload = function() {
+        const splashScreen = document.getElementById('splash-screen');
+        
+        // Remove the splash screen from the DOM after the animation ends
+        splashScreen.addEventListener('animationend', () => {
+            splashScreen.remove();
+        });
+    };
   </script>
 </body>
 </html>
