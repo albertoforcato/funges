@@ -33,14 +33,16 @@
         justify-content: center;
         align-items: center;
         z-index: 2000; /* Ensure it stays on top */
-        animation: fadeOut 4s ease-out forwards;
+        animation: fadeOut 5s ease-out forwards;
     }
     
     /* Make the splash screen logo smaller */
     #splash-screen img {
-        width: 500px; /* Adjust logo size (change as needed) */
+        width: 60vw; /* 60% of the viewport width */
+        max-width: 550px; /* Optional: prevent it from getting too big on large screens */
         height: auto; /* Maintain aspect ratio */
     }
+
     
     /* Fade out animation */
     @keyframes fadeOut {
