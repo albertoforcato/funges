@@ -21,6 +21,28 @@
       overflow: hidden; /* Disable scrolling */
     }
     
+    /* Splash Screen */
+    #splash-screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 252, 239, 0.90); /* Same white halo color */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 2000; /* Ensure it stays on top */
+        animation: fadeOut 2s ease-out forwards;
+    }
+    
+    /* Fade out animation */
+    @keyframes fadeOut {
+        0% { opacity: 1; }
+        100% { opacity: 0; visibility: hidden; }
+    }
+
+
     #map {
       height: calc(100dvh - 40px); /* Subtract the footer height from the viewport height */
       position: relative;
@@ -211,7 +233,12 @@
 <body>
   
   <div id="map"></div>
-
+  
+  <!-- Splash Screen -->
+  <div id="splash-screen">
+      <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/logo_funges.png" alt="Logo">
+  </div>
+  
   <!-- Button Bar -->
   <div id="button-bar">
     <div class="logo">
@@ -738,6 +765,15 @@
       }
     });
 
+    // Splash screen fade-out and removal
+    window.onload = function() {
+        const splashScreen = document.getElementById('splash-screen');
+        
+        // Remove the splash screen from the DOM after the animation ends
+        splashScreen.addEventListener('animationend', () => {
+            splashScreen.remove();
+        });
+    };
   </script>
 </body>
 </html>
