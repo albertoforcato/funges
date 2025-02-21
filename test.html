@@ -350,56 +350,55 @@
     const MAPBOX_ACCESS_TOKEN = 'pk.eyJ1IjoibG9kaXN0IiwiYSI6ImNtM3g3dTVuaTE2dW8yaXM1eDE1dXVmZG4ifQ.xrGoky5Mzc6gwO5z8n6CoQ';
     const MAPBOX_STYLE = 'mapbox://styles/lodist/clzo3ivsk007d01piaoah1dfy';
     const OSM_TILES = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-  
+    
     let map; // Global map variable
-  
-    // Function to initialize Mapbox
+    
+    // ✅ Function to initialize Mapbox
     function initializeMapbox() {
       try {
         mapboxgl.accessToken = MAPBOX_ACCESS_TOKEN;
-        let mapInstance = new mapboxgl.Map({
+        map = new mapboxgl.Map({
           container: 'map',
           style: MAPBOX_STYLE,
-          center: [7.3359, 47.7508],
+          center: [7.3359, 47.7508], // Default center
           zoom: 4,
           maxZoom: 20,
           minZoom: 4,
-          collectResourceTiming: false,
+          collectResourceTiming: false, // Disable telemetry
           performanceMetricsCollection: false
         });
-  
-        // If Mapbox fails, switch to OSM
-        mapInstance.on('error', function () {
+    
+        // ✅ Detect if Mapbox fails
+        map.on('error', function (e) {
           console.error("⚠️ Mapbox failed, switching to OpenStreetMap.");
-          fallbackToOSM(mapInstance);
+          map.remove(); // ✅ Completely remove Mapbox
+          fallbackToOSM(); // ✅ Now properly initialize OSM
         });
-  
-        return mapInstance;
+    
+        console.log("✅ Mapbox initialized successfully.");
+        return map;
       } catch (error) {
         console.error("⚠️ Mapbox initialization failed, switching to OpenStreetMap.");
         fallbackToOSM();
       }
     }
-  
-    // Function to switch to OpenStreetMap using Leaflet
-    function fallbackToOSM(existingMapboxInstance = null) {
-      if (existingMapboxInstance) {
-        existingMapboxInstance.remove(); // Remove the Mapbox instance
-      }
-      document.getElementById("map").innerHTML = ""; // Clear container
-  
-      map = L.map("map").setView([47.7508, 7.3359], 4);
-  
+    
+    // ✅ Function to switch to OpenStreetMap **only if Mapbox fails**
+    function fallbackToOSM() {
+      document.getElementById("map").innerHTML = ""; // ✅ Clear the map container before switching
+    
+      map = L.map("map").setView([47.7508, 7.3359], 4); // Match Mapbox view
+    
       L.tileLayer(OSM_TILES, {
         attribution: '&copy; OpenStreetMap contributors',
         maxZoom: 19
       }).addTo(map);
-  
+    
       console.log("✅ Switched to OpenStreetMap.");
     }
-  
-    // Initialize the map (attempt Mapbox first)
-    map = initializeMapbox();
+    
+    // ✅ Try to initialize Mapbox first, fallback to OSM only if it fails
+    initializeMapbox();
 
     
     // Load saved map state when the page loads
