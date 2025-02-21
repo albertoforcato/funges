@@ -36,12 +36,17 @@
         animation: fadeOut 2s ease-out forwards;
     }
     
+    /* Make the splash screen logo smaller */
+    #splash-screen img {
+        width: 120px; /* Adjust logo size (change as needed) */
+        height: auto; /* Maintain aspect ratio */
+    }
+    
     /* Fade out animation */
     @keyframes fadeOut {
         0% { opacity: 1; }
         100% { opacity: 0; visibility: hidden; }
     }
-
 
     #map {
       height: calc(100dvh - 40px); /* Subtract the footer height from the viewport height */
