@@ -340,199 +340,177 @@
   <!-- Load script.js AFTER TensorFlow -->
   <script src="script.js"></script>
 
-    <!-- Mapbox JS -->
-<script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
-<!-- Leaflet.js for OSM Fallback -->
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
-<script>
+    
+  <!-- Mapbox JS -->
+  <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
+  <script>
     // Mapbox Access Token
-    mapboxgl.accessToken = 'pk.eyJ1IjoibG9kaXN0IiwiYSI6ImNtM3g3dTVuaTE2dW8yaXM1eDE1dXVmZG4ifQ.xrGoky5Mzc6gwO5z8n6CoA';
-
-    let map = null;
-    let usingMapbox = true; // Track whether Mapbox is active
-    let userMarker = null;
-    let flagpoleMarker = null;
-
-    function loadMapbox() {
-        if (!mapboxgl.accessToken || mapboxgl.accessToken === 'null') {
-            console.warn('Mapbox token missing or invalid. Switching to OpenStreetMap.');
-            switchToOSM();
-            return;
-        }
-
-        try {
-            map = new mapboxgl.Map({
-                container: 'map',
-                style: 'mapbox://styles/lodist/clzo3ivsk007d01piaoah1dfy',
-                center: [7.3359, 47.7508], 
-                zoom: 4,
-                maxZoom: 20,
-                minZoom: 4,
-                collectResourceTiming: false,
-                performanceMetricsCollection: false
-            });
-
-            map.addControl(new mapboxgl.NavigationControl({ showCompass: false }), 'top-right');
-            map.addControl(new mapboxgl.FullscreenControl(), 'top-right');
-
-            // Handle WebGL context loss
-            map.on('webglcontextlost', () => {
-                console.error('WebGL context lost. Switching to OSM.');
-                switchToOSM();
-            });
-
-            // Handle Mapbox errors (e.g., invalid token)
-            map.on('error', (e) => {
-                console.error('Mapbox error:', e);
-                alert('Failed to load Mapbox. Switching to OpenStreetMap.');
-                switchToOSM();
-            });
-
-        } catch (error) {
-            console.error('Mapbox initialization failed:', error);
-            switchToOSM();
-        }
+    mapboxgl.accessToken = 'pk.eyJ1IjoibG9kaXN0IiwiYSI6ImNtM3g3dTVuaTE2dW8yaXM1eDE1dXVmZG4ifQ.xrGoky5Mzc6gwO5z8n6CoQ';
+      
+    // Function to initialize the Mapbox map
+    function initializeMap() {
+      const map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/lodist/clzo3ivsk007d01piaoah1dfy',
+        center: [7.3359, 47.7508], // Starting position [longitude, latitude]
+        zoom: 4, // Starting zoom level
+        maxZoom: 20, // Maximum zoom level
+        minZoom: 4, // Minimum zoom level
+        collectResourceTiming: false, // Ensures telemetry and resource collection are disabled
+        performanceMetricsCollection: false
+      });
+    
+      // Add controls to the map
+      map.addControl(new mapboxgl.NavigationControl({ showCompass: false }), 'top-right');
+      map.addControl(new mapboxgl.FullscreenControl(), 'top-right');
+    
+      // Listen for WebGL context loss and reinitialize the map
+      map.on('webglcontextlost', () => {
+        console.error('WebGL context lost. Attempting to recreate the map.');
+        map.remove();
+        initializeMap();
+      });
+    
+      return map;
     }
-
-    function switchToOSM() {
-        console.log('Switching to OpenStreetMap...');
-        usingMapbox = false;
-
-        // Remove Mapbox instance
-        if (map && map.remove) {
-            map.remove();
-        }
-
-        // Reset markers if they exist
-        if (userMarker) {
-            userMarker.remove();
-            userMarker = null;
-        }
-        if (flagpoleMarker) {
-            flagpoleMarker.remove();
-            flagpoleMarker = null;
-        }
-
-        // Initialize OSM with Leaflet
-        map = L.map('map').setView([47.7508, 7.3359], 4);
-
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; OpenStreetMap contributors'
-        }).addTo(map);
-
-        console.log('OpenStreetMap loaded.');
-    }
-
-    function saveMapState() {
-        if (!map) return;
-
-        const mapState = {
-            center: usingMapbox ? map.getCenter() : map.getCenter(),
-            zoom: usingMapbox ? map.getZoom() : map.getZoom()
-        };
-
-        localStorage.setItem('mapState', JSON.stringify(mapState));
-    }
-
-    function restoreMapState() {
-        try {
-            const savedState = JSON.parse(localStorage.getItem('mapState'));
-            if (savedState && map) {
-                if (usingMapbox) {
-                    map.setCenter(savedState.center);
-                    map.setZoom(savedState.zoom);
-                } else {
-                    map.setView([savedState.center.lat, savedState.center.lng], savedState.zoom);
-                }
-                console.log('Map state restored.');
-            }
-        } catch (error) {
-            console.error('Failed to load map state:', error);
-        }
-    }
-
-    function locateUser() {
-        if (!navigator.geolocation) {
-            alert("Geolocation is not supported by your browser.");
-            return;
-        }
-
-        const spinner = document.getElementById('loading-spinner');
-        spinner.style.display = 'flex';
-
-        navigator.geolocation.getCurrentPosition(
-            (position) => {
-                const coordinates = [position.coords.longitude, position.coords.latitude];
-
-                if (userMarker) userMarker.remove();
-
-                if (usingMapbox) {
-                    const pinElement = document.createElement('img');
-                    pinElement.src = 'https://raw.githubusercontent.com/lodist/tripped-map/main/pin_1.png';
-                    pinElement.style.width = '40px';
-                    pinElement.style.height = 'auto';
-
-                    userMarker = new mapboxgl.Marker({ element: pinElement })
-                        .setLngLat(coordinates)
-                        .addTo(map);
-
-                    map.flyTo({ center: coordinates, zoom: 8, speed: 2 });
-
-                } else {
-                    userMarker = L.marker([coordinates[1], coordinates[0]]).addTo(map);
-                    map.setView([coordinates[1], coordinates[0]], 8);
-                }
-
-                spinner.style.display = 'none';
-            },
-            (error) => {
-                spinner.style.display = 'none';
-                alert("Unable to retrieve your location.");
-                console.error(error);
-            }
-        );
-    }
-
-    window.onload = function () {
-        console.log("Window loaded. Initializing Map...");
-        if (mapboxgl.accessToken && mapboxgl.accessToken !== 'null') {
-            console.log("Trying to load Mapbox...");
-            loadMapbox();
-        } else {
-            console.warn("Mapbox token missing. Switching to OSM...");
-            switchToOSM();
-        }
-
-        // Splash screen fade-out
-        const splashScreen = document.getElementById('splash-screen');
-        if (splashScreen) {
-            splashScreen.addEventListener('animationend', () => {
-                splashScreen.remove();
-            });
-        }
-
-        restoreMapState();
-    };
-
-    // Save map state before unloading
-    window.addEventListener('beforeunload', saveMapState);
-
-    // Resize the map properly when tab is refocused
+    
+    // Initialize the map
+    const map = initializeMap();
+    
+    // Resize the map on visibility change to handle mobile-specific issues
     document.addEventListener('visibilitychange', () => {
-        if (document.visibilityState === 'visible') {
-            if (usingMapbox) {
-                map.resize();
-            } else {
-                map.invalidateSize();
-            }
+      if (document.visibilityState === 'visible') {
+        map.resize();
+      }
+    });
+    
+    // Load saved map state when the page loads
+    window.addEventListener('load', () => {
+      try {
+        // Remove any existing flagpole and hide the GMaps button
+        if (flagpoleMarker) {
+          flagpoleMarker.remove(); // Remove the flagpole from the map
+          flagpoleMarker = null; // Reset the flagpole variable
         }
+        gmapsButton.style.display = 'none'; // Ensure the GMaps button is hidden
+        localStorage.removeItem('flagpoleState'); // Clear flagpole state
+        localStorage.removeItem('gmapsVisible'); // Clear GMaps visibility state
+        console.log('Flagpole and GMaps button cleared on load.');
+    
+        // Restore map state
+        const savedState = JSON.parse(localStorage.getItem('mapState'));
+        if (savedState) {
+          map.setCenter(savedState.center);
+          map.setZoom(savedState.zoom);
+          map.setBearing(savedState.bearing);
+          map.setPitch(savedState.pitch);
+          console.log('Map state restored.');
+        }
+    
+        // Restore numbers layers visibility
+        const numbersLayersVisible = localStorage.getItem('numbersLayersVisible') === 'true';
+        if (numbersLayersVisible !== layersVisible) {
+          toggleNumbersLayers(); // Update layers visibility to match the stored state
+          console.log(`Numbers layers visibility restored: ${numbersLayersVisible}`);
+        }
+    
+        // Restore dark layers visibility
+        const darkLayersState = localStorage.getItem('darkLayersVisible') === 'true';
+        if (darkLayersState !== darkLayersVisible) {
+          toggleDarkLayers(); // Update layers visibility to match the stored state
+          console.log(`Dark layers visibility restored: ${darkLayersState}`);
+        }
+    
+        map.resize(); // Ensure the map resizes correctly
+      } catch (error) {
+        console.error('Failed to load map state:', error);
+      }
     });
 
+
+    
+    // Save the map state before the user leaves the page
+    window.addEventListener('beforeunload', () => {
+      const mapState = {
+        center: map.getCenter(),
+        zoom: map.getZoom(),
+        bearing: map.getBearing(),
+        pitch: map.getPitch(),
+        timestamp: Date.now(), // Save the current timestamp
+      };
+      localStorage.setItem('mapState', JSON.stringify(mapState));
+    
+      // Reset userMarker and gmapsButton on unload
+      if (userMarker) {
+        userMarker.remove();
+        userMarker = null; // Reset the marker state
+        console.log('User marker reset on page unload.');
+      }
+      gmapsButton.style.display = 'none'; // Hide Google Maps button on page unload
+    });
+
+
+    
+    // Add a marker for the user's location
+    let userMarker = null;
+    let cachedCoordinates = null; // Cache for the user's location
+    let cacheTimestamp = null; // Timestamp when the location was cached
+    
+    function locateUser() {
+        const now = Date.now();
+        const spinner = document.getElementById('loading-spinner'); // Get the spinner element
+        const timeoutDuration = 15000; // Reduced timeout to 15 seconds
+        let timeoutId;
+    
+        // If the marker exists, remove it and stop further execution
+        if (userMarker) {
+            userMarker.remove(); // Remove the marker
+            userMarker = null;
+            console.log('User marker removed');
+            spinner.style.display = 'none'; // Hide spinner if displayed
+            return;
+        }
+    
+        // Use cached location if valid
+        if (cachedCoordinates && cacheTimestamp && now - cacheTimestamp < 60000) {
+            console.log('Using cached location');
+            toggleUserMarker(cachedCoordinates);
+            return;
+        }
+    
+        // Show spinner only if fetching a new location
+        spinner.style.display = 'flex';
+    
+        // Timeout to handle location retrieval failure
+        timeoutId = setTimeout(() => {
+            spinner.style.display = 'none'; // Hide the spinner
+            alert('Location retrieval timed out. Please try again.');
+            console.error('Location retrieval timed out.');
+        }, timeoutDuration);
+    
+        // Fetch new location
+        console.log('Fetching new location');
+        navigator.geolocation.getCurrentPosition(
+            position => {
+                cachedCoordinates = [position.coords.longitude, position.coords.latitude];
+                cacheTimestamp = Date.now(); // Update cache timestamp
+                toggleUserMarker(cachedCoordinates);
+                spinner.style.display = 'none'; // Hide the spinner
+                clearTimeout(timeoutId); // Clear the timeout
+            },
+            () => {
+                spinner.style.display = 'none'; // Hide the spinner
+                clearTimeout(timeoutId); // Clear the timeout
+                alert('Unable to retrieve your location.');
+            },
+            { enableHighAccuracy: true, timeout: timeoutDuration, maximumAge: 0 } // Optimize geolocation options
+        );
+    }
+    
+    // Function to toggle the marker
     function toggleUserMarker(coordinates) {
         if (userMarker) {
-            userMarker.remove();
+            userMarker.remove(); // Remove the marker if it exists
             userMarker = null;
             console.log('User marker removed');
         } else {
@@ -540,18 +518,278 @@
             pinElement.src = 'https://raw.githubusercontent.com/lodist/tripped-map/main/pin_1.png';
             pinElement.style.width = '40px';
             pinElement.style.height = 'auto';
-
+    
             userMarker = new mapboxgl.Marker({ element: pinElement })
                 .setLngLat(coordinates)
                 .addTo(map);
-
+    
             console.log('User marker added:', coordinates);
         }
-
+    
+        // Center the map on the user's location
         map.flyTo({ center: coordinates, zoom: 8, speed: 2 });
     }
 
-</script>
 
+    
+    // Function to ensure pin is added and map is focused on location
+    function ensurePinAndFocus(coordinates) {
+      if (userMarker) {
+        userMarker.remove(); // Remove existing marker
+        userMarker = null;
+        console.log('User marker removed');
+      }
+    
+      // Create and drop a new marker
+      const pinElement = document.createElement('img');
+      pinElement.src = 'https://raw.githubusercontent.com/lodist/tripped-map/main/pin_1.png';
+      pinElement.style.width = '40px';
+      pinElement.style.height = 'auto';
+    
+      userMarker = new mapboxgl.Marker({ element: pinElement })
+        .setLngLat(coordinates)
+        .addTo(map);
+    
+      // Center the map on the user's location
+      map.flyTo({ center: coordinates, zoom: 8 });
+      console.log('User marker added at:', coordinates);
+    }
+
+
+
+    // Function to show and hide loading spinner
+    function showLoadingSpinner() {
+        const loadingElement = document.getElementById('loading-spinner');
+        loadingElement.style.display = 'flex'; // Show spinner
+        setTimeout(() => {
+            loadingElement.style.display = 'none'; // Hide after 2 seconds
+        }, 2000);
+    }  
+    
+    // Initialize visibility state for layers
+    let layersVisible = false;
+    
+    // Function to toggle numbers layers
+    function toggleNumbersLayers() {
+        layersVisible = !layersVisible;
+        const layers = map.getStyle().layers;
+    
+        layers.forEach(layer => {
+            const layerId = layer.id;
+            if (layerId.startsWith('mushroom_') && layerId.endsWith(' numbers')) {
+                map.setLayoutProperty(layerId, 'visibility', layersVisible ? 'visible' : 'none');
+            }
+        });
+    
+        if (layersVisible) showLoadingSpinner(); // Show loading only when enabling layers
+    
+        localStorage.setItem('numbersLayersVisible', layersVisible); // Save state
+        console.log(`Numbers layers are now ${layersVisible ? 'visible' : 'hidden'}`);
+    }
+
+    // Initialize visibility state for %dark layers
+    let darkLayersVisible = false;
+  
+    // Function to toggle dark layers
+    function toggleDarkLayers() {
+        darkLayersVisible = !darkLayersVisible;
+        const layers = map.getStyle().layers;
+    
+        layers.forEach(layer => {
+            const layerId = layer.id;
+            if (layerId.endsWith(' dark')) {
+                map.setLayoutProperty(layerId, 'visibility', darkLayersVisible ? 'visible' : 'none');
+            }
+        });
+    
+        if (darkLayersVisible) showLoadingSpinner(); // Show loading only when enabling layers
+
+        localStorage.setItem('darkLayersVisible', darkLayersVisible); // Save state
+        console.log(`Dark layers are now ${darkLayersVisible ? 'visible' : 'hidden'}`);
+    } 
+        
+    // Marker for the flagpole
+    let flagpoleMarker = null;
+    
+    // Store the coordinates for the right-click or long press
+    let activeCoordinates = null;
+    
+    // Timer for tracking long press duration
+    let longPressTimeout;
+    
+    // Function to create and return a flagpole marker
+    function createFlagpoleMarker(lng, lat) {
+      const flagpoleIcon = document.createElement('img');
+      flagpoleIcon.src = 'https://raw.githubusercontent.com/lodist/tripped-map/main/flagpole_1.png';
+      flagpoleIcon.style.width = '30px'; // Set flagpole width
+      flagpoleIcon.style.height = '30px'; // Set flagpole height
+    
+      return new mapboxgl.Marker({ element: flagpoleIcon }).setLngLat([lng, lat]);
+    }
+    
+    // Function to place or update the flagpole
+    function placeFlagpole(lng, lat) {
+      if (!flagpoleMarker) {
+        // Create and add the marker for the first time
+        const flagpoleIcon = document.createElement('img');
+        flagpoleIcon.src = 'https://raw.githubusercontent.com/lodist/tripped-map/main/flagpole_1.png';
+        flagpoleIcon.style.width = '30px'; // Set flagpole width
+        flagpoleIcon.style.height = '30px'; // Set flagpole height
+    
+        flagpoleMarker = new mapboxgl.Marker({ element: flagpoleIcon }).setLngLat([lng, lat]).addTo(map);
+      } else {
+        // Update the position of the existing marker
+        flagpoleMarker.setLngLat([lng, lat]);
+      }
+    
+      // Save the flagpole position in localStorage
+      localStorage.setItem('flagpoleState', JSON.stringify({ lng, lat }));
+      console.log('Flagpole position saved.');
+    }
+
+    
+    // Function to hide the flagpole and the gmaps button
+    function hideFlagpoleAndGmaps() {
+      if (flagpoleMarker) {
+        flagpoleMarker.remove(); // Remove the flagpole from the map
+        flagpoleMarker = null; // Reset the marker variable
+      }
+    
+      // Hide the Google Maps button
+      gmapsButton.style.display = 'none';
+    
+      // Remove the flagpole state from localStorage
+      localStorage.removeItem('flagpoleState');
+      console.log('Flagpole state cleared.');
+    }
+
+
+    
+    // Select the gmaps button
+    const gmapsButton = document.querySelector('.button img[alt="Google Maps Button"]').parentElement;
+
+    gmapsButton.style.display = 'none'; // Add this line to hide the button initially
+
+    // Handle right-click on desktop
+    map.on('contextmenu', (e) => {
+      e.preventDefault(); // Prevent the default context menu
+    
+      const { lng, lat } = e.lngLat;
+    
+      // Store the clicked coordinates
+      activeCoordinates = { lng, lat };
+    
+      // Place the flagpole immediately
+      placeFlagpole(lng, lat);
+    
+      // Show the gmaps button
+      gmapsButton.style.display = 'block';
+    });
+    
+    // Variable to track if the user is dragging the map or zooming
+    let isDragging = false;
+    let isZooming = false;
+    let isLongPressActive = false;
+    
+    // Listen for drag events on the map
+    map.on('dragstart', () => {
+      isDragging = true;
+    
+      // If the user starts dragging, cancel any active long press
+      if (isLongPressActive) {
+        clearTimeout(longPressTimeout);
+        isLongPressActive = false; // Reset the long press state
+        console.log('Long press canceled due to dragging.');
+      }
+    });
+    
+    map.on('dragend', () => {
+      // Reset dragging state after dragging stops
+      isDragging = false;
+    });
+    
+    // Listen for zoom events
+    map.on('zoomstart', () => {
+      isZooming = true;
+    
+      // Cancel any active long press during zoom
+      if (isLongPressActive) {
+        clearTimeout(longPressTimeout);
+        isLongPressActive = false; // Reset the long press state
+        console.log('Long press canceled due to zooming.');
+      }
+    });
+    
+    map.on('zoomend', () => {
+      // Reset zooming state after zooming stops
+      isZooming = false;
+    });
+    
+    // Handle long press on mobile
+    map.on('touchstart', (e) => {
+      if (e.points.length === 1) { // Ensure it's a single touch
+        const { lng, lat } = map.unproject([e.points[0].x, e.points[0].y]);
+    
+        // Start the long press timer
+        isLongPressActive = true; // Mark the long press as active
+        longPressTimeout = setTimeout(() => {
+          // Only place the pole if the map was not dragged or zoomed
+          if (!isDragging && !isZooming) {
+            // Store the coordinates
+            activeCoordinates = { lng, lat };
+    
+            // Place the flagpole after 1.6 seconds
+            placeFlagpole(lng, lat);
+    
+            // Show the gmaps button
+            gmapsButton.style.display = 'block';
+            console.log('Flagpole placed on long press.');
+          } else {
+            console.log('Flagpole placement prevented due to dragging or zooming.');
+          }
+          isLongPressActive = false; // Reset the long press state
+        }, 1200); // Long press duration (1.2 seconds)
+      }
+    });
+
+    
+    // Cancel long press if touch ends early or dragging begins
+    map.on('touchend', () => {
+      clearTimeout(longPressTimeout);
+      isLongPressActive = false; // Reset the long press state
+    });
+
+    
+    // Add single left-click and quick tap handling to remove PNGs
+    map.on('click', () => {
+      hideFlagpoleAndGmaps();
+    });
+    
+    map.on('touchstart', (e) => {
+      if (e.points.length === 1) {
+        hideFlagpoleAndGmaps();
+      }
+    });
+    
+    // Add click event listener to the Google Maps button
+    gmapsButton.addEventListener('click', () => {
+      if (activeCoordinates) {
+        const { lng, lat } = activeCoordinates;
+    
+        // Redirect to Google Maps
+        window.open(`https://www.google.com/maps?q=${lat},${lng}`, '_blank');
+      }
+    });
+
+    // Splash screen fade-out and removal
+    window.onload = function() {
+        const splashScreen = document.getElementById('splash-screen');
+        
+        // Remove the splash screen from the DOM after the animation ends
+        splashScreen.addEventListener('animationend', () => {
+            splashScreen.remove();
+        });
+    };
+  </script>
 </body>
 </html>
