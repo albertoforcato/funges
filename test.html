@@ -374,8 +374,64 @@
       return map;
     }
     
-    // Initialize the map
-    const map = initializeMap();
+    
+    function initializeMapbox() {
+        try {
+            const map = new mapboxgl.Map({
+                container: 'map',
+                style: 'mapbox://styles/lodist/clzo3ivsk007d01piaoah1dfy',
+                center: [7.3359, 47.7508], // Starting position [longitude, latitude]
+                zoom: 4,
+                maxZoom: 20,
+                minZoom: 4,
+                collectResourceTiming: false,
+                performanceMetricsCollection: false
+            });
+    
+            // Add controls
+            map.addControl(new mapboxgl.NavigationControl({ showCompass: false }), 'top-right');
+            map.addControl(new mapboxgl.FullscreenControl(), 'top-right');
+    
+            // Handle WebGL failure
+            map.on('error', () => {
+                console.error('Mapbox failed to load, switching to OSM.');
+                switchToOSM();
+            });
+    
+            return map;
+        } catch (error) {
+            console.error('Error loading Mapbox:', error);
+            switchToOSM();
+        }
+    }
+    
+    function switchToOSM() {
+        // Remove Mapbox's container before switching
+        document.getElementById('map').innerHTML = '';
+    
+        // Load Leaflet
+        const leafletCSS = document.createElement('link');
+        leafletCSS.rel = 'stylesheet';
+        leafletCSS.href = 'https://unpkg.com/leaflet/dist/leaflet.css';
+        document.head.appendChild(leafletCSS);
+    
+        const leafletJS = document.createElement('script');
+        leafletJS.src = 'https://unpkg.com/leaflet/dist/leaflet.js';
+        leafletJS.onload = function () {
+            console.log('Leaflet loaded, initializing OSM map.');
+    
+            // Initialize OSM map
+            const osmMap = L.map('map').setView([47.7508, 7.3359], 4);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap contributors'
+            }).addTo(osmMap);
+        };
+        document.body.appendChild(leafletJS);
+    }
+    
+    // Initialize Mapbox first
+    const map = initializeMapbox();
+
     
     // Resize the map on visibility change to handle mobile-specific issues
     document.addEventListener('visibilitychange', () => {
