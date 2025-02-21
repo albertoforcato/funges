@@ -556,6 +556,16 @@
     }
 
 
+
+    // Function to show and hide loading spinner
+    function showLoadingSpinner() {
+        const loadingElement = document.getElementById('loading-spinner');
+        loadingElement.style.display = 'flex'; // Show spinner
+        setTimeout(() => {
+            loadingElement.style.display = 'none'; // Hide after 2 seconds
+        }, 2000);
+    }  
+    
     // Initialize visibility state for layers
     let layersVisible = false;
     
@@ -571,28 +581,16 @@
             }
         });
     
-        // Reuse the existing loading spinner only when adding layers
-        if (layersVisible) {
-            const loadingElement = document.getElementById('loading-spinner');
-            loadingElement.style.display = 'flex'; // Show spinner
-    
-            setTimeout(() => {
-                loadingElement.style.display = 'none'; // Hide after 2 seconds
-            }, 2000);
-        }
+        if (layersVisible) showLoadingSpinner(); // Show loading only when enabling layers
     
         localStorage.setItem('numbersLayersVisible', layersVisible); // Save state
         console.log(`Numbers layers are now ${layersVisible ? 'visible' : 'hidden'}`);
     }
 
-    
-      // Provide feedback to the user
-      console.log(`Layers are now ${layersVisible ? 'visible' : 'hidden'}`);
-
     // Initialize visibility state for %dark layers
     let darkLayersVisible = false;
   
-    // Function to toggle %dark layers
+    // Function to toggle dark layers
     function toggleDarkLayers() {
         darkLayersVisible = !darkLayersVisible;
         const layers = map.getStyle().layers;
@@ -604,20 +602,10 @@
             }
         });
     
-        // Show loading spinner only when enabling dark layers
-        if (darkLayersVisible) {
-            const loadingElement = document.getElementById('loading-spinner');
-            loadingElement.style.display = 'flex'; // Show spinner
-    
-            setTimeout(() => {
-                loadingElement.style.display = 'none'; // Hide after 2 seconds
-            }, 2000);
-        }
+        if (darkLayersVisible) showLoadingSpinner(); // Show loading only when enabling layers
     
         localStorage.setItem('darkLayersVisible', darkLayersVisible); // Save state
         console.log(`Dark layers are now ${darkLayersVisible ? 'visible' : 'hidden'}`);
-    }
-
 
 
         
