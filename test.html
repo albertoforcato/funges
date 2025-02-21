@@ -50,10 +50,16 @@
         100% { opacity: 0; visibility: hidden; }
     }
 
+    /* Ensure the map does not overlap the sidebar */
     #map {
-      height: calc(100dvh - 40px); /* Subtract the footer height from the viewport height */
-      position: relative;
+        height: calc(100dvh - 40px); /* Maintain full height minus footer */
+        width: calc(100% - 80px); /* Subtract sidebar width */
+        position: absolute; /* Keep it positioned correctly */
+        left: 80px; /* Offset by the sidebar width */
+        top: 0;
+        bottom: 0;
     }
+
     
     #button-bar {
       position: absolute;
@@ -409,7 +415,7 @@
         // Remove Mapbox's container before switching
         document.getElementById('map').innerHTML = '';
     
-        // Load Leaflet
+        // Load Leaflet styles dynamically
         const leafletCSS = document.createElement('link');
         leafletCSS.rel = 'stylesheet';
         leafletCSS.href = 'https://unpkg.com/leaflet/dist/leaflet.css';
@@ -420,14 +426,24 @@
         leafletJS.onload = function () {
             console.log('Leaflet loaded, initializing OSM map.');
     
+            // Ensure correct map size
+            document.getElementById('map').style.width = 'calc(100% - 80px)';
+            document.getElementById('map').style.left = '80px';
+    
             // Initialize OSM map
             const osmMap = L.map('map').setView([47.7508, 7.3359], 4);
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; OpenStreetMap contributors'
             }).addTo(osmMap);
+    
+            // Ensure Leaflet resizes correctly
+            setTimeout(() => {
+                osmMap.invalidateSize();
+            }, 500);
         };
         document.body.appendChild(leafletJS);
     }
+
     
     // Initialize Mapbox first
     const map = initializeMapbox();
