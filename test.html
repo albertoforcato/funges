@@ -33,7 +33,7 @@
         justify-content: center;
         align-items: center;
         z-index: 2000; /* Ensure it stays on top */
-        animation: fadeOut 5s ease-out forwards;
+        animation: fadeOut 4s ease-out forwards;
     }
     
     /* Make the splash screen logo smaller */
@@ -561,19 +561,30 @@
     
     // Function to toggle numbers layers
     function toggleNumbersLayers() {
-      layersVisible = !layersVisible;
+        layersVisible = !layersVisible;
+        const layers = map.getStyle().layers;
     
-      const layers = map.getStyle().layers;
-      layers.forEach(layer => {
-        const layerId = layer.id;
-        if (layerId.startsWith('mushroom_') && layerId.endsWith(' numbers')) {
-          map.setLayoutProperty(layerId, 'visibility', layersVisible ? 'visible' : 'none');
+        layers.forEach(layer => {
+            const layerId = layer.id;
+            if (layerId.startsWith('mushroom_') && layerId.endsWith(' numbers')) {
+                map.setLayoutProperty(layerId, 'visibility', layersVisible ? 'visible' : 'none');
+            }
+        });
+    
+        // Reuse the existing loading spinner only when adding layers
+        if (layersVisible) {
+            const loadingElement = document.getElementById('loading-spinner');
+            loadingElement.style.display = 'flex'; // Show spinner
+    
+            setTimeout(() => {
+                loadingElement.style.display = 'none'; // Hide after 2 seconds
+            }, 2000);
         }
-      });
     
-      localStorage.setItem('numbersLayersVisible', layersVisible); // Save state
-      console.log(`Layers are now ${layersVisible ? 'visible' : 'hidden'}`);
+        localStorage.setItem('numbersLayersVisible', layersVisible); // Save state
+        console.log(`Numbers layers are now ${layersVisible ? 'visible' : 'hidden'}`);
     }
+
     
       // Provide feedback to the user
       console.log(`Layers are now ${layersVisible ? 'visible' : 'hidden'}`);
@@ -583,19 +594,30 @@
   
     // Function to toggle %dark layers
     function toggleDarkLayers() {
-      darkLayersVisible = !darkLayersVisible;
+        darkLayersVisible = !darkLayersVisible;
+        const layers = map.getStyle().layers;
     
-      const layers = map.getStyle().layers;
-      layers.forEach(layer => {
-        const layerId = layer.id;
-        if (layerId.endsWith(' dark')) {
-          map.setLayoutProperty(layerId, 'visibility', darkLayersVisible ? 'visible' : 'none');
+        layers.forEach(layer => {
+            const layerId = layer.id;
+            if (layerId.endsWith(' dark')) {
+                map.setLayoutProperty(layerId, 'visibility', darkLayersVisible ? 'visible' : 'none');
+            }
+        });
+    
+        // Show loading spinner only when enabling dark layers
+        if (darkLayersVisible) {
+            const loadingElement = document.getElementById('loading-spinner');
+            loadingElement.style.display = 'flex'; // Show spinner
+    
+            setTimeout(() => {
+                loadingElement.style.display = 'none'; // Hide after 2 seconds
+            }, 2000);
         }
-      });
     
-      localStorage.setItem('darkLayersVisible', darkLayersVisible); // Save state
-      console.log(`Dark layers are now ${darkLayersVisible ? 'visible' : 'hidden'}`);
+        localStorage.setItem('darkLayersVisible', darkLayersVisible); // Save state
+        console.log(`Dark layers are now ${darkLayersVisible ? 'visible' : 'hidden'}`);
     }
+
 
 
         
