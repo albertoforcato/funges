@@ -1,0 +1,24 @@
+name: Track Unique Visitors
+
+on:
+  workflow_dispatch:  # Allows manual runs
+  push:
+  schedule:
+    - cron: "0 * * * *"  # Runs every hour
+
+jobs:
+  update-visitors:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Increment Visitor Count
+        run: |
+          VISITOR_FILE="visitors.json"
+          COUNT=$(jq '.count' $VISITOR_FILE)
+          echo "Current Count: $COUNT"
+          NEW_COUNT=$((COUNT + 1))
+          echo "{\"count\": $NEW_COUNT}" > $VISITOR_FILE
+      - name: Commit Changes
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "Update visitor count"
