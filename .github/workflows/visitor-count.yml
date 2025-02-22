@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          token: ${{ secrets.GH_PAT }}  # Use PAT if needed
+          token: ${{ secrets.GITHUB_TOKEN }}  # Use the GitHub default token
 
       - name: Install jq
         run: sudo apt-get install jq -y
