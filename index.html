@@ -401,60 +401,70 @@
   <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
   <script>
     // Mapbox Access Token
-    async function getMapboxToken() {
+    const mapboxTokens = {
+        default: 'pk.eyJ1IjoibG9kaXN0IiwiYSI6ImNtM3g3dTVuaTE2dW8yaXM1eDE1dXVmZG4ifQ.xrGoky5Mzc6gwO5z8n6CoQ', // Default token
+        highTraffic: 'pk.eyJ1IjoibG9kaXN0IiwiYSI6ImNtM3g3dTVuaTE2dW8yaXM1eDE1dXVmZG4ifQ.xrGoky5Mzc6gwO5z8n6CoA' // Alternative token
+    };
+    
+    // Function to get visitor count and set token
+    async function setMapboxToken() {
         try {
-            const response = await fetch('https://api.countapi.xyz/get/tripped.ch/visits');
+            const response = await fetch('https://api.visitor-counter.example.com/count');
             const data = await response.json();
-            const visitorCount = data.value || 0; // Se non c'è valore, default a 0
+            const visitors = data.count || 0; // Ensure we have a number
     
-            console.log(`🔹 Visitor count: ${visitorCount}`);
+            // Choose token based on visitor count
+            const selectedToken = visitors < 45000 ? mapboxTokens.default : mapboxTokens.highTraffic;
+            console.log(`Using token: ${selectedToken === mapboxTokens.default ? "Default" : "High Traffic"} (Visitors: ${visitors})`);
     
-            // Se il numero di visitatori è inferiore a 1000, usa il primo token
-            if (visitorCount < 1000) {
-                return 'pk.eyJ1IjoibG9kaXN0IiwiYSI6ImNtM3g3dTVuaTE2dW8yaXM1eDE1dXVmZG4ifQ.xrGoky5Mzc6gwO5z8n6CoQ';
-            } else {
-                return 'pk.eyJ1IjoibG9kaXN0IiwiYSI6ImNtM3g3dTVuaTE2dW8yaXM1eDE1dXVmZG4ifQ.xxxxxxxxxxxxxx'; // Cambia con il secondo token
-            }
+            // Set the chosen token
+            mapboxgl.accessToken = selectedToken;
+    
+            // Initialize Mapbox
+            initializeMapbox();
         } catch (error) {
-            console.error("❌ Errore nel recupero del numero di visitatori:", error);
-            return 'pk.eyJ1IjoibG9kaXN0IiwiYSI6ImNtM3g3dTVuaTE2dW8yaXM1eDE1dXVmZG4ifQ.xrGoky5Mzc6gwO5z8n6CoQ'; // Default se errore
+            console.error("Failed to retrieve visitor count, using default token.", error);
+            mapboxgl.accessToken = mapboxTokens.default;
+            initializeMapbox();
         }
     }
     
-    async function initializeMapbox() {
-    try {
-        mapboxgl.accessToken = await getMapboxToken(); // Ottiene il token corretto
+    // Function to initialize Mapbox
+    function initializeMapbox() {
+        try {
+            const map = new mapboxgl.Map({
+                container: 'map',
+                style: 'mapbox://styles/lodist/clzo3ivsk007d01piaoah1dfy',
+                center: [7.3359, 47.7508], 
+                zoom: 4,
+                maxZoom: 20,
+                minZoom: 4,
+                collectResourceTiming: false,
+                performanceMetricsCollection: false
+            });
     
-        const map = new mapboxgl.Map({
-            container: 'map',
-            style: 'mapbox://styles/lodist/clzo3ivsk007d01piaoah1dfy',
-            center: [7.3359, 47.7508], 
-            zoom: 4,
-            maxZoom: 20,
-            minZoom: 4,
-            collectResourceTiming: false,
-            performanceMetricsCollection: false
-        });
+            // Hide the region button when Mapbox is active
+            document.getElementById("region-button").style.display = "none";
     
-        // Nascondi il bottone della regione quando Mapbox è attivo
-        document.getElementById("region-button").style.display = "none";
+            // Add controls
+            map.addControl(new mapboxgl.NavigationControl({ showCompass: false }), 'top-right');
+            map.addControl(new mapboxgl.FullscreenControl(), 'top-right');
     
-        // Aggiungi controlli
-        map.addControl(new mapboxgl.NavigationControl({ showCompass: false }), 'top-right');
-        map.addControl(new mapboxgl.FullscreenControl(), 'top-right');
+            // Handle WebGL failure
+            map.on('error', () => {
+                console.error('Mapbox failed to load, switching to OSM.');
+                switchToOSM();
+            });
     
-        // Gestione errore WebGL
-        map.on('error', () => {
-            console.error('❌ Mapbox non è riuscito a caricarsi, passando a OSM.');
+            return map;
+        } catch (error) {
+            console.error('Error loading Mapbox:', error);
             switchToOSM();
-        });
+        }
+    }
     
-        return map;
-    } catch (error) {
-        console.error('❌ Errore nel caricamento di Mapbox:', error);
-        switchToOSM();
-    }
-    }
+    // Start by setting the correct token
+    setMapboxToken();
 
 
     function switchToOSM() {
@@ -623,9 +633,7 @@
 
 
     // Initialize Mapbox first
-    (async () => {
-        const map = await initializeMapbox();
-    })();
+    const map = initializeMapbox();
     
     // Resize the map on visibility change to handle mobile-specific issues
     document.addEventListener('visibilitychange', () => {
