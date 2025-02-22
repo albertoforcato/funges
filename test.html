@@ -339,7 +339,7 @@
 
     
     <div class="button-container">
-        <div class="button" id="region-button" onclick="toggleRegionDropdown()">
+        <div class="button" id="region-button" onclick="toggleRegionDropdown(event)">
             <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/region_1.png" alt="Region Button">
         </div>
         <div id="region-dropdown" class="dropdown-menu">
@@ -526,8 +526,8 @@
     }
 
     
-    function toggleRegionDropdown(event) {
-        event.stopPropagation(); // Prevents the event from propagating up and closing immediately
+    function toggleRegionDropdown(event = window.event) {
+        if (event) event.stopPropagation();
         
         const dropdown = document.getElementById("region-dropdown");
         const button = document.getElementById("region-button");
