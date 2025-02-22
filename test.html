@@ -245,17 +245,18 @@
     .dropdown-menu {
         display: none;
         position: absolute;
-        left: 100%; /* Moves it to the right of the button */
-        top: 50%; /* Aligns vertically with the button */
-        transform: translateY(-50%); /* Centers vertically */
+        right: calc(-100% - 10px); /* Positions it to the right of the button with spacing */
+        top: 50%;
+        transform: translateY(-50%); /* Centers it vertically with the button */
         background: rgba(255, 252, 239, 0.95);
         border-radius: 8px;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         padding: 5px;
-        z-index: 2000; /* Ensures it appears on top */
-        min-width: 120px; /* Ensures enough width for buttons */
-        white-space: nowrap; /* Prevents button text from wrapping */
+        z-index: 3000; /* Ensures it appears above everything */
+        min-width: 150px; /* Ensures buttons don't wrap */
+        white-space: nowrap; /* Prevents line breaks */
     }
+
     
     .dropdown-menu button {
         display: block;
