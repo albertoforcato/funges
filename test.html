@@ -460,15 +460,16 @@
     
                     // Define the color function based on the mushroom score
                     function getColor(score) {
-                        if (score <= 0.5) return 'rgba(255, 255, 255, 0)'; // Fully transparent
-                        if (score <= 1) return '#ffffcc'; // Light yellow
-                        if (score <= 2) return '#ffe4b5'; // Light orange
+                        if (score <= 0.5) return '#ffffcc'; 
+                        if (score <= 1) return '#ffffcc'; 
+                        if (score <= 2) return '#ffe4b5';
                         if (score <= 3) return '#ffdab9';
                         if (score <= 4) return '#fbae7e';
                         if (score <= 5) return '#fa733d';
                         if (score <= 7) return '#fb6d51';
                         if (score <= 8) return '#fb4646';
                         if (score <= 9) return '#a60310';
+                        if (score <= 10) return '#800020';
                         return '#800020'; // Dark red
                     }
     
