@@ -437,13 +437,16 @@
             const map = new mapboxgl.Map({
                 container: 'map',
                 style: 'mapbox://styles/lodist/clzo3ivsk007d01piaoah1dfy',
-                center: [7.3359, 47.7508], // Starting position [longitude, latitude]
+                center: [7.3359, 47.7508], 
                 zoom: 4,
                 maxZoom: 20,
                 minZoom: 4,
                 collectResourceTiming: false,
                 performanceMetricsCollection: false
             });
+    
+            // Hide the region button when Mapbox is active
+            document.getElementById("region-button").style.display = "none";
     
             // Add controls
             map.addControl(new mapboxgl.NavigationControl({ showCompass: false }), 'top-right');
@@ -461,9 +464,11 @@
             switchToOSM();
         }
     }
-    
+
     function switchToOSM() {
         document.getElementById('map').innerHTML = '';
+    
+        // Show the region button when switching to OSM
         document.getElementById("region-button").style.display = "block";
     
         // Hide unnecessary buttons
@@ -510,6 +515,7 @@
     
         document.body.appendChild(leafletJS);
     }
+
 
 
     
