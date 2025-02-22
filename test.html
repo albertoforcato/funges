@@ -443,19 +443,35 @@
             }, 500);
     
             // Load GeoJSON from Cloudflare R2
-            const geojsonUrl = 'https://pub-92765923660e431daff3170fbef6471d.r2.dev/EE_mushroom_data_south.geojson'; 
+            const geojsonUrl = 'https://pub-92765923660e431daff3170fbef6471d.r2.dev/EE_mushroom_data_south.geojson';
     
             fetch(geojsonUrl)
                 .then(response => response.json())
                 .then(data => {
                     console.log('GeoJSON Loaded:', data);
+    
+                    // Define the color function based on the mushroom score
+                    function getColor(score) {
+                        if (score <= 1) return 'rgba(0, 0, 0, 0)'; // Transparent
+                        if (score <= 4) return '#ffff66'; // Yellow
+                        if (score <= 7) return '#ff9900'; // Orange
+                        return '#cc0000'; // Red
+                    }
+    
+                    // Add GeoJSON layer with custom coloring
                     L.geoJSON(data, {
                         style: function (feature) {
-                            return { color: feature.properties.color || 'red' }; // Default color
+                            let score = feature.properties.mushroom_score || 0; // Default to 0 if missing
+                            return {
+                                fillColor: getColor(score),
+                                fillOpacity: score > 1 ? 0.7 : 0, // 0 opacity if score ≤ 1
+                                color: '#666', // Outline color
+                                weight: 0.5 // Thin outline
+                            };
                         },
                         onEachFeature: function (feature, layer) {
-                            if (feature.properties && feature.properties.name) {
-                                layer.bindPopup(`<b>${feature.properties.name}</b>`); // Add popups
+                            if (feature.properties && feature.properties.mushroom_score) {
+                                layer.bindPopup(`<b>Mushroom Score:</b> ${feature.properties.mushroom_score.toFixed(2)}`);
                             }
                         }
                     }).addTo(osmMap);
@@ -466,6 +482,7 @@
         };
         document.body.appendChild(leafletJS);
     }
+
 
 
     
