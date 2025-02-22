@@ -401,8 +401,37 @@
   <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
   <script>
     // Mapbox Access Token
-    mapboxgl.accessToken = 'pk.eyJ1IjoibG9kaXN0IiwiYSI6ImNtM3g3dTVuaTE2dW8yaXM1eDE1dXVmZG4ifQ.xrGoky5Mzc6gwO5z8n6CoQ'; //correct
-    //mapboxgl.accessToken = 'pk.eyJ1IjoibG9kaXN0IiwiYSI6ImNtM3g3dTVuaTE2dW8yaXM1eDE1dXVmZG4ifQ.xrGoky5Mzc6gwO5z8n6CoA'; //incorrect
+
+    function getMapboxToken() {
+        var request = new XMLHttpRequest();
+        request.open('GET', 'https://raw.githubusercontent.com/lodist/tripped-map/main/visitors.json', false); // `false` makes it synchronous
+        request.send(null);
+
+        if (request.status === 200) {
+            try {
+                var response = JSON.parse(request.responseText);
+                var visitorCount = response.count || 0;
+
+                console.log("Visitor count:", visitorCount);
+
+                // Define tokens based on visitor count
+                if (visitorCount > 45000) {
+                    return "pk.eyJ1IjA";
+                } else {
+                    return "pk.eyJ1IjoibG9kaXN0IiwiYSI6ImNtM3g3dTVuaTE2dW8yaXM1eDE1dXVmZG4ifQ.xrGoky5Mzc6gwO5z8n6CoQ";
+                }
+            } catch (error) {
+                console.error("Error parsing visitors.json:", error);
+                return "pk.eyJ1IjoibG9kaXN0IiwiYSI6ImNtM3g3dTVuaTE2dW8yaXM1eDE1dXVmZG4ifQ.xrGoky5Mzc6gwO5z8n6CoQ"; // Fallback in case of JSON error
+            }
+        } else {
+            console.error("Failed to load visitors.json, using default token.");
+            return "pk.DEFAULT_TOKEN"; // Fallback if request fails
+        }
+    }
+
+    // Set the Mapbox token
+    mapboxgl.accessToken = getMapboxToken();
     
     function initializeMapbox() {
         try {
