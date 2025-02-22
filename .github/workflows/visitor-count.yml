@@ -8,38 +8,83 @@ on:
 jobs:
   update-visitors:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}  # Use the GitHub default token
+          python-version: '3.9'
 
-      - name: Install jq
-        run: sudo apt-get install jq -y
-
-      - name: Reset Count Once on the 1st of the Month
+      - name: Install dependencies
         run: |
-          VISITOR_FILE="visitors.json"
-          
-          # Get current date and time
-          CURRENT_DATE=$(date +'%Y-%m-%d %H:%M:%S')
-          CURRENT_DAY=$(date +'%d')
-          CURRENT_HOUR=$(date +'%H')
+          python -m pip install --upgrade pip
+          pip install requests
 
-          # Only reset at the first execution (midnight, hour 00)
-          if [ "$CURRENT_DAY" = "01" ] && [ "$CURRENT_HOUR" = "00" ]; then
-            echo "🔄 [$CURRENT_DATE] Resetting visitor count to 0 (New Month)"
-            echo "{\"count\": 0}" > "$VISITOR_FILE"
-          else
-            echo "✅ [$CURRENT_DATE] No reset needed."
-          fi
+      - name: Run script to fetch visitor count
+        run: |
+          python -c "
+import requests
+import json
+from datetime import datetime, timedelta, timezone
 
-          # Increment the visitor count
-          COUNT=$(jq '.count' "$VISITOR_FILE")
-          echo "Current Count: $COUNT"
-          NEW_COUNT=$((COUNT + 1))
-          echo "{\"count\": $NEW_COUNT}" > "$VISITOR_FILE"
+# Replace with your actual API Token and Zone ID
+API_TOKEN = 'Aktmlr0CpEEteZFQ4GWKnUuIbbKWZXVYR3GrF2zt'
+ZONE_ID = 'f64847c236c3ab2b1073839372fe5de5'
+GRAPHQL_URL = 'https://api.cloudflare.com/client/v4/graphql/'
 
-      - name: Commit Changes
+# Get the start date (30 days ago) and end date (yesterday)
+start_date = (datetime.now(timezone.utc) - timedelta(days=30)).strftime('%Y-%m-%d')
+end_date = (datetime.now(timezone.utc) - timedelta(days=1)).strftime('%Y-%m-%d')
+
+graphql_query = {
+    'query': f'''
+    query {{
+      viewer {{
+        zones(filter: {{ zoneTag: "{ZONE_ID}" }}) {{
+          httpRequests1dGroups(limit: 30, filter: {{ date_geq: "{start_date}", date_leq: "{end_date}" }}) {{
+            uniq {{
+              uniques
+            }}
+          }}
+        }}
+      }}
+    }}'''
+}
+
+headers = {
+    'Authorization': f'Bearer {API_TOKEN}',
+    'Content-Type': 'application/json'
+}
+
+response = requests.post(GRAPHQL_URL, json=graphql_query, headers=headers)
+
+# Extract unique visitors safely
+data = response.json()
+if 'data' in data and data['data']['viewer']['zones']:
+    daily_uniques = data['data']['viewer']['zones'][0]['httpRequests1dGroups']
+    total_unique_visitors = sum(day['uniq']['uniques'] for day in daily_uniques)
+
+    print(f'Unique visitors in the past 30 days: {total_unique_visitors}')
+
+    # Update visitors.json with new count
+    VISITOR_FILE = 'visitors.json'
+    try:
+        with open(VISITOR_FILE, 'r') as f:
+            current_data = json.load(f)
+        current_data['count'] = total_unique_visitors
+    except FileNotFoundError:
+        current_data = {'count': total_unique_visitors}
+
+    with open(VISITOR_FILE, 'w') as f:
+        json.dump(current_data, f, indent=2)
+else:
+    print('No data found or failed API request')
+"
+
+      - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: "Update visitor count"
