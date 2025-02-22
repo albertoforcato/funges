@@ -8,7 +8,7 @@ ZONE_ID = "f64847c236c3ab2b1073839372fe5de5"
 GRAPHQL_URL = "https://api.cloudflare.com/client/v4/graphql/"
 
 # Get the start date (30 days ago) and end date (yesterday)
-start_date = (datetime.now(timezone.utc) - timedelta(days=30)).strftime("%Y-%m-%d")
+start_date = datetime.now(timezone.utc).replace(day=1).strftime("%Y-%m-%d")
 end_date = (datetime.now(timezone.utc) - timedelta(days=1)).strftime("%Y-%m-%d")
 
 graphql_query = {
