@@ -342,12 +342,13 @@
         <div class="button" id="region-button" onclick="toggleRegionDropdown(event)">
             <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/region_1.png" alt="Region Button">
         </div>
-        <div id="region-dropdown" class="dropdown-menu">
-            <button onclick="loadRegion('north')">Eastern Europe North</button>
-            <button onclick="loadRegion('south')">Eastern Europe South</button>
-        </div>
     </div>
     
+    <!-- Move dropdown outside of #button-bar -->
+    <div id="region-dropdown" class="dropdown-menu">
+        <button onclick="loadRegion('north')">Eastern Europe North</button>
+        <button onclick="loadRegion('south')">Eastern Europe South</button>
+    </div>
     
     <div class="button">
       <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/gmaps_1.png" alt="Google Maps Button">
