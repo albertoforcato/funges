@@ -243,26 +243,25 @@
     }
         
     .button-container {
-        position: relative; /* Assicura che il dropdown sia posizionato correttamente */
+        position: relative;
     }
     
-    /* Specifico per il dropdown con ID "region-dropdown" */
+    /* Correct dropdown positioning */
     #region-dropdown {
-        display: none; /* Nascosto di default */
+        display: none; /* Hidden by default */
         position: absolute;
-        left: 50%; /* Centra rispetto al bottone */
-        top: 100%; /* Lo fa apparire sotto il bottone */
-        transform: translateX(-50%); /* Allinea al centro */
+        top: 100%; /* Places it directly below the button */
+        left: 0; /* Aligns it to the left of the button */
         background: rgba(255, 252, 239, 0.95);
         border-radius: 8px;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         padding: 5px;
-        z-index: 9999; /* Più alto per non essere coperto */
+        z-index: 99999; /* Ensure it appears above everything */
         min-width: 150px;
         white-space: nowrap;
     }
     
-    /* Stile per i bottoni dentro il dropdown */
+    /* Style for the buttons inside dropdown */
     #region-dropdown button {
         display: block;
         width: 100%;
@@ -277,6 +276,7 @@
     #region-dropdown button:hover {
         background: rgba(255, 252, 239, 0.90);
     }
+
 
 
 
@@ -526,38 +526,43 @@
     }
 
     
-    function toggleRegionDropdown() {
+    function toggleRegionDropdown(event) {
+        event.stopPropagation(); // Prevents the event from propagating up and closing immediately
+        
         const dropdown = document.getElementById("region-dropdown");
+        const button = document.getElementById("region-button");
     
-        if (!dropdown) {
-            console.error("Dropdown not found!");
+        if (!dropdown || !button) {
+            console.error("Dropdown or button not found!");
             return;
         }
     
+        // Get button position
+        const rect = button.getBoundingClientRect();
+    
+        // Toggle display
         if (dropdown.style.display === "none" || dropdown.style.display === "") {
-            dropdown.style.display = "block"; 
-            console.log("Dropdown displayed");
+            dropdown.style.display = "block";
+            dropdown.style.top = rect.bottom + "px"; // Position below the button
+            dropdown.style.left = rect.left + "px"; // Align left with the button
+            console.log("Dropdown displayed at:", rect.left, rect.bottom);
         } else {
             dropdown.style.display = "none";
             console.log("Dropdown hidden");
         }
     }
-
-
-
-
     
     // Close dropdown when clicking outside
-    document.addEventListener('click', function(event) {
+    document.addEventListener("click", function (event) {
         const dropdown = document.getElementById("region-dropdown");
         const button = document.getElementById("region-button");
     
-        if (dropdown.style.display === "block" && 
-            event.target !== button && 
-            !dropdown.contains(event.target)) {
+        if (dropdown && dropdown.style.display === "block" &&
+            event.target !== button && !dropdown.contains(event.target)) {
             dropdown.style.display = "none";
         }
     });
+
 
     
     let geoJsonLayer = null; // Stores the active GeoJSON layer
