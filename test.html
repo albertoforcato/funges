@@ -537,8 +537,7 @@
     function loadRegion(region) {
         console.log(`Loading region: ${region}`);
         
-        // Save selection
-        localStorage.setItem('selectedRegion', region);
+        localStorage.setItem('selectedRegion', region);  // Store selection
     
         const geojsonUrls = {
             north: 'https://pub-92765923660e431daff3170fbef6471d.r2.dev/EE_mushroom_data_north.geojson',
@@ -550,13 +549,10 @@
             return;
         }
     
-        // Remove existing layer
         if (geoJsonLayer) {
             osmMap.removeLayer(geoJsonLayer);
-            geoJsonLayer = null;
         }
     
-        // Show loading spinner
         document.getElementById("loading-spinner").style.display = "flex";
     
         fetch(geojsonUrls[region])
@@ -585,11 +581,8 @@
         document.getElementById("region-dropdown").style.display = "none";
     }
 
-
-    
     // Initialize Mapbox first
     const map = initializeMapbox();
-
     
     // Resize the map on visibility change to handle mobile-specific issues
     document.addEventListener('visibilitychange', () => {
@@ -662,7 +655,6 @@
       }
       gmapsButton.style.display = 'none'; // Hide Google Maps button on page unload
     });
-
 
     
     // Add a marker for the user's location
@@ -745,7 +737,6 @@
     }
 
 
-    
     // Function to ensure pin is added and map is focused on location
     function ensurePinAndFocus(coordinates) {
       if (userMarker) {
