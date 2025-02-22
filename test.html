@@ -432,7 +432,7 @@
             document.getElementById('map').style.left = '80px';
     
             // Initialize OSM map
-            const osmMap = L.map('map').setView([47.7508, 7.3359], 4);
+            const osmMap = L.map('map').setView([47.7508, 7.3359], 6); // 🔹 Set default zoom to avoid lag
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; OpenStreetMap contributors'
             }).addTo(osmMap);
@@ -449,16 +449,33 @@
                 .then(response => response.json())
                 .then(data => {
                     console.log('GeoJSON Loaded:', data);
-                    L.geoJSON(data, {
-                        style: function (feature) {
-                            return { color: feature.properties.color || 'red' }; // Default color
+    
+                    // 🔹 Simplify GeoJSON (optional)
+                    const simplifiedGeoJSON = turf.simplify(data, { tolerance: 0.001, highQuality: true });
+    
+                    // 🔹 Cluster large datasets
+                    const markers = L.markerClusterGroup();
+    
+                    const geojsonLayer = L.geoJSON(simplifiedGeoJSON, {
+                        pointToLayer: function (feature, latlng) {
+                            return L.circleMarker(latlng, {
+                                radius: 4,
+                                fillColor: feature.properties.color || 'red',
+                                color: '#000',
+                                weight: 1,
+                                opacity: 1,
+                                fillOpacity: 0.8
+                            });
                         },
                         onEachFeature: function (feature, layer) {
                             if (feature.properties && feature.properties.name) {
-                                layer.bindPopup(`<b>${feature.properties.name}</b>`); // Add popups
+                                layer.bindPopup(`<b>${feature.properties.name}</b>`);
                             }
                         }
-                    }).addTo(osmMap);
+                    });
+    
+                    markers.addLayer(geojsonLayer);
+                    osmMap.addLayer(markers);
                 })
                 .catch(error => {
                     console.error('Error loading GeoJSON:', error);
