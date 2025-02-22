@@ -402,35 +402,38 @@
   <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
   <script>
     // Mapbox Access Token
+    mapboxgl.accessToken = 'pk.eyJ1IjoibG9kaXN0IiwiYSI6ImNtM3g3dTVuaTE2dW8yaXM1eDE1dXVmZG4ifQ.xrGoky5Mzc6gwO5z8n6CoQ'; //correct
+    //mapboxgl.accessToken = 'pk.eyJ1IjoibG9kaXN0IiwiYSI6ImNtM3g3dTVuaTE2dW8yaXM1eDE1dXVmZG4ifQ.xrGoky5Mzc6gwO5z8n6CoA'; //incorrect
 
-    const GITHUB_RAW_URL = "https://raw.githubusercontent.com/lodist/tripped-map/main/visitors.json";
+    // Function to initialize the Mapbox map
+    function initializeMap() {
+      const map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/lodist/clzo3ivsk007d01piaoah1dfy',
+        center: [7.3359, 47.7508], // Starting position [longitude, latitude]
+        zoom: 4, // Starting zoom level
+        maxZoom: 20, // Maximum zoom level
+        minZoom: 4, // Minimum zoom level
+        collectResourceTiming: false, // Ensures telemetry and resource collection are disabled
+        performanceMetricsCollection: false
+      });
     
-    fetch(GITHUB_RAW_URL)
-        .then(res => res.json())
-        .then(data => {
-            console.log(`📊 Visitor Count: ${data.count}`);
+      // Add controls to the map
+      map.addControl(new mapboxgl.NavigationControl({ showCompass: false }), 'top-right');
+      map.addControl(new mapboxgl.FullscreenControl(), 'top-right');
     
-            mapboxgl.accessToken = (data.count > 45000) 
-                ? 'pk.eyJ1IjoibG9kafQ.xrGoky5Mzc6gwO5z8n6CoA' // incorrect
-                : 'pk.eyJ1IjoibG9kaXN0IiwiYSI6ImNtM3g3dTVuaTE2dW8yaXM1eDE1dXVmZG4ifQ.xrGoky5Mzc6gwO5z8n6CoQ';  // correct
-            
-            console.log(`✅ Using Mapbox Token: ${mapboxgl.accessToken}`);
+      // Listen for WebGL context loss and reinitialize the map
+      map.on('webglcontextlost', () => {
+        console.error('WebGL context lost. Attempting to recreate the map.');
+        map.remove();
+        initializeMap();
+      });
     
-            initializeMapbox(); // 🔥 Always use initializeMapbox() as per your logic
-        })
-        .catch(() => {
-            console.error("❌ Failed to fetch visitor count, using default key.");
-            mapboxgl.accessToken = 'pk.eyJ1IjoibG9kaXN0IiwiYSI6ImNtM3g3dTVuaTE2dW8yaXM1eDE1dXVmZG4ifQ.xrGoky5Mzc6gwO5z8n6CoQ';
-            
-            console.log(`✅ Using fallback Mapbox Token: ${mapboxgl.accessToken}`);
-    
-            initializeMapbox(); // 🔥 Always ensure Mapbox is initialized
-        });
+      return map;
+    }
     
     function initializeMapbox() {
         try {
-            console.log("🔄 Initializing Mapbox...");
-    
             const map = new mapboxgl.Map({
                 container: 'map',
                 style: 'mapbox://styles/lodist/clzo3ivsk007d01piaoah1dfy',
@@ -451,19 +454,16 @@
     
             // Handle WebGL failure
             map.on('error', () => {
-                console.error('❌ Mapbox failed to load, switching to OSM.');
+                console.error('Mapbox failed to load, switching to OSM.');
                 switchToOSM();
             });
     
-            console.log(`✅ Map initialized with token: ${mapboxgl.accessToken}`);
             return map;
-    
         } catch (error) {
-            console.error('❌ Error loading Mapbox:', error);
+            console.error('Error loading Mapbox:', error);
             switchToOSM();
         }
     }
-
 
     function switchToOSM() {
         document.getElementById('map').innerHTML = '';
@@ -627,8 +627,6 @@
     
         document.getElementById("region-dropdown").style.display = "none";
     }
-
-
 
     // Initialize Mapbox first
     const map = initializeMapbox();
