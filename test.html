@@ -424,74 +424,47 @@
     
         const leafletJS = document.createElement('script');
         leafletJS.src = 'https://unpkg.com/leaflet/dist/leaflet.js';
+        leafletJS.onload = function () {
+            console.log('Leaflet loaded, initializing OSM map.');
     
-        const turfJS = document.createElement('script');
-        turfJS.src = 'https://unpkg.com/@turf/turf@6/turf.min.js'; // ✅ Load Turf.js
+            // Ensure correct map size
+            document.getElementById('map').style.width = 'calc(100% - 80px)';
+            document.getElementById('map').style.left = '80px';
     
-        turfJS.onload = function () {
-            console.log('Turf.js loaded successfully.');
+            // Initialize OSM map
+            const osmMap = L.map('map').setView([47.7508, 7.3359], 4);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap contributors'
+            }).addTo(osmMap);
     
-            leafletJS.onload = function () {
-                console.log('Leaflet loaded, initializing OSM map.');
+            // Ensure Leaflet resizes correctly
+            setTimeout(() => {
+                osmMap.invalidateSize();
+            }, 500);
     
-                // Ensure correct map size
-                document.getElementById('map').style.width = 'calc(100% - 80px)';
-                document.getElementById('map').style.left = '80px';
+            // Load GeoJSON from Cloudflare R2
+            const geojsonUrl = 'https://pub-92765923660e431daff3170fbef6471d.r2.dev/EE_mushroom_data_optimized.geojson'; 
     
-                // Initialize OSM map
-                const osmMap = L.map('map').setView([47.7508, 7.3359], 6);
-                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                    attribution: '&copy; OpenStreetMap contributors'
-                }).addTo(osmMap);
-    
-                setTimeout(() => {
-                    osmMap.invalidateSize();
-                }, 500);
-    
-                // Load GeoJSON from Cloudflare R2
-                const geojsonUrl = 'https://pub-92765923660e431daff3170fbef6471d.r2.dev/EE_mushroom_data.geojson'; // ✅ Your actual URL
-    
-                fetch(geojsonUrl)
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log('GeoJSON Loaded:', data);
-    
-                        // ✅ Simplify GeoJSON to speed up rendering
-                        const simplifiedGeoJSON = turf.simplify(data, { tolerance: 0.001, highQuality: true });
-    
-                        // ✅ Cluster large datasets for better performance
-                        const markers = L.markerClusterGroup();
-    
-                        const geojsonLayer = L.geoJSON(simplifiedGeoJSON, {
-                            pointToLayer: function (feature, latlng) {
-                                return L.circleMarker(latlng, {
-                                    radius: 4,
-                                    fillColor: feature.properties.color || 'red',
-                                    color: '#000',
-                                    weight: 1,
-                                    opacity: 1,
-                                    fillOpacity: 0.8
-                                });
-                            },
-                            onEachFeature: function (feature, layer) {
-                                if (feature.properties && feature.properties.name) {
-                                    layer.bindPopup(`<b>${feature.properties.name}</b>`);
-                                }
+            fetch(geojsonUrl)
+                .then(response => response.json())
+                .then(data => {
+                    console.log('GeoJSON Loaded:', data);
+                    L.geoJSON(data, {
+                        style: function (feature) {
+                            return { color: feature.properties.color || 'red' }; // Default color
+                        },
+                        onEachFeature: function (feature, layer) {
+                            if (feature.properties && feature.properties.name) {
+                                layer.bindPopup(`<b>${feature.properties.name}</b>`); // Add popups
                             }
-                        });
-    
-                        markers.addLayer(geojsonLayer);
-                        osmMap.addLayer(markers);
-                    })
-                    .catch(error => {
-                        console.error('Error loading GeoJSON:', error);
-                    });
-            };
-    
-            document.body.appendChild(leafletJS);
+                        }
+                    }).addTo(osmMap);
+                })
+                .catch(error => {
+                    console.error('Error loading GeoJSON:', error);
+                });
         };
-    
-        document.body.appendChild(turfJS);
+        document.body.appendChild(leafletJS);
     }
 
 
