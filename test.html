@@ -246,14 +246,12 @@
         position: relative;
     }
     
-
     #region-dropdown {
         display: none; /* Hidden by default */
         position: fixed; /* Ensures it's placed outside the sidebar */
-        left: 180px; /* Moves it to the right of the button bar */
         background: rgba(255, 252, 239, 0.90); /* Same color as button bar */
         border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Halo effect */
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Stronger halo effect */
         padding: 5px;
         z-index: 99999; /* Ensures it appears above other elements */
         min-width: 170px;
@@ -545,11 +543,11 @@
             dropdown.style.display = "none";
         } else {
             dropdown.style.display = "block";
-            
-            // Ensure dropdown is positioned **above** the button and fully visible
-            dropdown.style.position = "fixed";  // Detach it from sidebar constraints
-            dropdown.style.top = `${rect.top - dropdown.offsetHeight - 10}px`; // Move above the button
-            dropdown.style.left = `${rect.left}px`; // Align left with the button
+    
+            // Ensure dropdown is positioned **to the right of the button**
+            dropdown.style.position = "fixed";  // Detach from sidebar constraints
+            dropdown.style.top = `${rect.top}px`; // Align with button
+            dropdown.style.left = `${rect.right + 10}px`; // Move 10px to the right of the button
             dropdown.style.zIndex = "99999";  // Ensure it appears above all elements
         }
     }
@@ -564,6 +562,7 @@
             dropdown.style.display = "none";
         }
     });
+
 
 
 
