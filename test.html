@@ -416,7 +416,11 @@
     function switchToOSM() {
         // Remove Mapbox's container before switching
         document.getElementById('map').innerHTML = '';
-    
+        // Hide specific buttons when switching to OSM
+        document.querySelector('.button img[alt="Numbers Button"]').parentElement.style.display = 'none';
+        document.querySelector('.button img[alt="Sun/Moon Button"]').parentElement.style.display = 'none';
+        document.querySelector('.button img[alt="Locate Me Button"]').parentElement.style.display = 'none';
+
         // Load Leaflet styles dynamically
         const leafletCSS = document.createElement('link');
         leafletCSS.rel = 'stylesheet';
