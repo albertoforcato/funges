@@ -75,7 +75,7 @@
       padding: 10px 0;
       box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
       overflow-y: auto;
-      overflow-x: hidden;
+      overflow-x: visible;
     }
         
     #footer {
@@ -248,18 +248,19 @@
     
     /* Correct dropdown positioning */
     #region-dropdown {
-        display: none; /* Hidden by default */
-        position: absolute;
-        top: 100%; /* Places it directly below the button */
-        left: 0; /* Aligns it to the left of the button */
+    #region-dropdown {
+        display: none; /* Nascondi inizialmente */
+        position: fixed; /* Evita che sia contenuto nel sidebar */
         background: rgba(255, 252, 239, 0.95);
         border-radius: 8px;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         padding: 5px;
-        z-index: 99999; /* Ensure it appears above everything */
+        z-index: 99999; /* Assicura che sia sempre visibile sopra gli altri elementi */
         min-width: 150px;
         white-space: nowrap;
+        overflow: visible !important; /* Assicura che nulla venga tagliato */
     }
+
     
     /* Style for the buttons inside dropdown */
     #region-dropdown button {
@@ -527,9 +528,9 @@
     }
 
     
-    function toggleRegionDropdown(event = window.event) {
+    function toggleRegionDropdown(event) {
         if (event) event.stopPropagation();
-        
+    
         const dropdown = document.getElementById("region-dropdown");
         const button = document.getElementById("region-button");
     
@@ -538,18 +539,20 @@
             return;
         }
     
-        // Get button position
+        // Get absolute position of the button
         const rect = button.getBoundingClientRect();
     
-        // Toggle display
-        if (dropdown.style.display === "none" || dropdown.style.display === "") {
-            dropdown.style.display = "block";
-            dropdown.style.top = rect.bottom + "px"; // Position below the button
-            dropdown.style.left = rect.left + "px"; // Align left with the button
-            console.log("Dropdown displayed at:", rect.left, rect.bottom);
-        } else {
+        // Toggle dropdown visibility
+        if (dropdown.style.display === "block") {
             dropdown.style.display = "none";
-            console.log("Dropdown hidden");
+        } else {
+            dropdown.style.display = "block";
+            
+            // Ensure dropdown is positioned **above** the button and fully visible
+            dropdown.style.position = "fixed";  // Detach it from sidebar constraints
+            dropdown.style.top = `${rect.top - dropdown.offsetHeight - 10}px`; // Move above the button
+            dropdown.style.left = `${rect.left}px`; // Align left with the button
+            dropdown.style.zIndex = "99999";  // Ensure it appears above all elements
         }
     }
     
@@ -563,6 +566,7 @@
             dropdown.style.display = "none";
         }
     });
+
 
 
     
