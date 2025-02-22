@@ -455,12 +455,12 @@
         document.getElementById('map').innerHTML = '';
         document.getElementById("region-button").style.display = "block";
     
-        // Hide specific buttons when switching to OSM
+        // Hide unnecessary buttons
         document.querySelector('.button img[alt="Numbers Button"]').parentElement.style.display = 'none';
         document.querySelector('.button img[alt="Sun/Moon Button"]').parentElement.style.display = 'none';
         document.querySelector('.button img[alt="Locate Me Button"]').parentElement.style.display = 'none';
     
-        // Load Leaflet styles dynamically
+        // Load Leaflet dynamically
         const leafletCSS = document.createElement('link');
         leafletCSS.rel = 'stylesheet';
         leafletCSS.href = 'https://unpkg.com/leaflet/dist/leaflet.css';
@@ -486,12 +486,16 @@
                 osmMap.invalidateSize();
             }, 500);
     
-            // Load previously selected region (or default to "south")
-            const lastRegion = localStorage.getItem('selectedRegion') || 'south';
-            loadRegion(lastRegion);
+            // Load the last selected region **only after Leaflet is ready**
+            setTimeout(() => {
+                const lastRegion = localStorage.getItem('selectedRegion') || 'south';
+                loadRegion(lastRegion);
+            }, 1000);
         };
+    
         document.body.appendChild(leafletJS);
     }
+
 
     
     function getColor(score) {
@@ -508,33 +512,55 @@
         return '#800020'; // Dark red (default)
     }
 
+    
     function toggleRegionDropdown() {
         const dropdown = document.getElementById("region-dropdown");
-        dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+        dropdown.style.display = (dropdown.style.display === "none" || dropdown.style.display === "") ? "block" : "none";
     }
+
+    
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(event) {
+        const dropdown = document.getElementById("region-dropdown");
+        const button = document.getElementById("region-button");
+    
+        if (dropdown.style.display === "block" && 
+            event.target !== button && 
+            !dropdown.contains(event.target)) {
+            dropdown.style.display = "none";
+        }
+    });
+
     
     let geoJsonLayer = null; // Stores the active GeoJSON layer
     
     function loadRegion(region) {
-        localStorage.setItem('selectedRegion', region);  // Store selection
+        console.log(`Loading region: ${region}`);
+        
+        // Save selection
+        localStorage.setItem('selectedRegion', region);
     
         const geojsonUrls = {
             north: 'https://pub-92765923660e431daff3170fbef6471d.r2.dev/EE_mushroom_data_north.geojson',
             south: 'https://pub-92765923660e431daff3170fbef6471d.r2.dev/EE_mushroom_data_south.geojson'
         };
     
+        if (!geojsonUrls[region]) {
+            console.error("Invalid region:", region);
+            return;
+        }
+    
+        // Remove existing layer
         if (geoJsonLayer) {
             osmMap.removeLayer(geoJsonLayer);
             geoJsonLayer = null;
         }
     
+        // Show loading spinner
         document.getElementById("loading-spinner").style.display = "flex";
     
         fetch(geojsonUrls[region])
-            .then(response => {
-                if (!response.ok) throw new Error(`HTTP Error ${response.status}`);
-                return response.json();
-            })
+            .then(response => response.json())
             .then(data => {
                 geoJsonLayer = L.geoJSON(data, {
                     style: feature => ({
@@ -558,15 +584,6 @@
     
         document.getElementById("region-dropdown").style.display = "none";
     }
-
-    document.addEventListener('click', function(event) {
-        const dropdown = document.getElementById("region-dropdown");
-        const button = document.getElementById("region-button");
-
-        if (dropdown.style.display === "block" && !dropdown.contains(event.target) && event.target !== button) {
-            dropdown.style.display = "none";
-        }
-    });
 
 
     
