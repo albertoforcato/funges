@@ -574,16 +574,23 @@
         }
     });
 
-
-
-
     
     let geoJsonLayer = null; // Stores the active GeoJSON layer
     
+    let currentRegion = localStorage.getItem('selectedRegion') || 'south'; // Track active region
+    
     function loadRegion(region) {
+        if (region === currentRegion) {
+            console.log(`Region ${region} is already active, no need to reload.`);
+            return; // Stop if the region is already selected
+        }
+    
         console.log(`Loading region: ${region}`);
-        
-        localStorage.setItem('selectedRegion', region);  // Store selection
+        localStorage.setItem('selectedRegion', region); // Store new region
+        currentRegion = region; // Update current region
+    
+        const spinner = document.getElementById("loading-spinner");
+        spinner.style.display = "flex"; // Show loading spinner
     
         const geojsonUrls = {
             north: 'https://pub-92765923660e431daff3170fbef6471d.r2.dev/EE_mushroom_data_north.geojson',
@@ -592,13 +599,14 @@
     
         if (!geojsonUrls[region]) {
             console.error("Invalid region:", region);
+            spinner.style.display = "none"; // Hide spinner if invalid
             return;
         }
     
         if (geoJsonLayer) {
             osmMap.removeLayer(geoJsonLayer);
         }
-        
+    
         fetch(geojsonUrls[region])
             .then(response => response.json())
             .then(data => {
@@ -619,11 +627,14 @@
                 alert("Failed to load region data. Please try again.");
             })
             .finally(() => {
-                document.getElementById("loading-spinner").style.display = "none";
+                setTimeout(() => {
+                    spinner.style.display = "none"; // Hide spinner after loading
+                }, 500); // Small delay for smooth transition
             });
     
-        document.getElementById("region-dropdown").style.display = "none";
+        document.getElementById("region-dropdown").style.display = "none"; // Hide dropdown after selection
     }
+
 
     // Initialize Mapbox first
     const map = initializeMapbox();
