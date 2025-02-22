@@ -245,15 +245,16 @@
     .dropdown-menu {
         display: none;
         position: absolute;
-        left: 50%; /* Centered under the button */
-        top: 100%; /* Right below the button */
-        transform: translateX(-50%); /* Center aligns it horizontally */
+        left: 100%; /* Moves it to the right of the button */
+        top: 50%; /* Aligns vertically with the button */
+        transform: translateY(-50%); /* Centers vertically */
         background: rgba(255, 252, 239, 0.95);
         border-radius: 8px;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         padding: 5px;
-        z-index: 1000;
-        min-width: 120px; /* Ensure enough space for the buttons */
+        z-index: 2000; /* Ensures it appears on top */
+        min-width: 120px; /* Ensures enough width for buttons */
+        white-space: nowrap; /* Prevents button text from wrapping */
     }
     
     .dropdown-menu button {
@@ -270,7 +271,6 @@
     .dropdown-menu button:hover {
         background: rgba(255, 252, 239, 0.90);
     }
-
 
 
   </style>
@@ -330,14 +330,16 @@
     </div>
 
     
-    <div class="button" id="region-button" onclick="toggleRegionDropdown()">
-        <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/region_1.png" alt="Region Button">
+    <div class="button-container">
+        <div class="button" id="region-button" onclick="toggleRegionDropdown()">
+            <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/region_1.png" alt="Region Button">
+        </div>
+        <div id="region-dropdown" class="dropdown-menu">
+            <button onclick="loadRegion('north')">Eastern Europe North</button>
+            <button onclick="loadRegion('south')">Eastern Europe South</button>
+        </div>
     </div>
-    <div id="region-dropdown" class="dropdown-menu" style="display: none;">
-        <button onclick="loadRegion('north')">Eastern Europe North</button>
-        <button onclick="loadRegion('south')">Eastern Europe South</button>
-    </div>
-
+    
     
     <div class="button">
       <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/gmaps_1.png" alt="Google Maps Button">
