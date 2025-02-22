@@ -1,5 +1,5 @@
 // ========== UNIQUE VISITOR COUNT ==========
-const GITHUB_RAW_URL = "https://raw.githubusercontent.com/YOUR_GITHUB_USERNAME/YOUR_REPO/main/visitors.json";
+const GITHUB_RAW_URL = "https://raw.githubusercontent.com/lodist/tripped-map/main/visitors.json";
 
 fetch(GITHUB_RAW_URL)
     .then(response => response.json())
