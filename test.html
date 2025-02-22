@@ -241,6 +241,34 @@
         z-index: 1000;
         min-width: 50%;
     }
+    
+    .dropdown-menu {
+        display: none;
+        position: absolute;
+        left: 90px;
+        top: 180px;
+        background: rgba(255, 252, 239, 0.95);
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        padding: 5px;
+        z-index: 1000;
+    }
+    
+    .dropdown-menu button {
+        display: block;
+        width: 100%;
+        padding: 8px;
+        border: none;
+        background: none;
+        text-align: left;
+        cursor: pointer;
+        font-size: 14px;
+    }
+    
+    .dropdown-menu button:hover {
+        background: rgba(255, 252, 239, 0.90); /* Same color as the halo */
+    }
+
 
   </style>
 </head>
@@ -297,6 +325,16 @@
         <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/support_1.png" alt="Support Button">
       </a>
     </div>
+
+    
+    <div class="button" id="region-button" style="display: none;" onclick="toggleRegionDropdown()">
+        <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/region_1.png" alt="Region Button">
+    </div>
+    <div id="region-dropdown" class="dropdown-menu" style="display: none;">
+        <button onclick="loadRegion('north')">Eastern Europe North</button>
+        <button onclick="loadRegion('south')">Eastern Europe South</button>
+    </div>
+
     
     <div class="button">
       <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/gmaps_1.png" alt="Google Maps Button">
@@ -414,13 +452,14 @@
     }
     
     function switchToOSM() {
-        // Remove Mapbox's container before switching
         document.getElementById('map').innerHTML = '';
+        document.getElementById("region-button").style.display = "block";
+    
         // Hide specific buttons when switching to OSM
         document.querySelector('.button img[alt="Numbers Button"]').parentElement.style.display = 'none';
         document.querySelector('.button img[alt="Sun/Moon Button"]').parentElement.style.display = 'none';
         document.querySelector('.button img[alt="Locate Me Button"]').parentElement.style.display = 'none';
-
+    
         // Load Leaflet styles dynamically
         const leafletCSS = document.createElement('link');
         leafletCSS.rel = 'stylesheet';
@@ -432,81 +471,102 @@
         leafletJS.onload = function () {
             console.log('Leaflet loaded, initializing OSM map.');
     
-            // Ensure correct map size and positioning
-            const mapElement = document.getElementById('map');
-            mapElement.style.width = 'calc(100% - 80px)';
-            mapElement.style.left = '80px';
-            mapElement.style.position = 'absolute';
-            mapElement.style.zIndex = '0'; // Ensure it's behind everything
-    
-            // Initialize OSM map
-            const osmMap = L.map('map', {
+            osmMap = L.map('map', {
                 center: [47.7508, 7.3359], 
                 zoom: 4,
-                minZoom: 4,  // 👈 Minimum zoom level like in Mapbox
-                maxZoom: 20,  // 👈 Maximum zoom level
+                minZoom: 4,
+                maxZoom: 20
             });
     
-            // Add OSM tile layer
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; OpenStreetMap contributors'
             }).addTo(osmMap);
     
-            // Ensure Leaflet resizes correctly
             setTimeout(() => {
                 osmMap.invalidateSize();
             }, 500);
     
-            // Load GeoJSON from Cloudflare R2
-            const geojsonUrl = 'https://pub-92765923660e431daff3170fbef6471d.r2.dev/EE_mushroom_data_south.geojson';
-    
-            fetch(geojsonUrl)
-                .then(response => response.json())
-                .then(data => {
-                    console.log('GeoJSON Loaded:', data);
-    
-                    // Define the color function based on the mushroom score
-                    function getColor(score) {
-                        if (score <= 0.5) return '#ffffcc'; 
-                        if (score <= 1) return '#ffffcc'; 
-                        if (score <= 2) return '#ffe4b5';
-                        if (score <= 3) return '#ffdab9';
-                        if (score <= 4) return '#fbae7e';
-                        if (score <= 5) return '#fa733d';
-                        if (score <= 7) return '#fb6d51';
-                        if (score <= 8) return '#fb4646';
-                        if (score <= 9) return '#a60310';
-                        if (score <= 10) return '#800020';
-                        return '#800020'; // Dark red
-                    }
-    
-                    // Add GeoJSON layer with custom coloring
-                    L.geoJSON(data, {
-                        style: function (feature) {
-                            let score = feature.properties.mushroom_score || 0; // Default to 0 if missing
-                            return {
-                                fillColor: getColor(score),
-                                fillOpacity: score > 1 ? 0.85 : 0, // 0 opacity if score ≤ 1
-                                color: "none", // No outline
-                                weight: 0 // No border
-                            };
-                        },
-                        onEachFeature: function (feature, layer) {
-                            if (feature.properties && feature.properties.mushroom_score) {
-                                layer.bindPopup(`<b>Mushroom Score:</b> ${feature.properties.mushroom_score.toFixed(2)}`);
-                            }
-                        }
-                    }).addTo(osmMap);
-                })
-                .catch(error => {
-                    console.error('Error loading GeoJSON:', error);
-                });
+            // Load previously selected region (or default to "south")
+            const lastRegion = localStorage.getItem('selectedRegion') || 'south';
+            loadRegion(lastRegion);
         };
         document.body.appendChild(leafletJS);
     }
 
+    
+    function getColor(score) {
+        if (score <= 0.5) return '#ffffcc'; 
+        if (score <= 1) return '#ffffcc'; 
+        if (score <= 2) return '#ffe4b5';
+        if (score <= 3) return '#ffdab9';
+        if (score <= 4) return '#fbae7e';
+        if (score <= 5) return '#fa733d';
+        if (score <= 7) return '#fb6d51';
+        if (score <= 8) return '#fb4646';
+        if (score <= 9) return '#a60310';
+        if (score <= 10) return '#800020';
+        return '#800020'; // Dark red (default)
+    }
 
+    function toggleRegionDropdown() {
+        const dropdown = document.getElementById("region-dropdown");
+        dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+    }
+    
+    let geoJsonLayer = null; // Stores the active GeoJSON layer
+    
+    function loadRegion(region) {
+        localStorage.setItem('selectedRegion', region);  // Store selection
+    
+        const geojsonUrls = {
+            north: 'https://pub-92765923660e431daff3170fbef6471d.r2.dev/EE_mushroom_data_north.geojson',
+            south: 'https://pub-92765923660e431daff3170fbef6471d.r2.dev/EE_mushroom_data_south.geojson'
+        };
+    
+        if (geoJsonLayer) {
+            osmMap.removeLayer(geoJsonLayer);
+            geoJsonLayer = null;
+        }
+    
+        document.getElementById("loading-spinner").style.display = "flex";
+    
+        fetch(geojsonUrls[region])
+            .then(response => {
+                if (!response.ok) throw new Error(`HTTP Error ${response.status}`);
+                return response.json();
+            })
+            .then(data => {
+                geoJsonLayer = L.geoJSON(data, {
+                    style: feature => ({
+                        fillColor: getColor(feature.properties.mushroom_score || 0),
+                        fillOpacity: 0.85,
+                        color: "none",
+                        weight: 0
+                    }),
+                    onEachFeature: (feature, layer) => {
+                        layer.bindPopup(`<b>Mushroom Score:</b> ${feature.properties.mushroom_score.toFixed(2)}`);
+                    }
+                }).addTo(osmMap);
+            })
+            .catch(error => {
+                console.error('Error loading GeoJSON:', error);
+                alert("Failed to load region data. Please try again.");
+            })
+            .finally(() => {
+                document.getElementById("loading-spinner").style.display = "none";
+            });
+    
+        document.getElementById("region-dropdown").style.display = "none";
+    }
 
+    document.addEventListener('click', function(event) {
+        const dropdown = document.getElementById("region-dropdown");
+        const button = document.getElementById("region-button");
+
+        if (dropdown.style.display === "block" && !dropdown.contains(event.target) && event.target !== button) {
+            dropdown.style.display = "none";
+        }
+    });
 
 
     
