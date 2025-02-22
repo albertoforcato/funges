@@ -465,8 +465,8 @@
                             return {
                                 fillColor: getColor(score),
                                 fillOpacity: score > 1 ? 0.7 : 0, // 0 opacity if score ≤ 1
-                                color: '#666', // Outline color
-                                weight: 0.5 // Thin outline
+                                color: "none", // No outline
+                                weight: 0 // No border
                             };
                         },
                         onEachFeature: function (feature, layer) {
@@ -482,6 +482,7 @@
         };
         document.body.appendChild(leafletJS);
     }
+
 
 
 
