@@ -402,37 +402,30 @@
   <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
   <script>
     // Mapbox Access Token
-    mapboxgl.accessToken = 'pk.eyJ1IjoibG9kaXN0IiwiYSI6ImNtM3g3dTVuaTE2dW8yaXM1eDE1dXVmZG4ifQ.xrGoky5Mzc6gwO5z8n6CoQ'; //correct
-    //mapboxgl.accessToken = 'pk.eyJ1IjoibG9kaXN0IiwiYSI6ImNtM3g3dTVuaTE2dW8yaXM1eDE1dXVmZG4ifQ.xrGoky5Mzc6gwO5z8n6CoA'; //incorrect
-
-    // Function to initialize the Mapbox map
-    function initializeMap() {
-      const map = new mapboxgl.Map({
-        container: 'map',
-        style: 'mapbox://styles/lodist/clzo3ivsk007d01piaoah1dfy',
-        center: [7.3359, 47.7508], // Starting position [longitude, latitude]
-        zoom: 4, // Starting zoom level
-        maxZoom: 20, // Maximum zoom level
-        minZoom: 4, // Minimum zoom level
-        collectResourceTiming: false, // Ensures telemetry and resource collection are disabled
-        performanceMetricsCollection: false
-      });
-    
-      // Add controls to the map
-      map.addControl(new mapboxgl.NavigationControl({ showCompass: false }), 'top-right');
-      map.addControl(new mapboxgl.FullscreenControl(), 'top-right');
-    
-      // Listen for WebGL context loss and reinitialize the map
-      map.on('webglcontextlost', () => {
-        console.error('WebGL context lost. Attempting to recreate the map.');
-        map.remove();
-        initializeMap();
-      });
-    
-      return map;
+    async function getVisitorCount() {
+        try {
+            const response = await fetch('https://raw.githubusercontent.com/lodist/tripped-map/main/visitors.json');
+            if (!response.ok) throw new Error('Failed to fetch visitor count');
+            
+            const data = await response.json();
+            return data.count;
+        } catch (error) {
+            console.error('Error fetching visitor count:', error);
+            return 0; // Default to 0 if there's an error
+        }
     }
     
-    function initializeMapbox() {
+    async function initializeMapbox() {
+        const visitorCount = await getVisitorCount();
+        console.log(`Visitor count: ${visitorCount}`);
+    
+        // Set the correct access token based on visitor count
+        if (visitorCount > 45000) {
+            mapboxgl.accessToken = 'pk.eyJ1IjoibG9kaXN0IiwiYS';
+        } else {
+            mapboxgl.accessToken = 'pk.eyJ1IjoibG9kaXN0IiwiYSI6ImNtM3g3dTVuaTE2dW8yaXM1eDE1dXVmZG4ifQ.xrGoky5Mzc6gwO5z8n6CoQ';
+        }
+    
         try {
             const map = new mapboxgl.Map({
                 container: 'map',
@@ -445,17 +438,15 @@
                 performanceMetricsCollection: false
             });
     
-            // Hide the region button when Mapbox is active
             document.getElementById("region-button").style.display = "none";
-    
-            // Add controls
             map.addControl(new mapboxgl.NavigationControl({ showCompass: false }), 'top-right');
             map.addControl(new mapboxgl.FullscreenControl(), 'top-right');
     
             // Handle WebGL failure
-            map.on('error', () => {
-                console.error('Mapbox failed to load, switching to OSM.');
-                switchToOSM();
+            map.on('webglcontextlost', () => {
+                console.error('WebGL context lost. Attempting to recreate the map.');
+                map.remove();
+                initializeMapbox();
             });
     
             return map;
@@ -464,6 +455,20 @@
             switchToOSM();
         }
     }
+    
+    // Ensure you call initializeMapbox() instead of initializeMap()
+    initializeMapbox().then(map => {
+        if (map) {
+            // Resize the map on visibility change to handle mobile-specific issues
+            document.addEventListener('visibilitychange', () => {
+                if (document.visibilityState === 'visible') {
+                    map.resize();
+                }
+            });
+        }
+    });
+
+
 
     function switchToOSM() {
         document.getElementById('map').innerHTML = '';
@@ -628,8 +633,6 @@
         document.getElementById("region-dropdown").style.display = "none";
     }
 
-    // Initialize Mapbox first
-    const map = initializeMapbox();
     
     // Resize the map on visibility change to handle mobile-specific issues
     document.addEventListener('visibilitychange', () => {
