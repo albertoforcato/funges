@@ -241,17 +241,19 @@
         z-index: 1000;
         min-width: 50%;
     }
-    
+        
     .dropdown-menu {
         display: none;
         position: absolute;
-        left: 90px;
-        top: 180px;
+        left: 50%; /* Centered under the button */
+        top: 100%; /* Right below the button */
+        transform: translateX(-50%); /* Center aligns it horizontally */
         background: rgba(255, 252, 239, 0.95);
         border-radius: 8px;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         padding: 5px;
         z-index: 1000;
+        min-width: 120px; /* Ensure enough space for the buttons */
     }
     
     .dropdown-menu button {
@@ -266,8 +268,9 @@
     }
     
     .dropdown-menu button:hover {
-        background: rgba(255, 252, 239, 0.90); /* Same color as the halo */
+        background: rgba(255, 252, 239, 0.90);
     }
+
 
 
   </style>
@@ -327,7 +330,7 @@
     </div>
 
     
-    <div class="button" id="region-button" style="display: none;" onclick="toggleRegionDropdown()">
+    <div class="button" id="region-button" onclick="toggleRegionDropdown()">
         <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/region_1.png" alt="Region Button">
     </div>
     <div id="region-dropdown" class="dropdown-menu" style="display: none;">
@@ -552,9 +555,7 @@
         if (geoJsonLayer) {
             osmMap.removeLayer(geoJsonLayer);
         }
-    
-        document.getElementById("loading-spinner").style.display = "flex";
-    
+        
         fetch(geojsonUrls[region])
             .then(response => response.json())
             .then(data => {
