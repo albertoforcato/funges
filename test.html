@@ -531,13 +531,16 @@
             return;
         }
     
-        dropdown.style.display = "block"; // Force it visible
-        dropdown.style.position = "absolute"; // Ensure absolute positioning
-        dropdown.style.left = "0"; // Reset positioning for debug
-        dropdown.style.top = "50px"; // Move it below the button for visibility
+        dropdown.style.display = "block";  // Ensure it's visible
+        dropdown.style.position = "absolute";
+        dropdown.style.left = "20px"; // Adjust positioning if needed
+        dropdown.style.top = "50px";
+        dropdown.style.zIndex = "9999"; // Ensure it appears above other elements
+        dropdown.style.background = "red"; // Temporary debug to see if it's being rendered
     
         console.log("Dropdown forced visible, new position:", dropdown.getBoundingClientRect());
     }
+
 
     
     // Close dropdown when clicking outside
