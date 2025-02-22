@@ -531,15 +531,19 @@
             return;
         }
     
-        dropdown.style.display = "block";  // Ensure it's visible
-        dropdown.style.position = "absolute";
-        dropdown.style.left = "20px"; // Adjust positioning if needed
-        dropdown.style.top = "50px";
-        dropdown.style.zIndex = "9999"; // Ensure it appears above other elements
-        dropdown.style.background = "red"; // Temporary debug to see if it's being rendered
+        console.log("Dropdown found. Current display:", getComputedStyle(dropdown).display);
+    
+        dropdown.style.display = "block";  // Make sure it's visible
+        dropdown.style.position = "absolute"; // Ensure absolute positioning
+        dropdown.style.left = "20px"; // Adjust as needed
+        dropdown.style.top = "50px"; 
+        dropdown.style.zIndex = "9999"; // Ensure it appears above all elements
+        dropdown.style.background = "red"; // Debug visibility
+        dropdown.style.border = "2px solid blue"; // Extra debug visibility
     
         console.log("Dropdown forced visible, new position:", dropdown.getBoundingClientRect());
     }
+
 
 
     
