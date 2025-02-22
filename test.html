@@ -431,7 +431,6 @@
       return map;
     }
     
-    
     function initializeMapbox() {
         try {
             const map = new mapboxgl.Map({
@@ -516,9 +515,6 @@
     
         document.body.appendChild(leafletJS);
     }
-
-
-
     
     function getColor(score) {
         if (score <= 0.5) return '#ffffcc'; 
@@ -574,28 +570,25 @@
         }
     });
 
-
-
-
-    
     let geoJsonLayer = null; // Stores the active GeoJSON layer
+    
+    let firstLoad = true; // Flag to track first load
     
     function loadRegion(region) {
         console.log(`Loading region: ${region}`);
-        
-        // Get the currently selected region
+    
         const currentRegion = localStorage.getItem('selectedRegion');
-        
-        // Show loading spinner only if switching to a new region
-        if (currentRegion !== region) {
+    
+        // Show loading spinner only if switching to a new region (not on first load)
+        if (!firstLoad && currentRegion !== region) {
             document.getElementById("loading-spinner").style.display = "flex";
             setTimeout(() => {
                 document.getElementById("loading-spinner").style.display = "none";
             }, 2000);
         }
     
-        // Store selection
-        localStorage.setItem('selectedRegion', region);
+        firstLoad = false; // Mark first load as done
+        localStorage.setItem('selectedRegion', region); // Store selection
     
         const geojsonUrls = {
             north: 'https://pub-92765923660e431daff3170fbef6471d.r2.dev/EE_mushroom_data_north.geojson',
@@ -633,6 +626,7 @@
     
         document.getElementById("region-dropdown").style.display = "none";
     }
+
 
 
     // Initialize Mapbox first
@@ -688,8 +682,6 @@
       }
     });
 
-
-    
     // Save the map state before the user leaves the page
     window.addEventListener('beforeunload', () => {
       const mapState = {
@@ -906,7 +898,6 @@
       console.log('Flagpole position saved.');
     }
 
-    
     // Function to hide the flagpole and the gmaps button
     function hideFlagpoleAndGmaps() {
       if (flagpoleMarker) {
@@ -922,8 +913,6 @@
       console.log('Flagpole state cleared.');
     }
 
-
-    
     // Select the gmaps button
     const gmapsButton = document.querySelector('.button img[alt="Google Maps Button"]').parentElement;
 
