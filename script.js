@@ -1,27 +1,11 @@
 // ========== UNIQUE VISITOR COUNT ==========
-const now = new Date();
-const monthKey = `fung.es/${now.getFullYear()}-${now.getMonth() + 1}-unique-visitors`;
-const CORS_PROXY = "https://corsproxy.io/?";
+const GITHUB_RAW_URL = "https://raw.githubusercontent.com/lodist/tripped-map/main/visitors.json";
 
-// Track unique visitor for the current month
-if (!localStorage.getItem(`visited-${monthKey}`)) {
-    console.log("🛠️ DEBUG: First-time visitor this month, sending hit request...");
-    
-    fetch(`${CORS_PROXY}https://api.countapi.xyz/hit/${monthKey}`)
-        .then(response => response.json())
-        .then(data => {
-            console.log("✅ Monthly Unique Visitors Updated:", data.value);
-            localStorage.setItem(`visited-${monthKey}`, "true");
-        })
-        .catch(error => console.error("❌ Error hitting CountAPI:", error));
-}
-
-// Fetch and log the current month's unique visitors count
-console.log("🛠️ DEBUG: Fetching current month's visitor count...");
-fetch(`${CORS_PROXY}https://api.countapi.xyz/get/${monthKey}`)
+fetch(GITHUB_RAW_URL)
     .then(response => response.json())
-    .then(data => console.log("📊 Current Month's Unique Visitors:", data.value))
-    .catch(error => console.error("❌ Error fetching CountAPI:", error));
+    .then(data => console.log("📊 Total Visitors:", data.count))
+    .catch(error => console.error("❌ Error fetching visitor count:", error));
+
 
 
 
