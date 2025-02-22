@@ -526,8 +526,15 @@
     
     function toggleRegionDropdown() {
         const dropdown = document.getElementById("region-dropdown");
-        dropdown.style.display = (dropdown.style.display === "none" || dropdown.style.display === "") ? "block" : "none";
+        console.log("Dropdown exists:", !!dropdown);
+        console.log("Dropdown current display:", dropdown ? dropdown.style.display : "null");
+        console.log("Dropdown position:", dropdown ? dropdown.getBoundingClientRect() : "null");
+    
+        if (dropdown) {
+            dropdown.style.display = (dropdown.style.display === "none" || dropdown.style.display === "") ? "block" : "none";
+        }
     }
+
 
     
     // Close dropdown when clicking outside
