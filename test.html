@@ -243,11 +243,11 @@
     }
         
     .dropdown-menu {
-        display: none;
+        display: none; /* Hidden by default */
         position: absolute;
-        right: calc(-100% - 10px); /* Positions it to the right of the button with spacing */
+        left: 100%; /* Moves it to the right of the button */
         top: 50%;
-        transform: translateY(-50%); /* Centers it vertically with the button */
+        transform: translateY(-50%); /* Centers it vertically */
         background: rgba(255, 252, 239, 0.95);
         border-radius: 8px;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -256,7 +256,11 @@
         min-width: 150px; /* Ensures buttons don't wrap */
         white-space: nowrap; /* Prevents line breaks */
     }
-
+    
+    /* Ensure parent has position: relative for correct placement */
+    .button-container {
+        position: relative;
+    }
     
     .dropdown-menu button {
         display: block;
@@ -272,6 +276,7 @@
     .dropdown-menu button:hover {
         background: rgba(255, 252, 239, 0.90);
     }
+
 
 
   </style>
