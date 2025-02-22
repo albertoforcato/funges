@@ -1,3 +1,22 @@
+// ========== UNIQUE VISITOR COUNT ==========
+const now = new Date();
+const monthKey = `fung.es/${now.getFullYear()}-${now.getMonth() + 1}-unique-visitors`;
+
+// Track unique visitor for the current month
+if (!localStorage.getItem(`visited-${monthKey}`)) {
+    fetch(`https://api.countapi.xyz/hit/${monthKey}`)
+        .then(response => response.json())
+        .then(data => console.log("✅ Monthly Unique Visitors:", data.value));
+    localStorage.setItem(`visited-${monthKey}`, "true");
+}
+
+// Fetch and log the current month's unique visitors count
+fetch(`https://api.countapi.xyz/get/${monthKey}`)
+    .then(response => response.json())
+    .then(data => console.log("📊 Current Month's Unique Visitors:", data.value));
+
+
+
 // ✅ Set the WASM path before using TFLite
 tflite.setWasmPath("https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-tflite/dist/");
 
@@ -13,7 +32,6 @@ console.log("Checking TFLite WASM Features:", tflite.getWasmFeatures());
         console.error("❌ Error loading model:", error);
     }
 })();
-
 
 
 // ========== OPEN IMAGE MASK ==========
