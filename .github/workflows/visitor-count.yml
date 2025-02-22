@@ -2,7 +2,6 @@ name: Track Unique Visitors
 
 on:
   workflow_dispatch:  # Allows manual runs
-  push:
   schedule:
     - cron: "0 * * * *"  # Runs every hour
 
@@ -11,14 +10,37 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Increment Visitor Count
+        with:
+          token: ${{ secrets.GH_PAT }}  # Use PAT if needed
+
+      - name: Install jq
+        run: sudo apt-get install jq -y
+
+      - name: Reset Count Once on the 1st of the Month
         run: |
           VISITOR_FILE="visitors.json"
-          COUNT=$(jq '.count' $VISITOR_FILE)
+          
+          # Get current date and time
+          CURRENT_DATE=$(date +'%Y-%m-%d %H:%M:%S')
+          CURRENT_DAY=$(date +'%d')
+          CURRENT_HOUR=$(date +'%H')
+
+          # Only reset at the first execution (midnight, hour 00)
+          if [ "$CURRENT_DAY" = "01" ] && [ "$CURRENT_HOUR" = "00" ]; then
+            echo "🔄 [$CURRENT_DATE] Resetting visitor count to 0 (New Month)"
+            echo "{\"count\": 0}" > "$VISITOR_FILE"
+          else
+            echo "✅ [$CURRENT_DATE] No reset needed."
+          fi
+
+          # Increment the visitor count
+          COUNT=$(jq '.count' "$VISITOR_FILE")
           echo "Current Count: $COUNT"
           NEW_COUNT=$((COUNT + 1))
-          echo "{\"count\": $NEW_COUNT}" > $VISITOR_FILE
+          echo "{\"count\": $NEW_COUNT}" > "$VISITOR_FILE"
+
       - name: Commit Changes
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: "Update visitor count"
+          file_pattern: "visitors.json"
