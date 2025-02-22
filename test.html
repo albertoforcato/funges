@@ -440,7 +440,14 @@
             mapElement.style.zIndex = '0'; // Ensure it's behind everything
     
             // Initialize OSM map
-            const osmMap = L.map('map').setView([47.7508, 7.3359], 4);
+            const osmMap = L.map('map', {
+                center: [47.7508, 7.3359], 
+                zoom: 4,
+                minZoom: 4,  // 👈 Minimum zoom level like in Mapbox
+                maxZoom: 20,  // 👈 Maximum zoom level
+            });
+    
+            // Add OSM tile layer
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; OpenStreetMap contributors'
             }).addTo(osmMap);
