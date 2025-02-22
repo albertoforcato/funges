@@ -526,15 +526,18 @@
     
     function toggleRegionDropdown() {
         const dropdown = document.getElementById("region-dropdown");
-        console.log("Dropdown exists:", !!dropdown);
-        console.log("Dropdown current display:", dropdown ? dropdown.style.display : "null");
-        console.log("Dropdown position:", dropdown ? dropdown.getBoundingClientRect() : "null");
-    
-        if (dropdown) {
-            dropdown.style.display = (dropdown.style.display === "none" || dropdown.style.display === "") ? "block" : "none";
+        if (!dropdown) {
+            console.log("Dropdown not found!");
+            return;
         }
+    
+        dropdown.style.display = "block"; // Force it visible
+        dropdown.style.position = "absolute"; // Ensure absolute positioning
+        dropdown.style.left = "0"; // Reset positioning for debug
+        dropdown.style.top = "50px"; // Move it below the button for visibility
+    
+        console.log("Dropdown forced visible, new position:", dropdown.getBoundingClientRect());
     }
-
 
     
     // Close dropdown when clicking outside
