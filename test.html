@@ -440,9 +440,32 @@
             setTimeout(() => {
                 osmMap.invalidateSize();
             }, 500);
+    
+            // Load GeoJSON from Cloudflare R2
+            const geojsonUrl = 'https://pub-92765923660e431daff3170fbef6471d.r2.dev/EE_mushroom_data.geojson'; // ✅ Your actual URL
+    
+            fetch(geojsonUrl)
+                .then(response => response.json())
+                .then(data => {
+                    console.log('GeoJSON Loaded:', data);
+                    L.geoJSON(data, {
+                        style: function (feature) {
+                            return { color: feature.properties.color || 'red' }; // Default color
+                        },
+                        onEachFeature: function (feature, layer) {
+                            if (feature.properties && feature.properties.name) {
+                                layer.bindPopup(`<b>${feature.properties.name}</b>`); // Add popups
+                            }
+                        }
+                    }).addTo(osmMap);
+                })
+                .catch(error => {
+                    console.error('Error loading GeoJSON:', error);
+                });
         };
         document.body.appendChild(leafletJS);
     }
+
 
     
     // Initialize Mapbox first
