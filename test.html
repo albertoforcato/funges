@@ -33,7 +33,7 @@
         justify-content: center;
         align-items: center;
         z-index: 2000; /* Ensure it stays on top */
-        animation: fadeOut 4s ease-out forwards;
+        animation: fadeOut s ease-out forwards;
     }
     
     /* Make the splash screen logo smaller */
@@ -489,8 +489,8 @@
     
             osmMap = L.map('map', {
                 center: [47.7508, 7.3359], 
-                zoom: 4,
-                minZoom: 4,
+                zoom: 5,
+                minZoom: 5,
                 maxZoom: 20
             });
     
