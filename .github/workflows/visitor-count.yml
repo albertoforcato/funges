@@ -3,7 +3,9 @@ name: Track Unique Visitors
 on:
   workflow_dispatch:  # Allows manual runs
   schedule:
-    - cron: "0,30 * * * *"  # Runs every 30 minutes
+    - cron: "0 */3 * * *"  # Runs every 3 hours at the start of the hour
+#    - cron: "0 * * * *"  # Runs every hour at the start of the hour
+#    - cron: "0,30 * * * *"  # Runs every 30 minutes
 
 jobs:
   update-visitors:
