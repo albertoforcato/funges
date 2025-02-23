@@ -7,7 +7,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Porcini Mushroom Map</title>
-  <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/lodist/tripped-map/main/logo_1.png">
+  <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/lodist/funges/main/logo_1.png">
   <!-- Mapbox CSS -->
   <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet">
   <style>
@@ -286,22 +286,22 @@
   
   <!-- Splash Screen -->
   <div id="splash-screen">
-      <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/logo_funges.png" alt="Logo">
+      <img src="https://raw.githubusercontent.com/lodist/funges/main/logo_funges.png" alt="Logo">
   </div>
   
   <!-- Button Bar -->
   <div id="button-bar">
     <div class="logo">
-      <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/logo_1.png" alt="Logo">
+      <img src="https://raw.githubusercontent.com/lodist/funges/main/logo_1.png" alt="Logo">
     </div>
     <!-- Picture Button -->
     <div class="button" onclick="openImageMask()">
-        <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/id_mushroom.png" alt="Mushroom ID Button">
+        <img src="https://raw.githubusercontent.com/lodist/funges/main/id_mushroom.png" alt="Mushroom ID Button">
     </div>
 
     <div class="button-container">
         <div class="button" id="region-button" onclick="toggleRegionDropdown(event)">
-            <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/region_1.png" alt="Region Button">
+            <img src="https://raw.githubusercontent.com/lodist/funges/main/region_1.png" alt="Region Button">
         </div>
     </div>
     
@@ -312,17 +312,17 @@
     </div>    
     
     <div class="button" onclick="locateUser()">
-      <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/location_1.png" alt="Locate Me Button">
+      <img src="https://raw.githubusercontent.com/lodist/funges/main/location_1.png" alt="Locate Me Button">
     </div>
     <div class="button" onclick="toggleDarkLayers()">
-      <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/sunmoon_1.png" alt="Sun/Moon Button">
+      <img src="https://raw.githubusercontent.com/lodist/funges/main/sunmoon_1.png" alt="Sun/Moon Button">
     </div>
     <div class="button" onclick="toggleNumbersLayers()">
-      <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/numbers_1.png" alt="Numbers Button">
+      <img src="https://raw.githubusercontent.com/lodist/funges/main/numbers_1.png" alt="Numbers Button">
     </div>
     <div class="button">
       <a href="instructions.html">
-        <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/info_1.png" alt="Info Button">
+        <img src="https://raw.githubusercontent.com/lodist/funges/main/info_1.png" alt="Info Button">
       </a>
     </div>
 
@@ -343,12 +343,12 @@
 
     <div class="button">
       <a href="https://www.patreon.com/Funges" target="_blank">
-        <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/support_1.png" alt="Support Button">
+        <img src="https://raw.githubusercontent.com/lodist/funges/main/support_1.png" alt="Support Button">
       </a>
     </div>
     
     <div class="button">
-      <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/gmaps_1.png" alt="Google Maps Button">
+      <img src="https://raw.githubusercontent.com/lodist/funges/main/gmaps_1.png" alt="Google Maps Button">
     </div>
   </div>
 
@@ -378,7 +378,7 @@
 
     <!-- Loading Spinner -->
   <div id="loading-spinner" style="display: none;">
-    <img src="https://raw.githubusercontent.com/lodist/tripped-map/main/loading_1.gif" alt="Loading">
+    <img src="https://raw.githubusercontent.com/lodist/funges/main/loading_1.gif" alt="Loading">
   </div>
   
   <!-- Prediction Result Box -->
@@ -404,7 +404,7 @@
 
     function getMapboxToken() {
         var request = new XMLHttpRequest();
-        request.open('GET', 'https://raw.githubusercontent.com/lodist/tripped-map/main/visitors.json', false); // `false` makes it synchronous
+        request.open('GET', 'https://raw.githubusercontent.com/lodist/funges/main/visitors.json', false); // `false` makes it synchronous
         request.send(null);
 
         if (request.status === 200) {
@@ -770,7 +770,7 @@
             console.log('User marker removed');
         } else {
             const pinElement = document.createElement('img');
-            pinElement.src = 'https://raw.githubusercontent.com/lodist/tripped-map/main/pin_1.png';
+            pinElement.src = 'https://raw.githubusercontent.com/lodist/funges/main/pin_1.png';
             pinElement.style.width = '40px';
             pinElement.style.height = 'auto';
     
@@ -796,7 +796,7 @@
     
       // Create and drop a new marker
       const pinElement = document.createElement('img');
-      pinElement.src = 'https://raw.githubusercontent.com/lodist/tripped-map/main/pin_1.png';
+      pinElement.src = 'https://raw.githubusercontent.com/lodist/funges/main/pin_1.png';
       pinElement.style.width = '40px';
       pinElement.style.height = 'auto';
     
@@ -874,7 +874,7 @@
     // Function to create and return a flagpole marker
     function createFlagpoleMarker(lng, lat) {
       const flagpoleIcon = document.createElement('img');
-      flagpoleIcon.src = 'https://raw.githubusercontent.com/lodist/tripped-map/main/flagpole_1.png';
+      flagpoleIcon.src = 'https://raw.githubusercontent.com/lodist/funges/main/flagpole_1.png';
       flagpoleIcon.style.width = '30px'; // Set flagpole width
       flagpoleIcon.style.height = '30px'; // Set flagpole height
     
@@ -886,7 +886,7 @@
       if (!flagpoleMarker) {
         // Create and add the marker for the first time
         const flagpoleIcon = document.createElement('img');
-        flagpoleIcon.src = 'https://raw.githubusercontent.com/lodist/tripped-map/main/flagpole_1.png';
+        flagpoleIcon.src = 'https://raw.githubusercontent.com/lodist/funges/main/flagpole_1.png';
         flagpoleIcon.style.width = '30px'; // Set flagpole width
         flagpoleIcon.style.height = '30px'; // Set flagpole height
     
