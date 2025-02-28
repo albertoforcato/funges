@@ -7,6 +7,7 @@ const MODEL_URLS = [
 ];
 
 self.addEventListener("install", (event) => {
+    console.log("🛠 Service Worker Installing...");
     event.waitUntil(
         caches.open(CACHE_NAME).then((cache) => {
             console.log("📥 Caching models...");
@@ -16,19 +17,22 @@ self.addEventListener("install", (event) => {
 });
 
 self.addEventListener("fetch", (event) => {
+    console.log(`🔍 Checking cache for: ${event.request.url}`);
+    
     event.respondWith(
         caches.match(event.request).then((cachedResponse) => {
             if (cachedResponse) {
                 console.log(`✅ Serving from cache: ${event.request.url}`);
                 return cachedResponse;
             }
-            console.log(`📥 Fetching from network: ${event.request.url}`);
+            console.log(`🌐 Fetching from network: ${event.request.url}`);
             return fetch(event.request);
         })
     );
 });
 
 self.addEventListener("activate", (event) => {
+    console.log("🔄 Service Worker Activating...");
     event.waitUntil(
         caches.keys().then((keyList) => {
             return Promise.all(
