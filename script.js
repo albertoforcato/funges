@@ -1,3 +1,10 @@
+if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("/service-worker.js")
+        .then(() => console.log("✅ Service Worker Registered"))
+        .catch((error) => console.error("❌ Service Worker Registration Failed", error));
+}
+
+
 
 // ✅ Set the WASM path before using TFLite
 tflite.setWasmPath("https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-tflite/dist/");
@@ -6,14 +13,19 @@ console.log("Checking TFLite WASM Features:", tflite.getWasmFeatures());
 
 // ✅ Ensure TFLite WASM is initialized before loading models
 (async function() {
-    console.log("Loading TFLite model...");
+    console.log("🔍 Checking cache before loading TFLite model...");
     try {
-        let model = await tflite.loadTFLiteModel("https://pub-92765923660e431daff3170fbef6471d.r2.dev/mushroom_classification_model_0.tflite");
-        console.log("✅ Model loaded successfully!", model);
+        let response = await fetch(modelUrls[0]); // Uses Service Worker cache if available
+        if (!response.ok) {
+            throw new Error(`❌ Failed to fetch model: ${modelUrls[0]}`);
+        }
+        let model = await tflite.loadTFLiteModel(modelUrls[0]);
+        console.log("✅ Model loaded successfully from cache or R2!", model);
     } catch (error) {
         console.error("❌ Error loading model:", error);
     }
 })();
+
 
 
 // ========== OPEN IMAGE MASK ==========
@@ -138,18 +150,31 @@ async function loadModels() {
         alert(error);
         return;
     }
+
     try {
+        const cache = await caches.open("model-cache-v1");
         for (let url of modelUrls) {
-            console.log(`📥 Fetching model: ${url}`);
+            console.log(`🔍 Checking cache for model: ${url}`);
+
+            let cachedResponse = await cache.match(url);
+            if (cachedResponse) {
+                console.log(`✅ Model found in cache: ${url}`);
+                let model = await tflite.loadTFLiteModel(url); // Load from cache
+                models.push(model);
+                continue; // Skip fetching from R2
+            }
+
+            console.log(`📥 Fetching model from R2: ${url}`);
+            let response = await fetch(url);
+            if (!response.ok) {
+                throw new Error(`❌ Failed to fetch model: ${url}`);
+            }
+
             let model = await tflite.loadTFLiteModel(url);
             console.log(`✅ Model loaded: ${url}`, model);
-            if (!model || typeof model.predict !== "function") {
-                console.error(`❌ Model at ${url} is not valid.`);
-                alert(`❌ Model at ${url} failed to load.`);
-                return;
-            }
             models.push(model);
         }
+
         modelsLoaded = true;
         console.log("✅ All models loaded successfully!");
     } catch (error) {
@@ -157,6 +182,7 @@ async function loadModels() {
         alert("❌ Failed to load models. Check CORS, network, and file integrity.");
     }
 }
+
 
 loadModels();
 
