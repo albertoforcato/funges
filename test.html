@@ -573,6 +573,9 @@
         }
     });
 
+
+
+
     
     let geoJsonLayer = null; // Stores the active GeoJSON layer
     let cachedRegions = {}; // In-memory cache for GeoJSON data
@@ -612,16 +615,7 @@
             return;
         }
     
-        // ✅ 2. Check localStorage cache
-        const storedData = localStorage.getItem(`geojson_${region}`);
-        if (storedData) {
-            console.log(`📦 Retrieved "${region}" from localStorage cache.`);
-            cachedRegions[region] = JSON.parse(storedData);
-            updateMapWithGeoJSON(cachedRegions[region]);
-            return;
-        }
-    
-        // ✅ 3. Fetch from R2 if not cached
+        // ✅ 2. Fetch from R2 if not cached
         console.log(`🌍 Fetching "${region}" from R2 (network request)...`);
     
         fetch(geojsonUrls[region])
@@ -634,7 +628,6 @@
             .then(data => {
                 console.log(`✅ Successfully retrieved "${region}" from R2. Caching now.`);
                 cachedRegions[region] = data; // Store in memory cache
-                localStorage.setItem(`geojson_${region}`, JSON.stringify(data)); // Store in localStorage for persistence
                 updateMapWithGeoJSON(data);
             })
             .catch(error => {
@@ -663,6 +656,11 @@
         }).addTo(osmMap);
         console.log(`✅ Map update complete.`);
     }
+
+
+
+
+    
 
     // Initialize Mapbox first
     const map = initializeMapbox();
