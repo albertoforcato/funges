@@ -419,7 +419,7 @@
                 if (visitorCount > 45000) {
                     return "pk.Nothing";
                 } else {
-                    return "pk.eyJ1IjoibG9kaXN0IiwiYSI6ImNtM3g3dTVuaTE2dW8yaXM1eDE1dXVmZG4ifQ.xrGoky5Mzc6gwO5z8n6CoQ";
+                    return "pk.eyJ1IjoibG9kaXN0IiwiYSI6ImNtM3g3dTVuaTE2dW8yaXM1eDE1dXVmZG4ifQ.xrGoky5Mzc6gwO5z8n6CoQ"; 
                 }
             } catch (error) {
                 console.error("Error parsing visitors.json:", error);
@@ -572,18 +572,19 @@
             dropdown.style.display = "none";
         }
     });
-
-    let geoJsonLayer = null; // Stores the active GeoJSON layer
     
+    let geoJsonLayer = null; // Stores the active GeoJSON layer
+    let cachedRegions = {}; // In-memory cache for GeoJSON data
     let firstLoad = true; // Flag to track first load
     
     function loadRegion(region) {
-        console.log(`Loading region: ${region}`);
+        console.log(`🔄 Loading region: ${region}`);
     
         const currentRegion = localStorage.getItem('selectedRegion');
     
         // Show loading spinner only if switching to a new region (not on first load)
         if (!firstLoad && currentRegion !== region) {
+            console.log(`⏳ Switching regions, showing loading spinner...`);
             document.getElementById("loading-spinner").style.display = "flex";
             setTimeout(() => {
                 document.getElementById("loading-spinner").style.display = "none";
@@ -599,37 +600,58 @@
         };
     
         if (!geojsonUrls[region]) {
-            console.error("Invalid region:", region);
+            console.error(`❌ Invalid region requested: ${region}`);
             return;
         }
     
-        if (geoJsonLayer) {
-            osmMap.removeLayer(geoJsonLayer);
+        // ✅ 1. Check in-memory cache first
+        if (cachedRegions[region]) {
+            console.log(`✅ Retrieved "${region}" from in-memory cache.`);
+            updateMapWithGeoJSON(cachedRegions[region]);
+            return;
         }
     
+        // ✅ 2. Fetch from R2 if not cached
+        console.log(`🌍 Fetching "${region}" from R2 (network request)...`);
+    
         fetch(geojsonUrls[region])
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch: ${response.statusText}`);
+                }
+                return response.json();
+            })
             .then(data => {
-                geoJsonLayer = L.geoJSON(data, {
-                    style: feature => ({
-                        fillColor: getColor(feature.properties.mushroom_score || 0),
-                        fillOpacity: 0.85,
-                        color: "none",
-                        weight: 0
-                    }),
-                    onEachFeature: (feature, layer) => {
-                        layer.bindPopup(`<b>Mushroom Score:</b> ${feature.properties.mushroom_score.toFixed(2)}`);
-                    }
-                }).addTo(osmMap);
+                console.log(`✅ Successfully retrieved "${region}" from R2. Caching now.`);
+                cachedRegions[region] = data; // Store in memory cache
+                updateMapWithGeoJSON(data);
             })
             .catch(error => {
-                console.error('Error loading GeoJSON:', error);
+                console.error(`🚨 Error loading GeoJSON for "${region}":`, error);
                 alert("Failed to load region data. Please try again.");
             });
     
         document.getElementById("region-dropdown").style.display = "none";
     }
-
+    
+    function updateMapWithGeoJSON(data) {
+        console.log(`🗺️ Updating map with new GeoJSON data.`);
+        if (geoJsonLayer) {
+            osmMap.removeLayer(geoJsonLayer);
+        }
+        geoJsonLayer = L.geoJSON(data, {
+            style: feature => ({
+                fillColor: getColor(feature.properties.mushroom_score || 0),
+                fillOpacity: 0.85,
+                color: "none",
+                weight: 0
+            }),
+            onEachFeature: (feature, layer) => {
+                layer.bindPopup(`<b>Mushroom Score:</b> ${feature.properties.mushroom_score.toFixed(2)}`);
+            }
+        }).addTo(osmMap);
+        console.log(`✅ Map update complete.`);
+    }
 
 
     // Initialize Mapbox first
