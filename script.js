@@ -5,11 +5,19 @@ if ("serviceWorker" in navigator) {
 }
 
 
-
 // ✅ Set the WASM path before using TFLite
 tflite.setWasmPath("https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-tflite/dist/");
 
 console.log("Checking TFLite WASM Features:", tflite.getWasmFeatures());
+
+let models = [];
+let modelsLoaded = false;
+const modelUrls = [
+    "https://pub-92765923660e431daff3170fbef6471d.r2.dev/mushroom_classification_model_0.tflite",
+    "https://pub-92765923660e431daff3170fbef6471d.r2.dev/mushroom_classification_model_1.tflite",
+    "https://pub-92765923660e431daff3170fbef6471d.r2.dev/mushroom_classification_model_2.tflite",
+    "https://pub-92765923660e431daff3170fbef6471d.r2.dev/mushroom_classification_model_3.tflite"
+];
 
 // ✅ Ensure TFLite WASM is initialized before loading models
 (async function() {
@@ -117,14 +125,6 @@ function processImage(file) {
 
 
 // ========== MODEL LOADING ==========
-let models = [];
-let modelsLoaded = false;
-const modelUrls = [
-    "https://pub-92765923660e431daff3170fbef6471d.r2.dev/mushroom_classification_model_0.tflite",
-    "https://pub-92765923660e431daff3170fbef6471d.r2.dev/mushroom_classification_model_1.tflite",
-    "https://pub-92765923660e431daff3170fbef6471d.r2.dev/mushroom_classification_model_2.tflite",
-    "https://pub-92765923660e431daff3170fbef6471d.r2.dev/mushroom_classification_model_3.tflite"
-];
 
 async function ensureTFLiteLoaded() {
     return new Promise((resolve, reject) => {
