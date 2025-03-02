@@ -577,15 +577,6 @@
     let cachedRegions = {}; // In-memory cache for GeoJSON data
     let firstLoad = true; // Flag to track first load
     
-    // ✅ Restore session cache on page load
-    window.addEventListener("load", () => {
-        const storedCache = sessionStorage.getItem("cachedRegions");
-        if (storedCache) {
-            cachedRegions = JSON.parse(storedCache);
-            console.log("♻️ Restored cached regions from sessionStorage.");
-        }
-    });
-    
     function loadRegion(region) {
         console.log(`🔄 Loading region: ${region}`);
     
@@ -620,16 +611,7 @@
             return;
         }
     
-        // ✅ 2. Check sessionStorage cache
-        const storedData = sessionStorage.getItem(`geojson_${region}`);
-        if (storedData) {
-            console.log(`📦 Retrieved "${region}" from sessionStorage cache.`);
-            cachedRegions[region] = JSON.parse(storedData);
-            updateMapWithGeoJSON(cachedRegions[region]);
-            return;
-        }
-    
-        // ✅ 3. Fetch from R2 if not cached
+        // ✅ 2. Fetch from R2 if not cached
         console.log(`🌍 Fetching "${region}" from R2 (network request)...`);
     
         fetch(geojsonUrls[region])
@@ -642,8 +624,6 @@
             .then(data => {
                 console.log(`✅ Successfully retrieved "${region}" from R2. Caching now.`);
                 cachedRegions[region] = data; // Store in memory cache
-                sessionStorage.setItem(`geojson_${region}`, JSON.stringify(data)); // Store in sessionStorage
-                sessionStorage.setItem("cachedRegions", JSON.stringify(cachedRegions)); // Keep full cache
                 updateMapWithGeoJSON(data);
             })
             .catch(error => {
