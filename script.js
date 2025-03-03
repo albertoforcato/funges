@@ -278,7 +278,8 @@ function displayResults(predictions) {
 
     // ✅ Ensure at least 3 predictions exist
     let topPredictions = predictions.slice(0, 3);
-    let resultHTML = "<strong>🍄 Top Predictions:</strong><br><br>";
+    let resultHTML = `<strong style="color: red;">⚠️ Always seek professional advice before consuming wild edibles</strong><br><br>
+                  <strong>🍄 Top Predictions:</strong><br><br>`;
 
     try {
         topPredictions.forEach((pred, rank) => {
@@ -304,9 +305,6 @@ function displayResults(predictions) {
         });
 
         console.log("📢 Final Prediction Output:\n" + resultHTML);
-        
-        // ✅ Add disclaimer at the bottom
-        resultHTML += `<br><strong style="color: red;">⚠️ Always seek professional advice before consuming wild edibles.</strong>`;
         
         // ✅ Display predictions in UI
         predictionText.innerHTML = resultHTML; // Use `innerHTML` to allow links
