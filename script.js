@@ -304,7 +304,10 @@ function displayResults(predictions) {
         });
 
         console.log("📢 Final Prediction Output:\n" + resultHTML);
-
+        
+        // ✅ Add disclaimer at the bottom
+        resultHTML += `<br><strong style="color: red;">⚠️ Always seek professional advice before consuming wild edibles.</strong>`;
+        
         // ✅ Display predictions in UI
         predictionText.innerHTML = resultHTML; // Use `innerHTML` to allow links
 
