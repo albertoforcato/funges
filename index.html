@@ -1,12 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+
+  <head>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Porcini Mushroom Map",
+    "url": "https://fung.es",
+    "description": "An interactive map that helps foragers locate Porcini mushrooms in real-time using weather and geospatial data.",
+    "author": {
+      "@type": "Person",
+      "name": "Loris Di Stefano"
+    },
+    "applicationCategory": "Science & Nature",
+    "operatingSystem": "Web-based"
+  }
+  </script>
   <!--
   <script id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="a5b94f7b-052a-4c20-ad48-7d6609a12279" type="text/javascript"></script> 
    -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Porcini Mushroom Map</title>
+  <meta name="description" content="Discover Porcini mushroom hotspots with real-time data. Our interactive map uses weather and geospatial data to improve foraging success." />
+  <meta name="keywords" content="Porcini mushrooms, mushroom foraging, wild mushrooms, foraging map, mushroom prediction, boletus edulis, fungi hotspots" />
+  <title>Porcini Mushroom Map - Real-Time Foraging & Hotspot Prediction</title>
   <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/lodist/funges/main/logo_1.png">
   <!-- Mapbox CSS -->
   <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet">
@@ -281,9 +299,7 @@
   </style>
 </head>
 <body>
-  
   <div id="map"></div>
-  
   <!-- Splash Screen -->
   <div id="splash-screen">
       <img src="https://raw.githubusercontent.com/lodist/funges/main/logo_funges.png" alt="Logo">
