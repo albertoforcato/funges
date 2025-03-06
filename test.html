@@ -326,8 +326,12 @@
     
     <!-- Move dropdown outside of #button-bar -->
     <div id="region-dropdown" class="dropdown-menu">
-        <button onclick="loadRegion('north')">Eastern Europe North</button>
-        <button onclick="loadRegion('south')">Eastern Europe South</button>
+        <button onclick="loadRegion('WE_north')">West Europe North</button>
+        <button onclick="loadRegion('WE_south')">West Europe South</button>
+        <button onclick="loadRegion('NE_north')">North Europe North</button>
+        <button onclick="loadRegion('NE_south')">North Europe South</button>
+        <button onclick="loadRegion('EE_north')">East Europe North</button>
+        <button onclick="loadRegion('EE_south')">East Europe South</button>
     </div>    
     
     <div class="button" onclick="locateUser()">
@@ -530,7 +534,7 @@
     
             // Load the last selected region **only after Leaflet is ready**
             setTimeout(() => {
-                const lastRegion = localStorage.getItem('selectedRegion') || 'south';
+                const lastRegion = localStorage.getItem('selectedRegion') || 'WE_south';
                 loadRegion(lastRegion);
             }, 1000);
         };
@@ -614,8 +618,12 @@
         localStorage.setItem('selectedRegion', region); // Store selection
     
         const geojsonUrls = {
-            north: 'https://pub-92765923660e431daff3170fbef6471d.r2.dev/EE_mushroom_data_north.geojson',
-            south: 'https://pub-92765923660e431daff3170fbef6471d.r2.dev/EE_mushroom_data_south.geojson'
+            EE_north: 'https://pub-92765923660e431daff3170fbef6471d.r2.dev/EE_mushroom_data_north.geojson',
+            EE_south: 'https://pub-92765923660e431daff3170fbef6471d.r2.dev/EE_mushroom_data_south.geojson',
+            NE_north: 'https://pub-92765923660e431daff3170fbef6471d.r2.dev/NE_mushroom_data_north.geojson',
+            NE_south: 'https://pub-92765923660e431daff3170fbef6471d.r2.dev/NE_mushroom_data_south.geojson',
+            WE_north: 'https://pub-92765923660e431daff3170fbef6471d.r2.dev/WE_mushroom_data_north.geojson',
+            WE_south: 'https://pub-92765923660e431daff3170fbef6471d.r2.dev/WE_mushroom_data_south.geojson',
         };
     
         if (!geojsonUrls[region]) {
