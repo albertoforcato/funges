@@ -3,26 +3,45 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Instructions</title>
+  <title>Porcini Mushroom Hunting Guide</title>
   <style>
-    body, html {
+    body {
       margin: 0;
-      padding: 0;
-      width: 100vw;
-      height: 100vh;
+      padding: 20px;
+      font-family: Arial, sans-serif;
       background: #000;
+      color: white;
       display: flex;
-      justify-content: center;
+      flex-direction: column;
       align-items: center;
     }
-
-    iframe {
-      width: 100vw;
-      height: 100vh;
-      border: none;
+    .container {
+      max-width: 800px;
+      text-align: center;
     }
-
-    #close-button {
+    .logo {
+      width: 150px;
+      margin-bottom: 20px;
+    }
+    .section {
+      margin-bottom: 20px;
+    }
+    .icon-text {
+      display: flex;
+      align-items: center;
+      margin: 10px 0;
+    }
+    .icon-text img {
+      width: 40px;
+      height: 40px;
+      margin-right: 10px;
+    }
+    .scale {
+      width: 100%;
+      max-width: 400px;
+      margin: 10px 0;
+    }
+    .button {
       position: absolute;
       top: 20px;
       right: 35px;
@@ -35,17 +54,38 @@
       font-size: 16px;
       z-index: 999;
     }
-
-    #close-button:hover {
+    .button:hover {
       background-color: rgba(0, 0, 0, 1);
     }
   </style>
 </head>
 <body>
-
-  <button id="close-button" onclick="window.history.back()">X</button>
-
-  <iframe src="Instructions_Funges.pdf#toolbar=0&navpanes=0&scrollbar=0"></iframe>
-
+  <button class="button" onclick="window.history.back()">X</button>
+  
+  <div class="container">
+    <img src="https://raw.githubusercontent.com/lodist/funges/main/icons/logo_1.webp" alt="Logo" class="logo">
+    
+    <div class="section">
+      <p>The map indicates the geographical locations with the best conditions for hunting porcini mushrooms (and species that grow under similar conditions).</p>
+      <p>The locations are indexed on a colour scale from pale yellow to dark red, indicating the conditions for porcini mushroom hunting from less to more favourable.</p>
+      <p>The scale is supplemented by a numerical rating from 0 to 10 as illustrated below.</p>
+      <img src="https://raw.githubusercontent.com/lodist/funges/main/icons/scale_1.webp" alt="Scale" class="scale">
+    </div>
+    
+    <div class="section">
+      <h3>Functions:</h3>
+      <div class="icon-text"><img src="https://raw.githubusercontent.com/lodist/funges/main/icons/id_mushroom.webp" alt="Identify"> Identify Mushroom Type with Machine Learning Model</div>
+      <div class="icon-text"><img src="https://raw.githubusercontent.com/lodist/funges/main/icons/location_1.webp" alt="Location"> Centres the Map on the User's Location</div>
+      <div class="icon-text"><img src="https://raw.githubusercontent.com/lodist/funges/main/icons/sunmoon_1.webp" alt="Light/Dark"> Switch between Light- and Dark-mode</div>
+      <div class="icon-text"><img src="https://raw.githubusercontent.com/lodist/funges/main/icons/numbers_1.webp" alt="Numbers"> Displays Numeric Rating</div>
+      <div class="icon-text"><img src="https://raw.githubusercontent.com/lodist/funges/main/icons/info_1.webp" alt="Info"> Opens General Info and Instruction Page</div>
+      <div class="icon-text"><img src="https://raw.githubusercontent.com/lodist/funges/main/icons/support_1.webp" alt="Support"> Opens Patreon Page to Support the Project</div>
+    </div>
+    
+    <div class="section">
+      <p>Press and Hold on the Map for Two Seconds:</p>
+      <div class="icon-text"><img src="https://raw.githubusercontent.com/lodist/funges/main/icons/gmaps_1.webp" alt="Maps"> Open the destination in Maps</div>
+    </div>
+  </div>
 </body>
 </html>
