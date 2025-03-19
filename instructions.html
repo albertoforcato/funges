@@ -20,7 +20,7 @@
       text-align: left;
     }
     .logo {
-      width: 350px;
+      width: 150px;
       margin-bottom: 20px;
     }
     .section {
@@ -32,13 +32,13 @@
       margin: 10px 0;
     }
     .icon-text img {
-      width: 50px;
-      height: 50px;
+      width: 40px;
+      height: 40px;
       margin-right: 10px;
     }
     .scale {
       width: 100%;
-      max-width: 500px;
+      max-width: 400px;
       margin: 10px 0;
     }
     .button {
@@ -60,7 +60,17 @@
   </style>
 </head>
 <body>
-  <button class="button" onclick="window.history.back()">X</button>
+  <button class="button" onclick="closePage()">X</button>
+  
+<script>
+  function closePage() {
+    if (document.referrer) {
+      window.history.back();
+    } else {
+      window.location.href = 'https://fung.es';
+    }
+  }
+</script>
   
   <div class="container">
     <img src="https://raw.githubusercontent.com/lodist/funges/main/icons/logo_funges.webp" alt="Logo" class="logo">
@@ -68,12 +78,12 @@
     <div class="section">
       <p>The map indicates the geographical locations with the best conditions for hunting porcini mushrooms (and species that grow under similar conditions).</p>
       <p>The locations are indexed on a colour scale from pale yellow to dark red, indicating the conditions for porcini mushroom hunting from less to more favourable.</p>
-      <p>The scale is supplemented by a numerical rating from 1 to 10 as illustrated below.</p>
+      <p>The scale is supplemented by a numerical rating from 0 to 10 as illustrated below.</p>
       <img src="https://raw.githubusercontent.com/lodist/funges/main/icons/scale_1.webp" alt="Scale" class="scale">
     </div>
     
     <div class="section">
-      <p>Functions:</p>
+      <h3 style="font-weight: normal;">Functions:</h3>
       <div class="icon-text"><img src="https://raw.githubusercontent.com/lodist/funges/main/icons/id_mushroom.webp" alt="Identify"> Identify Mushroom Type with Machine Learning Model</div>
       <div class="icon-text"><img src="https://raw.githubusercontent.com/lodist/funges/main/icons/location_1.webp" alt="Location"> Centres the Map on the User's Location</div>
       <div class="icon-text"><img src="https://raw.githubusercontent.com/lodist/funges/main/icons/sunmoon_1.webp" alt="Light/Dark"> Switch between Light- and Dark-mode</div>
