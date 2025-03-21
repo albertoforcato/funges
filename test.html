@@ -1,10 +1,11 @@
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "WebApplication",
+    "@type": "SoftwareApplication",
     "name": "Porcini Mushroom Map",
     "url": "https://fung.es",
     "description": "An interactive map that helps foragers locate Porcini mushrooms in real-time using weather and geospatial data.",
@@ -12,8 +13,27 @@
       "@type": "Person",
       "name": "Loris Di Stefano"
     },
-    "applicationCategory": "Science & Nature",
-    "operatingSystem": "Web-based"
+    "creator": {
+      "@type": "Organization",
+      "name": "Fung.es",
+      "url": "https://fung.es"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Fung.es",
+      "url": "https://fung.es"
+    },
+    "applicationCategory": ["Science & Nature", "MappingApplication"],
+    "operatingSystem": "Web",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "EUR"
+    },
+    "screenshot": "https://fung.es/screenshot.png",
+    "softwareVersion": "1.0",
+    "datePublished": "2025-03-06",
+    "dateModified": "2025-03-06"
   }
   </script>
   <!--
@@ -21,14 +41,24 @@
    -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Discover Porcini mushroom hotspots with real-time data. Our interactive map uses weather and geospatial data to improve foraging success." />
-  <meta name="keywords" content="
-      Porcini mushrooms, mushroom foraging, wild mushrooms, foraging map, mushroom prediction, boletus edulis, fungi hotspots, natural resource prediction, 
-      environmental data, geolocation data, climate models, meteorological trends, sustainable harvesting, biodiversity tracking, eco-tourism, agricultural sustainability, foraging technology, 
-      climate change adaptation, nature-based insights, real-time mushroom insights, machine learning in foraging, data-driven mushroom prediction, fungal ecosystems, edible mushroom locations
-  ">
+  <meta name="description" content="Discover Porcini mushroom hotspots with real-time data. The interactive map uses weather and geospatial data to improve foraging success.">
+
+  <!-- Open Graph (Facebook, LinkedIn, WhatsApp, etc.) -->
+  <meta property="og:title" content="Porcini Mushroom Map - Real-Time Foraging & Hotspot Prediction">
+  <meta property="og:description" content="Discover Porcini mushroom hotspots with real-time data. The interactive map uses weather and geospatial data to improve foraging success.">
+  <meta property="og:image" content="https://fung.es/icons/logo_1.png">
+  <meta property="og:url" content="https://fung.es">
+  <meta property="og:type" content="website">
+
+  <!-- Twitter Card (Twitter/X) -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Porcini Mushroom Map">
+  <meta name="twitter:description" content="Discover Porcini mushroom hotspots with real-time data.">
+  <meta name="twitter:image" content="https://fung.es/icons/logo_1.png">
+
   <title>Porcini Mushroom Map - Real-Time Foraging & Hotspot Prediction</title>
-  <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/lodist/funges/main/icons/logo_1.png">
+  <link rel="icon" type="image/png" href="https://fung.es/icons/logo_1.png">
+
   <!-- Mapbox CSS -->
   <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet">
   <style>
@@ -298,6 +328,42 @@
     #region-dropdown button:hover {
         background: rgba(255, 252, 239, 1); /* Slightly stronger background on hover */
     }
+    
+    #osm-limit-notice {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .osm-notice-content {
+      background: #fffdf6;
+      border-radius: 12px;
+      padding: 25px 30px;
+      max-width: 500px;
+      font-size: 15px;
+      color: #333;
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+      position: relative;
+      text-align: center;
+    }
+    
+    #close-osm-notice {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      background: transparent;
+      border: none;
+      font-size: 18px;
+      cursor: pointer;
+    }
+
 
   </style>
 </head>
@@ -408,6 +474,16 @@
   <div id="prediction-box">
       <p id="prediction-text">Prediction will appear here</p>
   </div>
+  
+  <!-- OSM Limit Notice -->
+  <div id="osm-limit-notice" style="display: none;">
+    <div class="osm-notice-content">
+      <button id="close-osm-notice">✖</button>
+      <p><strong>Dear User,</strong><br><br>
+      We've reached our monthly usage limit. To help keep the service running smoothly and available at all times, please consider supporting the project.<br><br>
+      In the meantime, enjoy this slightly less-than-perfect Boletus map — at least until we hit the threshold for this map as well 😅</p>
+    </div>
+  </div>
 
   <!-- Class Names -->
   <script src="https://pub-92765923660e431daff3170fbef6471d.r2.dev/class_names.js"></script>
@@ -442,7 +518,7 @@
                 if (visitorCount > 45000) {
                     return "pk.Nothing";
                 } else {
-                    return "pk.Nothing.xrGoky5Mzc6gwO5z8n6CoQ"; 
+                    return "pk.Nothing";  // pk.eyJ1IjoibG9kaXN0IiwiYSI6ImNtM3g3dTVuaTE2dW8yaXM1eDE1dXVmZG4ifQ.xrGoky5Mzc6gwO5z8n6CoQ
                 }
             } catch (error) {
                 console.error("Error parsing visitors.json:", error);
@@ -540,8 +616,19 @@
         };
     
         document.body.appendChild(leafletJS);
+      
+      setTimeout(() => {
+      const notice = document.getElementById('osm-limit-notice');
+      if (notice) notice.style.display = 'flex';
+    }, 1500);  // message appears after 1.5 seconds
+      
     }
-    
+
+    document.getElementById('close-osm-notice').addEventListener('click', () => {
+      const notice = document.getElementById('osm-limit-notice');
+      if (notice) notice.style.display = 'none';
+    });
+        
     function getColor(score) {
         if (score <= 0.5) return '#ffffcc'; 
         if (score <= 1) return '#ffffcc'; 
@@ -555,7 +642,6 @@
         if (score <= 10) return '#800020';
         return '#800020'; // Dark red (default)
     }
-
     
     function toggleRegionDropdown(event) {
         if (event) event.stopPropagation();
