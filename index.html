@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -327,6 +329,42 @@
     #region-dropdown button:hover {
         background: rgba(255, 252, 239, 1); /* Slightly stronger background on hover */
     }
+    
+    #osm-limit-notice {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .osm-notice-content {
+      background: #fffdf6;
+      border-radius: 12px;
+      padding: 25px 30px;
+      max-width: 500px;
+      font-size: 15px;
+      color: #333;
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+      position: relative;
+      text-align: center;
+    }
+    
+    #close-osm-notice {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      background: transparent;
+      border: none;
+      font-size: 18px;
+      cursor: pointer;
+    }
+
 
   </style>
 </head>
@@ -437,6 +475,24 @@
   <div id="prediction-box">
       <p id="prediction-text">Prediction will appear here</p>
   </div>
+  
+  <!-- OSM Limit Notice -->
+  <div id="osm-limit-notice" style="display: none;">
+    <div class="osm-notice-content">
+      <button id="close-osm-notice">✖</button>
+      <p>Dear User,<br><br>
+      We've reached our monthly usage limit. To help keep the service running smoothly and available at all times, please consider <strong>supporting the project</strong>.</p>
+  
+      <!-- Support Button -->
+      <div style="margin: 15px 0;">
+        <a href="https://www.patreon.com/Funges" target="_blank">
+          <img src="https://raw.githubusercontent.com/lodist/funges/main/icons/support_1.webp" alt="Support Button" style="width: 50px; height: auto; cursor: pointer;">
+        </a>
+      </div>
+  
+      <p>In the meantime, enjoy this slightly less-than-perfect Boletus map — at least until we hit the threshold for this map as well 😅</p>
+    </div>
+  </div>
 
   <!-- Class Names -->
   <script src="https://pub-92765923660e431daff3170fbef6471d.r2.dev/class_names.js"></script>
@@ -471,7 +527,7 @@
                 if (visitorCount > 45000) {
                     return "pk.Nothing";
                 } else {
-                    return "pk.eyJ1IjoibG9kaXN0IiwiYSI6ImNtM3g3dTVuaTE2dW8yaXM1eDE1dXVmZG4ifQ.xrGoky5Mzc6gwO5z8n6CoQ"; 
+                    return "pk.eyJ1IjoibG9kaXN0IiwiYSI6ImNtM3g3dTVuaTE2dW8yaXM1eDE1dXVmZG4ifQ.xrGoky5Mzc6gwO5z8n6CoQ";  // pk.eyJ1IjoibG9kaXN0IiwiYSI6ImNtM3g3dTVuaTE2dW8yaXM1eDE1dXVmZG4ifQ.xrGoky5Mzc6gwO5z8n6CoQ
                 }
             } catch (error) {
                 console.error("Error parsing visitors.json:", error);
@@ -569,8 +625,19 @@
         };
     
         document.body.appendChild(leafletJS);
+      
+      setTimeout(() => {
+      const notice = document.getElementById('osm-limit-notice');
+      if (notice) notice.style.display = 'flex';
+    }, 1500);  // message appears after 1.5 seconds
+      
     }
-    
+
+    document.getElementById('close-osm-notice').addEventListener('click', () => {
+      const notice = document.getElementById('osm-limit-notice');
+      if (notice) notice.style.display = 'none';
+    });
+        
     function getColor(score) {
         if (score <= 0.5) return '#ffffcc'; 
         if (score <= 1) return '#ffffcc'; 
