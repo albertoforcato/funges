@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -84,7 +83,7 @@
         justify-content: center;
         align-items: center;
         z-index: 2000; /* Ensure it stays on top */
-        animation: fadeOut 2.8s ease-out forwards;
+        animation: fadeOut 2.1s ease-out forwards;
     }
     
     /* Make the splash screen logo smaller */
@@ -526,7 +525,7 @@
                 if (visitorCount > 45000) {
                     return "pk.Nothing";
                 } else {
-                    return "pk.Nothing";  // pk.eyJ1IjoibG9kaXN0IiwiYSI6ImNtM3g3dTVuaTE2dW8yaXM1eDE1dXVmZG4ifQ.xrGoky5Mzc6gwO5z8n6CoQ
+                    return "pk.eyJ1IjoibG9kaXN0IiwiYSI6ImNtM3g3dTVuaTE2dW8yaXM1eDE1dXVmZG4ifQ.xrGoky5Mzc6gwO5z8n6CoQ";  // pk.eyJ1IjoibG9kaXN0IiwiYSI6ImNtM3g3dTVuaTE2dW8yaXM1eDE1dXVmZG4ifQ.xrGoky5Mzc6gwO5z8n6CoQ
                 }
             } catch (error) {
                 console.error("Error parsing visitors.json:", error);
@@ -952,8 +951,6 @@
       console.log('User marker added at:', coordinates);
     }
 
-
-
     // Function to show and hide loading spinner
     function showLoadingSpinner() {
         const loadingElement = document.getElementById('loading-spinner');
@@ -1132,7 +1129,6 @@
             // Store the coordinates
             activeCoordinates = { lng, lat };
     
-            // Place the flagpole after 1.6 seconds
             placeFlagpole(lng, lat);
     
             // Show the gmaps button
