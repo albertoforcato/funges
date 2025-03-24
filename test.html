@@ -362,11 +362,37 @@
       font-size: 18px;
       cursor: pointer;
     }
-
+    
+    #species-selector {
+      position: fixed;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 9999;
+      background: rgba(255, 252, 239, 0.9);
+      padding: 5px 10px;
+      border-radius: 8px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    }
+    
+    #species-dropdown {
+      font-size: 14px;
+      padding: 6px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      background-color: white;
+    }
 
   </style>
 </head>
-<body>
+  <body>
+  
+  <div id="species-selector">
+    <select id="species-dropdown" onchange="handleSpeciesChange(event)">
+      <!-- Options will be populated dynamically -->
+    </select>
+  </div>
+    
   <div id="map"></div>
   <!-- Splash Screen -->
   <div id="splash-screen">
@@ -555,10 +581,6 @@
     
             // Hide the region button when Mapbox is active
             document.getElementById("region-button").style.display = "none";
-    
-            // Add controls
-            map.addControl(new mapboxgl.NavigationControl({ showCompass: false }), 'top-right');
-            map.addControl(new mapboxgl.FullscreenControl(), 'top-right');
     
             // Handle WebGL failure
             map.on('error', () => {
@@ -772,10 +794,36 @@
         }).addTo(osmMap);
         console.log(`✅ Map update complete.`);
     }
-
+    
+    function updateVisibleLayers() {
+      const layers = map.getStyle().layers;
+    
+      if (!layers) return;
+    
+      layers.forEach(layer => {
+        const id = layer.id;
+    
+        const isNumbersLayer = id.includes("_numbers");
+        const isRelevantSpecies = id.startsWith(selectedSpecies);
+    
+        if (isRelevantSpecies) {
+          if (isNumbersLayer) {
+            map.setLayoutProperty(id, "visibility", layersVisible ? "visible" : "none");
+          } else {
+            map.setLayoutProperty(id, "visibility", "visible");
+          }
+        } else {
+          map.setLayoutProperty(id, "visibility", "none");
+        }
+      });
+    
+      console.log(`✅ Updated layers for species: ${selectedSpecies}`);
+    }
 
     // Initialize Mapbox first
     const map = initializeMapbox();
+    populateSpeciesDropdown();
+    updateVisibleLayers(); // Ensure correct species is visible at first
     
     // Resize the map on visibility change to handle mobile-specific issues
     document.addEventListener('visibilitychange', () => {
@@ -965,20 +1013,11 @@
     
     // Function to toggle numbers layers
     function toggleNumbersLayers() {
-        layersVisible = !layersVisible;
-        const layers = map.getStyle().layers;
+      layersVisible = !layersVisible;
+      updateVisibleLayers(); // <- update based on the new visibility
     
-        layers.forEach(layer => {
-            const layerId = layer.id;
-            if (layerId.startsWith('mushroom_') && layerId.endsWith(' numbers')) {
-                map.setLayoutProperty(layerId, 'visibility', layersVisible ? 'visible' : 'none');
-            }
-        });
-    
-        if (layersVisible) showLoadingSpinner(); // Show loading only when enabling layers
-    
-        localStorage.setItem('numbersLayersVisible', layersVisible); // Save state
-        console.log(`Numbers layers are now ${layersVisible ? 'visible' : 'hidden'}`);
+      localStorage.setItem('numbersLayersVisible', layersVisible);
+      console.log(`Numbers layers are now ${layersVisible ? 'visible' : 'hidden'}`);
     }
 
     // Initialize visibility state for %dark layers
@@ -1001,7 +1040,42 @@
         localStorage.setItem('darkLayersVisible', darkLayersVisible); // Save state
         console.log(`Dark layers are now ${darkLayersVisible ? 'visible' : 'hidden'}`);
     } 
-        
+    
+    // Species Dictionary: Display Name -> Code used in layer IDs
+    const speciesOptions = {
+      "Porcini": "mushroom",
+      "Black Chanterelle": "black_chant"
+    };
+    
+    let selectedSpecies = localStorage.getItem("selectedSpecies") || "mushroom";
+
+    
+    function populateSpeciesDropdown() {
+      const dropdown = document.getElementById("species-dropdown");
+      dropdown.innerHTML = "";
+    
+      for (const [label, code] of Object.entries(speciesOptions)) {
+        const option = document.createElement("option");
+        option.value = code;
+        option.textContent = label;
+        if (code === selectedSpecies) {
+          option.selected = true;
+        }
+        dropdown.appendChild(option);
+      }
+    }
+    
+    function handleSpeciesChange(event) {
+      const newSpecies = event.target.value;
+    
+      // Save new species to localStorage
+      selectedSpecies = newSpecies;
+      localStorage.setItem("selectedSpecies", selectedSpecies);
+    
+      // Reload layers for all regions
+      updateVisibleLayers();
+    }
+
     // Marker for the flagpole
     let flagpoleMarker = null;
     
