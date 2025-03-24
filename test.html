@@ -534,7 +534,10 @@
   <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
   <script>
     // Mapbox Access Token
-
+    
+    // Marker for the flagpole
+    let flagpoleMarker = null;
+    
     function getMapboxToken() {
         var request = new XMLHttpRequest();
         request.open('GET', 'https://raw.githubusercontent.com/lodist/funges/main/visitors.json', false); // `false` makes it synchronous
@@ -1085,11 +1088,10 @@
     }
     
     populateSpeciesDropdown();
-    updateVisibleLayers(); // Ensure correct species is visible at first
-    
-    // Marker for the flagpole
-    let flagpoleMarker = null;
-    
+    map.on('load', () => {
+      updateVisibleLayers(); // ← call only when map is ready
+    });
+        
     // Store the coordinates for the right-click or long press
     let activeCoordinates = null;
     
