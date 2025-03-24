@@ -566,6 +566,8 @@
 
     // Set the Mapbox token
     mapboxgl.accessToken = getMapboxToken();
+
+    let map = initializeMapbox();
     
     function initializeMapbox() {
         try {
@@ -834,8 +836,7 @@
 
 
 
-    // Initialize Mapbox first
-    const map = initializeMapbox();
+
     
     // Resize the map on visibility change to handle mobile-specific issues
     document.addEventListener('visibilitychange', () => {
