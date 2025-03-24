@@ -441,6 +441,44 @@
         display: none;
       }
     }
+        
+    @media (max-width: 768px) {
+      body {
+        font-size: 14px;
+      }
+    
+      #species-dropdown {
+        font-size: 12px;
+      }
+    
+      .patreon-button {
+        font-size: 13px;
+        padding: 8px 12px;
+      }
+    
+      #support-modal h2 {
+        font-size: 16px;
+      }
+    
+      .modal-content p,
+      .qr-item p,
+      .crypto-item p {
+        font-size: 13px;
+      }
+    
+      .crypto-item button {
+        font-size: 13px;
+        padding: 5px 8px;
+      }
+    
+      #prediction-box {
+        font-size: 13px;
+      }
+    
+      #footer a {
+        font-size: 11px;
+      }
+    }
 
 
   </style>
@@ -573,14 +611,17 @@
   <div id="support-modal" class="modal-overlay" style="display: none;">
     <div class="modal-content">
       <button class="close-button" onclick="toggleSupportModal()">✖</button>
-      <h2>🍄 Support the Project</h2>
+      <h2>Support the Project</h2>
   
       <!-- Patreon Button -->
       <a href="https://www.patreon.com/Funges" target="_blank" class="patreon-button" aria-label="Support Funges on Patreon">
         <img src="https://raw.githubusercontent.com/lodist/funges/main/QR/patreon.webp" alt="Support on Patreon">
         Support on Patreon
       </a>
-  
+      
+      <!-- Donate Heading -->
+      <p style="margin-top: 10px; font-weight: bold;">Donate:</p>
+      
       <!-- Desktop QR Section -->
       <div class="qr-row" id="qr-section">
         <div class="qr-item">
