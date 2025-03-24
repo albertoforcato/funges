@@ -798,7 +798,12 @@
     
     function updateVisibleLayers() {
       const layers = map.getStyle().layers;
-      if (!layers) return;
+      if (!layers) {
+        console.warn("🚨 No layers found in map style.");
+        return;
+      }
+    
+      const visibleLayerIds = [];
     
       layers.forEach(layer => {
         const id = layer.id;
@@ -809,16 +814,21 @@
     
         if (isSpeciesLayer) {
           if (isRelevantSpecies) {
-            // ✅ Only show numbers if layersVisible is true
-            const shouldShow = !isNumbersLayer || (isNumbersLayer && layersVisible);
-            map.setLayoutProperty(id, "visibility", shouldShow ? "visible" : "none");
+            // Set visibility based on whether it's a numbers layer and the global toggle
+            const visibility = isNumbersLayer ? (layersVisible ? "visible" : "none") : "visible";
+            map.setLayoutProperty(id, "visibility", visibility);
+            console.log(`✅ SHOWING layer: ${id} | isNumbers: ${isNumbersLayer} | visibility: ${visibility}`);
+            if (visibility === "visible") visibleLayerIds.push(id);
           } else {
             map.setLayoutProperty(id, "visibility", "none");
+            console.log(`❌ HIDING unrelated species layer: ${id}`);
           }
         }
       });
     
-      console.log(`✅ Updated visible species to: ${selectedSpecies}, numbers visible: ${layersVisible}`);
+      console.log("🌐 Species selected:", selectedSpecies);
+      console.log("🔢 Numbers visible:", layersVisible);
+      console.log("👁️ Final visible layers:", visibleLayerIds);
     }
 
 
