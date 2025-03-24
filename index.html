@@ -203,41 +203,6 @@
       top: 70px; /* Moves the controls down from the top */
       right: 9px; /* Keeps them px away from the right edge */
     }
-
-    #legend {
-      position: absolute;
-      bottom: 150px;
-      left: 90px;
-      padding: 15px;
-      border-radius: 8px;
-      font-size: 12px; /* Reduced font size */
-      background: rgba(255, 252, 239, 0.90); /* Matches the halo color and opacity */
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Soft halo effect */
-      display: none; /* Hidden by default */
-    }
-    #legend h3 {
-      margin: 0 0 10px;
-      font-size: 12px; /* Reduced font size for heading */
-    }
-    .legend-scale {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .legend-color {
-      width: 20px;
-      height: 20px;
-      border-radius: 3px;
-    }
-    .legend-color.yellow {
-      background: #ffffcc;
-    }
-    .legend-color.orange {
-      background: #fbae7e;
-    }
-    .legend-color.red {
-      background: #800020;
-    }
     
     /* Image Upload Mask (Popup) */
     #image-mask {
@@ -364,7 +329,7 @@
     #species-selector {
       position: fixed;
       top: 10px;
-      left: 50%;
+      left: calc(50% + 40px); 
       transform: translateX(-50%);
       z-index: 9999;
       background: rgba(255, 252, 239, 0.9);
