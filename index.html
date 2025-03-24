@@ -378,8 +378,9 @@
       padding: 6px;
       border-radius: 4px;
       border: 1px solid #ccc;
-      background-color: white;
-      min-width: 160px; /* 💡 Adjust as needed */
+      background-color: rgba(255, 252, 239, 0.9);
+      width: auto;
+      min-width: 180px;      
     }
 
   </style>
@@ -471,23 +472,6 @@
     <a href="privacy-policy.html">Privacy Policy</a>
     <a href="termsuse.html">Terms of Use</a>
   </div>
-
-  <!-- Legend -->
-  <div id="legend">
-    <h3>Porcini Mushroom Conditions</h3>
-    <div class="legend-scale">
-      <div class="legend-color yellow"></div> <span>Nah</span>
-      <div class="legend-color orange"></div> <span>Alright</span>
-      <div class="legend-color red"></div> <span>Let's Go!</span>
-    </div>
-    <p>Rating: 0 to 10</p>
-    <p>
-      <strong>Go to Location:</strong><br>
-      <strong>Long Press (Mobile)</strong> / <strong>Right-Click (Desktop)</strong>:<br>
-        Mark the target location<br>
-        Click the button to the left to open in Google Maps.<br>
-    </p>
-    </div>
 
     <!-- Loading Spinner -->
   <div id="loading-spinner" style="display: none;">
@@ -1061,8 +1045,8 @@
     
     // Species Dictionary: Display Name -> Code used in layer IDs
     const speciesOptions = {
-      "🍄 Porcini": "mushroom",
-      "🍄 Black Chanterelle": "black_chant"
+      "🍄 Porcini (Boletus Edulis)": "mushroom",
+      "🍄 Black Chanterelle (Craterellus cornucopioides)": "black_chant"
     };
     // 🍄  🌱  🌸
     let selectedSpecies = localStorage.getItem("selectedSpecies") || "mushroom";
