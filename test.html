@@ -798,28 +798,29 @@
     
     function updateVisibleLayers() {
       const layers = map.getStyle().layers;
-    
       if (!layers) return;
     
       layers.forEach(layer => {
         const id = layer.id;
     
-        const isNumbersLayer = id.includes("_numbers");
+        // Check if it's a mushroom species layer
+        const isSpeciesLayer = Object.values(speciesOptions).some(speciesCode => id.startsWith(speciesCode));
         const isRelevantSpecies = id.startsWith(selectedSpecies);
+        const isNumbersLayer = id.includes("_numbers");
     
-        if (isRelevantSpecies) {
-          if (isNumbersLayer) {
-            map.setLayoutProperty(id, "visibility", layersVisible ? "visible" : "none");
+        // Only modify mushroom layers — leave all others alone
+        if (isSpeciesLayer) {
+          if (isRelevantSpecies) {
+            map.setLayoutProperty(id, "visibility", isNumbersLayer && !layersVisible ? "none" : "visible");
           } else {
-            map.setLayoutProperty(id, "visibility", "visible");
+            map.setLayoutProperty(id, "visibility", "none");
           }
-        } else {
-          map.setLayoutProperty(id, "visibility", "none");
         }
       });
     
-      console.log(`✅ Updated layers for species: ${selectedSpecies}`);
+      console.log(`✅ Updated visible species to: ${selectedSpecies}`);
     }
+
 
     // Initialize Mapbox first
     const map = initializeMapbox();
