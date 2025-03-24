@@ -446,41 +446,38 @@
       body {
         font-size: 14px;
       }
-    
       #species-dropdown {
         font-size: 12px;
       }
-    
       .patreon-button {
         font-size: 13px;
         padding: 8px 12px;
       }
-    
       #support-modal h2 {
         font-size: 16px;
       }
-    
       .modal-content p,
       .qr-item p,
       .crypto-item p {
         font-size: 13px;
       }
-    
       .crypto-item button {
         font-size: 13px;
         padding: 5px 8px;
       }
-    
       #prediction-box {
         font-size: 13px;
       }
-    
       #footer a {
         font-size: 11px;
       }
+      .modal-content {
+      width: 85%;
+      max-width: 320px;
+      padding: 15px;
     }
-
-
+    }
+    
   </style>
 </head>
   <body>
@@ -659,7 +656,6 @@
     </div>
   </div>
 
-    
   <!-- Mapbox JS -->
   <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
   <script>
@@ -759,16 +755,11 @@
                 minZoom: 5,
                 maxZoom: 20
             });
-    
-            //L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            //    attribution: '&copy; OpenStreetMap contributors'
-            //}).addTo(osmMap);
-      
+          
             L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
               attribution: '&copy; <a href="https://carto.com/">CARTO</a>',
             }).addTo(osmMap);
 
-    
             setTimeout(() => {
                 osmMap.invalidateSize();
             }, 500);
@@ -786,7 +777,6 @@
       const notice = document.getElementById('osm-limit-notice');
       if (notice) notice.style.display = 'flex';
     }, 1500);  // message appears after 1.5 seconds
-      
     }
 
     document.getElementById('close-osm-notice').addEventListener('click', () => {
@@ -827,7 +817,6 @@
             dropdown.style.display = "none";
         } else {
             dropdown.style.display = "block";
-    
             // Ensure dropdown is positioned **to the right of the button**
             dropdown.style.position = "fixed";  // Detach from sidebar constraints
             dropdown.style.top = `${rect.top}px`; // Align with button
@@ -965,11 +954,6 @@
       console.log("🔢 Numbers visible:", layersVisible);
       console.log("👁️ Final visible layers:", visibleLayerIds);
     }
-
-
-
-
-
     
     // Resize the map on visibility change to handle mobile-specific issues
     document.addEventListener('visibilitychange', () => {
@@ -1041,7 +1025,6 @@
       gmapsButton.style.display = 'none'; // Hide Google Maps button on page unload
     });
 
-    
     // Add a marker for the user's location
     let userMarker = null;
     let cachedCoordinates = null; // Cache for the user's location
@@ -1120,7 +1103,6 @@
         // Center the map on the user's location
         map.flyTo({ center: coordinates, zoom: 8, speed: 2 });
     }
-
 
     // Function to ensure pin is added and map is focused on location
     function ensurePinAndFocus(coordinates) {
