@@ -7,7 +7,7 @@
     "@type": "SoftwareApplication",
     "name": "Porcini Mushroom Map",
     "url": "https://fung.es",
-    "description": "An interactive map that helps foragers locate Porcini mushrooms in real-time using weather and geospatial data.",
+    "description": "An interactive map that helps foragers discover wild edible mushrooms and plants in real-time using weather and geospatial data.",
     "author": {
       "@type": "Person",
       "name": "Loris Di Stefano"
@@ -40,22 +40,22 @@
    -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Discover Porcini mushroom hotspots with real-time data. The interactive map uses weather and geospatial data to improve foraging success.">
+  <meta name="description" content="Discover wild edible mushrooms and plants with real-time data. The interactive map uses weather and geospatial data to boost your foraging success.">
 
-  <!-- Open Graph (Facebook, LinkedIn, WhatsApp, etc.) -->
-  <meta property="og:title" content="Porcini Mushroom Map - Real-Time Foraging & Hotspot Prediction">
-  <meta property="og:description" content="Discover Porcini mushroom hotspots with real-time data. The interactive map uses weather and geospatial data to improve foraging success.">
+  <!-- Open Graph -->
+  <meta property="og:title" content="Fung.es – Wild Edible Map">
+  <meta property="og:description" content="Discover wild edible mushrooms and plants with real-time data. The interactive map uses weather and geospatial data to boost your foraging success.">
   <meta property="og:image" content="https://fung.es/icons/logo_1.png">
   <meta property="og:url" content="https://fung.es">
   <meta property="og:type" content="website">
-
-  <!-- Twitter Card (Twitter/X) -->
+  
+  <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Porcini Mushroom Map">
-  <meta name="twitter:description" content="Discover Porcini mushroom hotspots with real-time data.">
+  <meta name="twitter:title" content="Fung.es – Wild Edible Map">
+  <meta name="twitter:description" content="Discover wild edible mushrooms and plants with real-time data.">
   <meta name="twitter:image" content="https://fung.es/icons/logo_1.png">
 
-  <title>Porcini Mushroom Map - Real-Time Foraging & Hotspot Prediction</title>
+  <title>Fung.es – Real-Time Foraging Map for Wild Mushroom & Edible Plant Hotspots</title>
   <link rel="icon" type="image/png" href="https://fung.es/icons/logo_1.png">
 
   <!-- Mapbox CSS -->
@@ -93,7 +93,6 @@
         height: auto; /* Maintain aspect ratio */
     }
 
-    
     /* Fade out animation */
     @keyframes fadeOut {
         0% { opacity: 1; }
@@ -110,7 +109,6 @@
         bottom: 0;
         z-index: 0;
     }
-
     
     #button-bar {
       position: absolute;
@@ -1063,10 +1061,10 @@
     
     // Species Dictionary: Display Name -> Code used in layer IDs
     const speciesOptions = {
-      "Porcini": "mushroom",
-      "Black Chanterelle": "black_chant"
+      "🍄 Porcini": "mushroom",
+      "🍄 Black Chanterelle": "black_chant"
     };
-    
+    // 🍄  🌱  🌸
     let selectedSpecies = localStorage.getItem("selectedSpecies") || "mushroom";
 
     
