@@ -1030,7 +1030,11 @@
     // Function to toggle numbers layers
     function toggleNumbersLayers() {
       layersVisible = !layersVisible;
-      updateVisibleLayers(); // ← will now hide/show based on state
+    
+      if (layersVisible) {
+        showLoadingSpinner(); //Show spinner when enabling
+      }
+      updateVisibleLayers(); // will now hide/show based on state
     
       localStorage.setItem('numbersLayersVisible', layersVisible);
       console.log(`🔢 Numbers layers are now ${layersVisible ? 'visible' : 'hidden'}`);
