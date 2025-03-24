@@ -347,7 +347,137 @@
       width: auto;
       min-width: 180px;      
     }
-
+    
+    /* Modal Styles */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.6);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 99999;
+    }
+    
+    .modal-content {
+      background: #fffdf6;
+      padding: 20px;
+      border-radius: 12px;
+      max-width: 500px;
+      width: 90%;
+      text-align: center;
+      position: relative;
+    }
+    
+    .close-button {
+      position: absolute;
+      top: 8px;
+      right: 12px;
+      background: transparent;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+    }
+    
+    .patreon-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background-color: #ff424d;
+      color: white;
+      font-weight: bold;
+      text-decoration: none;
+      padding: 10px 16px;
+      border-radius: 8px;
+      margin: 10px 0 20px;
+    }
+    
+    .patreon-button img {
+      width: 24px;
+      height: auto;
+    }
+    
+    /* QR Row for Desktop */
+    .qr-row {
+      display: flex;
+      justify-content: space-around;
+      gap: 10px;
+    }
+    
+    .qr-item {
+      text-align: center;
+    }
+    
+    .qr-item img {
+      width: 100px;
+      height: auto;
+      border-radius: 8px;
+    }
+    
+    /* Mobile crypto copy buttons */
+    .crypto-item {
+      margin-bottom: 15px;
+    }
+    
+    .crypto-item button {
+      margin: 4px;
+      padding: 6px 10px;
+      font-size: 14px;
+    }
+    
+    /* Mobile only */
+    @media (max-width: 768px) {
+      #qr-section {
+        display: none;
+      }
+    }
+    
+    /* Desktop only */
+    @media (min-width: 769px) {
+      #crypto-section {
+        display: none;
+      }
+    }
+        
+    @media (max-width: 768px) {
+      body {
+        font-size: 14px;
+      }
+      #species-dropdown {
+        font-size: 12px;
+      }
+      .patreon-button {
+        font-size: 13px;
+        padding: 8px 12px;
+      }
+      #support-modal h2 {
+        font-size: 16px;
+      }
+      .modal-content p,
+      .qr-item p,
+      .crypto-item p {
+        font-size: 9px;
+      }
+      .crypto-item button {
+        font-size: 13px;
+        padding: 5px 8px;
+      }
+      #prediction-box {
+        font-size: 13px;
+      }
+      #footer a {
+        font-size: 11px;
+      }
+      .modal-content {
+      width: 85%;
+      max-width: 320px;
+      padding: 15px;
+      }
+    }
+    
   </style>
 </head>
   <body>
@@ -421,9 +551,7 @@
     </div>
 
     <div class="button">
-      <a href="https://www.patreon.com/Funges" target="_blank">
-        <img src="https://raw.githubusercontent.com/lodist/funges/main/icons/support_1.webp" alt="Support Button" loading="lazy">
-      </a>
+      <img src="https://raw.githubusercontent.com/lodist/funges/main/icons/support_1.webp" alt="Support Button" loading="lazy" onclick="toggleSupportModal()">
     </div>
     
     <div class="button">
@@ -475,8 +603,59 @@
 
   <!-- Load script.js AFTER TensorFlow -->
   <script src="script.js"></script>
+  
+  <!-- Support Modal -->
+  <div id="support-modal" class="modal-overlay" style="display: none;">
+    <div class="modal-content">
+      <button class="close-button" onclick="toggleSupportModal()">✖</button>
+      <h2>Support the Project</h2>
+  
+      <!-- Patreon Button -->
+      <a href="https://www.patreon.com/Funges" target="_blank" class="patreon-button" aria-label="Support Funges on Patreon">
+        <img src="https://raw.githubusercontent.com/lodist/funges/main/QR/patreon.webp" alt="Support on Patreon">
+        Support on Patreon
+      </a>
+      
+      <!-- Donate Heading -->
+      <p style="margin-top: 10px; font-weight: bold;">Donate:</p>
+      
+      <!-- Desktop QR Section -->
+      <div class="qr-row" id="qr-section">
+        <div class="qr-item">
+          <img src="https://raw.githubusercontent.com/lodist/funges/main/QR/bitcoin_qr.webp" alt="Bitcoin QR">
+          <p>BTC</p>
+        </div>
+        <div class="qr-item">
+          <img src="https://raw.githubusercontent.com/lodist/funges/main/QR/iota_qr.webp" alt="IOTA QR">
+          <p>IOTA</p>
+        </div>
+        <div class="qr-item">
+          <img src="https://raw.githubusercontent.com/lodist/funges/main/QR/ethereum_qr.webp" alt="Ethereum QR">
+          <p>ETH</p>
+        </div>
+      </div>
+  
+      <!-- Mobile Text Section -->
+      <div class="mobile-crypto" id="crypto-section">
+        <div class="crypto-item">
+          <p><strong>BTC:</strong> bc1q0j9yf0w4a5zp45u4lsk0xjq6gfefxcuhsvy2p0</p>
+          <button onclick="copyToClipboard('bc1q0j9yf0w4a5zp45u4lsk0xjq6gfefxcuhsvy2p0')">📋 Copy</button>
+          <button onclick="openQR('bitcoin_qr.webp')">🖼 Show QR</button>
+        </div>
+        <div class="crypto-item">
+          <p><strong>IOTA:</strong> iota1qp24tfmlscaj9u34k64ma2hh7lhgj93srmtsysqmh6a85lm4dn02vdg6t67</p>
+          <button onclick="copyToClipboard('iota1qp24tfmlscaj9u34k64ma2hh7lhgj93srmtsysqmh6a85lm4dn02vdg6t67')">📋 Copy</button>
+          <button onclick="openQR('iota_qr.webp')">🖼 Show QR</button>
+        </div>
+        <div class="crypto-item">
+          <p><strong>ETH:</strong> 0xa8134D63F689b08ab227EE935bB43ba5526f9D4C</p>
+          <button onclick="copyToClipboard('0xa8134D63F689b08ab227EE935bB43ba5526f9D4C')">📋 Copy</button>
+          <button onclick="openQR('ethereum_qr.webp')">🖼 Show QR</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
-    
   <!-- Mapbox JS -->
   <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
   <script>
@@ -576,16 +755,11 @@
                 minZoom: 5,
                 maxZoom: 20
             });
-    
-            //L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            //    attribution: '&copy; OpenStreetMap contributors'
-            //}).addTo(osmMap);
-      
+          
             L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
               attribution: '&copy; <a href="https://carto.com/">CARTO</a>',
             }).addTo(osmMap);
 
-    
             setTimeout(() => {
                 osmMap.invalidateSize();
             }, 500);
@@ -603,7 +777,6 @@
       const notice = document.getElementById('osm-limit-notice');
       if (notice) notice.style.display = 'flex';
     }, 1500);  // message appears after 1.5 seconds
-      
     }
 
     document.getElementById('close-osm-notice').addEventListener('click', () => {
@@ -644,7 +817,6 @@
             dropdown.style.display = "none";
         } else {
             dropdown.style.display = "block";
-    
             // Ensure dropdown is positioned **to the right of the button**
             dropdown.style.position = "fixed";  // Detach from sidebar constraints
             dropdown.style.top = `${rect.top}px`; // Align with button
@@ -782,11 +954,6 @@
       console.log("🔢 Numbers visible:", layersVisible);
       console.log("👁️ Final visible layers:", visibleLayerIds);
     }
-
-
-
-
-
     
     // Resize the map on visibility change to handle mobile-specific issues
     document.addEventListener('visibilitychange', () => {
@@ -858,7 +1025,6 @@
       gmapsButton.style.display = 'none'; // Hide Google Maps button on page unload
     });
 
-    
     // Add a marker for the user's location
     let userMarker = null;
     let cachedCoordinates = null; // Cache for the user's location
@@ -937,7 +1103,6 @@
         // Center the map on the user's location
         map.flyTo({ center: coordinates, zoom: 8, speed: 2 });
     }
-
 
     // Function to ensure pin is added and map is focused on location
     function ensurePinAndFocus(coordinates) {
@@ -1098,7 +1263,25 @@
     const gmapsButton = document.querySelector('.button img[alt="Google Maps Button"]').parentElement;
 
     gmapsButton.style.display = 'none'; // Add this line to hide the button initially
-
+    
+    function toggleSupportModal() {
+      const modal = document.getElementById('support-modal');
+      modal.style.display = modal.style.display === 'none' ? 'flex' : 'none';
+    }
+    
+    // Copy to clipboard
+    function copyToClipboard(text) {
+      navigator.clipboard.writeText(text).then(() => {
+        alert("Copied to clipboard!");
+      });
+    }
+    
+    // Open a QR full-screen (for mobile)
+    function openQR(filename) {
+      const qrWindow = window.open("", "_blank");
+      qrWindow.document.write(`<img src="https://raw.githubusercontent.com/lodist/funges/main/QR/${filename}" style="width: 100%; height: auto;">`);
+    }
+    
     // Handle right-click on desktop
     map.on('contextmenu', (e) => {
       e.preventDefault(); // Prevent the default context menu
@@ -1211,13 +1394,22 @@
 
     // Splash screen fade-out and removal
     window.onload = function() {
-        const splashScreen = document.getElementById('splash-screen');
-        
-        // Remove the splash screen from the DOM after the animation ends
-        splashScreen.addEventListener('animationend', () => {
-            splashScreen.remove();
+      const splashScreen = document.getElementById('splash-screen');
+      splashScreen.addEventListener('animationend', () => {
+        splashScreen.remove();
+      });
+    
+      // Allow modal close on outside click
+      const supportModal = document.getElementById('support-modal');
+      if (supportModal) {
+        supportModal.addEventListener('click', (e) => {
+          if (e.target === supportModal) {
+            toggleSupportModal();
+          }
         });
+      }
     };
+    
   </script>
 </body>
 </html>
