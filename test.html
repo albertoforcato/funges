@@ -809,9 +809,9 @@
     
         if (isSpeciesLayer) {
           if (isRelevantSpecies) {
-            // Respect the toggle for numbers layers
-            const visibility = isNumbersLayer ? (layersVisible ? "visible" : "none") : "visible";
-            map.setLayoutProperty(id, "visibility", visibility);
+            // ✅ Only show numbers if layersVisible is true
+            const shouldShow = !isNumbersLayer || (isNumbersLayer && layersVisible);
+            map.setLayoutProperty(id, "visibility", shouldShow ? "visible" : "none");
           } else {
             map.setLayoutProperty(id, "visibility", "none");
           }
@@ -820,6 +820,7 @@
     
       console.log(`✅ Updated visible species to: ${selectedSpecies}, numbers visible: ${layersVisible}`);
     }
+
 
 
 
