@@ -803,23 +803,24 @@
       layers.forEach(layer => {
         const id = layer.id;
     
-        // Check if it's a mushroom species layer
         const isSpeciesLayer = Object.values(speciesOptions).some(speciesCode => id.startsWith(speciesCode));
         const isRelevantSpecies = id.startsWith(selectedSpecies);
         const isNumbersLayer = id.includes("_numbers");
     
-        // Only modify mushroom layers — leave all others alone
         if (isSpeciesLayer) {
           if (isRelevantSpecies) {
-            map.setLayoutProperty(id, "visibility", isNumbersLayer && !layersVisible ? "none" : "visible");
+            // Respect the toggle for numbers layers
+            const visibility = isNumbersLayer ? (layersVisible ? "visible" : "none") : "visible";
+            map.setLayoutProperty(id, "visibility", visibility);
           } else {
             map.setLayoutProperty(id, "visibility", "none");
           }
         }
       });
     
-      console.log(`✅ Updated visible species to: ${selectedSpecies}`);
+      console.log(`✅ Updated visible species to: ${selectedSpecies}, numbers visible: ${layersVisible}`);
     }
+
 
 
     // Initialize Mapbox first
@@ -1014,10 +1015,10 @@
     // Function to toggle numbers layers
     function toggleNumbersLayers() {
       layersVisible = !layersVisible;
-      updateVisibleLayers(); // <- update based on the new visibility
+      updateVisibleLayers(); // ← will now hide/show based on state
     
       localStorage.setItem('numbersLayersVisible', layersVisible);
-      console.log(`Numbers layers are now ${layersVisible ? 'visible' : 'hidden'}`);
+      console.log(`🔢 Numbers layers are now ${layersVisible ? 'visible' : 'hidden'}`);
     }
 
     // Initialize visibility state for %dark layers
@@ -1066,14 +1067,9 @@
     }
     
     function handleSpeciesChange(event) {
-      const newSpecies = event.target.value;
-    
-      // Save new species to localStorage
-      selectedSpecies = newSpecies;
+      selectedSpecies = event.target.value;
       localStorage.setItem("selectedSpecies", selectedSpecies);
-    
-      // Reload layers for all regions
-      updateVisibleLayers();
+      updateVisibleLayers(); // ← this now respects layersVisible state
     }
     
     populateSpeciesDropdown();
