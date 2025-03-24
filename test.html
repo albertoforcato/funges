@@ -823,8 +823,6 @@
 
     // Initialize Mapbox first
     const map = initializeMapbox();
-    populateSpeciesDropdown();
-    updateVisibleLayers(); // Ensure correct species is visible at first
     
     // Resize the map on visibility change to handle mobile-specific issues
     document.addEventListener('visibilitychange', () => {
@@ -1076,7 +1074,10 @@
       // Reload layers for all regions
       updateVisibleLayers();
     }
-
+    
+    populateSpeciesDropdown();
+    updateVisibleLayers(); // Ensure correct species is visible at first
+    
     // Marker for the flagpole
     let flagpoleMarker = null;
     
