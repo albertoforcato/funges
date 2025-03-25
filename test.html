@@ -412,12 +412,19 @@
       margin: 0 0 20px; /* Some bottom margin */
       justify-content: center;
     }
-    
     .bmc-button img {
       width: 24px;
       height: auto;
     }
-
+    .support-buttons {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .support-buttons a {
+      margin: 6px 0; /* Add spacing between buttons */
+    }
     
     /* QR Row for Desktop */
     .qr-row {
@@ -629,16 +636,19 @@
       <h2>Support the Project</h2>
   
       <!-- Patreon Button -->
-      <a href="https://www.patreon.com/Funges" target="_blank" class="patreon-button" aria-label="Support Funges on Patreon">
-        <img src="https://raw.githubusercontent.com/lodist/funges/main/QR/patreon.webp" alt="Support on Patreon">
-        Support on Patreon
-      </a>
+      <div class="support-buttons">
+        <!-- Patreon Button -->
+        <a href="https://www.patreon.com/Funges" target="_blank" class="patreon-button" aria-label="Support Funges on Patreon">
+          <img src="https://raw.githubusercontent.com/lodist/funges/main/QR/patreon.webp" alt="Support on Patreon">
+          Support on Patreon
+        </a>
       
-      <!-- Buy Me a Coffee Button -->
-      <a href="https://buymeacoffee.com/lorisdisteq" target="_blank" class="bmc-button" aria-label="Support Funges on Buy Me a Coffee">
-        <img src="https://raw.githubusercontent.com/lodist/funges/main/QR/buymeacoffee.webp" alt="Buy Me a Coffee">
-        Buy Me a Coffee
-      </a>
+        <!-- Buy Me a Coffee Button -->
+        <a href="https://buymeacoffee.com/lorisdisteq" target="_blank" class="bmc-button" aria-label="Support Funges on Buy Me a Coffee">
+          <img src="https://raw.githubusercontent.com/lodist/funges/main/QR/buymeacoffee.webp" alt="Buy Me a Coffee">
+          Buy Me a Coffee
+        </a>
+      </div>
       <!-- Donate Heading -->
       <p style="margin-top: 10px; font-weight: bold;">Donate:</p>
       
