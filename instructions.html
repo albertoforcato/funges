@@ -57,6 +57,29 @@
     .button:hover {
       background-color: rgba(0, 0, 0, 1);
     }
+    
+    .aligned-list {
+      list-style: none;
+      padding-left: 0;
+    }
+    
+    .aligned-list li {
+      display: flex;
+      align-items: center;
+      gap: 10px; /* space between emoji and label */
+      margin-bottom: 6px;
+    }
+    
+    .emoji {
+      width: 24px;
+      text-align: center;
+      font-size: 18px;
+    }
+    
+    .label {
+      flex: 1;
+    }
+    
   </style>
 </head>
 <body>
@@ -126,12 +149,12 @@
       <h3>How Wild Edibles Are Predicted</h3>
       <p>Funges analyzes a wide range of environmental variables to identify the most promising areas for foraging wild mushrooms and edible plants. Our models consider multiple layers of ecological data—tracked and combined over time—to infer natural cycles and determine optimal timing and locations for collection.</p>
       <p>monitor and integrate:</p>
-      <ul>
-        <li>🌡️ Temperature, humidity and rainfall</li>
-        <li>🧪 Soil pH and geological features</li>
-        <li>🌿 Land cover and vegetation types</li>
-        <li>🗺️ Topography and elevation</li>
-        <li>⏳ Time-series trends</li>
+      <ul class="aligned-list">
+        <li><span class="emoji">🌡️</span><span class="label">Temperature, humidity and rainfall</span></li>
+        <li><span class="emoji">🧪</span><span class="label">Soil pH and geological features</span></li>
+        <li><span class="emoji">🌿</span><span class="label">Land cover and vegetation types</span></li>
+        <li><span class="emoji">🗺️</span><span class="label">Topography and elevation</span></li>
+        <li><span class="emoji">⏳</span><span class="label">Time-series trends</span></li>
       </ul>
       <p>The goal is to simulate the behavior of experienced foragers—amplified by data. In other words, respectfully trying to hack nature to make wild harvesting more accessible, precise and sustainable.</p>
 
