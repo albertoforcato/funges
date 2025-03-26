@@ -1,0 +1,110 @@
+"castagna": {
+    "optimal_temp": 16,
+    "optimal_alt": 600,
+    "temp_sigma": 5,
+    "alt_sigma": 250,
+    "optimal_humidity": 75,
+    "humidity_sigma": 10,
+    "optimal_pH": 5.8,
+    "pH_sigma_near": 1.5,
+    "pH_sigma_far": 1.0,
+    "pH_range_near": (4.8, 6.5),
+    "optimal_soil_temp": 12,
+    "soil_temp_sigma": 3,
+    "weather_preference": {
+        "rain_weight": 0.3,
+        "sun_weight": 0.5,
+        "rain_first": False,
+        "undesirable_penalty": 0.7
+    }
+}
+312
+
+"mazza_tamburo": {
+    "optimal_temp": 18,
+    "optimal_alt": 500,
+    "temp_sigma": 4.5,
+    "alt_sigma": 300,
+    "optimal_humidity": 70,
+    "humidity_sigma": 9,
+    "optimal_pH": 6.0,
+    "pH_sigma_near": 1.3,
+    "pH_sigma_far": 0.9,
+    "pH_range_near": (5.2, 7.2),
+    "optimal_soil_temp": 13.5,
+    "soil_temp_sigma": 2.2,
+    "weather_preference": {
+        "rain_weight": 0.4,
+        "sun_weight": 0.4,
+        "rain_first": False,
+        "undesirable_penalty": 0.5
+    }
+}
+313,312
+
+"asparago_selvatico": {
+    "optimal_temp": 19,
+    "optimal_alt": 400,
+    "temp_sigma": 4.5,
+    "alt_sigma": 200,
+    "optimal_humidity": 65,
+    "humidity_sigma": 10,
+    "optimal_pH": 6.4,
+    "pH_sigma_near": 1.2,
+    "pH_sigma_far": 0.8,
+    "pH_range_near": (5.6, 7.2),
+    "optimal_soil_temp": 14.5,
+    "soil_temp_sigma": 2,
+    "weather_preference": {
+        "rain_weight": 0.3,
+        "sun_weight": 0.6,
+        "rain_first": False,
+        "undesirable_penalty": 0.4
+    }
+}
+313,311
+
+"fragolina_bosco": {
+    "optimal_temp": 17,
+    "optimal_alt": 700,
+    "temp_sigma": 4,
+    "alt_sigma": 250,
+    "optimal_humidity": 85,
+    "humidity_sigma": 8,
+    "optimal_pH": 5.8,
+    "pH_sigma_near": 1.4,
+    "pH_sigma_far": 1.0,
+    "pH_range_near": (4.8, 6.6),
+    "optimal_soil_temp": 13.5,
+    "soil_temp_sigma": 2,
+    "weather_preference": {
+        "rain_weight": 0.5,
+        "sun_weight": 0.4,
+        "rain_first": False,
+        "undesirable_penalty": 0.6
+    }
+}
+312,313
+
+"noce_selvatica": {
+    "optimal_temp": 18,
+    "optimal_alt": 550,
+    "temp_sigma": 5,
+    "alt_sigma": 300,
+    "optimal_humidity": 70,
+    "humidity_sigma": 9,
+    "optimal_pH": 6.5,
+    "pH_sigma_near": 1.2,
+    "pH_sigma_far": 0.8,
+    "pH_range_near": (5.8, 7.4),
+    "optimal_soil_temp": 14,
+    "soil_temp_sigma": 2.5,
+    "weather_preference": {
+        "rain_weight": 0.35,
+        "sun_weight": 0.5,
+        "rain_first": False,
+        "undesirable_penalty": 0.4
+    }
+}
+
+312,313
