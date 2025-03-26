@@ -508,10 +508,14 @@
   <body>
   
   <div id="species-selector">
+    <input type="text" id="species-filter" placeholder="🔍 Type or filter by 🍄 🌱 🌸" 
+           oninput="filterSpeciesOptions()" 
+           style="margin-bottom: 5px; padding: 4px; border-radius: 4px; border: 1px solid #ccc; width: 100%;">
     <select id="species-dropdown" onchange="handleSpeciesChange(event)">
       <!-- Options will be populated dynamically -->
     </select>
   </div>
+
     
   <div id="map"></div>
   <!-- Splash Screen -->
@@ -900,19 +904,19 @@
         };
     
         if (!geojsonUrls[region]) {
-            console.error(`❌ Invalid region requested: ${region}`);
+            console.error(`Invalid region requested: ${region}`);
             return;
         }
     
-        // ✅ 1. Check in-memory cache first
+        //  1. Check in-memory cache first
         if (cachedRegions[region]) {
-            console.log(`✅ Retrieved "${region}" from in-memory cache.`);
+            console.log(`Retrieved "${region}" from in-memory cache.`);
             updateMapWithGeoJSON(cachedRegions[region]);
             return;
         }
     
-        // ✅ 2. Fetch from R2 if not cached
-        console.log(`🌍 Fetching "${region}" from R2 (network request)...`);
+        //  2. Fetch from R2 if not cached
+        console.log(` Fetching "${region}" from R2 (network request)...`);
     
         fetch(geojsonUrls[region])
             .then(response => {
@@ -922,12 +926,12 @@
                 return response.json();
             })
             .then(data => {
-                console.log(`✅ Successfully retrieved "${region}" from R2. Caching now.`);
+                console.log(`Successfully retrieved "${region}" from R2. Caching now.`);
                 cachedRegions[region] = data; // Store in memory cache
                 updateMapWithGeoJSON(data);
             })
             .catch(error => {
-                console.error(`🚨 Error loading GeoJSON for "${region}":`, error);
+                console.error(`Error loading GeoJSON for "${region}":`, error);
                 alert("Failed to load region data. Please try again.");
             });
     
@@ -935,7 +939,7 @@
     }
     
     function updateMapWithGeoJSON(data) {
-        console.log(`🗺️ Updating map with new GeoJSON data.`);
+        console.log(`Updating map with new GeoJSON data.`);
         if (geoJsonLayer) {
             osmMap.removeLayer(geoJsonLayer);
         }
@@ -950,13 +954,13 @@
                 layer.bindPopup(`<b>Mushroom Score:</b> ${feature.properties.mushroom_score.toFixed(2)}`);
             }
         }).addTo(osmMap);
-        console.log(`✅ Map update complete.`);
+        console.log(`Map update complete.`);
     }
     
     function updateVisibleLayers() {
       const layers = map.getStyle().layers;
       if (!layers) {
-        console.warn("🚨 No layers found in map style.");
+        console.warn("No layers found in map style.");
         return;
       }
     
@@ -974,18 +978,18 @@
             // Set visibility based on whether it's a numbers layer and the global toggle
             const visibility = isNumbersLayer ? (layersVisible ? "visible" : "none") : "visible";
             map.setLayoutProperty(id, "visibility", visibility);
-            console.log(`✅ SHOWING layer: ${id} | isNumbers: ${isNumbersLayer} | visibility: ${visibility}`);
+            console.log(`SHOWING layer: ${id} | isNumbers: ${isNumbersLayer} | visibility: ${visibility}`);
             if (visibility === "visible") visibleLayerIds.push(id);
           } else {
             map.setLayoutProperty(id, "visibility", "none");
-            console.log(`❌ HIDING unrelated species layer: ${id}`);
+            console.log(`HIDING unrelated species layer: ${id}`);
           }
         }
       });
     
-      console.log("🌐 Species selected:", selectedSpecies);
-      console.log("🔢 Numbers visible:", layersVisible);
-      console.log("👁️ Final visible layers:", visibleLayerIds);
+      console.log("Species selected:", selectedSpecies);
+      console.log("Numbers visible:", layersVisible);
+      console.log("Final visible layers:", visibleLayerIds);
     }
     
     // Resize the map on visibility change to handle mobile-specific issues
@@ -1218,21 +1222,27 @@
     let selectedSpecies = localStorage.getItem("selectedSpecies") || "mushroom";
 
     
-    function populateSpeciesDropdown() {
+    function populateSpeciesDropdown(filterText = "") {
       const dropdown = document.getElementById("species-dropdown");
       dropdown.innerHTML = "";
     
       for (const [label, code] of Object.entries(speciesOptions)) {
-        const option = document.createElement("option");
-        option.value = code;
-        option.textContent = label;
-        if (code === selectedSpecies) {
-          option.selected = true;
+        if (label.toLowerCase().includes(filterText.toLowerCase())) {
+          const option = document.createElement("option");
+          option.value = code;
+          option.textContent = label;
+          if (code === selectedSpecies) {
+            option.selected = true;
+          }
+          dropdown.appendChild(option);
         }
-        dropdown.appendChild(option);
       }
     }
-    
+    function filterSpeciesOptions() {
+      const filter = document.getElementById("species-filter").value;
+      populateSpeciesDropdown(filter);
+    }
+
     function handleSpeciesChange(event) {
       selectedSpecies = event.target.value;
       localStorage.setItem("selectedSpecies", selectedSpecies);
