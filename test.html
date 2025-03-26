@@ -531,9 +531,10 @@
   <body>
   
   <div id="species-selector" style="position: relative; z-index: 9999;">
-    <div id="species-display" onclick="toggleSpeciesDropdown()" style="padding: 6px 10px; border: 1px solid #ccc; border-radius: 6px; background: rgba(255, 252, 239, 0.9); cursor: pointer; min-width: 180px;">
-      🍄 Porcini (Boletus edulis) ▼
+    <div id="species-display" onclick="toggleSpeciesDropdown()" style="padding: 6px 10px; border: 1px solid #ccc; border-radius: 6px; background: rgba(255, 252, 239, 0.9); cursor: pointer; width: auto; display: inline-block; white-space: nowrap;">
+      <span id="current-species-label"></span> ▼
     </div>
+
   
     <div id="custom-species-dropdown" style="display: none; position: absolute; top: 100%; left: 0; margin-top: 5px; background: rgba(255, 252, 239, 0.95); border: 1px solid #ccc; border-radius: 8px; padding: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.15); width: 100%;">
       
@@ -1304,9 +1305,10 @@
       const label = Object.keys(speciesOptions).find(
         (key) => speciesOptions[key] === selectedSpecies
       );
-      const display = document.getElementById("species-display");
-      if (display) display.textContent = label + " ▼";
+      const display = document.getElementById("current-species-label");
+      if (display) display.textContent = label;
     }
+
     
     // Open or close the dropdown panel
     function toggleSpeciesDropdown() {
