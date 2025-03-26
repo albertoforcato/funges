@@ -70,7 +70,6 @@
       height: 100dvh; /* Use dynamic viewport height where supported */
       overflow: hidden; /* Disable scrolling */
     }
-    
     /* Splash Screen */
     #splash-screen {
         position: fixed;
@@ -85,20 +84,17 @@
         z-index: 2000; /* Ensure it stays on top */
         animation: fadeOut 2.1s ease-out forwards;
     }
-    
     /* Make the splash screen logo smaller */
     #splash-screen img {
         width: 60vw; /* 60% of the viewport width */
         max-width: 550px; /* Optional: prevent it from getting too big on large screens */
         height: auto; /* Maintain aspect ratio */
     }
-
     /* Fade out animation */
     @keyframes fadeOut {
         0% { opacity: 1; }
         100% { opacity: 0; visibility: hidden; }
     }
-
     /* Ensure the map does not overlap the sidebar */
     #map {
         height: calc(100dvh - 40px); /* Maintain full height minus footer */
@@ -109,7 +105,6 @@
         bottom: 0;
         z-index: 0;
     }
-    
     #button-bar {
       position: absolute;
       top: 0;
@@ -125,7 +120,6 @@
       overflow-y: auto;
       overflow-x: visible;
     }
-        
     #footer {
       height: 40px; /* Footer height */
       background-color: rgba(255, 252, 239, 1); /* Footer background */
@@ -139,7 +133,6 @@
       width: 100%;
       padding: 0 0 0 0px;
     }
-        
     #footer a {
       font-size: 12px; /* Smaller text size */
       margin: 0 10px; /* Reduced spacing between links */
@@ -147,11 +140,9 @@
       color: #333; /* Text color */
       font-weight: normal; /* Make the font weight normal */
     }
-        
     #footer a:hover {
       text-decoration: underline; /* Underline on hover */
     }
-    
     #loading-spinner {
       position: fixed;
       top: 50%;
@@ -165,12 +156,10 @@
       padding: 0; /* Remove padding around the spinner */
       border-radius: 0; /* No border radius */
     }
-    
     #loading-spinner img {
       width: 260px; /* Adjust spinner size */
       height: auto;
     }
-
     /* Adjustments for mobile devices */
     @media (max-width: 768px) {
       #map {
@@ -182,7 +171,6 @@
         height: calc(100vh - 40px); /* Adjust height for mobile */
       }
     }
-  
     .button {
       margin: 12px 0; /* Adjust spacing between buttons */
       cursor: pointer;
@@ -202,7 +190,6 @@
       top: 70px; /* Moves the controls down from the top */
       right: 9px; /* Keeps them px away from the right edge */
     }
-    
     /* Image Upload Mask (Popup) */
     #image-mask {
         position: fixed;
@@ -215,7 +202,6 @@
         justify-content: center;
         align-items: center;
     }
-    
     #image-mask-content {
         background: white;
         padding: 20px;
@@ -224,7 +210,6 @@
         width: 80%;
         max-width: 400px;
     }
-    
     #drop-zone {
         width: 100%;
         height: 150px;
@@ -236,7 +221,6 @@
         font-size: 16px;
         color: #555;
     }
-
     #prediction-box {
         position: fixed;
         top: 50%;
@@ -253,11 +237,9 @@
         z-index: 1000;
         min-width: 50%;
     }
-        
     .button-container {
         position: relative;
     }
-    
     #region-dropdown {
         display: none; /* Hidden by default */
         position: fixed; /* Ensures it's placed outside the sidebar */
@@ -269,7 +251,6 @@
         min-width: 170px;
         white-space: nowrap;
     }
-    
     /* Style the dropdown buttons */
     #region-dropdown button {
         display: block;
@@ -284,12 +265,10 @@
         background: rgba(255, 252, 239, 0.90); /* Matches sidebar color */
         border-radius: 6px;
     }
-    
     /* Hover effect */
     #region-dropdown button:hover {
         background: rgba(255, 252, 239, 1); /* Slightly stronger background on hover */
     }
-    
     #osm-limit-notice {
       position: fixed;
       top: 0;
@@ -302,7 +281,6 @@
       align-items: center;
       justify-content: center;
     }
-    
     .osm-notice-content {
       background: #fffdf6;
       border-radius: 12px;
@@ -324,7 +302,6 @@
       font-size: 18px;
       cursor: pointer;
     }
-    
     #species-selector {
       position: fixed;
       top: 10px;
@@ -336,7 +313,6 @@
       box-shadow: none;
       background: none; /* keep none, the container shouldn't have background */
     }
-    
     #species-dropdown {
       font-size: 16px;
       padding: 6px;
@@ -346,7 +322,6 @@
       width: auto;
       min-width: 180px;
     }
-    
     #species-display {
       padding: 6px 10px;
       border: 1px solid #ccc;
@@ -359,7 +334,6 @@
       text-align: center;
       margin: 0 auto; /* Optional: center inside parent */
     }
-    
     /* Limit dropdown width and match to content */
     #custom-species-dropdown {
       display: none; /* Ensure it's hidden by default */
@@ -378,18 +352,15 @@
       max-width: 360px;
       z-index: 9999;
     }
-    
     /* Center filter input cleanly */
     #custom-species-dropdown .filter-wrapper {
       display: flex;
       justify-content: center;
       margin-bottom: 12px;
     }
-    
     #species-filter {
       font-size: 18px; 
     }
-
     /* Modal Styles */
     .modal-overlay {
       position: fixed;
@@ -403,7 +374,6 @@
       align-items: center;
       z-index: 99999;
     }
-    
     .modal-content {
       background: rgba(255, 252, 239, 0.9);
       padding: 20px;
@@ -413,7 +383,6 @@
       text-align: center;
       position: relative;
     }
-    
     .close-button {
       position: absolute;
       top: 8px;
@@ -423,7 +392,6 @@
       font-size: 20px;
       cursor: pointer;
     }
-    
     .patreon-button {
       display: inline-flex;
       align-items: center;
@@ -440,7 +408,6 @@
       width: 24px;
       height: auto;
     }
-    
     .bmc-button {
       display: inline-flex;
       align-items: center;
@@ -467,34 +434,28 @@
     .support-buttons a {
       margin: 6px 0; /* Add spacing between buttons */
     }
-    
     /* QR Row for Desktop */
     .qr-row {
       display: flex;
       justify-content: space-around;
       gap: 10px;
     }
-    
     .qr-item {
       text-align: center;
     }
-    
     .qr-item img {
       width: 100px;
       height: auto;
       border-radius: 8px;
     }
-    
     .crypto-item {
       margin-bottom: 15px;
     }
-    
     .crypto-item button {
       margin: 4px;
       padding: 6px 10px;
       font-size: 14px;
     }
-    
     .emoji-filter {
       font-size: 20px;
       padding: 4px 8px;
@@ -503,21 +464,17 @@
       margin: 0 4px;
       transition: background 0.2s ease;
     }
-    
     .emoji-filter:hover {
       background: #ffe;
     }
-    
     .species-option {
       padding: 6px 10px;
       border-radius: 5px;
       cursor: pointer;
     }
-    
     .species-option:hover {
       background: #fff4dd;
     }
-    
     /* Mobile only */
     @media (max-width: 768px) {
       #qr-section {
@@ -576,25 +533,21 @@
     <div id="species-display" onclick="toggleSpeciesDropdown()">
       <span id="current-species-label"></span> ▼
     </div>
-  
     <div id="custom-species-dropdown">
       <div class="filter-wrapper">
         <input type="text" id="species-filter" placeholder="🔍 Type to filter..." 
                oninput="filterSpeciesOptions()">
       </div>
-  
       <div style="text-align: center; margin-bottom: 8px;">
         <span class="emoji-filter" onclick="setEmojiFilter('🍄')">🍄</span>
         <span class="emoji-filter" onclick="setEmojiFilter('🌱')">🌱</span>
         <span class="emoji-filter" onclick="setEmojiFilter('🌸')">🌸</span>
         <span class="emoji-filter" onclick="setEmojiFilter('')">✖️</span>
       </div>
-  
       <div id="custom-species-list"></div>
     </div>
   </div>
 
-    
   <div id="map"></div>
   <!-- Splash Screen -->
   <div id="splash-screen">
@@ -708,38 +661,25 @@
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-tflite"></script>
 
-
-
   
   <script>
     let layersVisible = false;
-    // Marker for the flagpole
     let flagpoleMarker = null;
-    
-    let geoJsonLayer = null; // Stores the active GeoJSON layer
-    let cachedRegions = {}; // In-memory cache for GeoJSON data
-    let firstLoad = true; // Flag to track first load
-    // Add a marker for the user's location
+    let geoJsonLayer = null; 
+    let cachedRegions = {}; 
+    let firstLoad = true; 
     let userMarker = null;
-    let cachedCoordinates = null; // Cache for the user's location
-    let cacheTimestamp = null; // Timestamp when the location was cached
-    
+    let cachedCoordinates = null; 
+    let cacheTimestamp = null; 
     let selectedSpecies = localStorage.getItem("selectedSpecies") || "mushroom";
     let emojiFilter = "";
-
-    // Initialize visibility state for %dark layers
     let darkLayersVisible = false;
-    // Variable to track if the user is dragging the map or zooming
     let isDragging = false;
     let isZooming = false;
     let isLongPressActive = false;
-    // Store the coordinates for the right-click or long press
     let activeCoordinates = null;
-    
-    // Timer for tracking long press duration
     let longPressTimeout;
 
-    // Species Dictionary: Display Name -> Code used in layer IDs
     const speciesOptions = {
       "🍄 Porcini (Boletus edulis)": "mushroom",
       "🍄 Black Chanterelle": "black_chant",
@@ -750,8 +690,6 @@
     // 🍄  🌱  🌸
     
   </script>
-
-
     
   <!-- Load script.js AFTER TensorFlow -->
   <script src="script.js"></script>
@@ -819,10 +757,8 @@
   <!-- Mapbox JS -->
   <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
   <script>
+    
     // Mapbox Access Token
-    
-
-    
     function getMapboxToken() {
         var request = new XMLHttpRequest();
         request.open('GET', 'https://raw.githubusercontent.com/lodist/funges/main/visitors.json', false); // `false` makes it synchronous
@@ -1010,7 +946,6 @@
       }
     });
 
-    
     function loadRegion(region) {
         console.log(`🔄 Loading region: ${region}`);
     
@@ -1195,8 +1130,6 @@
       }
       gmapsButton.style.display = 'none'; // Hide Google Maps button on page unload
     });
-
-
     
     function locateUser() {
         const now = Date.now();
@@ -1304,7 +1237,6 @@
         }, 2000);
     }  
     
-    
     // Function to toggle numbers layers
     function toggleNumbersLayers() {
       layersVisible = !layersVisible;
@@ -1317,7 +1249,6 @@
       localStorage.setItem('numbersLayersVisible', layersVisible);
       console.log(`🔢 Numbers layers are now ${layersVisible ? 'visible' : 'hidden'}`);
     }
-
   
     // Function to toggle dark layers
     function toggleDarkLayers() {
@@ -1336,7 +1267,6 @@
         localStorage.setItem('darkLayersVisible', darkLayersVisible); // Save state
         console.log(`Dark layers are now ${darkLayersVisible ? 'visible' : 'hidden'}`);
     } 
-
 
     // Called to update the visible dropdown list (with optional filtering)
     function populateSpeciesDropdown(filterText = "") {
@@ -1425,8 +1355,6 @@
     map.on("load", () => {
       updateVisibleLayers(); // ← call only when map is ready
     });
-    
-
     
     // Function to create and return a flagpole marker
     function createFlagpoleMarker(lng, lat) {
@@ -1572,7 +1500,6 @@
         }, 1200); // Long press duration (1.2 seconds)
       }
     });
-
     
     // Cancel long press if touch ends early or dragging begins
     map.on('touchend', () => {
