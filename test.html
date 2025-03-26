@@ -171,7 +171,6 @@
       height: auto;
     }
 
-
     /* Adjustments for mobile devices */
     @media (max-width: 768px) {
       #map {
@@ -846,10 +845,8 @@
 
     function switchToOSM() {
         document.getElementById('map').innerHTML = '';
-    
         // Show the region button when switching to OSM
         document.getElementById("region-button").style.display = "block";
-    
         // Hide unnecessary buttons
         document.querySelector('.button img[alt="Numbers Button"]').parentElement.style.display = 'none';
         document.querySelector('.button img[alt="Sun/Moon Button"]').parentElement.style.display = 'none';
@@ -942,15 +939,32 @@
         }
     }
     
-    // Close dropdown when clicking outside
+    // Close region and species dropdowns when clicking outside
     document.addEventListener("click", function (event) {
-        const dropdown = document.getElementById("region-dropdown");
-        const button = document.getElementById("region-button");
+      // Region dropdown
+      const regionDropdown = document.getElementById("region-dropdown");
+      const regionButton = document.getElementById("region-button");
     
-        if (dropdown && dropdown.style.display === "block" &&
-            event.target !== button && !dropdown.contains(event.target)) {
-            dropdown.style.display = "none";
-        }
+      if (
+        regionDropdown &&
+        regionDropdown.style.display === "block" &&
+        event.target !== regionButton &&
+        !regionDropdown.contains(event.target)
+      ) {
+        regionDropdown.style.display = "none";
+      }
+    
+      // Species dropdown
+      const speciesDropdown = document.getElementById("custom-species-dropdown");
+      const speciesSelector = document.getElementById("species-selector");
+    
+      if (
+        speciesDropdown &&
+        speciesDropdown.style.display === "block" &&
+        !speciesSelector.contains(event.target)
+      ) {
+        closeSpeciesDropdown();
+      }
     });
     
     let geoJsonLayer = null; // Stores the active GeoJSON layer
