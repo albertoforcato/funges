@@ -708,6 +708,51 @@
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-tflite"></script>
 
+
+
+  
+  <script>
+    let layersVisible = false;
+    // Marker for the flagpole
+    let flagpoleMarker = null;
+    
+    let geoJsonLayer = null; // Stores the active GeoJSON layer
+    let cachedRegions = {}; // In-memory cache for GeoJSON data
+    let firstLoad = true; // Flag to track first load
+    // Add a marker for the user's location
+    let userMarker = null;
+    let cachedCoordinates = null; // Cache for the user's location
+    let cacheTimestamp = null; // Timestamp when the location was cached
+    let map = initializeMapbox();
+    let selectedSpecies = localStorage.getItem("selectedSpecies") || "mushroom";
+    let emojiFilter = "";
+
+    // Initialize visibility state for %dark layers
+    let darkLayersVisible = false;
+    // Variable to track if the user is dragging the map or zooming
+    let isDragging = false;
+    let isZooming = false;
+    let isLongPressActive = false;
+    // Store the coordinates for the right-click or long press
+    let activeCoordinates = null;
+    
+    // Timer for tracking long press duration
+    let longPressTimeout;
+
+    // Species Dictionary: Display Name -> Code used in layer IDs
+    const speciesOptions = {
+      "🍄 Porcini (Boletus edulis)": "mushroom",
+      "🍄 Black Chanterelle": "black_chant",
+      "🌱 Wild Garlic": "garlic",
+      "🌱 Lingonberries": "lingonb",
+      "🍄 Black Truffle": "truffle_b"
+    };
+    // 🍄  🌱  🌸
+    
+  </script>
+
+
+    
   <!-- Load script.js AFTER TensorFlow -->
   <script src="script.js"></script>
   
@@ -776,8 +821,7 @@
   <script>
     // Mapbox Access Token
     
-    // Marker for the flagpole
-    let flagpoleMarker = null;
+
     
     function getMapboxToken() {
         var request = new XMLHttpRequest();
@@ -811,7 +855,6 @@
     // Set the Mapbox token
     mapboxgl.accessToken = getMapboxToken();
 
-    let map = initializeMapbox();
     
     function initializeMapbox() {
         try {
@@ -965,10 +1008,7 @@
         closeSpeciesDropdown();
       }
     });
-    
-    let geoJsonLayer = null; // Stores the active GeoJSON layer
-    let cachedRegions = {}; // In-memory cache for GeoJSON data
-    let firstLoad = true; // Flag to track first load
+
     
     function loadRegion(region) {
         console.log(`🔄 Loading region: ${region}`);
@@ -1155,10 +1195,7 @@
       gmapsButton.style.display = 'none'; // Hide Google Maps button on page unload
     });
 
-    // Add a marker for the user's location
-    let userMarker = null;
-    let cachedCoordinates = null; // Cache for the user's location
-    let cacheTimestamp = null; // Timestamp when the location was cached
+
     
     function locateUser() {
         const now = Date.now();
@@ -1282,8 +1319,6 @@
       console.log(`🔢 Numbers layers are now ${layersVisible ? 'visible' : 'hidden'}`);
     }
 
-    // Initialize visibility state for %dark layers
-    let darkLayersVisible = false;
   
     // Function to toggle dark layers
     function toggleDarkLayers() {
@@ -1303,18 +1338,7 @@
         console.log(`Dark layers are now ${darkLayersVisible ? 'visible' : 'hidden'}`);
     } 
 
-    // Species Dictionary: Display Name -> Code used in layer IDs
-    const speciesOptions = {
-      "🍄 Porcini (Boletus edulis)": "mushroom",
-      "🍄 Black Chanterelle": "black_chant",
-      "🌱 Wild Garlic": "garlic",
-      "🌱 Lingonberries": "lingonb",
-      "🍄 Black Truffle": "truffle_b"
-    };
-    // 🍄  🌱  🌸
-    let selectedSpecies = localStorage.getItem("selectedSpecies") || "mushroom";
-    let emojiFilter = "";
-    
+
     // Called to update the visible dropdown list (with optional filtering)
     function populateSpeciesDropdown(filterText = "") {
       const listDiv = document.getElementById("custom-species-list");
@@ -1403,11 +1427,7 @@
       updateVisibleLayers(); // ← call only when map is ready
     });
     
-    // Store the coordinates for the right-click or long press
-    let activeCoordinates = null;
-    
-    // Timer for tracking long press duration
-    let longPressTimeout;
+
     
     // Function to create and return a flagpole marker
     function createFlagpoleMarker(lng, lat) {
@@ -1493,11 +1513,7 @@
       gmapsButton.style.display = 'block';
     });
     
-    // Variable to track if the user is dragging the map or zooming
-    let isDragging = false;
-    let isZooming = false;
-    let isLongPressActive = false;
-    
+
     // Listen for drag events on the map
     map.on('dragstart', () => {
       isDragging = true;
