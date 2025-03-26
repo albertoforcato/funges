@@ -171,7 +171,6 @@
       height: auto;
     }
 
-
     /* Adjustments for mobile devices */
     @media (max-width: 768px) {
       #map {
@@ -332,10 +331,10 @@
       left: calc(50% + 40px); 
       transform: translateX(-50%);
       z-index: 9999;
-      background: rgba(255, 252, 239, 0.9);
-      padding: 5px 10px;
-      border-radius: 8px;
-      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+      padding: 0;
+      border-radius: 0;
+      box-shadow: none;
+      background: none; /* keep none, the container shouldn't have background */
     }
     
     #species-dropdown {
@@ -345,9 +344,52 @@
       border: 1px solid #ccc;
       background-color: rgba(255, 252, 239, 0.9);
       width: auto;
-      min-width: 180px;      
+      min-width: 180px;
     }
     
+    #species-display {
+      padding: 6px 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      background: rgba(255, 252, 239, 0.9);
+      cursor: pointer;
+      min-width: 260px;
+      width: fit-content; /* Shrinks/grows to fit content */
+      max-width: 360px;
+      text-align: center;
+      margin: 0 auto; /* Optional: center inside parent */
+    }
+    
+    /* Limit dropdown width and match to content */
+    #custom-species-dropdown {
+      display: none; /* Ensure it's hidden by default */
+      position: absolute;
+      top: 100%;
+      left: 50% !important;
+      transform: translateX(-50%);
+      margin-top: 5px;
+      background: rgba(255, 252, 239, 0.95); 
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+      width: max-content !important;
+      min-width: 260px;
+      max-width: 360px;
+      z-index: 9999;
+    }
+    
+    /* Center filter input cleanly */
+    #custom-species-dropdown .filter-wrapper {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 12px;
+    }
+    
+    #species-filter {
+      font-size: 18px; 
+    }
+
     /* Modal Styles */
     .modal-overlay {
       position: fixed;
@@ -453,6 +495,29 @@
       font-size: 14px;
     }
     
+    .emoji-filter {
+      font-size: 20px;
+      padding: 4px 8px;
+      cursor: pointer;
+      border-radius: 6px;
+      margin: 0 4px;
+      transition: background 0.2s ease;
+    }
+    
+    .emoji-filter:hover {
+      background: #ffe;
+    }
+    
+    .species-option {
+      padding: 6px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    
+    .species-option:hover {
+      background: #fff4dd;
+    }
+    
     /* Mobile only */
     @media (max-width: 768px) {
       #qr-section {
@@ -508,10 +573,27 @@
   <body>
   
   <div id="species-selector">
-    <select id="species-dropdown" onchange="handleSpeciesChange(event)">
-      <!-- Options will be populated dynamically -->
-    </select>
+    <div id="species-display" onclick="toggleSpeciesDropdown()">
+      <span id="current-species-label"></span> ▼
+    </div>
+  
+    <div id="custom-species-dropdown">
+      <div class="filter-wrapper">
+        <input type="text" id="species-filter" placeholder="🔍 Type to filter..." 
+               oninput="filterSpeciesOptions()">
+      </div>
+  
+      <div style="text-align: center; margin-bottom: 8px;">
+        <span class="emoji-filter" onclick="setEmojiFilter('🍄')">🍄</span>
+        <span class="emoji-filter" onclick="setEmojiFilter('🌱')">🌱</span>
+        <span class="emoji-filter" onclick="setEmojiFilter('🌸')">🌸</span>
+        <span class="emoji-filter" onclick="setEmojiFilter('')">✖️</span>
+      </div>
+  
+      <div id="custom-species-list"></div>
+    </div>
   </div>
+
     
   <div id="map"></div>
   <!-- Splash Screen -->
@@ -762,10 +844,8 @@
 
     function switchToOSM() {
         document.getElementById('map').innerHTML = '';
-    
         // Show the region button when switching to OSM
         document.getElementById("region-button").style.display = "block";
-    
         // Hide unnecessary buttons
         document.querySelector('.button img[alt="Numbers Button"]').parentElement.style.display = 'none';
         document.querySelector('.button img[alt="Sun/Moon Button"]').parentElement.style.display = 'none';
@@ -858,15 +938,32 @@
         }
     }
     
-    // Close dropdown when clicking outside
+    // Close region and species dropdowns when clicking outside
     document.addEventListener("click", function (event) {
-        const dropdown = document.getElementById("region-dropdown");
-        const button = document.getElementById("region-button");
+      // Region dropdown
+      const regionDropdown = document.getElementById("region-dropdown");
+      const regionButton = document.getElementById("region-button");
     
-        if (dropdown && dropdown.style.display === "block" &&
-            event.target !== button && !dropdown.contains(event.target)) {
-            dropdown.style.display = "none";
-        }
+      if (
+        regionDropdown &&
+        regionDropdown.style.display === "block" &&
+        event.target !== regionButton &&
+        !regionDropdown.contains(event.target)
+      ) {
+        regionDropdown.style.display = "none";
+      }
+    
+      // Species dropdown
+      const speciesDropdown = document.getElementById("custom-species-dropdown");
+      const speciesSelector = document.getElementById("species-selector");
+    
+      if (
+        speciesDropdown &&
+        speciesDropdown.style.display === "block" &&
+        !speciesSelector.contains(event.target)
+      ) {
+        closeSpeciesDropdown();
+      }
     });
     
     let geoJsonLayer = null; // Stores the active GeoJSON layer
@@ -900,19 +997,19 @@
         };
     
         if (!geojsonUrls[region]) {
-            console.error(`❌ Invalid region requested: ${region}`);
+            console.error(`Invalid region requested: ${region}`);
             return;
         }
     
-        // ✅ 1. Check in-memory cache first
+        //  1. Check in-memory cache first
         if (cachedRegions[region]) {
-            console.log(`✅ Retrieved "${region}" from in-memory cache.`);
+            console.log(`Retrieved "${region}" from in-memory cache.`);
             updateMapWithGeoJSON(cachedRegions[region]);
             return;
         }
     
-        // ✅ 2. Fetch from R2 if not cached
-        console.log(`🌍 Fetching "${region}" from R2 (network request)...`);
+        //  2. Fetch from R2 if not cached
+        console.log(` Fetching "${region}" from R2 (network request)...`);
     
         fetch(geojsonUrls[region])
             .then(response => {
@@ -922,12 +1019,12 @@
                 return response.json();
             })
             .then(data => {
-                console.log(`✅ Successfully retrieved "${region}" from R2. Caching now.`);
+                console.log(`Successfully retrieved "${region}" from R2. Caching now.`);
                 cachedRegions[region] = data; // Store in memory cache
                 updateMapWithGeoJSON(data);
             })
             .catch(error => {
-                console.error(`🚨 Error loading GeoJSON for "${region}":`, error);
+                console.error(`Error loading GeoJSON for "${region}":`, error);
                 alert("Failed to load region data. Please try again.");
             });
     
@@ -935,7 +1032,7 @@
     }
     
     function updateMapWithGeoJSON(data) {
-        console.log(`🗺️ Updating map with new GeoJSON data.`);
+        console.log(`Updating map with new GeoJSON data.`);
         if (geoJsonLayer) {
             osmMap.removeLayer(geoJsonLayer);
         }
@@ -950,13 +1047,13 @@
                 layer.bindPopup(`<b>Mushroom Score:</b> ${feature.properties.mushroom_score.toFixed(2)}`);
             }
         }).addTo(osmMap);
-        console.log(`✅ Map update complete.`);
+        console.log(`Map update complete.`);
     }
     
     function updateVisibleLayers() {
       const layers = map.getStyle().layers;
       if (!layers) {
-        console.warn("🚨 No layers found in map style.");
+        console.warn("No layers found in map style.");
         return;
       }
     
@@ -974,18 +1071,18 @@
             // Set visibility based on whether it's a numbers layer and the global toggle
             const visibility = isNumbersLayer ? (layersVisible ? "visible" : "none") : "visible";
             map.setLayoutProperty(id, "visibility", visibility);
-            console.log(`✅ SHOWING layer: ${id} | isNumbers: ${isNumbersLayer} | visibility: ${visibility}`);
+            console.log(`SHOWING layer: ${id} | isNumbers: ${isNumbersLayer} | visibility: ${visibility}`);
             if (visibility === "visible") visibleLayerIds.push(id);
           } else {
             map.setLayoutProperty(id, "visibility", "none");
-            console.log(`❌ HIDING unrelated species layer: ${id}`);
+            console.log(`HIDING unrelated species layer: ${id}`);
           }
         }
       });
     
-      console.log("🌐 Species selected:", selectedSpecies);
-      console.log("🔢 Numbers visible:", layersVisible);
-      console.log("👁️ Final visible layers:", visibleLayerIds);
+      console.log("Species selected:", selectedSpecies);
+      console.log("Numbers visible:", layersVisible);
+      console.log("Final visible layers:", visibleLayerIds);
     }
     
     // Resize the map on visibility change to handle mobile-specific issues
@@ -1205,42 +1302,107 @@
         localStorage.setItem('darkLayersVisible', darkLayersVisible); // Save state
         console.log(`Dark layers are now ${darkLayersVisible ? 'visible' : 'hidden'}`);
     } 
-    
+
     // Species Dictionary: Display Name -> Code used in layer IDs
     const speciesOptions = {
-      "🍄 Porcini (Boletus Edulis)": "mushroom",
-      "🍄 Black Chanterelle": "black_chant"
+      "🍄 Porcini (Boletus edulis)": "mushroom",
+      "🍄 Black Chanterelle": "black_chant",
+      "🌱 Wild Garlic": "garlic",
+      "🌱 Lingonberries": "lingonb",
+      "🍄 Black Truffle": "truffle_b"
     };
     // 🍄  🌱  🌸
     let selectedSpecies = localStorage.getItem("selectedSpecies") || "mushroom";
-
+    let emojiFilter = "";
     
-    function populateSpeciesDropdown() {
-      const dropdown = document.getElementById("species-dropdown");
-      dropdown.innerHTML = "";
+    // Called to update the visible dropdown list (with optional filtering)
+    function populateSpeciesDropdown(filterText = "") {
+      const listDiv = document.getElementById("custom-species-list");
+      if (!listDiv) return;
+    
+      listDiv.innerHTML = "";
     
       for (const [label, code] of Object.entries(speciesOptions)) {
-        const option = document.createElement("option");
-        option.value = code;
-        option.textContent = label;
-        if (code === selectedSpecies) {
-          option.selected = true;
+        if (
+          label.toLowerCase().includes(filterText.toLowerCase()) &&
+          (emojiFilter === "" || label.includes(emojiFilter))
+        ) {
+          const item = document.createElement("div");
+          item.className = "species-option";
+          item.textContent = label;
+          item.onclick = () => {
+            selectedSpecies = code;
+            localStorage.setItem("selectedSpecies", selectedSpecies);
+            updateSpeciesDisplay();
+            updateVisibleLayers();
+            closeSpeciesDropdown();
+          };
+          listDiv.appendChild(item);
         }
-        dropdown.appendChild(option);
       }
     }
     
+    // Called on input in the filter box
+    function filterSpeciesOptions() {
+      const filter = document.getElementById("species-filter").value;
+      populateSpeciesDropdown(filter);
+    }
+    
+    // Called when the user selects an item (via dropdown)
     function handleSpeciesChange(event) {
       selectedSpecies = event.target.value;
       localStorage.setItem("selectedSpecies", selectedSpecies);
       updateVisibleLayers(); // ← this now respects layersVisible state
     }
     
+    // Show selected species in closed dropdown
+    function updateSpeciesDisplay() {
+      const label = Object.keys(speciesOptions).find(
+        (key) => speciesOptions[key] === selectedSpecies
+      );
+      const display = document.getElementById("current-species-label");
+      if (display) display.textContent = label;
+    }
+
+    
+    // Open or close the dropdown panel
+    function toggleSpeciesDropdown() {
+      const dropdown = document.getElementById("custom-species-dropdown");
+      const isOpen = dropdown.style.display === "block";
+      dropdown.style.display = isOpen ? "none" : "block";
+    
+      if (!isOpen) {
+        emojiFilter = "";
+        document.getElementById("species-filter").value = "";
+        populateSpeciesDropdown();
+      }
+    }
+    
+    // Set an emoji category filter
+    function setEmojiFilter(emoji) {
+      emojiFilter = emoji;
+      const filterInput = document.getElementById("species-filter");
+    
+      if (emoji === "") {
+        filterInput.value = ""; // ✅ Clear the text too
+      }
+      populateSpeciesDropdown(filterInput.value);
+    }
+    
+    // Hide the dropdown panel
+    function closeSpeciesDropdown() {
+      const dropdown = document.getElementById("custom-species-dropdown");
+      dropdown.style.display = "none";
+    }
+    
+    // Initial setup
     populateSpeciesDropdown();
-    map.on('load', () => {
+    updateSpeciesDisplay();
+    
+    map.on("load", () => {
       updateVisibleLayers(); // ← call only when map is ready
     });
-        
+    
     // Store the coordinates for the right-click or long press
     let activeCoordinates = null;
     
