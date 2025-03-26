@@ -335,9 +335,9 @@
       padding: 0;
       border-radius: 0;
       box-shadow: none;
-      background: none;
+      background: none; /* keep none, the container shouldn't have background */
     }
-
+    
     #species-dropdown {
       font-size: 16px;
       padding: 6px;
@@ -345,16 +345,26 @@
       border: 1px solid #ccc;
       background-color: rgba(255, 252, 239, 0.9);
       width: auto;
-      min-width: 180px;      
+      min-width: 180px;
     }
     
     /* Limit dropdown width and match to content */
     #custom-species-dropdown {
+      display: none; /* Ensure it's hidden by default */
+      position: absolute;
+      top: 100%;
+      left: 50% !important;
+      transform: translateX(-50%);
+      margin-top: 5px;
+      background: rgba(255, 252, 239, 0.95); /* ✅ background re-added */
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
       width: max-content !important;
       min-width: 260px;
       max-width: 360px;
-      left: 50% !important;
-      transform: translateX(-50%);
+      z-index: 9999;
     }
     
     /* Center filter input cleanly */
@@ -362,6 +372,7 @@
       display: flex;
       justify-content: center;
     }
+
 
     
     /* Modal Styles */
