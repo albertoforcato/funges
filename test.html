@@ -332,12 +332,12 @@
       left: calc(50% + 40px); 
       transform: translateX(-50%);
       z-index: 9999;
-      background: rgba(255, 252, 239, 0.9);
-      padding: 5px 10px;
-      border-radius: 8px;
-      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+      /* background removed */
+      padding: 0; /* tighter */
+      border-radius: 0;
+      box-shadow: none;
     }
-    
+
     #species-dropdown {
       font-size: 16px;
       padding: 6px;
@@ -537,10 +537,13 @@
 
   
     <div id="custom-species-dropdown" style="display: none; position: absolute; top: 100%; left: 0; margin-top: 5px; background: rgba(255, 252, 239, 0.95); border: 1px solid #ccc; border-radius: 8px; padding: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.15); width: 100%;">
-      
-      <input type="text" id="species-filter" placeholder="🔍 Type to filter..."
-             oninput="filterSpeciesOptions()"
-             style="font-size: 16px; padding: 6px; border-radius: 4px; border: 1px solid #ccc; background-color: rgba(255, 252, 239, 0.9); width: auto; min-width: 180px;">
+          
+    <div style="display: flex; justify-content: center;">
+      <input type="text" id="species-filter" placeholder="🔍 Type to filter..." 
+             oninput="filterSpeciesOptions()" 
+             style="min-width: 100px; max-width: 260px; width: 100%; padding: 5px; margin-bottom: 8px; border-radius: 4px; border: 1px solid #ccc;">
+    </div>
+
 
       <div style="text-align: center; margin-bottom: 8px;">
         <span class="emoji-filter" onclick="setEmojiFilter('🍄')">🍄</span>
