@@ -453,6 +453,29 @@
       font-size: 14px;
     }
     
+    .emoji-filter {
+      font-size: 20px;
+      padding: 4px 8px;
+      cursor: pointer;
+      border-radius: 6px;
+      margin: 0 4px;
+      transition: background 0.2s ease;
+    }
+    
+    .emoji-filter:hover {
+      background: #ffe;
+    }
+    
+    .species-option {
+      padding: 6px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    
+    .species-option:hover {
+      background: #fff4dd;
+    }
+    
     /* Mobile only */
     @media (max-width: 768px) {
       #qr-section {
@@ -507,14 +530,26 @@
 </head>
   <body>
   
-  <div id="species-selector">
-    <input type="text" id="species-filter" placeholder="🔍 Type or filter by 🍄 🌱 🌸" 
-           oninput="filterSpeciesOptions()" 
-           style="margin-bottom: 5px; padding: 4px; border-radius: 4px; border: 1px solid #ccc; width: 100%;">
-    <select id="species-dropdown" onchange="handleSpeciesChange(event)">
-      <!-- Options will be populated dynamically -->
-    </select>
+  <div id="species-selector" style="position: relative; z-index: 9999;">
+    <div id="species-display" onclick="toggleSpeciesDropdown()" style="padding: 6px 10px; border: 1px solid #ccc; border-radius: 6px; background: rgba(255, 252, 239, 0.9); cursor: pointer; min-width: 180px;">
+      🍄 Porcini (Boletus edulis) ▼
+    </div>
+  
+    <div id="custom-species-dropdown" style="display: none; position: absolute; top: 100%; left: 0; margin-top: 5px; background: rgba(255, 252, 239, 0.95); border: 1px solid #ccc; border-radius: 8px; padding: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.15); width: 100%;">
+      
+      <input type="text" id="species-filter" placeholder="🔍 Type to filter..." oninput="updateCustomSpeciesList()" style="width: 100%; padding: 5px; margin-bottom: 8px; border-radius: 4px; border: 1px solid #ccc;">
+      
+      <div style="text-align: center; margin-bottom: 8px;">
+        <span class="emoji-filter" onclick="setEmojiFilter('🍄')">🍄</span>
+        <span class="emoji-filter" onclick="setEmojiFilter('🌱')">🌱</span>
+        <span class="emoji-filter" onclick="setEmojiFilter('🌸')">🌸</span>
+        <span class="emoji-filter" onclick="setEmojiFilter('')">✖️</span>
+      </div>
+      
+      <div id="custom-species-list"></div>
+    </div>
   </div>
+
 
     
   <div id="map"></div>
@@ -1209,7 +1244,7 @@
         localStorage.setItem('darkLayersVisible', darkLayersVisible); // Save state
         console.log(`Dark layers are now ${darkLayersVisible ? 'visible' : 'hidden'}`);
     } 
-    
+
     // Species Dictionary: Display Name -> Code used in layer IDs
     const speciesOptions = {
       "🍄 Porcini (Boletus edulis)": "mushroom",
@@ -1220,40 +1255,93 @@
     };
     // 🍄  🌱  🌸
     let selectedSpecies = localStorage.getItem("selectedSpecies") || "mushroom";
-
+    let emojiFilter = "";
     
+    // Called to update the visible dropdown list (with optional filtering)
     function populateSpeciesDropdown(filterText = "") {
-      const dropdown = document.getElementById("species-dropdown");
-      dropdown.innerHTML = "";
+      const listDiv = document.getElementById("custom-species-list");
+      if (!listDiv) return;
+    
+      listDiv.innerHTML = "";
     
       for (const [label, code] of Object.entries(speciesOptions)) {
-        if (label.toLowerCase().includes(filterText.toLowerCase())) {
-          const option = document.createElement("option");
-          option.value = code;
-          option.textContent = label;
-          if (code === selectedSpecies) {
-            option.selected = true;
-          }
-          dropdown.appendChild(option);
+        if (
+          label.toLowerCase().includes(filterText.toLowerCase()) &&
+          (emojiFilter === "" || label.includes(emojiFilter))
+        ) {
+          const item = document.createElement("div");
+          item.className = "species-option";
+          item.textContent = label;
+          item.onclick = () => {
+            selectedSpecies = code;
+            localStorage.setItem("selectedSpecies", selectedSpecies);
+            updateSpeciesDisplay();
+            updateVisibleLayers();
+            closeSpeciesDropdown();
+          };
+          listDiv.appendChild(item);
         }
       }
     }
+    
+    // Called on input in the filter box
     function filterSpeciesOptions() {
       const filter = document.getElementById("species-filter").value;
       populateSpeciesDropdown(filter);
     }
-
+    
+    // Called when the user selects an item (via dropdown)
     function handleSpeciesChange(event) {
       selectedSpecies = event.target.value;
       localStorage.setItem("selectedSpecies", selectedSpecies);
       updateVisibleLayers(); // ← this now respects layersVisible state
     }
     
+    // Show selected species in closed dropdown
+    function updateSpeciesDisplay() {
+      const label = Object.keys(speciesOptions).find(
+        (key) => speciesOptions[key] === selectedSpecies
+      );
+      const display = document.getElementById("species-display");
+      if (display) display.textContent = label + " ▼";
+    }
+    
+    // Open or close the dropdown panel
+    function toggleSpeciesDropdown() {
+      const dropdown = document.getElementById("custom-species-dropdown");
+      const isOpen = dropdown.style.display === "block";
+      dropdown.style.display = isOpen ? "none" : "block";
+    
+      if (!isOpen) {
+        emojiFilter = "";
+        document.getElementById("species-filter").value = "";
+        populateSpeciesDropdown();
+      }
+    }
+    
+    // Set an emoji category filter
+    function setEmojiFilter(emoji) {
+      emojiFilter = emoji;
+      const current = document.getElementById("species-filter").value;
+      populateSpeciesDropdown(current);
+    }
+    
+    // Hide the dropdown panel
+    function closeSpeciesDropdown() {
+      const dropdown = document.getElementById("custom-species-dropdown");
+      dropdown.style.display = "none";
+    }
+    
+    // Initial setup
     populateSpeciesDropdown();
-    map.on('load', () => {
+    updateSpeciesDisplay();
+    
+    map.on("load", () => {
       updateVisibleLayers(); // ← call only when map is ready
     });
-        
+
+
+    
     // Store the coordinates for the right-click or long press
     let activeCoordinates = null;
     
