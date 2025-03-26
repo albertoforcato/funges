@@ -723,7 +723,7 @@
     let userMarker = null;
     let cachedCoordinates = null; // Cache for the user's location
     let cacheTimestamp = null; // Timestamp when the location was cached
-    let map = initializeMapbox();
+    
     let selectedSpecies = localStorage.getItem("selectedSpecies") || "mushroom";
     let emojiFilter = "";
 
@@ -884,6 +884,7 @@
             switchToOSM();
         }
     }
+    let map = initializeMapbox();
 
     function switchToOSM() {
         document.getElementById('map').innerHTML = '';
@@ -1303,8 +1304,6 @@
         }, 2000);
     }  
     
-    // Initialize visibility state for layers
-    let layersVisible = false;
     
     // Function to toggle numbers layers
     function toggleNumbersLayers() {
