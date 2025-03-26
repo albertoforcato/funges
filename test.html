@@ -352,7 +352,7 @@
       padding: 6px 10px;
       border: 1px solid #ccc;
       border-radius: 6px;
-      background: rgba(255, 252, 239, 0.9); /* ✅ Background added */
+      background: rgba(255, 252, 239, 0.9);
       cursor: pointer;
       min-width: 260px;
       width: fit-content; /* Shrinks/grows to fit content */
@@ -369,7 +369,7 @@
       left: 50% !important;
       transform: translateX(-50%);
       margin-top: 5px;
-      background: rgba(255, 252, 239, 0.95); /* ✅ background re-added */
+      background: rgba(255, 252, 239, 0.95); 
       border: 1px solid #ccc;
       border-radius: 8px;
       padding: 10px;
@@ -384,8 +384,12 @@
     #custom-species-dropdown .filter-wrapper {
       display: flex;
       justify-content: center;
+      margin-bottom: 12px;
     }
-
+    
+    #species-filter {
+      font-size: 16px; 
+    }
 
     
     /* Modal Styles */
@@ -1364,8 +1368,12 @@
     // Set an emoji category filter
     function setEmojiFilter(emoji) {
       emojiFilter = emoji;
-      const current = document.getElementById("species-filter").value;
-      populateSpeciesDropdown(current);
+      const filterInput = document.getElementById("species-filter");
+    
+      if (emoji === "") {
+        filterInput.value = ""; // ✅ Clear the text too
+      }
+      populateSpeciesDropdown(filterInput.value);
     }
     
     // Hide the dropdown panel
