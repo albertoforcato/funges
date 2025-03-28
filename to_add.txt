@@ -1,4 +1,4 @@
-"castagna": {
+"chestnut": {
     "optimal_temp": 16,
     "optimal_alt": 600,
     "temp_sigma": 5,
@@ -25,7 +25,7 @@
 }
 312
 
-"mazza_tamburo": {
+"parasol": {
     "optimal_temp": 18,
     "optimal_alt": 500,
     "temp_sigma": 4.5,
@@ -51,7 +51,7 @@
 }
 313,312
 
-"asparago_selvatico": {
+"asparagus": {
     "optimal_temp": 19,
     "optimal_alt": 400,
     "temp_sigma": 4.5,
@@ -82,7 +82,7 @@
 }
 313,311,323
 
-"fragolina_bosco": {
+"strawberry": {
     "optimal_temp": 17,
     "optimal_alt": 700,
     "temp_sigma": 4,
@@ -108,7 +108,7 @@
 }
 312,313
 
-"noce_selvatica": {
+"walnut": {
     "optimal_temp": 18,
     "optimal_alt": 550,
     "temp_sigma": 5,
