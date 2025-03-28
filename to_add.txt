@@ -16,7 +16,12 @@
         "sun_weight": 0.5,
         "rain_first": False,
         "undesirable_penalty": 0.7
-    }
+    },
+	"wind_sensitive": False,
+    "climate_zones": ["temperate", "continental", "oceanic", "mediterranean_italy", "mediterranean_greece", "mediterranean_turkey","mediterranean_dry_spain","atlantic_islands","alpine"],
+    "wind_sensitive": False,
+    "water_relevance": False,
+    "sea_relevance": False
 }
 312
 
@@ -38,7 +43,11 @@
         "sun_weight": 0.4,
         "rain_first": False,
         "undesirable_penalty": 0.5
-    }
+    },
+     "climate_zones": ["alpine","subarctic","atlantic_islands","mediterranean_dry_spain","mediterranean_italy","mediterranean_greece","mediterranean_turkey","oceanic","continental","temperate"],
+    "wind_sensitive": False,
+    "water_relevance": False,
+    "sea_relevance": False
 }
 313,312
 
@@ -60,9 +69,18 @@
         "sun_weight": 0.6,
         "rain_first": False,
         "undesirable_penalty": 0.4
+    },
+     "climate_zones": ["alpine","subarctic","atlantic_islands","mediterranean_dry_spain","mediterranean_italy","mediterranean_greece","mediterranean_turkey","oceanic","continental","temperate"],
+    "wind_sensitive": False,
+    "water_relevance": True,
+    "sea_relevance": True,
+    "distance_thresholds": {
+        "water": 2000,
+        "sea": 10000
     }
 }
-313,311
+}
+313,311,323
 
 "fragolina_bosco": {
     "optimal_temp": 17,
@@ -82,7 +100,11 @@
         "sun_weight": 0.4,
         "rain_first": False,
         "undesirable_penalty": 0.6
-    }
+    },
+    "climate_zones": ["alpine", "arctic", "subarctic", "atlantic_islands", "mediterranean_dry_spain", "mediterranean_italy", "mediterranean_greece", "mediterranean_turkey", "oceanic", "continental", "temperate"],
+    "wind_sensitive": False,
+    "water_relevance": False,
+    "sea_relevance": False
 }
 312,313
 
@@ -104,7 +126,15 @@
         "sun_weight": 0.5,
         "rain_first": False,
         "undesirable_penalty": 0.4
-    }
+    },
+    "wind_sensitive": False,
+    "climate_zones": ["alpine", "arctic", "subarctic", "atlantic_islands", "mediterranean_dry_spain", "mediterranean_italy", "mediterranean_greece", "mediterranean_turkey", "oceanic", "continental", "temperate"],
+    "water_relevance": False,
+    "sea_relevance": False
 }
 
 312,313
+
+
+add 323 and 324
+macchia mediterranea / forest to grassland
