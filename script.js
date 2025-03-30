@@ -393,6 +393,9 @@ function toggleNearbyModal() {
             li.innerHTML = `<strong>${speciesDisplayMap[item] || item}</strong>`;
             listContainer.appendChild(li);
           });
+          const recipeNote = document.createElement("p");
+          recipeNote.innerHTML = "Creative recipes will be added soon for you.";
+          listContainer.appendChild(recipeNote);
         }
 
         console.log("✅ Modal ready with:", sortedItems);
