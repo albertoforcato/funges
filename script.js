@@ -319,10 +319,11 @@ function displayResults(predictions) {
 
 function toggleNearbyModal() {
   console.log("🟢 toggleNearbyModal() was called");
+
   const modal = document.getElementById('nearby-modal');
   const listContainer = document.getElementById('nearby-edibles-list');
 
-  // Step 1: Toggle off if already visible
+  // Step 1: Close modal if already open
   if (modal.style.display !== 'none') {
     console.log("🧪 Closing nearby modal.");
     modal.style.display = 'none';
@@ -332,7 +333,6 @@ function toggleNearbyModal() {
   console.log("🍳 Nearby button clicked. Checking coordinates...");
   document.getElementById('loading-spinner').style.display = 'flex';
 
-  // Inner function to continue after coordinates are available
   function proceedWithNearbyCheck(coords) {
     console.log("📍 Location received:", coords);
     document.getElementById('loading-spinner').style.display = 'none';
@@ -343,28 +343,33 @@ function toggleNearbyModal() {
       return;
     }
 
-    listContainer.innerHTML = '';
     const [userLng, userLat] = coords;
+    listContainer.innerHTML = '';
 
-    const center = map.project([userLng, userLat]);
-    const buffer = 1000; // expand search radius ~30–50km
+    // Zoom the map to level 8
+    map.flyTo({ center: coords, zoom: 8, speed: 1.8 });
+    const centerPoint = map.project([userLng, userLat]);
+
+    // Get screen dimensions and take HALF of it for buffer
+    const bufferX = window.innerWidth / 2;
+    const bufferY = window.innerHeight / 2;
 
     const box = [
-      [center.x - buffer, center.y - buffer],
-      [center.x + buffer, center.y + buffer],
+      [centerPoint.x - bufferX, centerPoint.y - bufferY],
+      [centerPoint.x + bufferX, centerPoint.y + bufferY],
     ];
 
     const visibleLayers = map.getStyle().layers.map(l => l.id);
     const scoreLayers = visibleLayers.filter(id => id.includes('_score'));
 
     const features = map.queryRenderedFeatures(box, { layers: scoreLayers });
-    console.log(`🔍 Found ${features.length} polygons near user.`);
+    console.log(`🔍 Found ${features.length} polygons in screen half.`);
 
     const foundItems = {};
 
     for (const feature of features) {
       const scores = Object.entries(feature.properties || {}).filter(
-        ([k, v]) => k.endsWith('_score') && v > 5
+        ([k, v]) => k.endsWith('_score') && v > 3
       );
       for (const [key, value] of scores) {
         const edibleName = key.replace('_score', '').replace(/_/g, ' ');
@@ -374,19 +379,18 @@ function toggleNearbyModal() {
       }
     }
 
-    // UI Output
     const intro = document.createElement("p");
     intro.style.marginBottom = "12px";
-    intro.innerHTML = "🌿 <strong>Hey fellow forager</strong>, following edibles can be found in your proximity:";
-    listContainer.appendChild(intro);
 
     const sortedItems = Object.entries(foundItems).sort((a, b) => b[1] - a[1]);
 
     if (sortedItems.length === 0) {
-      const li = document.createElement("li");
-      li.innerHTML = "<i>Dear forager, the season is being tough on you. Better times will come 🍂</i>";
-      listContainer.appendChild(li);
+      intro.innerHTML = "🪵 <strong>Dear forager</strong>, the season is being tough on you. Better times will come.";
+      listContainer.appendChild(intro);
     } else {
+      intro.innerHTML = "🌿 <strong>Hey fellow forager</strong>, following edibles can be found in your proximity:";
+      listContainer.appendChild(intro);
+
       for (const [item, score] of sortedItems) {
         const li = document.createElement("li");
         li.innerHTML = `🍄 <strong>${item}</strong> – Score: ${score.toFixed(1)}`;
@@ -398,16 +402,16 @@ function toggleNearbyModal() {
     modal.style.display = 'flex';
   }
 
-  // Step 2: Location flow with cache or geolocation
+  // Step 2: Use cached coordinates if recent, otherwise get location
   const now = Date.now();
   if (cachedCoordinates && cacheTimestamp && now - cacheTimestamp < 60000) {
     console.log("📦 Using cached coordinates.");
     proceedWithNearbyCheck(cachedCoordinates);
   } else {
-    console.log("📡 Requesting user geolocation...");
+    console.log("📡 Requesting geolocation...");
     navigator.geolocation.getCurrentPosition(
-      (position) => {
-        cachedCoordinates = [position.coords.longitude, position.coords.latitude];
+      (pos) => {
+        cachedCoordinates = [pos.coords.longitude, pos.coords.latitude];
         cacheTimestamp = Date.now();
         proceedWithNearbyCheck(cachedCoordinates);
       },
@@ -420,6 +424,7 @@ function toggleNearbyModal() {
     );
   }
 }
+
 
 
 
