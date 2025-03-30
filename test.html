@@ -735,6 +735,11 @@
     };
     // 🍄  🌱  🌸
     
+    const speciesDisplayMap = Object.entries(speciesOptions).reduce((acc, [label, code]) => {
+      acc[code] = label;
+      return acc;
+    }, {});
+
   </script>
     
   <!-- Load script.js AFTER TensorFlow -->
