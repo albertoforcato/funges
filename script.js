@@ -362,7 +362,7 @@ function toggleNearbyModal() {
         features.forEach((f, i) => {
           if (!f.properties) return;
           const scores = Object.entries(f.properties)
-            .filter(([k, v]) => k.endsWith('_score') && typeof v === 'number' && v > 3.8);
+            .filter(([k, v]) => k.endsWith('_score') && typeof v === 'number' && v > 5);
 
           if (scores.length) {
             console.log(`🍄 Feature ${i + 1} with scores:`, scores);
@@ -383,7 +383,7 @@ function toggleNearbyModal() {
         intro.style.marginBottom = "12px";
 
         if (sortedItems.length === 0) {
-          intro.innerHTML = "🪵 Dear forager, the season is being tough on you. Better times will come.";
+          intro.innerHTML = "🪵 Dear forager, the season is tough at the moment—nothing seems to be growing around you. But don't worry, better times will come. Stay tuned for more edibles to be added soon!;
           listContainer.appendChild(intro);
         } else {
           intro.innerHTML = "🌿 Hey fellow forager, following edibles could be growing in your proximity:";
