@@ -362,7 +362,7 @@ function toggleNearbyModal() {
         features.forEach((f, i) => {
           if (!f.properties) return;
           const scores = Object.entries(f.properties)
-            .filter(([k, v]) => k.endsWith('_score') && typeof v === 'number' && v > 6.8);
+            .filter(([k, v]) => k.endsWith('_score') && typeof v === 'number' && v > 3.8);
 
           if (scores.length) {
             console.log(`🍄 Feature ${i + 1} with scores:`, scores);
