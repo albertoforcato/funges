@@ -322,23 +322,20 @@ function toggleNearbyModal() {
   const modal = document.getElementById('nearby-modal');
   const listContainer = document.getElementById('nearby-edibles-list');
 
-  if (modal.style.display === 'none') {
+  // If modal is already open, close it
+  if (modal.style.display !== 'none') {
+    modal.style.display = 'none';
+    return;
+  }
+
+  // Show loading while waiting for coordinates
+  document.getElementById('loading-spinner').style.display = 'flex';
+
+  // Ensure we have coordinates first
+  function proceedWithNearbyCheck(coords) {
+    document.getElementById('loading-spinner').style.display = 'none';
+
     listContainer.innerHTML = '';
-
-    const coords = cachedCoordinates || (userMarker ? userMarker.getLngLat().toArray() : null);
-    if (!coords) {
-      // 👇 Trigger the same location logic you use in your location button
-      if (typeof getUserLocation === 'function') {
-        getUserLocation(() => {
-          // Retry after location is available
-          setTimeout(() => toggleNearbyModal(), 1000);
-        });
-      } else {
-        alert("📍 Location not found and no location function available.");
-      }
-      return;
-    }
-
     const [userLng, userLat] = coords;
     const selectedRegion = localStorage.getItem('selectedRegion');
     const regionData = cachedRegions[selectedRegion];
@@ -365,6 +362,7 @@ function toggleNearbyModal() {
       }
     }
 
+    // Intro message
     const intro = document.createElement("p");
     intro.style.marginBottom = "12px";
     intro.innerHTML = "🌿 <strong>Hey fellow forager</strong>, following edibles can be found in your proximity:";
@@ -385,10 +383,28 @@ function toggleNearbyModal() {
     }
 
     modal.style.display = 'flex';
+  }
+
+  // Get location, use cache if valid
+  const now = Date.now();
+  if (cachedCoordinates && cacheTimestamp && now - cacheTimestamp < 60000) {
+    proceedWithNearbyCheck(cachedCoordinates);
   } else {
-    modal.style.display = 'none';
+    navigator.geolocation.getCurrentPosition(
+      position => {
+        cachedCoordinates = [position.coords.longitude, position.coords.latitude];
+        cacheTimestamp = Date.now();
+        proceedWithNearbyCheck(cachedCoordinates);
+      },
+      () => {
+        document.getElementById('loading-spinner').style.display = 'none';
+        alert("📍 Location permission denied or unavailable.");
+      },
+      { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 }
+    );
   }
 }
+
 
 
 
