@@ -351,55 +351,12 @@ function toggleNearbyModal() {
 
         const center = map.getCenter();
         const point = map.project(center);
-
-
-          
-        // Define the bounding box with expanded area (add 250px in each direction)
         const box = [
-        [point.x - 250, point.y - 250],  // top-left corner
-        [point.x + 250, point.y + 250]   // bottom-right corner
+          [point.x - 250, point.y - 250],
+          [point.x + 250, point.y + 250]
         ];
-        
-        // Convert the pixel coordinates back to geographic coordinates (Lng, Lat)
-        const topLeft = map.unproject([box[0][0], box[0][1]]);
-        const bottomRight = map.unproject([box[1][0], box[1][1]]);
-        
-        // Define the coordinates for the rectangle
-        const rectangleCoordinates = [
-        [topLeft.lng, topLeft.lat],        // top-left corner
-        [bottomRight.lng, topLeft.lat],    // top-right corner
-        [bottomRight.lng, bottomRight.lat],// bottom-right corner
-        [topLeft.lng, bottomRight.lat],    // bottom-left corner
-        [topLeft.lng, topLeft.lat]         // back to top-left corner
-        ];
-        
-        // Draw the rectangle on the map
-        map.addLayer({
-        id: 'rectangle-layer',
-        type: 'line',
-        source: {
-          type: 'geojson',
-          data: {
-            type: 'Feature',
-            geometry: {
-              type: 'Polygon',
-              coordinates: [rectangleCoordinates]
-            }
-          }
-        },
-        paint: {
-          'line-color': '#ff0000',     // Red color for the rectangle
-          'line-width': 2              // Line width
-        }
-        });
-        
-        // Perform the feature query in the defined bounding box
+
         const features = map.queryRenderedFeatures(box);
-        
-        
-        
-        
-              
 
         const foundItems = {};
         features.forEach((f, i) => {
@@ -473,4 +430,3 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
-
