@@ -318,6 +318,7 @@ function displayResults(predictions) {
 // ========== NEARBY EDIBLES MODAL ==========
 
 function toggleNearbyModal() {
+  console.log("🟢 toggleNearbyModal() was called");
   const modal = document.getElementById('nearby-modal');
   const listContainer = document.getElementById('nearby-edibles-list');
 
