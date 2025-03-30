@@ -321,14 +321,12 @@ function displayResults(predictions) {
 
 
 
-
 function toggleNearbyModal() {
   console.log("🟢 toggleNearbyModal() was called");
 
   const modal = document.getElementById('nearby-modal');
   const listContainer = document.getElementById('nearby-edibles-list');
 
-  // Step 1: Toggle off if already visible
   if (modal.style.display !== 'none') {
     console.log("🧪 Closing nearby modal.");
     modal.style.display = 'none';
@@ -338,103 +336,68 @@ function toggleNearbyModal() {
   console.log("🍳 Nearby button clicked. Checking coordinates...");
   document.getElementById('loading-spinner').style.display = 'flex';
 
-  function proceedWithNearbyCheck(coords) {
-    console.log("📍 Location received:", coords);
+  // Step 1: trigger locateUser() and wait for map to settle
+  locateUser();
 
-    if (!coords) {
-      console.warn("⚠️ No coordinates received.");
-      alert("📍 Failed to retrieve location.");
-      return;
-    }
+  setTimeout(() => {
+    console.log("🔍 Scanning for features...");
 
-    const [userLng, userLat] = coords;
+    const center = map.getCenter();
+    const point = map.project(center);
 
-    // Zoom and place pin
-    map.flyTo({ center: [userLng, userLat], zoom: 8 });
+    const box = [
+      [point.x - 300, point.y - 300],
+      [point.x + 300, point.y + 300]
+    ];
 
-    if (!window.flagpoleMarker) {
-      flagpoleMarker = new mapboxgl.Marker({ color: '#ff5e5e' });
-    }
-    flagpoleMarker.setLngLat([userLng, userLat]).addTo(map);
+    const features = map.queryRenderedFeatures(box);
 
-    // Wait for the map to finish moving before querying
-    map.once('idle', () => {
-      document.getElementById('loading-spinner').style.display = 'none';
-      listContainer.innerHTML = '';
+    const foundItems = {};
 
-      const screenBox = [
-        [0, 0],
-        [window.innerWidth, window.innerHeight]
-      ];
+    features.forEach((f, i) => {
+      if (!f.properties) return;
 
-      const visibleLayers = map.getStyle().layers.map(l => l.id);
-      const scoreLayers = visibleLayers.filter(id => id.includes('_score'));
+      const scores = Object.entries(f.properties)
+        .filter(([k, v]) => k.endsWith('_score') && typeof v === 'number' && v > 3);
 
-      const features = map.queryRenderedFeatures(screenBox, {
-        layers: scoreLayers
-      });
+      if (scores.length) {
+        console.log(`🍄 Feature ${i + 1} found with scores:`, scores);
 
-      console.log(`🔍 Found ${features.length} polygons in screen.`);
-
-      const foundItems = {};
-
-      for (const feature of features) {
-        const scores = Object.entries(feature.properties || {}).filter(
-          ([k, v]) => k.endsWith('_score') && typeof v === 'number' && v > 3
-        );
-        for (const [key, value] of scores) {
+        scores.forEach(([key, value]) => {
           const edibleName = key.replace('_score', '').replace(/_/g, ' ');
           if (!foundItems[edibleName] || value > foundItems[edibleName]) {
             foundItems[edibleName] = value;
           }
-        }
+        });
       }
-
-      const sortedItems = Object.entries(foundItems).sort((a, b) => b[1] - a[1]);
-
-      const intro = document.createElement("p");
-      intro.style.marginBottom = "12px";
-
-      if (sortedItems.length === 0) {
-        intro.innerHTML = "🪵 <strong>Dear forager</strong>, the season is being tough on you. Better times will come.";
-        listContainer.appendChild(intro);
-      } else {
-        intro.innerHTML = "🌿 <strong>Hey fellow forager</strong>, following edibles can be found in your proximity:";
-        listContainer.appendChild(intro);
-
-        for (const [item, score] of sortedItems) {
-          const li = document.createElement("li");
-          li.innerHTML = `🍄 <strong>${item}</strong> – Score: ${score.toFixed(1)}`;
-          listContainer.appendChild(li);
-        }
-      }
-
-      console.log("✅ Showing modal with results:", sortedItems);
-      modal.style.display = 'flex';
     });
-  }
 
-  // Step 2: Use cached coordinates or request geolocation
-  const now = Date.now();
-  if (cachedCoordinates && cacheTimestamp && now - cacheTimestamp < 60000) {
-    console.log("📦 Using cached coordinates.");
-    proceedWithNearbyCheck(cachedCoordinates);
-  } else {
-    console.log("📡 Requesting geolocation...");
-    navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        cachedCoordinates = [pos.coords.longitude, pos.coords.latitude];
-        cacheTimestamp = Date.now();
-        proceedWithNearbyCheck(cachedCoordinates);
-      },
-      (err) => {
-        document.getElementById('loading-spinner').style.display = 'none';
-        console.error("❌ Geolocation error:", err);
-        alert("📍 Location permission denied or unavailable.");
-      },
-      { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 }
-    );
-  }
+    document.getElementById('loading-spinner').style.display = 'none';
+    listContainer.innerHTML = '';
+
+    const sortedItems = Object.entries(foundItems).sort((a, b) => b[1] - a[1]);
+
+    const intro = document.createElement("p");
+    intro.style.marginBottom = "12px";
+
+    if (sortedItems.length === 0) {
+      intro.innerHTML = "🪵 <strong>Dear forager</strong>, the season is being tough on you. Better times will come.";
+      listContainer.appendChild(intro);
+    } else {
+      intro.innerHTML = "🌿 <strong>Hey fellow forager</strong>, following edibles can be found in your proximity:";
+      listContainer.appendChild(intro);
+
+      sortedItems.forEach(([item, score]) => {
+        const li = document.createElement("li");
+        li.innerHTML = `🍄 <strong>${item}</strong> – Score: ${score.toFixed(1)}`;
+        listContainer.appendChild(li);
+      });
+    }
+
+    console.log("✅ Showing modal with results:", sortedItems);
+    modal.style.display = 'flex';
+
+  }, 1500); // wait for map to zoom/center
 }
 
 
