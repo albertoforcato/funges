@@ -322,90 +322,92 @@ function toggleNearbyModal() {
   const modal = document.getElementById('nearby-modal');
   const listContainer = document.getElementById('nearby-edibles-list');
 
-  // Toggle close if already open
+  // Step 1: Toggle off if already visible
   if (modal.style.display !== 'none') {
+    console.log("🧪 Closing nearby modal.");
     modal.style.display = 'none';
     return;
   }
 
-  // Show loading spinner
+  console.log("🍳 Nearby button clicked. Checking coordinates...");
   document.getElementById('loading-spinner').style.display = 'flex';
 
+  // Inner function to continue after coordinates are available
   function proceedWithNearbyCheck(coords) {
+    console.log("📍 Location received:", coords);
     document.getElementById('loading-spinner').style.display = 'none';
+
+    if (!coords) {
+      console.warn("⚠️ No coordinates received.");
+      alert("📍 Failed to retrieve location.");
+      return;
+    }
+
     listContainer.innerHTML = '';
-
     const [userLng, userLat] = coords;
-    const userPoint = map.project({ lng: userLng, lat: userLat });
 
-    // Expand box around user to capture surrounding polygons
-    const buffer = 100; // pixels radius
-    const box = [
-      [userPoint.x - buffer, userPoint.y - buffer],
-      [userPoint.x + buffer, userPoint.y + buffer]
-    ];
-
-    // Get all visible layers with score info
+    // Use Mapbox queryRenderedFeatures instead of cached geojson
+    const point = map.project([userLng, userLat]);
     const visibleLayers = map.getStyle().layers.map(l => l.id);
     const scoreLayers = visibleLayers.filter(id => id.includes('_score'));
 
-    const features = map.queryRenderedFeatures(box, { layers: scoreLayers });
+    const features = map.queryRenderedFeatures(point, { layers: scoreLayers });
+    console.log(`🔍 Found ${features.length} features at user location.`);
 
     const foundItems = {};
 
     for (const feature of features) {
-      const props = feature.properties || {};
-      const coords = feature.geometry.coordinates;
-      const [lng, lat] = coords;
-
-      const dist = getDistanceFromLatLonInKm(userLat, userLng, lat, lng);
-      if (dist > 30) continue;
-
-      for (const [key, val] of Object.entries(props)) {
-        if (key.endsWith('_score') && val > 7) {
-          const name = key.replace('_score', '').replace(/_/g, ' ');
-          if (!foundItems[name] || val > foundItems[name]) {
-            foundItems[name] = val;
-          }
+      const scores = Object.entries(feature.properties || {}).filter(
+        ([k, v]) => k.endsWith('_score') && v > 7
+      );
+      for (const [key, value] of scores) {
+        const edibleName = key.replace('_score', '').replace(/_/g, ' ');
+        if (!foundItems[edibleName] || value > foundItems[edibleName]) {
+          foundItems[edibleName] = value;
         }
       }
     }
 
-    // Add intro
+    // UI Output
     const intro = document.createElement("p");
     intro.style.marginBottom = "12px";
     intro.innerHTML = "🌿 <strong>Hey fellow forager</strong>, following edibles can be found in your proximity:";
     listContainer.appendChild(intro);
 
-    const sorted = Object.entries(foundItems).sort((a, b) => b[1] - a[1]);
+    const sortedItems = Object.entries(foundItems).sort((a, b) => b[1] - a[1]);
 
-    if (sorted.length === 0) {
+    if (sortedItems.length === 0) {
       const li = document.createElement("li");
       li.innerHTML = "<i>No high-score edibles found in 30 km radius.</i>";
       listContainer.appendChild(li);
     } else {
-      for (const [item, score] of sorted) {
+      for (const [item, score] of sortedItems) {
         const li = document.createElement("li");
         li.innerHTML = `🍄 <strong>${item}</strong> – Score: ${score.toFixed(1)}`;
         listContainer.appendChild(li);
       }
     }
 
+    console.log("✅ Showing modal with results:", sortedItems);
     modal.style.display = 'flex';
   }
 
+  // Step 2: Location flow with cache or geolocation
   const now = Date.now();
   if (cachedCoordinates && cacheTimestamp && now - cacheTimestamp < 60000) {
+    console.log("📦 Using cached coordinates.");
     proceedWithNearbyCheck(cachedCoordinates);
   } else {
+    console.log("📡 Requesting user geolocation...");
     navigator.geolocation.getCurrentPosition(
-      pos => {
-        cachedCoordinates = [pos.coords.longitude, pos.coords.latitude];
+      (position) => {
+        cachedCoordinates = [position.coords.longitude, position.coords.latitude];
         cacheTimestamp = Date.now();
         proceedWithNearbyCheck(cachedCoordinates);
       },
-      () => {
+      (err) => {
         document.getElementById('loading-spinner').style.display = 'none';
+        console.error("❌ Geolocation error:", err);
         alert("📍 Location permission denied or unavailable.");
       },
       { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 }
