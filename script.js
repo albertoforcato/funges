@@ -323,7 +323,7 @@ function toggleNearbyModal() {
   const modal = document.getElementById('nearby-modal');
   const listContainer = document.getElementById('nearby-edibles-list');
 
-  // Step 1: Close modal if already open
+  // Step 1: If modal is already open, close it
   if (modal.style.display !== 'none') {
     console.log("🧪 Closing nearby modal.");
     modal.style.display = 'none';
@@ -343,66 +343,66 @@ function toggleNearbyModal() {
       return;
     }
 
-    const [userLng, userLat] = coords;
     listContainer.innerHTML = '';
+    const [userLng, userLat] = coords;
 
-    // Zoom the map to level 8
-    map.flyTo({ center: coords, zoom: 8, speed: 1.8 });
-    const centerPoint = map.project([userLng, userLat]);
+    // Wait for map to finish zooming/centering (if locateUser just ran)
+    // Optional: you can remove this timeout if not needed
+    setTimeout(() => {
+      // Get visible screen area in pixels
+      const screenBox = [
+        [0, 0],
+        [window.innerWidth, window.innerHeight]
+      ];
 
-    // Get screen dimensions and take HALF of it for buffer
-    const bufferX = window.innerWidth / 2;
-    const bufferY = window.innerHeight / 2;
+      const visibleLayers = map.getStyle().layers.map(l => l.id);
+      const scoreLayers = visibleLayers.filter(id => id.includes('_score'));
 
-    const box = [
-      [centerPoint.x - bufferX, centerPoint.y - bufferY],
-      [centerPoint.x + bufferX, centerPoint.y + bufferY],
-    ];
+      const features = map.queryRenderedFeatures(screenBox, {
+        layers: scoreLayers
+      });
 
-    const visibleLayers = map.getStyle().layers.map(l => l.id);
-    const scoreLayers = visibleLayers.filter(id => id.includes('_score'));
+      console.log(`🔍 Found ${features.length} polygons in screen.`);
 
-    const features = map.queryRenderedFeatures(box, { layers: scoreLayers });
-    console.log(`🔍 Found ${features.length} polygons in screen half.`);
+      const foundItems = {};
 
-    const foundItems = {};
-
-    for (const feature of features) {
-      const scores = Object.entries(feature.properties || {}).filter(
-        ([k, v]) => k.endsWith('_score') && v > 3
-      );
-      for (const [key, value] of scores) {
-        const edibleName = key.replace('_score', '').replace(/_/g, ' ');
-        if (!foundItems[edibleName] || value > foundItems[edibleName]) {
-          foundItems[edibleName] = value;
+      for (const feature of features) {
+        const scores = Object.entries(feature.properties || {}).filter(
+          ([k, v]) => k.endsWith('_score') && v > 3
+        );
+        for (const [key, value] of scores) {
+          const edibleName = key.replace('_score', '').replace(/_/g, ' ');
+          if (!foundItems[edibleName] || value > foundItems[edibleName]) {
+            foundItems[edibleName] = value;
+          }
         }
       }
-    }
 
-    const intro = document.createElement("p");
-    intro.style.marginBottom = "12px";
+      const sortedItems = Object.entries(foundItems).sort((a, b) => b[1] - a[1]);
 
-    const sortedItems = Object.entries(foundItems).sort((a, b) => b[1] - a[1]);
+      const intro = document.createElement("p");
+      intro.style.marginBottom = "12px";
 
-    if (sortedItems.length === 0) {
-      intro.innerHTML = "🪵 <strong>Dear forager</strong>, the season is being tough on you. Better times will come.";
-      listContainer.appendChild(intro);
-    } else {
-      intro.innerHTML = "🌿 <strong>Hey fellow forager</strong>, following edibles can be found in your proximity:";
-      listContainer.appendChild(intro);
+      if (sortedItems.length === 0) {
+        intro.innerHTML = "🪵 <strong>Dear forager</strong>, the season is being tough on you. Better times will come.";
+        listContainer.appendChild(intro);
+      } else {
+        intro.innerHTML = "🌿 <strong>Hey fellow forager</strong>, following edibles can be found in your proximity:";
+        listContainer.appendChild(intro);
 
-      for (const [item, score] of sortedItems) {
-        const li = document.createElement("li");
-        li.innerHTML = `🍄 <strong>${item}</strong> – Score: ${score.toFixed(1)}`;
-        listContainer.appendChild(li);
+        for (const [item, score] of sortedItems) {
+          const li = document.createElement("li");
+          li.innerHTML = `🍄 <strong>${item}</strong> – Score: ${score.toFixed(1)}`;
+          listContainer.appendChild(li);
+        }
       }
-    }
 
-    console.log("✅ Showing modal with results:", sortedItems);
-    modal.style.display = 'flex';
+      console.log("✅ Showing modal with results:", sortedItems);
+      modal.style.display = 'flex';
+    }, 800); // small delay to wait for locateUser visuals
   }
 
-  // Step 2: Use cached coordinates if recent, otherwise get location
+  // Step 2: Use cache or ask for geolocation
   const now = Date.now();
   if (cachedCoordinates && cacheTimestamp && now - cacheTimestamp < 60000) {
     console.log("📦 Using cached coordinates.");
@@ -431,24 +431,6 @@ function toggleNearbyModal() {
 
 
 
-// 📏 Haversine Distance
-function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
-  const R = 6371;
-  const dLat = deg2rad(lat2 - lat1);
-  const dLon = deg2rad(lon2 - lon1);
-  const a =
-    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    Math.cos(deg2rad(lat1)) *
-      Math.cos(deg2rad(lat2)) *
-      Math.sin(dLon / 2) *
-      Math.sin(dLon / 2);
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  return R * c;
-}
-
-function deg2rad(deg) {
-  return deg * (Math.PI / 180);
-}
 
 // Allow closing the Nearby Edibles modal when clicking outside
 document.addEventListener('DOMContentLoaded', () => {
