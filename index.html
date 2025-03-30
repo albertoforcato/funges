@@ -383,15 +383,6 @@
       text-align: center;
       position: relative;
     }
-    .modal-content-recipe {
-      background: rgba(255, 252, 239, 0.9);
-      padding: 20px;
-      border-radius: 12px;
-      max-width: 500px;
-      width: 90%;
-      text-align: center;
-      position: relative;
-    }
     .close-button {
       position: absolute;
       top: 8px;
@@ -515,12 +506,7 @@
       .modal-content p,
       .qr-item p,
       .crypto-item p {
-        font-size: 9px;
-      }
-      .modal-content-recipe p,
-      .qr-item p,
-      .crypto-item p {
-        font-size: 11px;
+        font-size: 12px;
       }
       .crypto-item button {
         font-size: 13px;
@@ -533,11 +519,6 @@
         font-size: 11px;
       }
       .modal-content {
-      width: 85%;
-      max-width: 320px;
-      padding: 15px;
-      }
-      .modal-content-recipe {
       width: 85%;
       max-width: 320px;
       padding: 15px;
@@ -661,7 +642,7 @@
   </div>
   
   <div id="nearby-modal" class="modal-overlay" style="display: none;">
-    <div class="modal-content-recipe">
+    <div class="modal-content">
       <button class="close-button" onclick="toggleNearbyModal()">×</button>
       <h3>Nearby Edibles</h3>
       <ul id="nearby-edibles-list" style="list-style: none; padding: 0;"></ul>
@@ -784,7 +765,7 @@
           <button onclick="openQR('bitcoin_qr.webp')">🖼 Show QR</button>
         </div>
         <div class="crypto-item">
-          <p><strong>IOTA:</strong> iota1qp24tfmlscaj9u34k64ma2hh7lhgj93srmtsysqmh6a85lm4dn02vdg6t67</p>
+          <p><strong>IOTA:</strong> iota1qp24tfmlscaj9u34k64ma2hh7<br>lhgj93srmtsysqmh6a85lm4dn02vdg6t67</p>
           <button onclick="copyToClipboard('iota1qp24tfmlscaj9u34k64ma2hh7lhgj93srmtsysqmh6a85lm4dn02vdg6t67')">📋 Copy</button>
           <button onclick="openQR('iota_qr.webp')">🖼 Show QR</button>
         </div>
