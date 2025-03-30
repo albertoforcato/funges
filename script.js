@@ -326,7 +326,7 @@ function toggleNearbyModal() {
   const modal = document.getElementById('nearby-modal');
   const listContainer = document.getElementById('nearby-edibles-list');
 
-  // Close modal if already open
+  // Close modal if open
   if (modal.style.display !== 'none') {
     console.log("🧪 Closing nearby modal.");
     modal.style.display = 'none';
@@ -341,7 +341,6 @@ function toggleNearbyModal() {
       const coords = [position.coords.longitude, position.coords.latitude];
       console.log("📍 Location acquired:", coords);
 
-      // Zoom in to user's location
       map.flyTo({
         center: coords,
         zoom: 8,
@@ -349,13 +348,12 @@ function toggleNearbyModal() {
         essential: true
       });
 
-      // Wait for map to finish moving
-      map.once('moveend', () => {
-        console.log("🗺️ Map centered. Now scanning...");
+      // Wait for map to fully finish rendering
+      map.once('idle', () => {
+        console.log("🗺️ Map idle. Starting polygon scan...");
 
         const center = map.getCenter();
         const point = map.project(center);
-
         const box = [
           [point.x - 300, point.y - 300],
           [point.x + 300, point.y + 300]
@@ -364,16 +362,13 @@ function toggleNearbyModal() {
         const features = map.queryRenderedFeatures(box);
 
         const foundItems = {};
-
         features.forEach((f, i) => {
           if (!f.properties) return;
-
           const scores = Object.entries(f.properties)
             .filter(([k, v]) => k.endsWith('_score') && typeof v === 'number' && v > 3);
 
           if (scores.length) {
             console.log(`🍄 Feature ${i + 1} with scores:`, scores);
-
             scores.forEach(([key, value]) => {
               const edibleName = key.replace('_score', '').replace(/_/g, ' ');
               if (!foundItems[edibleName] || value > foundItems[edibleName]) {
@@ -387,7 +382,6 @@ function toggleNearbyModal() {
         listContainer.innerHTML = '';
 
         const sortedItems = Object.entries(foundItems).sort((a, b) => b[1] - a[1]);
-
         const intro = document.createElement("p");
         intro.style.marginBottom = "12px";
 
@@ -397,7 +391,6 @@ function toggleNearbyModal() {
         } else {
           intro.innerHTML = "🌿 <strong>Hey fellow forager</strong>, following edibles can be found in your proximity:";
           listContainer.appendChild(intro);
-
           sortedItems.forEach(([item, score]) => {
             const li = document.createElement("li");
             li.innerHTML = `🍄 <strong>${item}</strong> – Score: ${score.toFixed(1)}`;
