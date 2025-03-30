@@ -355,8 +355,8 @@ function toggleNearbyModal() {
         const center = map.getCenter();
         const point = map.project(center);
         const box = [
-          [point.x - 300, point.y - 300],
-          [point.x + 300, point.y + 300]
+          [point.x - 250, point.y - 250],
+          [point.x + 250, point.y + 250]
         ];
 
         const features = map.queryRenderedFeatures(box);
@@ -365,7 +365,7 @@ function toggleNearbyModal() {
         features.forEach((f, i) => {
           if (!f.properties) return;
           const scores = Object.entries(f.properties)
-            .filter(([k, v]) => k.endsWith('_score') && typeof v === 'number' && v > 3);
+            .filter(([k, v]) => k.endsWith('_score') && typeof v === 'number' && v > 5);
 
           if (scores.length) {
             console.log(`🍄 Feature ${i + 1} with scores:`, scores);
@@ -393,7 +393,7 @@ function toggleNearbyModal() {
           listContainer.appendChild(intro);
           sortedItems.forEach(([item, score]) => {
             const li = document.createElement("li");
-            li.innerHTML = `🍄 <strong>${item}</strong> – Score: ${score.toFixed(1)}`;
+            li.innerHTML = `🍄 <strong>${speciesDisplayMap[item] || item}</strong> – Score: ${score.toFixed(1)}`;
             listContainer.appendChild(li);
           });
         }
