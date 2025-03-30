@@ -327,7 +327,15 @@ function toggleNearbyModal() {
 
     const coords = cachedCoordinates || (userMarker ? userMarker.getLngLat().toArray() : null);
     if (!coords) {
-      alert("📍 Location not found. Please tap the location button first.");
+      // 👇 Trigger the same location logic you use in your location button
+      if (typeof getUserLocation === 'function') {
+        getUserLocation(() => {
+          // Retry after location is available
+          setTimeout(() => toggleNearbyModal(), 1000);
+        });
+      } else {
+        alert("📍 Location not found and no location function available.");
+      }
       return;
     }
 
@@ -357,7 +365,6 @@ function toggleNearbyModal() {
       }
     }
 
-    // Intro message
     const intro = document.createElement("p");
     intro.style.marginBottom = "12px";
     intro.innerHTML = "🌿 <strong>Hey fellow forager</strong>, following edibles can be found in your proximity:";
@@ -382,6 +389,9 @@ function toggleNearbyModal() {
     modal.style.display = 'none';
   }
 }
+
+
+
 
 // 📏 Haversine Distance
 function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
