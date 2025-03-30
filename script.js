@@ -362,7 +362,7 @@ function toggleNearbyModal() {
         features.forEach((f, i) => {
           if (!f.properties) return;
           const scores = Object.entries(f.properties)
-            .filter(([k, v]) => k.endsWith('_score') && typeof v === 'number' && v > 5);
+            .filter(([k, v]) => k.endsWith('_score') && typeof v === 'number' && v > 6.8);
 
           if (scores.length) {
             console.log(`🍄 Feature ${i + 1} with scores:`, scores);
@@ -386,7 +386,7 @@ function toggleNearbyModal() {
           intro.innerHTML = "🪵 Dear forager, the season is being tough on you. Better times will come.";
           listContainer.appendChild(intro);
         } else {
-          intro.innerHTML = "🌿 Hey fellow forager, following edibles can be found in your proximity:";
+          intro.innerHTML = "🌿 Hey fellow forager, following edibles could be growing in your proximity:";
           listContainer.appendChild(intro);
           sortedItems.forEach(([item, score]) => {
             const li = document.createElement("li");
