@@ -352,8 +352,8 @@ function toggleNearbyModal() {
         const center = map.getCenter();
         const point = map.project(center);
         const box = [
-          [point.x - 250, point.y - 250],
-          [point.x + 250, point.y + 250]
+          [point.x - 500, point.y - 500],
+          [point.x + 500, point.y + 500]
         ];
 
         const features = map.queryRenderedFeatures(box);
