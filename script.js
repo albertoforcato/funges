@@ -315,7 +315,6 @@ function displayResults(predictions) {
     }
 }
 
-
 // ========== NEARBY EDIBLES MODAL ==========
 
 function toggleNearbyModal() {
@@ -346,19 +345,25 @@ function toggleNearbyModal() {
     listContainer.innerHTML = '';
     const [userLng, userLat] = coords;
 
-    // Use Mapbox queryRenderedFeatures instead of cached geojson
-    const point = map.project([userLng, userLat]);
+    const center = map.project([userLng, userLat]);
+    const buffer = 1000; // expand search radius ~30–50km
+
+    const box = [
+      [center.x - buffer, center.y - buffer],
+      [center.x + buffer, center.y + buffer],
+    ];
+
     const visibleLayers = map.getStyle().layers.map(l => l.id);
     const scoreLayers = visibleLayers.filter(id => id.includes('_score'));
 
-    const features = map.queryRenderedFeatures(point, { layers: scoreLayers });
-    console.log(`🔍 Found ${features.length} features at user location.`);
+    const features = map.queryRenderedFeatures(box, { layers: scoreLayers });
+    console.log(`🔍 Found ${features.length} polygons near user.`);
 
     const foundItems = {};
 
     for (const feature of features) {
       const scores = Object.entries(feature.properties || {}).filter(
-        ([k, v]) => k.endsWith('_score') && v > 7
+        ([k, v]) => k.endsWith('_score') && v > 5
       );
       for (const [key, value] of scores) {
         const edibleName = key.replace('_score', '').replace(/_/g, ' ');
@@ -378,7 +383,7 @@ function toggleNearbyModal() {
 
     if (sortedItems.length === 0) {
       const li = document.createElement("li");
-      li.innerHTML = "<i>No high-score edibles found in 30 km radius.</i>";
+      li.innerHTML = "<i>Dear forager, the season is being tough on you. Better times will come 🍂</i>";
       listContainer.appendChild(li);
     } else {
       for (const [item, score] of sortedItems) {
