@@ -386,7 +386,7 @@ function toggleNearbyModal() {
           intro.innerHTML = "🪵 Dear forager, the season is tough at the moment—nothing seems to be growing around you. But don't worry, better times will come. Stay tuned for more edibles to be added soon!";
           listContainer.appendChild(intro);
         } else {
-          intro.innerHTML = "🌿 Hey fellow forager, following edibles could be growing in your proximity:";
+          intro.innerHTML = "🌿 Hey fellow forager! Following edibles could be growing in your proximity:";
           listContainer.appendChild(intro);
           sortedItems.forEach(([item, score]) => {
             const li = document.createElement("li");
@@ -394,7 +394,7 @@ function toggleNearbyModal() {
             listContainer.appendChild(li);
           });
           const recipeNote = document.createElement("p");
-          recipeNote.innerHTML = "Creative recipes will be added soon for you.";
+          recipeNote.innerHTML = "Creative recipes will be added soon for you";
           listContainer.appendChild(recipeNote);
         }
 
