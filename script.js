@@ -317,9 +317,6 @@ function displayResults(predictions) {
 
 // ========== NEARBY EDIBLES MODAL ==========
 
-
-
-
 function toggleNearbyModal() {
   console.log("🟢 toggleNearbyModal() was called");
 
@@ -386,14 +383,14 @@ function toggleNearbyModal() {
         intro.style.marginBottom = "12px";
 
         if (sortedItems.length === 0) {
-          intro.innerHTML = "🪵 <strong>Dear forager</strong>, the season is being tough on you. Better times will come.";
+          intro.innerHTML = "🪵 Dear forager, the season is being tough on you. Better times will come.";
           listContainer.appendChild(intro);
         } else {
-          intro.innerHTML = "🌿 <strong>Hey fellow forager</strong>, following edibles can be found in your proximity:";
+          intro.innerHTML = "🌿 Hey fellow forager, following edibles can be found in your proximity:";
           listContainer.appendChild(intro);
           sortedItems.forEach(([item, score]) => {
             const li = document.createElement("li");
-            li.innerHTML = `🍄 <strong>${speciesDisplayMap[item] || item}</strong> – Score: ${score.toFixed(1)}`;
+            li.innerHTML = `<strong>${speciesDisplayMap[item] || item}</strong>`;
             listContainer.appendChild(li);
           });
         }
@@ -410,14 +407,6 @@ function toggleNearbyModal() {
     { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 }
   );
 }
-
-
-
-
-
-
-
-
 
 
 // Allow closing the Nearby Edibles modal when clicking outside
