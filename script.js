@@ -323,3 +323,79 @@ document.addEventListener('click', function (event) {
         predictionBox.style.display = "none";
     }
 });
+
+
+// ========== NEARBY EDIBLES MODAL ==========
+
+function toggleNearbyModal() {
+  const modal = document.getElementById('nearby-modal');
+  const listContainer = document.getElementById('nearby-edibles-list');
+
+  if (modal.style.display === 'none') {
+    listContainer.innerHTML = '';
+
+    const coords = cachedCoordinates || (userMarker ? userMarker.getLngLat().toArray() : null);
+    if (!coords) {
+      alert("📍 Location not found. Please tap the location button first.");
+      return;
+    }
+
+    const [userLng, userLat] = coords;
+    const selectedRegion = localStorage.getItem('selectedRegion');
+    const regionData = cachedRegions[selectedRegion];
+
+    if (!regionData) {
+      alert("⚠️ Region data not available yet.");
+      return;
+    }
+
+    const foundItems = {};
+
+    for (const feature of regionData.features) {
+      const { geometry, properties } = feature;
+      const [lng, lat] = geometry.coordinates;
+      const dist = getDistanceFromLatLonInKm(userLat, userLng, lat, lng);
+
+      for (const [key, value] of Object.entries(properties)) {
+        if (key.endsWith('_score') && value > 7 && dist <= 30) {
+          const edibleName = key.replace('_score', '').replace(/_/g, ' ');
+          foundItems[edibleName] = true;
+        }
+      }
+    }
+
+    if (Object.keys(foundItems).length === 0) {
+      listContainer.innerHTML = "<li><i>No high-score edibles found in 30 km radius.</i></li>";
+    } else {
+      for (const item of Object.keys(foundItems)) {
+        const li = document.createElement("li");
+        li.textContent = item;
+        listContainer.appendChild(li);
+      }
+    }
+
+    modal.style.display = 'flex';
+  } else {
+    modal.style.display = 'none';
+  }
+}
+
+// 📏 Haversine Distance
+function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
+  const R = 6371;
+  const dLat = deg2rad(lat2 - lat1);
+  const dLon = deg2rad(lon2 - lon1);
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(deg2rad(lat1)) *
+      Math.cos(deg2rad(lat2)) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
+}
+
+function deg2rad(deg) {
+  return deg * (Math.PI / 180);
+}
+
