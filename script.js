@@ -315,15 +315,6 @@ function displayResults(predictions) {
     }
 }
 
-// Close prediction box when clicking outside
-document.addEventListener('click', function (event) {
-    let predictionBox = document.getElementById('prediction-box');
-    
-    if (predictionBox && predictionBox.style.display === "block" && !predictionBox.contains(event.target)) {
-        predictionBox.style.display = "none";
-    }
-});
-
 
 // ========== NEARBY EDIBLES MODAL ==========
 
@@ -359,17 +350,29 @@ function toggleNearbyModal() {
       for (const [key, value] of Object.entries(properties)) {
         if (key.endsWith('_score') && value > 7 && dist <= 30) {
           const edibleName = key.replace('_score', '').replace(/_/g, ' ');
-          foundItems[edibleName] = true;
+          if (!foundItems[edibleName] || value > foundItems[edibleName]) {
+            foundItems[edibleName] = value;
+          }
         }
       }
     }
 
-    if (Object.keys(foundItems).length === 0) {
-      listContainer.innerHTML = "<li><i>No high-score edibles found in 30 km radius.</i></li>";
+    // Intro message
+    const intro = document.createElement("p");
+    intro.style.marginBottom = "12px";
+    intro.innerHTML = "🌿 <strong>Hey fellow forager</strong>, following edibles can be found in your proximity:";
+    listContainer.appendChild(intro);
+
+    const sortedItems = Object.entries(foundItems).sort((a, b) => b[1] - a[1]);
+
+    if (sortedItems.length === 0) {
+      const li = document.createElement("li");
+      li.innerHTML = "<i>No high-score edibles found in 30 km radius.</i>";
+      listContainer.appendChild(li);
     } else {
-      for (const item of Object.keys(foundItems)) {
+      for (const [item, score] of sortedItems) {
         const li = document.createElement("li");
-        li.textContent = item;
+        li.innerHTML = `🍄 <strong>${item}</strong> – Score: ${score.toFixed(1)}`;
         listContainer.appendChild(li);
       }
     }
@@ -398,4 +401,23 @@ function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
 function deg2rad(deg) {
   return deg * (Math.PI / 180);
 }
+
+// Allow closing the Nearby Edibles modal when clicking outside
+document.addEventListener('DOMContentLoaded', () => {
+  const predictionBox = document.getElementById('prediction-box');
+  document.addEventListener('click', (event) => {
+    if (predictionBox && predictionBox.style.display === "block" && !predictionBox.contains(event.target)) {
+      predictionBox.style.display = "none";
+    }
+  });
+
+  const nearbyModal = document.getElementById('nearby-modal');
+  if (nearbyModal) {
+    nearbyModal.addEventListener('click', (e) => {
+      if (e.target === nearbyModal) {
+        toggleNearbyModal();
+      }
+    });
+  }
+});
 
