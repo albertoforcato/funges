@@ -317,13 +317,18 @@ function displayResults(predictions) {
 
 // ========== NEARBY EDIBLES MODAL ==========
 
+
+
+
+
+
 function toggleNearbyModal() {
   console.log("🟢 toggleNearbyModal() was called");
 
   const modal = document.getElementById('nearby-modal');
   const listContainer = document.getElementById('nearby-edibles-list');
 
-  // Step 1: If modal is already open, close it
+  // Step 1: Toggle off if already visible
   if (modal.style.display !== 'none') {
     console.log("🧪 Closing nearby modal.");
     modal.style.display = 'none';
@@ -335,7 +340,6 @@ function toggleNearbyModal() {
 
   function proceedWithNearbyCheck(coords) {
     console.log("📍 Location received:", coords);
-    document.getElementById('loading-spinner').style.display = 'none';
 
     if (!coords) {
       console.warn("⚠️ No coordinates received.");
@@ -343,13 +347,21 @@ function toggleNearbyModal() {
       return;
     }
 
-    listContainer.innerHTML = '';
     const [userLng, userLat] = coords;
 
-    // Wait for map to finish zooming/centering (if locateUser just ran)
-    // Optional: you can remove this timeout if not needed
-    setTimeout(() => {
-      // Get visible screen area in pixels
+    // Zoom and place pin
+    map.flyTo({ center: [userLng, userLat], zoom: 8 });
+
+    if (!window.flagpoleMarker) {
+      flagpoleMarker = new mapboxgl.Marker({ color: '#ff5e5e' });
+    }
+    flagpoleMarker.setLngLat([userLng, userLat]).addTo(map);
+
+    // Wait for the map to finish moving before querying
+    map.once('idle', () => {
+      document.getElementById('loading-spinner').style.display = 'none';
+      listContainer.innerHTML = '';
+
       const screenBox = [
         [0, 0],
         [window.innerWidth, window.innerHeight]
@@ -368,7 +380,7 @@ function toggleNearbyModal() {
 
       for (const feature of features) {
         const scores = Object.entries(feature.properties || {}).filter(
-          ([k, v]) => k.endsWith('_score') && v > 3
+          ([k, v]) => k.endsWith('_score') && typeof v === 'number' && v > 3
         );
         for (const [key, value] of scores) {
           const edibleName = key.replace('_score', '').replace(/_/g, ' ');
@@ -399,10 +411,10 @@ function toggleNearbyModal() {
 
       console.log("✅ Showing modal with results:", sortedItems);
       modal.style.display = 'flex';
-    }, 800); // small delay to wait for locateUser visuals
+    });
   }
 
-  // Step 2: Use cache or ask for geolocation
+  // Step 2: Use cached coordinates or request geolocation
   const now = Date.now();
   if (cachedCoordinates && cacheTimestamp && now - cacheTimestamp < 60000) {
     console.log("📦 Using cached coordinates.");
@@ -424,6 +436,7 @@ function toggleNearbyModal() {
     );
   }
 }
+
 
 
 
