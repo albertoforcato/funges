@@ -574,7 +574,8 @@
       <div style="text-align: center; margin-bottom: 8px;">
         <span class="emoji-filter" onclick="setEmojiFilter('🍄')">🍄</span>
         <span class="emoji-filter" onclick="setEmojiFilter('🌱')">🌱</span>
-        <span class="emoji-filter" onclick="setEmojiFilter('🌸')">🌸</span>
+        <span class="emoji-filter" onclick="setEmojiFilter('🌰')">🌰</span>
+        <span class="emoji-filter" onclick="setEmojiFilter('🍇')">🍇</span>
         <span class="emoji-filter" onclick="setEmojiFilter('')">✖️</span>
       </div>
       <div id="custom-species-list"></div>
@@ -727,13 +728,18 @@
     let longPressTimeout;
 
     const speciesOptions = {
-      "🍄 Porcini (Boletus edulis)": "mushroom",
+      "🍄 Porcino (Boletus edulis)": "mushroom",
+      "🌱 Asparagus Wild ": "asparagus",
       "🍄 Black Chanterelle": "black_chant",
-      "🌱 Wild Garlic": "garlic",
-      "🌱 Lingonberries": "lingonb",
-      "🍄 Black Truffle": "truffle_b"
+      "🍄 Black Truffle": "truffle_b",
+      "🌰 Chestnut": "chestnut",
+      "🌱 Garlic Wild": "garlic",
+      "🌱 Lingonberry": "lingonb",
+      "🍄 Parasol Mushroom": "parasol",
+      "🍇 Strawberry Wild": "strawberry",
+      "🌰 Walnut": "walnut"
     };
-    // 🍄  🌱  🌸
+    // 🍄  🌱  🌸 🌰 🍇
     
     const speciesDisplayMap = Object.entries(speciesOptions).reduce((acc, [label, code]) => {
       acc[code] = label;
