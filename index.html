@@ -305,7 +305,7 @@
     }
     #species-selector {
       position: fixed;
-      top: 10px;
+      top: 20px;
       left: calc(50% + 40px); 
       transform: translateX(-50%);
       z-index: 9999;
@@ -526,11 +526,26 @@
       }
     }
     
+    #species-header-text {
+      color: rgba(255, 252, 245, 1); /* Light text */
+      background: rgba(30, 30, 30, 0.5); /* Anthracite opaque background */
+      font-weight: bold;
+      font-size: 16px;
+      letter-spacing: 0.5px;
+      margin-bottom: 15px;
+      text-align: center;
+      padding: 8px 16px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Optional: subtle outer shadow */
+    }
+
+    
   </style>
 </head>
   <body>
   
   <div id="species-selector">
+    <div id="species-header-text">REAL-TIME FORAGING METRICS</div>
     <div id="species-display" onclick="toggleSpeciesDropdown()">
       <span id="current-species-label"></span> ▼
     </div>
