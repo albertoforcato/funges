@@ -1,4 +1,4 @@
-"amarant": {
+"amaranth": {
     "optimal_temp": 18,
     "temp_sigma": 4,
     "optimal_alt": 1200,
@@ -27,7 +27,7 @@
 321, 324
 
 
-"imperatoria": {
+"masterwort": {
     "optimal_temp": 14,
     "temp_sigma": 3,
     "optimal_alt": 1400,
@@ -44,7 +44,7 @@
         "rain_weight": 0.6,
         "sun_weight": 0.3,
         "rain_first": True,
-        "undesirable_penalty": 0.5
+        "undesirable_penalty": 0.4
     },
     "climate_zones": ["alpine", "subarctic", "temperate", "continental"],
     "wind_sensitive": False,
@@ -57,7 +57,7 @@
 
 
 
-"ortica": {
+"nettle": {
     "optimal_temp": 16,
     "temp_sigma": 3.5,
     "optimal_alt": 1000,
@@ -119,3 +119,96 @@
 }
 
 311, 313, 324
+
+
+"sorrel": {
+    "optimal_temp": 14,
+    "temp_sigma": 3,
+    "optimal_alt": 1100,
+    "alt_sigma": 400,
+    "optimal_humidity": 80,
+    "humidity_sigma": 9,
+    "optimal_pH": 5.8,
+    "pH_sigma_near": 1.0,
+    "pH_sigma_far": 0.7,
+    "pH_range_near": (5.0, 6.8),
+    "optimal_soil_temp": 12,
+    "soil_temp_sigma": 2,
+    "weather_preference": {
+        "rain_weight": 0.6,
+        "sun_weight": 0.3,
+        "rain_first": False,
+        "undesirable_penalty": 0.3
+    },
+    "climate_zones": ["alpine","subarctic", "atlantic_islands", "mediterranean_dry_spain", "mediterranean_italy", "mediterranean_greece", "mediterranean_turkey", "oceanic_south", "oceanic_north", "continental", "temperate", "central_spain", "sardinia"],
+    "wind_sensitive": False,
+    "season": ["spring", "summer"],
+    "water_relevance": True,
+    "sea_relevance": False,
+    "distance_thresholds": {
+        "water": 1300
+    },
+}
+
+321, 324
+
+"larch_cones": {
+    "optimal_temp": 9,
+    "temp_sigma": 3,
+    "optimal_alt": 1600,
+    "alt_sigma": 500,
+    "optimal_humidity": 75,
+    "humidity_sigma": 7,
+    "optimal_pH": 5.5,
+    "pH_sigma_near": 0.9,
+    "pH_sigma_far": 0.6,
+    "pH_range_near": (4.8, 6.4),
+    "optimal_soil_temp": 8,
+    "soil_temp_sigma": 1.5,
+    "weather_preference": {
+        "rain_weight": 0.4,
+        "sun_weight": 0.4,
+        "rain_first": False,
+        "undesirable_penalty": 0.2
+    },
+    "climate_zones": ["alpine", "subarctic", "temperate", "temperate", "oceanic_north"],
+    "wind_sensitive": False,
+    "season": ["autumn"],
+    "water_relevance": False,
+    "sea_relevance": False,
+}
+
+312, 313
+
+
+"raspberry": {
+    "optimal_temp": 17,
+    "temp_sigma": 4,
+    "optimal_alt": 1000,
+    "alt_sigma": 300,
+    "optimal_humidity": 85,
+    "humidity_sigma": 9,
+    "optimal_pH": 6.0,
+    "pH_sigma_near": 1.1,
+    "pH_sigma_far": 0.8,
+    "pH_range_near": (5.0, 7.0),
+    "optimal_soil_temp": 13,
+    "soil_temp_sigma": 2,
+    "weather_preference": {
+        "rain_weight": 0.6,
+        "sun_weight": 0.3,
+        "rain_first": False,
+        "undesirable_penalty": 0.4
+    },
+    "climate_zones": ["alpine", "temperate", "continental", "oceanic_north", "mediterranean_italy"],
+    "wind_sensitive": False,
+    "season": ["summer"],
+    "water_relevance": True,
+    "sea_relevance": False,
+    "distance_thresholds": {
+        "water": 1200
+    },
+   
+}
+
+311, 324
