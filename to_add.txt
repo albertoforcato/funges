@@ -60,8 +60,8 @@ mushroom/berries rain first
 
 
 "nettle": {
-    "optimal_temp": 16,
-    "temp_sigma": 3.5,
+    "optimal_temp": 15,
+    "temp_sigma": 4,
     "optimal_alt": 1000,
     "alt_sigma": 400,
     "optimal_humidity": 85,
@@ -92,7 +92,7 @@ mushroom/berries rain first
 
 "morel": {
     "optimal_temp": 12,
-    "temp_sigma": 3,
+    "temp_sigma": 4,
     "optimal_alt": 950,
     "alt_sigma": 300,
     "optimal_humidity": 85,
@@ -125,7 +125,7 @@ mushroom/berries rain first
 
 "sorrel": {
     "optimal_temp": 14,
-    "temp_sigma": 3,
+    "temp_sigma": 4,
     "optimal_alt": 1100,
     "alt_sigma": 400,
     "optimal_humidity": 80,
@@ -214,3 +214,60 @@ mushroom/berries rain first
 }
 
 311, 324
+
+"dandelion": {
+    "optimal_temp": 10,
+    "temp_sigma": 3.5,
+    "optimal_alt": 1000,
+    "alt_sigma": 400,
+    "optimal_humidity": 80,
+    "humidity_sigma": 8,
+    "optimal_pH": 6.2,
+    "pH_sigma_near": 1.0,
+    "pH_sigma_far": 0.7,
+    "pH_range_near": (5.5, 7.2),
+    "optimal_soil_temp": 9,
+    "soil_temp_sigma": 1.8,
+    "weather_preference": {
+        "rain_weight": 0.5,
+        "sun_weight": 0.4,
+        "rain_first": False,
+        "undesirable_penalty": 0.3
+    },
+    "climate_zones": ["temperate", "continental", "alpine", "oceanic_north", "subarctic"],
+    "wind_sensitive": False,
+    "season": ["spring", "summer", "autumn"],
+    "water_relevance": False,
+    "sea_relevance": False
+}
+321, 324
+
+"chickweed": {
+    "optimal_temp": 8.5,
+    "temp_sigma": 2.5,
+    "optimal_alt": 950,
+    "alt_sigma": 350,
+    "optimal_humidity": 85,
+    "humidity_sigma": 9,
+    "optimal_pH": 6.0,
+    "pH_sigma_near": 1.0,
+    "pH_sigma_far": 0.6,
+    "pH_range_near": (5.2, 6.8),
+    "optimal_soil_temp": 7,
+    "soil_temp_sigma": 1.5,
+    "weather_preference": {
+        "rain_weight": 0.6,
+        "sun_weight": 0.3,
+        "rain_first": False,
+        "undesirable_penalty": 0.2
+    },
+    "climate_zones": ["temperate", "continental", "alpine", "oceanic_north", "atlantic_islands"],
+    "wind_sensitive": False,
+    "season": ["spring", "autumn", "winter"],
+    "water_relevance": True,
+    "sea_relevance": False,
+    "distance_thresholds": {
+        "water": 1200
+    }
+}
+321, 324
