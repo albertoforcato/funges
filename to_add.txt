@@ -1,3 +1,5 @@
+mushroom/berries rain first
+
 "amaranth": {
     "optimal_temp": 18,
     "temp_sigma": 4,
@@ -43,7 +45,7 @@
     "weather_preference": {
         "rain_weight": 0.6,
         "sun_weight": 0.3,
-        "rain_first": True,
+        "rain_first": False,
         "undesirable_penalty": 0.4
     },
     "climate_zones": ["alpine", "subarctic", "temperate", "continental"],
@@ -197,7 +199,7 @@
     "weather_preference": {
         "rain_weight": 0.6,
         "sun_weight": 0.3,
-        "rain_first": False,
+        "rain_first": True,
         "undesirable_penalty": 0.4
     },
     "climate_zones": ["alpine", "temperate", "continental", "oceanic_north", "mediterranean_italy"],
