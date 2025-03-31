@@ -581,7 +581,15 @@
         <button onclick="loadRegion('EE_north')">East Europe North</button>
         <button onclick="loadRegion('EE_south')">East Europe South</button>
     </div>    
-    
+
+    <div class="button">
+      <img src="https://raw.githubusercontent.com/lodist/funges/main/icons/cooking_1.webp" alt="Nearby Edibles" loading="lazy" onclick="toggleNearbyModal()">
+    </div>
+    <div class="button">
+      <a href="instructions.html">
+        <img src="https://raw.githubusercontent.com/lodist/funges/main/icons/info_1.webp" alt="Info Button" loading="lazy">
+      </a>
+    </div>
     <div class="button" onclick="locateUser()">
       <img src="https://raw.githubusercontent.com/lodist/funges/main/icons/location_1.webp" alt="Locate Me Button" loading="lazy">
     </div>
@@ -590,11 +598,6 @@
     </div>
     <div class="button" onclick="toggleNumbersLayers()">
       <img src="https://raw.githubusercontent.com/lodist/funges/main/icons/numbers_1.webp" alt="Numbers Button" loading="lazy">
-    </div>
-    <div class="button">
-      <a href="instructions.html">
-        <img src="https://raw.githubusercontent.com/lodist/funges/main/icons/info_1.webp" alt="Info Button" loading="lazy">
-      </a>
     </div>
 
     <!-- Image Upload Mask (Popup) -->
@@ -610,10 +613,6 @@
             <!-- Result Display -->
             <div id="result" style="margin-top: 15px; font-size: 12px; font-weight: bold;"></div>
         </div>
-    </div>
-
-    <div class="button">
-      <img src="https://raw.githubusercontent.com/lodist/funges/main/icons/cooking_1.webp" alt="Nearby Edibles" loading="lazy" onclick="toggleNearbyModal()">
     </div>
     
     <div class="button">
@@ -649,7 +648,6 @@
       <ul id="nearby-edibles-list" style="list-style: none; padding: 0;"></ul>
     </div>
   </div>
-
     
   <!-- OSM Limit Notice -->
   <div id="osm-limit-notice" style="display: none;">
@@ -664,7 +662,6 @@
           <img src="https://raw.githubusercontent.com/lodist/funges/main/icons/support_1.webp" alt="Support Button" style="width: 50px; height: auto; cursor: pointer;">
         </a>
       </div>
-       
       <p>In the meantime, enjoy this slightly less-than-perfect Boletus map — at least until we hit the threshold for this map as well 😅</p>
     </div>
   </div>
