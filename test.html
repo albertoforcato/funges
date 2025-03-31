@@ -526,21 +526,13 @@
       }
     }
     
-    #species-selector {
-      position: fixed;
-      top: 20px; /* Move further down from the top */
-      left: calc(50% + 40px); 
-      transform: translateX(-50%);
-      z-index: 9999;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    
-    #species-header-img {
-      width: 500px;
-      height: auto;
-      margin-bottom: 15px; /* Space between image and dropdown */
+    #species-header-text {
+      color: rgba(178, 25, 0, 1); /* Deep red */
+      font-weight: bold;
+      font-size: 24px;
+      letter-spacing: 0.5px;
+      margin-bottom: 15px;
+      text-align: center;
     }
     
   </style>
@@ -548,7 +540,7 @@
   <body>
   
   <div id="species-selector">
-    <img id="species-header-img" src="https://raw.githubusercontent.com/lodist/funges/main/icons/real_time.webp" alt="Species Header">
+    <div id="species-header-text">REAL-TIME FORAGING METRICS</div>
     <div id="species-display" onclick="toggleSpeciesDropdown()">
       <span id="current-species-label"></span> ▼
     </div>
