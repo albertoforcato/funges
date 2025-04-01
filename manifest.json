@@ -1,10 +1,10 @@
 {
-  "name": "Funges",
+  "name": "Funges - Wild Mushroom & Edible Plants Foraging Map",
   "short_name": "Funges",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#2f855a",
+  "theme_color": "#3d7e40",
   "icons": [
     {
       "src": "/icons/icon-192.png",
