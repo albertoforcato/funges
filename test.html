@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#3d7e40" />
   <link rel="canonical" href="https://www.fung.es/">
   <script type="application/ld+json">
   {
@@ -55,6 +57,12 @@
   <meta name="twitter:title" content="Fung.es – Wild Edible Map">
   <meta name="twitter:description" content="Discover wild edible mushrooms and plants with real-time data.">
   <meta name="twitter:image" content="https://fung.es/icons/logo_1.png">
+
+  <!-- IOS -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Fung.es">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="apple-touch-icon" href="icons/logo_1.png">
 
   <title>Fung.es – Real-Time Foraging Map for Wild Mushroom & Edible Plant Hotspots</title>
   <link rel="icon" type="image/png" href="https://fung.es/icons/logo_1.png">
@@ -668,9 +676,12 @@
   <div id="osm-limit-notice" style="display: none;">
     <div class="osm-notice-content">
       <button id="close-osm-notice">✖</button>
-      <p>Dear User,<br><br>
-      We've reached our monthly usage limit. To help keep the service running smoothly and available at all times, please consider <strong>supporting the project</strong>.</p>
-  
+      <p>Dear Forager,<br></p>
+      <p>
+        We’re currently unable to load the map tiles. This may be due to a poor internet connection or because we’ve reached our monthly usage limit.
+        <br><br>
+        If you'd like to help keep the project running and improve availability, please consider <strong>supporting the project</strong>.
+      </p>
       <!-- Support Button -->
       <div style="margin: 15px 0;">
         <a href="https://www.patreon.com/Funges" target="_blank">
@@ -708,13 +719,19 @@
     let longPressTimeout;
 
     const speciesOptions = {
-      "🍄 Porcino (Boletus edulis)": "mushroom",
+      "🍄 Porcino": "mushroom",
+      "🌱 Amaranth ": "amaranth",
       "🌱 Asparagus Wild ": "asparagus",
       "🍄 Black Chanterelle": "black_chant",
       "🍄 Black Truffle": "truffle_b",
       "🌰 Chestnut": "chestnut",
+      "🌱 Chickweed": "chickweed",
+      "🌱 Dandelion": "dandelion",
       "🌱 Garlic Wild": "garlic",
+      "🌱 Larch Cones": "larch_cones",   
       "🌱 Lingonberry": "lingonb",
+      "🌱 Masterwort": "morel",
+      "🍄 Morel": "morel",
       "🍄 Parasol Mushroom": "parasol",
       "🍇 Strawberry Wild": "strawberry",
       "🌰 Walnut": "walnut"
@@ -817,11 +834,11 @@
                 }
             } catch (error) {
                 console.error("Error parsing visitors.json:", error);
-                return "pk.Nothing"; // Fallback in case of JSON error
+                return "pk.eyJ1IjoibG9kaXN0IiwiYSI6ImNtM3g3dTVuaTE2dW8yaXM1eDE1dXVmZG4ifQ.xrGoky5Mzc6gwO5z8n6CoQ"; // Fallback in case of JSON error
             }
         } else {
             console.error("Failed to load visitors.json, using default token.");
-            return "pk.Nothing"; // Fallback if request fails
+            return "pk.eyJ1IjoibG9kaXN0IiwiYSI6ImNtM3g3dTVuaTE2dW8yaXM1eDE1dXVmZG4ifQ.xrGoky5Mzc6gwO5z8n6CoQ"; // Fallback if request fails
         }
     }
 
