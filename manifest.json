@@ -9,14 +9,9 @@
   "description": "Real-time map of wild mushrooms and edible plants using weather and geospatial data.",
   "icons": [
     {
-      "src": "/icons/Logo_192.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "/icons/Logo_512.png",
-      "sizes": "512x512",
-      "type": "image/png"
+      "src": "/icons/logo_app.png",
+      "type": "image/png",
+      "sizes": "512x512"
     }
   ]
 }
