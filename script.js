@@ -367,7 +367,10 @@ function toggleNearbyModal() {
           if (scores.length) {
             console.log(`🍄 Feature ${i + 1} with scores:`, scores);
             scores.forEach(([key, value]) => {
-              const edibleName = key.replace('_score', '').replace(/_/g, ' ');
+                
+              const speciesCode = key.replace('_score', '');
+              const edibleName = speciesDisplayMap[speciesCode] || speciesCode.replace(/_/g, ' ');
+
               if (!foundItems[edibleName] || value > foundItems[edibleName]) {
                 foundItems[edibleName] = value;
               }
