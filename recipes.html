@@ -176,51 +176,30 @@
       }
       filterRecipes();
     }
-
-function filterRecipes() {
-  const allRecipes = document.querySelectorAll(".recipe");
-
-  const top = [], mid = [];
-
-  allRecipes.forEach(recipe => {
-    const speciesList = recipe.dataset.species.split(',').map(s => s.trim());
-    const matches = selectedSpecies.filter(s => speciesList.includes(s));
-
-    console.log("🔍 Recipe:", recipe.querySelector("h3").innerText);
-    console.log(" - speciesList:", speciesList);
-    console.log(" - selectedSpecies:", selectedSpecies);
-    console.log(" - matches:", matches);
-
-    if (selectedSpecies.length === 0) {
-      top.push(recipe);
-    } else if (matches.length === selectedSpecies.length) {
-      top.push(recipe);
-    } else if (matches.length > 0) {
-      mid.push(recipe);
+    
+    function filterRecipes() {
+      const allRecipes = document.querySelectorAll(".recipe");
+    
+      allRecipes.forEach(recipe => {
+        const speciesList = recipe.dataset.species.split(',').map(s => s.trim());
+        const matches = selectedSpecies.filter(s => speciesList.includes(s));
+    
+        console.log("🔍 Recipe:", recipe.querySelector("h3").innerText);
+        console.log(" - speciesList:", speciesList);
+        console.log(" - selectedSpecies:", selectedSpecies);
+        console.log(" - matches:", matches);
+    
+        if (selectedSpecies.length === 0) {
+          recipe.style.display = "block";
+        } else if (matches.length === selectedSpecies.length) {
+          recipe.style.display = "block";
+        } else if (matches.length > 0) {
+          recipe.style.display = "block";
+        } else {
+          recipe.style.display = "none";
+        }
+      });
     }
-    // else → do not push to top/mid
-  });
-
-  const list = document.getElementById("recipe-list");
-  list.innerHTML = "";
-
-  const allVisible = [...top, ...mid];
-  const allRecipesArr = Array.from(document.querySelectorAll(".recipe"));
-
-  // Show visible recipes
-  allVisible.forEach(r => {
-    r.style.display = "block";
-    list.appendChild(r);
-  });
-
-  // Hide the rest (if not already filtered out)
-  allRecipesArr.forEach(recipe => {
-    if (!allVisible.includes(recipe)) {
-      recipe.style.display = "none";
-    }
-  });
-}
-
 
 
     renderSpeciesOptions();
