@@ -558,7 +558,17 @@
     #topbar a:hover {
       background-color: #f0eada;
     }
-
+    #google_translate_element {
+      position: fixed;
+      top: 55px; /* Just below the topbar */
+      right: 12px;
+      z-index: 9999;
+      background: rgba(255, 252, 239, 0.9);
+      border-radius: 8px;
+      padding: 5px 8px;
+      font-size: 14px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
     
   </style>
 </head>
@@ -571,6 +581,8 @@
     <a href="recipes.html">Recipes</a>
   </div>
   
+  <div id="google_translate_element"></div>
+    
   <div id="species-selector">
     <div id="species-display" onclick="toggleSpeciesDropdown()">
       <span id="current-species-label"></span> ▼
@@ -712,6 +724,18 @@
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-tflite"></script>
 
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement(
+        {
+          pageLanguage: 'en',
+          layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+        },
+        'google_translate_element'
+      );
+    }
+  </script>
+  <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
   
   <script>
     let layersVisible = false;
