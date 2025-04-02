@@ -383,7 +383,7 @@ function toggleNearbyModal() {
         intro.style.marginBottom = "12px";
 
         if (sortedItems.length === 0) {
-          intro.innerHTML = "🪵 Dear forager, the season is tough at the moment—nothing seems to be growing around you. But don't worry, better times will come. Stay tuned for more edibles to be added soon!";
+          intro.innerHTML = "🍃 Dear forager, the season is tough at the moment—nothing seems to be growing around you. But don't worry, better times will come. Stay tuned for more edibles to be added soon!";
           listContainer.appendChild(intro);
         } else {
           intro.innerHTML = "🌿 Hey fellow forager! Following edibles could be growing in your proximity:";
