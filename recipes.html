@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Wild Recipes with Foraged Ingredients</title>
+  <title>Recipes – Filter by Wild Edibles</title>
   <style>
     body {
       margin: 0;
@@ -16,88 +16,180 @@
       max-width: 900px;
       margin: auto;
     }
-    .dropdown-container {
-      margin-bottom: 30px;
+    .dropdown-wrapper {
+      position: relative;
+      display: inline-block;
+      margin-bottom: 20px;
     }
-    select {
+    #dropdown-toggle {
       padding: 10px;
-      font-size: 16px;
-      border-radius: 5px;
       border: 1px solid #ccc;
+      border-radius: 6px;
+      background: rgba(255, 252, 239, 0.95);
+      cursor: pointer;
+      font-size: 16px;
+      min-width: 260px;
+      text-align: center;
+    }
+    #dropdown-panel {
+      display: none;
+      position: absolute;
+      z-index: 999;
+      background: rgba(255, 252, 239, 0.95);
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      padding: 10px;
+      max-height: 300px;
+      overflow-y: auto;
+      width: max-content;
+      min-width: 260px;
+    }
+    .emoji-filter {
+      font-size: 20px;
+      padding: 4px 8px;
+      cursor: pointer;
+      border-radius: 6px;
+      margin: 0 4px;
+      transition: background 0.2s ease;
+    }
+    .emoji-filter:hover {
+      background: #ffe;
+    }
+    .species-option {
+      display: flex;
+      align-items: center;
+      margin: 6px 0;
+    }
+    .species-option input[type="checkbox"] {
+      margin-right: 8px;
     }
     .recipe {
-      margin-bottom: 30px;
-      display: none;
+      padding: 15px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      background: white;
+      margin-bottom: 20px;
     }
     .recipe h3 {
-      margin-bottom: 5px;
-      font-size: 22px;
-    }
-    .recipe p {
-      margin: 0;
+      margin-top: 0;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>Recipes with Wild Ingredients</h1>
-    <p>Select one or more wild species below to filter the recipes based on their ingredients.</p>
-    
-    <div class="dropdown-container">
-      <select id="species-select" multiple size="6" onchange="filterRecipes()">
-        <option value="mushroom">Porcini</option>
-        <option value="black_chant">Black Chanterelle</option>
-        <option value="amaranth">Amaranth</option>
-        <option value="asparagus">Wild Asparagus</option>
-        <option value="chestnut">Chestnut</option>
-        <option value="garlic">Wild Garlic</option>
-        <!-- Add more species as needed -->
-      </select>
+    <div class="dropdown-wrapper">
+      <div id="dropdown-toggle" onclick="toggleDropdown()">Select Ingredients ▼</div>
+      <div id="dropdown-panel">
+        <div style="text-align: center; margin-bottom: 10px;">
+          <span class="emoji-filter" onclick="setEmojiFilter('🍄')">🍄</span>
+          <span class="emoji-filter" onclick="setEmojiFilter('🌱')">🌱</span>
+          <span class="emoji-filter" onclick="setEmojiFilter('🌰')">🌰</span>
+          <span class="emoji-filter" onclick="setEmojiFilter('🍇')">🍇</span>
+          <span class="emoji-filter" onclick="setEmojiFilter('')">✖️</span>
+        </div>
+        <div id="species-options"></div>
+      </div>
     </div>
 
     <div id="recipe-list">
-      <div class="recipe" data-species="mushroom,black_chant">
-        <h3>Porcini & Black Chanterelle Risotto</h3>
-        <p>A creamy risotto combining two prized forest mushrooms.</p>
+      <div class="recipe" data-species="porcini">
+        <h3>Porcini Risotto</h3>
+        <p>Classic Italian rice dish with fresh porcini mushrooms, garlic, and Parmesan cheese.</p>
       </div>
-
-      <div class="recipe" data-species="mushroom">
-        <h3>Porcini Pasta</h3>
-        <p>Simple tagliatelle with sautéed porcini mushrooms.</p>
+      <div class="recipe" data-species="porcini,black_chant">
+        <h3>Wild Mushroom Stew</h3>
+        <p>Hearty stew with black chanterelles, porcini, carrots, and wild herbs.</p>
       </div>
-
-      <div class="recipe" data-species="chestnut,garlic">
-        <h3>Chestnut Soup with Wild Garlic</h3>
-        <p>A warm soup perfect for autumn, using forest chestnuts and fresh wild garlic.</p>
+      <div class="recipe" data-species="black_chant">
+        <h3>Black Chanterelle Pasta</h3>
+        <p>Tagliatelle with black chanterelles, cream, and thyme.</p>
       </div>
-
-      <!-- Add more recipes with their respective data-species values -->
     </div>
   </div>
 
   <script>
-    function filterRecipes() {
-      const selectedOptions = Array.from(document.getElementById('species-select').selectedOptions).map(opt => opt.value);
-      const recipes = document.querySelectorAll('.recipe');
-      
-      recipes.forEach(recipe => {
-        const species = recipe.getAttribute('data-species').split(',');
-        const hasAll = selectedOptions.every(opt => species.includes(opt));
-        const hasSome = selectedOptions.some(opt => species.includes(opt));
+    const speciesOptions = {
+      "🍄 Porcino": "mushroom",
+      "🌱 Amaranth ": "amaranth",
+      "🌱 Asparagus Wild ": "asparagus",
+      "🍄 Black Chanterelle": "black_chant",
+      "🍄 Black Truffle": "truffle_b",
+      "🌰 Chestnut": "chestnut",
+      "🌱 Chickweed": "chickweed",
+      "🌱 Dandelion": "dandelion",
+      "🌱 Garlic Wild": "garlic",
+      "🌱 Larch Cone": "larch_cones",   
+      "🍇 Lingonberry": "lingonb",
+      "🌱 Masterwort": "masterwort",
+      "🍄 Morel": "morel",
+      "🌱 Nettle": "nettle",
+      "🍄 Parasol Mushroom": "parasol",
+      "🌱 Sorrel": "sorrel",
+      "🍇 Raspberry": "raspberry",
+      "🍇 Strawberry Wild": "strawberry",
+      "🌰 Walnut": "walnut"
+    };
 
-        if (selectedOptions.length === 0) {
-          recipe.style.display = 'block';
-        } else if (hasAll) {
-          recipe.style.display = 'block';
-          recipe.style.order = 1;
-        } else if (hasSome) {
-          recipe.style.display = 'block';
-          recipe.style.order = 2;
+    let selectedSpecies = [];
+    let emojiFilter = "";
+
+    function toggleDropdown() {
+      const panel = document.getElementById("dropdown-panel");
+      panel.style.display = panel.style.display === "block" ? "none" : "block";
+    }
+
+    function setEmojiFilter(emoji) {
+      emojiFilter = emoji;
+      renderSpeciesOptions();
+    }
+
+    function renderSpeciesOptions() {
+      const container = document.getElementById("species-options");
+      container.innerHTML = "";
+      for (const [label, value] of Object.entries(speciesOptions)) {
+        if (emojiFilter === "" || label.includes(emojiFilter)) {
+          const option = document.createElement("div");
+          option.className = "species-option";
+          option.innerHTML = `<input type="checkbox" value="${value}" onchange="toggleSpecies(this)"> ${label}`;
+          container.appendChild(option);
+        }
+      }
+    }
+
+    function toggleSpecies(checkbox) {
+      const value = checkbox.value;
+      if (checkbox.checked) {
+        selectedSpecies.push(value);
+      } else {
+        selectedSpecies = selectedSpecies.filter(s => s !== value);
+      }
+      filterRecipes();
+    }
+
+    function filterRecipes() {
+      const allRecipes = document.querySelectorAll(".recipe");
+      const top = [], mid = [], hidden = [];
+
+      allRecipes.forEach(recipe => {
+        const speciesList = recipe.dataset.species.split(',');
+        const matches = selectedSpecies.filter(s => speciesList.includes(s));
+
+        if (matches.length === selectedSpecies.length && selectedSpecies.length > 0) {
+          top.push(recipe);
+        } else if (matches.length > 0) {
+          mid.push(recipe);
         } else {
-          recipe.style.display = 'none';
+          hidden.push(recipe);
         }
       });
+
+      const list = document.getElementById("recipe-list");
+      list.innerHTML = "";
+      [...top, ...mid].forEach(r => { r.style.display = "block"; list.appendChild(r); });
+      hidden.forEach(r => r.style.display = "none");
     }
+
+    renderSpeciesOptions();
   </script>
 </body>
 </html>
