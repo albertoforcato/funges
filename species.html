@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link rel="canonical" href="https://www.fung.es/recipes.html">
+  <link rel="canonical" href="https://www.fung.es/items.html">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Wild Edibles & Foraging Items</title>
@@ -12,10 +12,17 @@
       font-family: Arial, sans-serif;
       background: linear-gradient(to bottom, rgba(255, 252, 239, 0.95), rgba(240, 240, 230, 0.95));
       color: black;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
     }
     .container {
       max-width: 900px;
       margin: auto;
+    }
+    .logo {
+      width: 250px;
+      margin-bottom: 20px;
     }
     .item {
       margin-bottom: 30px;
@@ -57,28 +64,86 @@
     }
   </script>
   <div class="container">
+    <img src="https://raw.githubusercontent.com/lodist/funges/main/icons/logo_funges.webp" alt="Logo" class="logo">
     <h1>Wild Edibles on Funges</h1>
     <p>These are the wild plants, berries, nuts and mushrooms currently featured on the map. Each has specific growing conditions, and their presence is inferred from environmental data.</p>
 
-    <div class="item"><h3>Amaranth</h3><p>Edible plant with green or red leaves and small seeds. Young leaves are eaten raw or cooked. Seeds are collected and used like grains.</p></div>
-    <div class="item"><h3>Asparagus (Wild)</h3><p>Thin green shoots that grow from perennial roots. Shoots are collected in spring before they become woody. Grows near shrubs, trails, and edges of forests.</p></div>
-    <div class="item"><h3>Black Chanterelle</h3><p>Dark gray to black mushroom with a funnel shape. Grows on forest floors among leaf litter, especially in deciduous woods. Appears in late summer and autumn.</p></div>
-    <div class="item"><h3>Chestnut</h3><p>Brown edible nuts enclosed in spiny husks. Ripen in autumn and fall from the tree. Often collected from the ground in chestnut woodlands.</p></div>
-    <div class="item"><h3>Chickweed</h3><p>Low-growing plant with oval leaves and small white flowers. Young leaves and stems are edible. Common in gardens and damp soils.</p></div>
-    <div class="item"><h3>Dandelion</h3><p>Widespread plant with jagged leaves, yellow flowers, and deep roots. Leaves are used fresh or cooked. Roots are harvested in autumn.</p></div>
-    <div class="item"><h3>Garlic (Wild)</h3><p>Also called ramsons. Has broad, lance-shaped green leaves and white flowers. Smells like garlic. Found in damp, shaded forests.</p></div>
-    <div class="item"><h3>Larch Cones</h3><p>Small cones from the larch tree. Collected for extract or syrup. Larch is the only deciduous conifer in Europe, with needle drop in autumn.</p></div>
-    <div class="item"><h3>Lingonberry</h3><p>Evergreen shrub producing small red berries. Berries are tart and used in preserves. Grows in acidic soils of boreal forests.</p></div>
-    <div class="item"><h3>Masterwort</h3><p>Herbaceous plant native to mountainous areas. Has toothed leaves and white or pink umbrella-like flower heads. Historically used in alpine cooking.</p></div>
-    <div class="item"><h3>Morel</h3><p>Mushroom with a cone-shaped, honeycomb-textured cap. Grows in moist forests and clearings after spring rains. Hollow inside.</p></div>
-    <div class="item"><h3>Porcini</h3><p>Large mushroom with thick white stalk and brown cap. Found near conifer and broadleaf trees. Cap is smooth, pores underneath instead of gills.</p></div>
-    <div class="item"><h3>Nettle</h3><p>Herbaceous plant with serrated leaves and stinging hairs. Leaves are edible when cooked or dried. Found in nutrient-rich soils.</p></div>
-    <div class="item"><h3>Parasol Mushroom</h3><p>Large mushroom with a tall stem and a wide, scaly cap. Found in grassy areas, forest edges, and clearings in late summer and autumn.</p></div>
-    <div class="item"><h3>Raspberry</h3><p>Shrub with woody stems and thorny branches. Produces red aggregate fruits in summer. Common in sunny clearings and disturbed areas.</p></div>
-    <div class="item"><h3>Sorrel</h3><p>Perennial herb with arrow-shaped leaves. Tastes sour due to oxalic acid. Used in soups, sauces, and salads.</p></div>
-    <div class="item"><h3>Strawberry (Wild)</h3><p>Small plant with runners and trifoliate leaves. Produces tiny red fruits with a strong aroma. Found in sunny slopes and woodland edges.</p></div>
-    <div class="item"><h3>Truffle (Black)</h3><p>Fungus that grows underground in symbiosis with tree roots. Collected using trained animals. Found in calcareous soils of southern Europe.</p></div>
-    <div class="item"><h3>Walnut</h3><p>Tree producing green husks that contain brown-shelled nuts. Nuts are collected in autumn after falling. Common in woodlands and valleys.</p></div>
+    <div class="item"><h3>Amaranth (<em>Amaranthus spp.</em>)</h3>
+      <p>A highly versatile plant with vibrant green or red leaves and tiny protein-rich seeds. The young leaves can be used like spinach, while the seeds are a traditional grain substitute packed with nutrients. Foragers prize it for its dual use — leafy greens and pseudo-cereal — often thriving in disturbed soils and open sunny areas.</p>
+    </div>
+    
+    <div class="item"><h3>Wild Asparagus (<em>Asparagus acutifolius</em>)</h3>
+      <p>Slender green spears pushing through the soil in early spring mark the arrival of wild asparagus. Unlike its cultivated cousin, it grows among shrubs and hedges, especially near trails. Its tender shoots offer a concentrated flavor and are one of the earliest foraged vegetables of the year.</p>
+    </div>
+    
+    <div class="item"><h3>Black Chanterelle (<em>Craterellus cornucopioides</em>)</h3>
+      <p>Nicknamed “horn of plenty,” this elusive mushroom has a smoky black hue and trumpet shape. It thrives in damp leaf litter under beech and oak trees. With a rich aroma and excellent shelf life when dried, it's a prized ingredient in broths and sauces, making the effort of finding it well worth it.</p>
+    </div>
+    
+    <div class="item"><h3>Chestnut (<em>Castanea sativa</em>)</h3>
+      <p>Sweet, starchy nuts encased in spiky husks, dropping from towering chestnut trees in autumn. They’ve been a staple in mountain diets for centuries — eaten roasted, milled into flour, or boiled. Chestnuts offer energy-rich sustenance and are abundant in traditional chestnut groves.</p>
+    </div>
+    
+    <div class="item"><h3>Chickweed (<em>Stellaria media</em>)</h3>
+      <p>A delicate green carpet of edible leaves and starry white flowers. Chickweed is easy to identify and grows almost year-round in moist, nutrient-rich soil. Its mild flavor makes it a go-to wild salad green and an accessible entry point for urban and rural foragers alike.</p>
+    </div>
+    
+    <div class="item"><h3>Dandelion (<em>Taraxacum officinale</em>)</h3>
+      <p>One of the most widespread and versatile plants in the wild. Every part — leaf, flower, and root — is edible and medicinal. Leaves are bitter and rich in minerals, roots can be roasted as a coffee alternative, and the flowers are used in syrups and infusions. It’s a resilient gift from nature.</p>
+    </div>
+    
+    <div class="item"><h3>Wild Garlic (<em>Allium ursinum</em>)</h3>
+      <p>Aromatic green leaves and white blossoms that carpet forest floors in spring. Also known as ramsons, this plant emits a strong garlic scent and grows in moist, shaded areas. It’s easy to recognize and brings a garlicky kick to pestos, oils, and spreads — a springtime treasure.</p>
+    </div>
+    
+    <div class="item"><h3>Larch Cones (<em>Larix decidua</em>)</h3>
+      <p>The only deciduous conifer in Europe, larch sheds its needles in winter and produces small woody cones. While not a direct food source, the young cones are foraged for their resinous properties and used in medicinal syrups or flavor extracts in traditional herbal recipes.</p>
+    </div>
+    
+    <div class="item"><h3>Lingonberry (<em>Vaccinium vitis-idaea</em>)</h3>
+      <p>Tiny ruby-red berries growing low on evergreen shrubs in boreal forests and alpine heaths. Tart and high in antioxidants, they’re traditionally made into preserves or sauces. Lingonberries thrive in acidic soils and often grow alongside wild blueberries and mosses.</p>
+    </div>
+    
+    <div class="item"><h3>Masterwort (<em>Peucedanum ostruthium</em>)</h3>
+      <p>A perennial from mountainous regions with aromatic leaves and umbels of white or pinkish flowers. Historically used as both food and folk medicine. It can be found in alpine meadows and pastures and has a long tradition in herbal liqueurs and rustic dishes of central Europe.</p>
+    </div>
+    
+    <div class="item"><h3>Morel (<em>Morchella esculenta</em>)</h3>
+      <p>Among the most sought-after wild mushrooms, easily recognized by their honeycomb cap and hollow body. Appears briefly in spring, especially after rain, in forests, riverbanks, and old burns. With an earthy, nutty flavor, morels are a delicacy that reward those who know where to look.</p>
+    </div>
+    
+    <div class="item"><h3>Porcini (<em>Boletus edulis</em>)</h3>
+      <p>Also called “king bolete,” this robust mushroom grows under pine, spruce, and oak. It has a firm white stem and a smooth brown cap, with sponge-like pores underneath. Porcini are rich in umami and highly valued fresh or dried — one of Europe’s iconic wild edibles.</p>
+    </div>
+    
+    <div class="item"><h3>Nettle (<em>Urtica dioica</em>)</h3>
+      <p>Known for its sting, but also for its high iron and vitamin content. Nettle thrives in rich, damp soils and can be found near streams, barns, and trails. Once cooked or dried, it loses its sting and becomes a powerhouse for soups, teas, and herbal tonics.</p>
+    </div>
+    
+    <div class="item"><h3>Parasol Mushroom (<em>Macrolepiota procera</em>)</h3>
+      <p>Tall and unmistakable, with a snakeskin-patterned stem and broad, scaly cap. Found in open grassy areas, forest edges, and clearings. Its meaty texture makes it popular for grilling or breading. It’s a reliable find in late summer and autumn.</p>
+    </div>
+    
+    <div class="item"><h3>Raspberry (<em>Rubus idaeus</em>)</h3>
+      <p>Sweet red fruits hanging from thorny canes in summer. Raspberries grow wild along forest margins, hedgerows, and clearings. The berries are nutrient-rich and fragrant, and even the leaves can be used for herbal tea.</p>
+    </div>
+    
+    <div class="item"><h3>Sorrel (<em>Rumex acetosa</em>)</h3>
+      <p>Arrow-shaped leaves with a distinctly sour, lemony taste due to natural oxalates. Found in meadows and pastures, sorrel is excellent in soups and sauces. Its tangy punch brings brightness to wild greens mixes and springtime dishes.</p>
+    </div>
+    
+    <div class="item"><h3>Wild Strawberry (<em>Fragaria vesca</em>)</h3>
+      <p>Small, fragrant berries bursting with flavor, hidden among heart-shaped leaves and white blossoms. Found in forest clearings and sunny slopes. More aromatic and concentrated than cultivated varieties, these berries are a nostalgic favorite among foragers.</p>
+    </div>
+    
+    <div class="item"><h3>Black Truffle (<em>Tuber melanosporum</em>)</h3>
+      <p>A subterranean fungus that grows in symbiosis with oak, hazel, and hornbeam. Found in calcareous soils and collected with trained dogs or pigs. Valued for its deep aroma and culinary luxury, the black truffle is a rare prize of the Mediterranean forest floor.</p>
+    </div>
+    
+    <div class="item"><h3>Walnut (<em>Juglans regia</em>)</h3>
+      <p>Tall tree producing thick-husked nuts that fall in early autumn. Wild walnuts can be found in valleys, old estates, and mixed woodlands. The nuts are rich in oils and protein, stored easily, and used in baking, sauces, and traditional liqueurs.</p>
+    </div>
+
   </div>
 </body>
 </html>
