@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -110,7 +111,7 @@
         width: calc(100% - 80px); /* Subtract sidebar width */
         position: absolute; /* Keep it positioned correctly */
         left: 80px; /* Offset by the sidebar width */
-        top: 0;
+        top: 50px;
         bottom: 0;
         z-index: 0;
     }
@@ -313,7 +314,7 @@
     }
     #species-selector {
       position: fixed;
-      top: 20px;
+      top: 75px;
       left: calc(50% + 40px); 
       transform: translateX(-50%);
       z-index: 9999;
@@ -321,15 +322,6 @@
       border-radius: 0;
       box-shadow: none;
       background: none; /* keep none, the container shouldn't have background */
-    }
-    #species-dropdown {
-      font-size: 16px;
-      padding: 6px;
-      border-radius: 4px;
-      border: 1px solid #ccc;
-      background-color: rgba(255, 252, 239, 0.9);
-      width: auto;
-      min-width: 180px;
     }
     #species-display {
       padding: 6px 10px;
@@ -532,19 +524,40 @@
       max-width: 320px;
       padding: 15px;
       }
+      #topbar a {
+        font-size: 12px !important;
+        padding: 4px 2px !important;      
+      }
+      #topbar {
+        gap: 1rem !important;
+      }
     }
     
-    #species-header-text {
-      color: rgba(255, 252, 245, 1); /* Light text */
-      background: rgba(30, 30, 30, 0.5); /* Anthracite opaque background */
+    #topbar {
+      position: fixed;
+      top: 0;
+      left: 80px; /* adjust to avoid sidebar overlap */
+      right: 0;
+      height: 50px;
+      background-color: rgba(255, 252, 239, 0.95); /* match your design */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4rem;
+      z-index: 9999;
       font-weight: bold;
-      font-size: 16px;
-      letter-spacing: 0.5px;
-      margin-bottom: 15px;
-      text-align: center;
-      padding: 8px 16px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Optional: subtle outer shadow */
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    #topbar a {
+      color: #333;
+      text-decoration: none;
+      font-size: 18px;
+      padding: 8px 30px;
+      border-radius: 6px;
+      transition: background 0.2s ease;
+    }    
+    #topbar a:hover {
+      background-color: #f0eada;
     }
 
     
@@ -552,8 +565,14 @@
 </head>
   <body>
   
+  <!-- Top Navigation Bar -->
+  <div id="topbar">
+    <a href="instructions.html">How It Works</a>
+    <a href="species.html">Wild Species</a>
+    <a href="recipes.html">Recipes</a>
+  </div>
+  
   <div id="species-selector">
-    <div id="species-header-text">REAL-TIME FORAGING METRICS</div>
     <div id="species-display" onclick="toggleSpeciesDropdown()">
       <span id="current-species-label"></span> ▼
     </div>
@@ -607,11 +626,6 @@
 
     <div class="button">
       <img src="https://raw.githubusercontent.com/lodist/funges/main/icons/cooking_1.webp" alt="Nearby Edibles" loading="lazy" onclick="toggleNearbyModal()">
-    </div>
-    <div class="button">
-      <a href="instructions.html">
-        <img src="https://raw.githubusercontent.com/lodist/funges/main/icons/info_1.webp" alt="Info Button" loading="lazy">
-      </a>
     </div>
     <div class="button" onclick="locateUser()">
       <img src="https://raw.githubusercontent.com/lodist/funges/main/icons/location_1.webp" alt="Locate Me Button" loading="lazy">
@@ -719,14 +733,23 @@
     let longPressTimeout;
 
     const speciesOptions = {
-      "🍄 Porcino (Boletus edulis)": "mushroom",
+      "🍄 Porcino": "mushroom",
+      "🌱 Amaranth ": "amaranth",
       "🌱 Asparagus Wild ": "asparagus",
       "🍄 Black Chanterelle": "black_chant",
       "🍄 Black Truffle": "truffle_b",
       "🌰 Chestnut": "chestnut",
+      "🌱 Chickweed": "chickweed",
+      "🌱 Dandelion": "dandelion",
       "🌱 Garlic Wild": "garlic",
-      "🌱 Lingonberry": "lingonb",
+      "🌱 Larch Cone": "larch_cones",   
+      "🍇 Lingonberry": "lingonb",
+      "🌱 Masterwort": "masterwort",
+      "🍄 Morel": "morel",
+      "🌱 Nettle": "nettle",
       "🍄 Parasol Mushroom": "parasol",
+      "🌱 Sorrel": "sorrel",
+      "🍇 Raspberry": "raspberry",
       "🍇 Strawberry Wild": "strawberry",
       "🌰 Walnut": "walnut"
     };
