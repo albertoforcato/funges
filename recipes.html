@@ -78,7 +78,7 @@
 <body>
   <div class="container">
     <div class="dropdown-wrapper">
-      <div id="dropdown-toggle" onclick="toggleDropdown()">Select Ingredients ▼</div>
+      <div id="dropdown-toggle" onclick="toggleDropdown(event)">Select Ingredients ▼</div>
       <div id="dropdown-panel">
         <div style="text-align: center; margin-bottom: 10px;">
           <span class="emoji-filter" onclick="setEmojiFilter('🍄')">🍄</span>
@@ -118,7 +118,7 @@
       "🌱 Chickweed": "chickweed",
       "🌱 Dandelion": "dandelion",
       "🌱 Garlic Wild": "garlic",
-      "🌱 Larch Cone": "larch_cones",   
+      "🌱 Larch Cone": "larch_cones",
       "🍇 Lingonberry": "lingonb",
       "🌱 Masterwort": "masterwort",
       "🍄 Morel": "morel",
@@ -133,9 +133,10 @@
     let selectedSpecies = [];
     let emojiFilter = "";
 
-    function toggleDropdown() {
+    function toggleDropdown(event) {
       const panel = document.getElementById("dropdown-panel");
       panel.style.display = panel.style.display === "block" ? "none" : "block";
+      event.stopPropagation();
     }
 
     function closeDropdownOnClickOutside(e) {
@@ -150,7 +151,6 @@
     function setEmojiFilter(emoji) {
       emojiFilter = emoji;
       renderSpeciesOptions();
-      filterRecipes();
     }
 
     function renderSpeciesOptions() {
@@ -170,11 +170,10 @@
     function toggleSpecies(checkbox) {
       const value = checkbox.value;
       if (checkbox.checked) {
-        selectedSpecies.push(value);
+        if (!selectedSpecies.includes(value)) selectedSpecies.push(value);
       } else {
         selectedSpecies = selectedSpecies.filter(s => s !== value);
       }
-      renderSpeciesOptions();
       filterRecipes();
     }
 
@@ -200,7 +199,7 @@
       const list = document.getElementById("recipe-list");
       list.innerHTML = "";
       [...top, ...mid].forEach(r => { r.style.display = "block"; list.appendChild(r); });
-      hidden.forEach(r => r.style.display = "none");
+      hidden.forEach(r => { r.style.display = "none"; list.appendChild(r); });
     }
 
     renderSpeciesOptions();
