@@ -110,7 +110,7 @@
         width: calc(100% - 80px); /* Subtract sidebar width */
         position: absolute; /* Keep it positioned correctly */
         left: 80px; /* Offset by the sidebar width */
-        top: 0;
+        top: 40px;
         bottom: 0;
         z-index: 0;
     }
@@ -546,11 +546,45 @@
       border-radius: 10px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Optional: subtle outer shadow */
     }
+    
+    #topbar {
+      position: fixed;
+      top: 0;
+      left: 80px; /* adjust to avoid sidebar overlap */
+      right: 0;
+      height: 40px;
+      background-color: rgba(255, 252, 239, 0.95); /* match your design */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 3rem;
+      z-index: 9999;
+      font-weight: bold;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    #topbar a {
+      color: #333;
+      text-decoration: none;
+      font-size: 15px;
+      padding: 8px 12px;
+      border-radius: 6px;
+      transition: background 0.2s ease;
+    }    
+    #topbar a:hover {
+      background-color: #f0eada;
+    }
 
     
   </style>
 </head>
   <body>
+  
+  <!-- Top Navigation Bar -->
+  <div id="topbar">
+    <a href="instructions.html">How It Works</a>
+    <a href="species.html">Foraging Species</a>
+    <a href="recipes.html">Recipes</a>
+  </div>
   
   <div id="species-selector">
     <div id="species-header-text">REAL-TIME FORAGING METRICS</div>
