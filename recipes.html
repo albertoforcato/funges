@@ -76,7 +76,21 @@
   </style>
 </head>
 <body>
+  <button class="button" onclick="closePage()">X</button>
+  <script>
+    function closePage() {
+      if (document.referrer) {
+        window.history.back();
+      } else {
+        window.location.href = 'https://fung.es';
+      }
+    }
+  </script>
+
   <div class="container">
+    <img src="https://raw.githubusercontent.com/lodist/funges/main/icons/logo_funges.webp" alt="Logo" class="logo">
+
+    <!-- Now continue with your dropdown-wrapper or content -->
     <div class="dropdown-wrapper">
       <div id="dropdown-toggle" onclick="toggleDropdown(event)">Select Ingredients ▼</div>
       <div id="dropdown-panel">
