@@ -92,11 +92,11 @@
     </div>
 
     <div id="recipe-list">
-      <div class="recipe" data-species="porcini">
+      <div class="recipe" data-species="mushroom">
         <h3>Porcini Risotto</h3>
         <p>Classic Italian rice dish with fresh porcini mushrooms, garlic, and Parmesan cheese.</p>
       </div>
-      <div class="recipe" data-species="porcini,black_chant">
+      <div class="recipe" data-species="mushroom,black_chant">
         <h3>Wild Mushroom Stew</h3>
         <p>Hearty stew with black chanterelles, porcini, carrots, and wild herbs.</p>
       </div>
@@ -138,9 +138,19 @@
       panel.style.display = panel.style.display === "block" ? "none" : "block";
     }
 
+    function closeDropdownOnClickOutside(e) {
+      const panel = document.getElementById("dropdown-panel");
+      const toggle = document.getElementById("dropdown-toggle");
+      if (!panel.contains(e.target) && e.target !== toggle) {
+        panel.style.display = "none";
+      }
+    }
+    document.addEventListener("click", closeDropdownOnClickOutside);
+
     function setEmojiFilter(emoji) {
       emojiFilter = emoji;
       renderSpeciesOptions();
+      filterRecipes();
     }
 
     function renderSpeciesOptions() {
@@ -150,7 +160,8 @@
         if (emojiFilter === "" || label.includes(emojiFilter)) {
           const option = document.createElement("div");
           option.className = "species-option";
-          option.innerHTML = `<input type="checkbox" value="${value}" onchange="toggleSpecies(this)"> ${label}`;
+          const isChecked = selectedSpecies.includes(value) ? "checked" : "";
+          option.innerHTML = `<input type="checkbox" value="${value}" onchange="toggleSpecies(this)" ${isChecked}> ${label}`;
           container.appendChild(option);
         }
       }
@@ -163,6 +174,7 @@
       } else {
         selectedSpecies = selectedSpecies.filter(s => s !== value);
       }
+      renderSpeciesOptions();
       filterRecipes();
     }
 
@@ -174,7 +186,9 @@
         const speciesList = recipe.dataset.species.split(',');
         const matches = selectedSpecies.filter(s => speciesList.includes(s));
 
-        if (matches.length === selectedSpecies.length && selectedSpecies.length > 0) {
+        if (selectedSpecies.length === 0) {
+          top.push(recipe);
+        } else if (matches.length === selectedSpecies.length) {
           top.push(recipe);
         } else if (matches.length > 0) {
           mid.push(recipe);
@@ -190,6 +204,7 @@
     }
 
     renderSpeciesOptions();
+    filterRecipes();
   </script>
 </body>
 </html>
