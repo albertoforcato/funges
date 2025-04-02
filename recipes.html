@@ -166,9 +166,9 @@
         }
       }
     }
-
+    
     function toggleSpecies(checkbox) {
-      const value = checkbox.value;
+      const value = checkbox.value.trim();
       if (checkbox.checked) {
         if (!selectedSpecies.includes(value)) selectedSpecies.push(value);
       } else {
@@ -179,15 +179,21 @@
 
     function filterRecipes() {
       const allRecipes = document.querySelectorAll(".recipe");
+    
       const top = [], mid = [], hidden = [];
-
+    
       allRecipes.forEach(recipe => {
-        const speciesList = recipe.dataset.species.split(',');
+        const speciesList = recipe.dataset.species.split(',').map(s => s.trim());
         const matches = selectedSpecies.filter(s => speciesList.includes(s));
-
+    
+        console.log("🔍 Recipe:", recipe.querySelector("h3").innerText);
+        console.log(" - speciesList:", speciesList);
+        console.log(" - selectedSpecies:", selectedSpecies);
+        console.log(" - matches:", matches);
+    
         if (selectedSpecies.length === 0) {
           top.push(recipe);
-        } else if (matches.length === selectedSpecies.length) {
+        } else if (matches.length === selectedSpecies.length && matches.length === speciesList.length) {
           top.push(recipe);
         } else if (matches.length > 0) {
           mid.push(recipe);
@@ -195,12 +201,25 @@
           hidden.push(recipe);
         }
       });
-
+    
       const list = document.getElementById("recipe-list");
       list.innerHTML = "";
-      [...top, ...mid].forEach(r => { r.style.display = "block"; list.appendChild(r); });
-      hidden.forEach(r => { r.style.display = "none"; list.appendChild(r); });
+    
+      top.forEach(r => {
+        r.style.display = "block";
+        list.appendChild(r);
+      });
+    
+      mid.forEach(r => {
+        r.style.display = "block";
+        list.appendChild(r);
+      });
+    
+      hidden.forEach(r => {
+        r.style.display = "none";
+      });
     }
+
 
     renderSpeciesOptions();
     filterRecipes();
