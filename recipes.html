@@ -41,35 +41,37 @@
     }
     .dropdown-wrapper {
       position: relative;
-      display: block; /* <- was 'inline-block' */
+      display: block;
       margin-bottom: 20px;
+      width: 100%; /* ✅ Ensures wrapper takes full container width */
     }
+    
     #dropdown-toggle {
-      padding: 10px;
+      padding: 15px;
       border: 1px solid #ccc;
-      border-radius: 6px;
-      background: rgba(255, 252, 239, 0.95);
+      border-radius: 8px;
+      background: white;
       cursor: pointer;
       font-size: 16px;
-      min-width: 260px;
       text-align: center;
-      width: 100%; /* ✅ add this */
+      width: 100%; /* ✅ Matches full container width */
+      box-sizing: border-box; /* ✅ Includes padding/border inside the width */
     }
     
     #dropdown-panel {
       display: none;
       position: absolute;
       z-index: 999;
-      background: rgba(255, 252, 239, 0.95);
+      background: white;
       border: 1px solid #ccc;
-      border-radius: 6px;
-      padding: 10px;
+      border-radius: 8px;
+      padding: 15px;
       max-height: 300px;
       overflow-y: auto;
-      min-width: 260px;
-      width: 100%; /* ✅ add this */
-      box-sizing: border-box; /* ✅ so padding doesn't increase total width */
+      width: 100%; /* ✅ same width as toggle */
+      box-sizing: border-box;
     }
+
 
     .emoji-filter {
       font-size: 20px;
