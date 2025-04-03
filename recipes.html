@@ -106,10 +106,12 @@
   <button class="button" onclick="closePage()">X</button>
   <script>
     function closePage() {
-      if (document.referrer) {
-        window.history.back();
+      const currentUrl = window.location.href;
+      const hasIngredientsParam = currentUrl.includes('?ingredients=');    
+      if (hasIngredientsParam) {
+        window.close(); // Close the tab if opened from modal
       } else {
-        window.location.href = 'https://fung.es';
+        window.location.href = 'https://fung.es'; // Otherwise go back home
       }
     }
   </script>
