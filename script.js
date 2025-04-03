@@ -405,7 +405,6 @@ function toggleNearbyModal() {
           recipeLink.style.textDecoration = "underline";
           recipeLink.style.color = "#01796F";
           recipeLink.style.fontWeight = "bold"; // Make it bold
-          recipeLink.href = url.toString();
             
           // Build URL with selected species as query string
           const selectedKeys = sortedItems.map(([item]) => Object.entries(speciesDisplayMap).find(([code, name]) => name === item)?.[0] || item);
