@@ -396,6 +396,11 @@ function toggleNearbyModal() {
             li.innerHTML = `<strong>${speciesDisplayMap[item] || item}</strong>`;
             listContainer.appendChild(li);
           });
+
+          // Build URL with selected species as query string
+          const selectedKeys = sortedItems.map(([item]) => Object.entries(speciesDisplayMap).find(([code, name]) => name === item)?.[0] || item);
+          const url = new URL("https://fung.es/recipes.html");
+          url.searchParams.set("ingredients", selectedKeys.join(","));
             
           // 👉 Add "Go to recipes" link
           const recipeLink = document.createElement("a");
@@ -405,12 +410,6 @@ function toggleNearbyModal() {
           recipeLink.style.textDecoration = "underline";
           recipeLink.style.color = "#01796F";
           recipeLink.style.fontWeight = "bold"; // Make it bold
-          recipeLink.target = "_blank";
-            
-          // Build URL with selected species as query string
-          const selectedKeys = sortedItems.map(([item]) => Object.entries(speciesDisplayMap).find(([code, name]) => name === item)?.[0] || item);
-          const url = new URL("https://fung.es/recipes.html");
-          url.searchParams.set("ingredients", selectedKeys.join(","));
             
           recipeLink.href = url.toString();
           listContainer.appendChild(recipeLink);
