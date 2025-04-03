@@ -396,17 +396,15 @@ function toggleNearbyModal() {
             li.innerHTML = `<strong>${speciesDisplayMap[item] || item}</strong>`;
             listContainer.appendChild(li);
           });
-          const recipeNote = document.createElement("p");
-          recipeNote.innerHTML = "Creative recipes will be added soon for you";
-          listContainer.appendChild(recipeNote);
             
           // 👉 Add "Go to recipes" link
           const recipeLink = document.createElement("a");
-          recipeLink.innerText = "🍽️ Go to recipes with these ingredients";
+          recipeLink.innerText = "Go to recipes";
           recipeLink.style.display = "inline-block";
-          recipeLink.style.marginTop = "16px";
+          recipeLink.style.marginTop = "17px";
           recipeLink.style.textDecoration = "underline";
-          recipeLink.style.color = "#aa1100";
+          recipeLink.style.color = "#01796F";
+          recipeLink.style.fontWeight = "bold"; // Make it bold
           recipeLink.target = "_blank";
             
           // Build URL with selected species as query string
