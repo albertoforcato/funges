@@ -399,6 +399,23 @@ function toggleNearbyModal() {
           const recipeNote = document.createElement("p");
           recipeNote.innerHTML = "Creative recipes will be added soon for you";
           listContainer.appendChild(recipeNote);
+            
+          // 👉 Add "Go to recipes" link
+          const recipeLink = document.createElement("a");
+          recipeLink.innerText = "🍽️ Go to recipes with these ingredients";
+          recipeLink.style.display = "inline-block";
+          recipeLink.style.marginTop = "16px";
+          recipeLink.style.textDecoration = "underline";
+          recipeLink.style.color = "#aa1100";
+          recipeLink.target = "_blank";
+            
+          // Build URL with selected species as query string
+          const selectedKeys = sortedItems.map(([item]) => Object.entries(speciesDisplayMap).find(([code, name]) => name === item)?.[0] || item);
+          const url = new URL("https://fung.es/recipes.html");
+          url.searchParams.set("ingredients", selectedKeys.join(","));
+            
+          recipeLink.href = url.toString();
+          listContainer.appendChild(recipeLink);
         }
 
         console.log("✅ Modal ready with:", sortedItems);
