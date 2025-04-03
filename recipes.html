@@ -528,10 +528,19 @@
         }
       });
     }
+  
+    // 👉 Get species from URL before rendering options
+    function getQuerySpecies() {
+      const params = new URLSearchParams(window.location.search);
+      const ingredients = params.get("ingredients");
+      if (!ingredients) return;
+      selectedSpecies = ingredients.split(",").map(s => s.trim());
+    }
 
-
+    getQuerySpecies();
     renderSpeciesOptions();
     filterRecipes();
+    
   </script>
 </body>
 </html>
