@@ -404,7 +404,7 @@ function toggleNearbyModal() {
             
           // 👉 Add "Go to recipes" link
           const recipeLink = document.createElement("a");
-          recipeLink.innerText = "Go to recipes";
+          recipeLink.innerText = "Go to Recipes";
           recipeLink.style.display = "inline-block";
           recipeLink.style.marginTop = "17px";
           recipeLink.style.textDecoration = "underline";
