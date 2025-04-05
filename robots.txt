@@ -1,3 +1,4 @@
 User-agent: *
+Disallow: /test
 Allow: /
 Sitemap: https://fung.es/sitemap.xml
