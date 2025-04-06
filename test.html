@@ -351,6 +351,7 @@
       min-width: 260px;
       max-width: 360px;
       z-index: 9999;
+      font-size: 20px;
     }
     /* Center filter input cleanly */
     #custom-species-dropdown .filter-wrapper {
@@ -359,7 +360,16 @@
       margin-bottom: 12px;
     }
     #species-filter {
-      font-size: 18px; 
+      font-size: 20px; 
+    }
+    .species-option {
+      font-size: 20px;
+      padding: 6px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .species-option:hover {
+      background: #fff4dd;
     }
     /* Modal Styles */
     .modal-overlay {
@@ -467,14 +477,7 @@
     .emoji-filter:hover {
       background: #ffe;
     }
-    .species-option {
-      padding: 6px 10px;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    .species-option:hover {
-      background: #fff4dd;
-    }
+
     /* Mobile only */
     @media (max-width: 768px) {
       #qr-section {
@@ -493,8 +496,16 @@
       body {
         font-size: 14px;
       }
-      #species-dropdown {
-        font-size: 12px;
+      .species-option {
+        font-size: 11px;
+      }
+    
+      #custom-species-dropdown {
+        font-size: 11px;
+      }
+    
+      #species-filter {
+        font-size: 11px; /* optional: smaller filter input */
       }
       .patreon-button {
         font-size: 13px;
@@ -732,25 +743,25 @@
     let longPressTimeout;
 
     const speciesOptions = {
-      "🍄 Porcino": "mushroom",
-      "🌱 Amaranth ": "amaranth",
-      "🌱 Asparagus Wild ": "asparagus",
-      "🍄 Black Chanterelle": "black_chant",
-      "🍄 Black Truffle": "truffle_b",
-      "🌰 Chestnut": "chestnut",
-      "🌱 Chickweed": "chickweed",
-      "🌱 Dandelion": "dandelion",
-      "🌱 Garlic Wild": "garlic",
-      "🌱 Larch Cone": "larch_cones",   
-      "🍇 Lingonberry": "lingonb",
-      "🌱 Masterwort": "masterwort",
-      "🍄 Morel": "morel",
-      "🌱 Nettle": "nettle",
-      "🍄 Parasol Mushroom": "parasol",
-      "🌱 Sorrel": "sorrel",
-      "🍇 Raspberry": "raspberry",
-      "🍇 Strawberry Wild": "strawberry",
-      "🌰 Walnut": "walnut"
+      "🍄 Porcino (Boletus edulis)": "mushroom",
+      "🌱 Amaranth (Amaranthus retroflexus)": "amaranth",
+      "🌱 Asparagus Wild (Asparagus acutifolius)": "asparagus",
+      "🍄 Black Chanterelle (Craterellus cornucopioides)": "black_chant",
+      "🍄 Black Truffle (Tuber melanosporum)": "truffle_b",
+      "🌰 Chestnut (Castanea sativa)": "chestnut",
+      "🌱 Chickweed (Stellaria media)": "chickweed",
+      "🌱 Dandelion (Taraxacum officinale)": "dandelion",
+      "🌱 Garlic Wild (Allium ursinum)": "garlic",
+      "🌱 Larch Cone (Larix decidua)": "larch_cones",   
+      "🍇 Lingonberry (Vaccinium vitis-idaea)": "lingonb",
+      "🌱 Masterwort (Peucedanum ostruthium)": "masterwort",
+      "🍄 Morel (Morchella esculenta)": "morel",
+      "🌱 Nettle (Urtica dioica)": "nettle",
+      "🍄 Parasol Mushroom (Macrolepiota procera)": "parasol",
+      "🌱 Sorrel (Rumex acetosa)": "sorrel",
+      "🍇 Raspberry (Rubus idaeus)": "raspberry",
+      "🍇 Strawberry Wild (Fragaria vesca)": "strawberry",
+      "🌰 Walnut (Juglans regia)": "walnut"
     };
     // 🍄  🌱  🌸 🌰 🍇
     
