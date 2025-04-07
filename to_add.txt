@@ -1,273 +1,88 @@
-mushroom/berries rain first
-
-"amaranth": {
-    "optimal_temp": 18,
-    "temp_sigma": 4,
-    "optimal_alt": 1200,
-    "alt_sigma": 500,
-    "optimal_humidity": 70,
-    "humidity_sigma": 10,
-    "optimal_pH": 6.2,
-    "pH_sigma_near": 1.1,
-    "pH_sigma_far": 0.8,
-    "pH_range_near": (5.5, 7.0),
-    "optimal_soil_temp": 15,
-    "soil_temp_sigma": 2.5,
+"artichoke": {
+    "optimal_temp": 20,
+    "temp_sigma": 5,
+    "optimal_alt": 400,
+    "alt_sigma": 300,
+    "optimal_humidity": 65,
+    "humidity_sigma": 15,
+    "optimal_pH": 6.8,
+    "pH_sigma_near": 1.0,
+    "pH_sigma_far": 0.7,
+    "pH_range_near": (5.8, 7.8),
+    "optimal_soil_temp": 18.5,
+    "soil_temp_sigma": 4,
     "weather_preference": {
-        "rain_weight": 0.5,
-        "sun_weight": 0.4,
+        "rain_weight": 0.4,
+        "sun_weight": 0.5,
         "rain_first": False,
-        "undesirable_penalty": 0.3
+        "undesirable_penalty": 0.5
     },
     "climate_zones": ["alpine", "subarctic", "atlantic_islands", "mediterranean_dry_spain", "mediterranean_italy", "mediterranean_greece", "mediterranean_turkey", "oceanic_south", "oceanic_north", "continental", "temperate", "central_spain", "sardinia"],
-    "wind_sensitive": False,
+    "wind_sensitive": True,
     "season": ["spring", "summer"],
     "water_relevance": False,
     "sea_relevance": False
 }
+323,321,324
+Cynara cardunculus 
 
-321, 324
 
-
-"masterwort": {
-    "optimal_temp": 14,
-    "temp_sigma": 3,
-    "optimal_alt": 1400,
-    "alt_sigma": 350,
+"st_george": {
+    "optimal_temp": 13,
+    "temp_sigma": 4,
+    "optimal_alt": 800,
+    "alt_sigma": 450,
     "optimal_humidity": 80,
-    "humidity_sigma": 8,
-    "optimal_pH": 6.0,
-    "pH_sigma_near": 1.0,
+    "humidity_sigma": 12,
+    "optimal_pH": 7.0,
+    "pH_sigma_near": 0.9,
     "pH_sigma_far": 0.7,
-    "pH_range_near": (5.2, 6.8),
-    "optimal_soil_temp": 11,
-    "soil_temp_sigma": 2,
+    "pH_range_near": (6.5, 8.0),
+    "optimal_soil_temp": 12,
+    "soil_temp_sigma": 3.5,
     "weather_preference": {
         "rain_weight": 0.6,
         "sun_weight": 0.3,
-        "rain_first": False,
-        "undesirable_penalty": 0.4
+        "rain_first": True,
+        "undesirable_penalty": 0.6
     },
-    "climate_zones": ["alpine", "subarctic", "temperate", "continental"],
+    "climate_zones": ["alpine", "arctic", "subarctic", "atlantic_islands", "mediterranean_dry_spain", "mediterranean_italy", "mediterranean_greece", "mediterranean_turkey", "oceanic_south", "oceanic_north", "continental", "temperate", "central_spain", "sardinia"],
+    "wind_sensitive": False,
+    "season": ["spring"],
+    "water_relevance": False,
+    "sea_relevance": False
+}
+
+321,324
+Calocybe gambosa
+
+
+"chant": {
+    "optimal_temp": 16,
+    "temp_sigma": 3.5,
+    "optimal_alt": 900,
+    "alt_sigma": 500,
+    "optimal_humidity": 85,
+    "humidity_sigma": 8,
+    "optimal_pH": 5.5,
+    "pH_sigma_near": 0.6,
+    "pH_sigma_far": 0.4,
+    "pH_range_near": (4.8, 6.5),
+    "optimal_soil_temp": 14,
+    "soil_temp_sigma": 2.0,
+    "weather_preference": {
+        "rain_weight": 0.7,
+        "sun_weight": 0.2,
+        "rain_first": True,
+        "undesirable_penalty": 0.6
+    },
+    "climate_zones": ["alpine", "arctic", "subarctic", "atlantic_islands", "mediterranean_dry_spain", "mediterranean_italy", "mediterranean_greece", "mediterranean_turkey", "oceanic_south", "oceanic_north", "continental", "temperate", "central_spain", "sardinia"],
     "wind_sensitive": False,
     "season": ["summer", "autumn"],
     "water_relevance": False,
     "sea_relevance": False
 }
 
-321,324
 
-
-
-"nettle": {
-    "optimal_temp": 15,
-    "temp_sigma": 4,
-    "optimal_alt": 1000,
-    "alt_sigma": 400,
-    "optimal_humidity": 85,
-    "humidity_sigma": 10,
-    "optimal_pH": 6.3,
-    "pH_sigma_near": 1.2,
-    "pH_sigma_far": 0.9,
-    "pH_range_near": (5.5, 7.2),
-    "optimal_soil_temp": 13,
-    "soil_temp_sigma": 2.2,
-    "weather_preference": {
-        "rain_weight": 0.55,
-        "sun_weight": 0.35,
-        "rain_first": False,
-        "undesirable_penalty": 0.4
-    },
-    "climate_zones": ["alpine","arctic", "subarctic", "atlantic_islands", "mediterranean_dry_spain", "mediterranean_italy", "mediterranean_greece", "mediterranean_turkey", "oceanic_south", "oceanic_north", "continental", "temperate", "central_spain", "sardinia"],
-    "wind_sensitive": False,
-    "season": ["spring", "summer", "autumn"],
-    "water_relevance": True,
-    "sea_relevance": False,
-    "distance_thresholds": {
-        "water": 1000
-    }
-}
-
-311, 313, 324
-
-"morel": {
-    "optimal_temp": 12,
-    "temp_sigma": 4,
-    "optimal_alt": 950,
-    "alt_sigma": 300,
-    "optimal_humidity": 85,
-    "humidity_sigma": 8,
-    "optimal_pH": 6.2,
-    "pH_sigma_near": 1.0,
-    "pH_sigma_far": 0.6,
-    "pH_range_near": (5.5, 7.0),
-    "optimal_soil_temp": 10,
-    "soil_temp_sigma": 2.2,
-    "weather_preference": {
-        "rain_weight": 0.75,
-        "sun_weight": 0.2,
-        "rain_first": True,
-        "undesirable_penalty": 0.5
-    },
-    "climate_zones": ["alpine","arctic", "subarctic", "atlantic_islands", "mediterranean_dry_spain", "mediterranean_italy", "mediterranean_greece", "mediterranean_turkey", "oceanic_south", "oceanic_north", "continental", "temperate", "central_spain", "sardinia"],
-    "wind_sensitive": False,
-    "season": ["spring"],
-    "water_relevance": True,
-    "sea_relevance": False,
-    "distance_thresholds": {
-        "water": 1000
-    }
-
-}
-
-311, 313, 324
-
-
-"sorrel": {
-    "optimal_temp": 14,
-    "temp_sigma": 4,
-    "optimal_alt": 1100,
-    "alt_sigma": 400,
-    "optimal_humidity": 80,
-    "humidity_sigma": 9,
-    "optimal_pH": 5.8,
-    "pH_sigma_near": 1.0,
-    "pH_sigma_far": 0.7,
-    "pH_range_near": (5.0, 6.8),
-    "optimal_soil_temp": 12,
-    "soil_temp_sigma": 2,
-    "weather_preference": {
-        "rain_weight": 0.6,
-        "sun_weight": 0.3,
-        "rain_first": False,
-        "undesirable_penalty": 0.3
-    },
-    "climate_zones": ["alpine","subarctic", "atlantic_islands", "mediterranean_dry_spain", "mediterranean_italy", "mediterranean_greece", "mediterranean_turkey", "oceanic_south", "oceanic_north", "continental", "temperate", "central_spain", "sardinia"],
-    "wind_sensitive": False,
-    "season": ["spring", "summer"],
-    "water_relevance": True,
-    "sea_relevance": False,
-    "distance_thresholds": {
-        "water": 1300
-    },
-}
-
-321, 324
-
-"larch_cones": {
-    "optimal_temp": 9,
-    "temp_sigma": 3,
-    "optimal_alt": 1600,
-    "alt_sigma": 500,
-    "optimal_humidity": 75,
-    "humidity_sigma": 7,
-    "optimal_pH": 5.5,
-    "pH_sigma_near": 0.9,
-    "pH_sigma_far": 0.6,
-    "pH_range_near": (4.8, 6.4),
-    "optimal_soil_temp": 8,
-    "soil_temp_sigma": 1.5,
-    "weather_preference": {
-        "rain_weight": 0.4,
-        "sun_weight": 0.4,
-        "rain_first": False,
-        "undesirable_penalty": 0.2
-    },
-    "climate_zones": ["alpine", "subarctic", "temperate", "temperate", "oceanic_north"],
-    "wind_sensitive": False,
-    "season": ["autumn"],
-    "water_relevance": False,
-    "sea_relevance": False,
-}
-
-312, 313
-
-
-"raspberry": {
-    "optimal_temp": 17,
-    "temp_sigma": 4,
-    "optimal_alt": 1000,
-    "alt_sigma": 300,
-    "optimal_humidity": 85,
-    "humidity_sigma": 9,
-    "optimal_pH": 6.0,
-    "pH_sigma_near": 1.1,
-    "pH_sigma_far": 0.8,
-    "pH_range_near": (5.0, 7.0),
-    "optimal_soil_temp": 13,
-    "soil_temp_sigma": 2,
-    "weather_preference": {
-        "rain_weight": 0.6,
-        "sun_weight": 0.3,
-        "rain_first": True,
-        "undesirable_penalty": 0.4
-    },
-    "climate_zones": ["alpine", "temperate", "continental", "oceanic_north", "mediterranean_italy"],
-    "wind_sensitive": False,
-    "season": ["summer"],
-    "water_relevance": True,
-    "sea_relevance": False,
-    "distance_thresholds": {
-        "water": 1200
-    },
-   
-}
-
-311, 324
-
-"dandelion": {
-    "optimal_temp": 10,
-    "temp_sigma": 3.5,
-    "optimal_alt": 1000,
-    "alt_sigma": 400,
-    "optimal_humidity": 80,
-    "humidity_sigma": 8,
-    "optimal_pH": 6.2,
-    "pH_sigma_near": 1.0,
-    "pH_sigma_far": 0.7,
-    "pH_range_near": (5.5, 7.2),
-    "optimal_soil_temp": 9,
-    "soil_temp_sigma": 1.8,
-    "weather_preference": {
-        "rain_weight": 0.5,
-        "sun_weight": 0.4,
-        "rain_first": False,
-        "undesirable_penalty": 0.3
-    },
-    "climate_zones": ["temperate", "continental", "alpine", "oceanic_north", "subarctic"],
-    "wind_sensitive": False,
-    "season": ["spring", "summer", "autumn"],
-    "water_relevance": False,
-    "sea_relevance": False
-}
-321, 324
-
-"chickweed": {
-    "optimal_temp": 8.5,
-    "temp_sigma": 2.5,
-    "optimal_alt": 950,
-    "alt_sigma": 350,
-    "optimal_humidity": 85,
-    "humidity_sigma": 9,
-    "optimal_pH": 6.0,
-    "pH_sigma_near": 1.0,
-    "pH_sigma_far": 0.6,
-    "pH_range_near": (5.2, 6.8),
-    "optimal_soil_temp": 7,
-    "soil_temp_sigma": 1.5,
-    "weather_preference": {
-        "rain_weight": 0.6,
-        "sun_weight": 0.3,
-        "rain_first": False,
-        "undesirable_penalty": 0.2
-    },
-    "climate_zones": ["temperate", "continental", "alpine", "oceanic_north", "atlantic_islands"],
-    "wind_sensitive": False,
-    "season": ["spring", "autumn", "winter"],
-    "water_relevance": True,
-    "sea_relevance": False,
-    "distance_thresholds": {
-        "water": 1200
-    }
-}
-321, 324
+Cantharellus cibarius
+311,313,324
