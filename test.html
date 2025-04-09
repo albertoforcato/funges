@@ -585,8 +585,8 @@
       display: none;
       position: fixed;
       bottom: 45px;
-      left: calc(80px + 10px); /* 80px sidebar + 10px spacing */
-      right: 10px;
+      left: 50%;
+      transform: translateX(calc((80px - 50%) / 2)); /* Sidebar offset balancing */
       background: #fff4dd;
       padding: 10px 16px;
       border-radius: 10px;
@@ -597,7 +597,9 @@
       font-weight: bold;
       text-align: center;
       width: max-content;
+      max-width: calc(100vw - 100px); /* Prevent overflow on mobile */
     }
+
     
     #spontaneous-message.show {
       opacity: 1;
