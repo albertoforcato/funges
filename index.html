@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -545,6 +546,12 @@
       #topbar {
         gap: 1rem !important;
       }
+      #spontaneous-message {
+        font-size: 11px !important;
+        padding: 8px 12px;
+        left: calc(80px + 6px);
+        right: 6px;
+      }
     }
     
     #topbar {
@@ -573,7 +580,29 @@
     #topbar a:hover {
       background-color: #f0eada;
     }
+    
+    #spontaneous-message {
+      display: none;
+      position: fixed;
+      bottom: 45px;
+      left: calc(80px + ((100% - 80px) / 2)); /* Center between sidebar and right edge */
+      transform: translateX(-50%);
+      background: #fff4dd;
+      padding: 10px 16px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      font-size: 14px;
+      z-index: 99999;
+      color: #333;
+      font-weight: bold;
+      text-align: center;
+      width: max-content;
+      max-width: calc(100% - 130px); /* Avoid overflow */
+    }
 
+    #spontaneous-message.show {
+      opacity: 1;
+    }
     
   </style>
 </head>
@@ -612,7 +641,7 @@
   <div id="splash-screen">
       <img src="https://raw.githubusercontent.com/lodist/funges/main/icons/logo_funges.webp" alt="Funges Logo - Natural Resources Map" loading="lazy">
   </div>
-  
+    
   <!-- Button Bar -->
   <div id="button-bar">
     <div class="logo">
@@ -720,6 +749,10 @@
       <p>In the meantime, enjoy this slightly less-than-perfect Boletus map — at least until we hit the threshold for this map as well 😅</p>
     </div>
   </div>
+  
+  <div id="spontaneous-message">
+    📢 Appears Spontaneously and Sparsely in Season
+  </div>
 
   <!-- Class Names -->
   <script src="https://pub-92765923660e431daff3170fbef6471d.r2.dev/class_names.js"></script>
@@ -728,6 +761,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-tflite"></script>
 
+  
   
   <script>
     let layersVisible = false;
@@ -774,6 +808,24 @@
       return acc;
     }, {});
 
+  </script>
+  
+  <script>
+  
+  const spontaneousSpecies = ["amaranth", "chickweed", "dandelion", "nettle"];
+  
+  function showSpontaneousMessageIfNeeded(code) {
+    const msg = document.getElementById('spontaneous-message');
+    if (spontaneousSpecies.includes(code)) {
+      msg.classList.add('show');
+      msg.style.display = 'block';
+      clearTimeout(msg.dataset.timeout);
+      msg.dataset.timeout = setTimeout(() => {
+        msg.classList.remove('show');
+        setTimeout(() => { msg.style.display = 'none'; }, 400); // wait for fade-out
+      }, 7000);
+    }
+  }
   </script>
     
   <!-- Load script.js AFTER TensorFlow -->
@@ -883,9 +935,9 @@
                 container: 'map',
                 style: 'mapbox://styles/lodist/clzo3ivsk007d01piaoah1dfy',
                 center: [7.3359, 47.7508], 
-                zoom: 5,
+                zoom: 4,
                 maxZoom: 20,
-                minZoom: 5,
+                minZoom: 4,
                 collectResourceTiming: false,
                 performanceMetricsCollection: false
             });
@@ -929,8 +981,8 @@
     
             osmMap = L.map('map', {
                 center: [47.7508, 7.3359], 
-                zoom: 5,
-                minZoom: 5,
+                zoom: 4,
+                minZoom: 4,
                 maxZoom: 20
             });
           
@@ -1374,6 +1426,7 @@
             updateSpeciesDisplay();
             updateVisibleLayers();
             closeSpeciesDropdown();
+            showSpontaneousMessageIfNeeded(code);
           };
           listDiv.appendChild(item);
         }
