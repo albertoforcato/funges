@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -354,6 +355,8 @@
       max-width: 360px;
       z-index: 9999;
       font-size: 16px;
+      max-height: 65vh; 
+      overflow-y: auto; 
     }
     /* Center filter input cleanly */
     #custom-species-dropdown .filter-wrapper {
@@ -879,7 +882,7 @@
         try {
             const map = new mapboxgl.Map({
                 container: 'map',
-                style: 'mapbox://styles/lodist/cm94hhnms009t01sk1v3sb1uj',
+                style: 'mapbox://styles/lodist/clzo3ivsk007d01piaoah1dfy',
                 center: [7.3359, 47.7508], 
                 zoom: 5,
                 maxZoom: 20,
