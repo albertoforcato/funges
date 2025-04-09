@@ -819,8 +819,8 @@
       clearTimeout(msg.dataset.timeout);
       msg.dataset.timeout = setTimeout(() => {
         msg.classList.remove('show');
-        setTimeout(() => { msg.style.display = 'none'; }, 600); // wait for fade-out
-      }, 10000);
+        setTimeout(() => { msg.style.display = 'none'; }, 400); // wait for fade-out
+      }, 7000);
     }
   }
   </script>
