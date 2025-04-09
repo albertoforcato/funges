@@ -574,7 +574,15 @@
     #topbar a:hover {
       background-color: #f0eada;
     }
-
+    
+    #spontaneous-message {
+      transition: opacity 0.4s ease-in-out;
+      opacity: 0;
+    }
+    
+    #spontaneous-message.show {
+      opacity: 1;
+    }
     
   </style>
 </head>
@@ -613,7 +621,7 @@
   <div id="splash-screen">
       <img src="https://raw.githubusercontent.com/lodist/funges/main/icons/logo_funges.webp" alt="Funges Logo - Natural Resources Map" loading="lazy">
   </div>
-  
+    
   <!-- Button Bar -->
   <div id="button-bar">
     <div class="logo">
@@ -721,6 +729,27 @@
       <p>In the meantime, enjoy this slightly less-than-perfect Boletus map — at least until we hit the threshold for this map as well 😅</p>
     </div>
   </div>
+  
+  <div id="spontaneous-message" style="
+    display: none;
+    position: fixed;
+    bottom: 45px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #fff4dd;
+    padding: 10px 16px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    font-size: 14px;
+    z-index: 99999;
+    color: #333;
+    font-weight: bold;
+    max-width: 90%;
+    text-align: center;
+  ">
+    🌱 This plant often grows spontaneously near human activity.
+  </div>
+
 
   <!-- Class Names -->
   <script src="https://pub-92765923660e431daff3170fbef6471d.r2.dev/class_names.js"></script>
@@ -729,6 +758,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-tflite"></script>
 
+  
   
   <script>
     let layersVisible = false;
@@ -775,6 +805,24 @@
       return acc;
     }, {});
 
+  </script>
+  
+  <script>
+  
+  const spontaneousSpecies = ["amaranth", "chickweed", "dandelion", "nettle"];
+  
+  function showSpontaneousMessageIfNeeded(code) {
+    const msg = document.getElementById('spontaneous-message');
+    if (spontaneousSpecies.includes(code)) {
+      msg.classList.add('show');
+      msg.style.display = 'block';
+      clearTimeout(msg.dataset.timeout);
+      msg.dataset.timeout = setTimeout(() => {
+        msg.classList.remove('show');
+        setTimeout(() => { msg.style.display = 'none'; }, 400); // wait for fade-out
+      }, 4000);
+    }
+  }
   </script>
     
   <!-- Load script.js AFTER TensorFlow -->
@@ -1375,6 +1423,7 @@
             updateSpeciesDisplay();
             updateVisibleLayers();
             closeSpeciesDropdown();
+            showSpontaneousMessageIfNeeded(code);
           };
           listDiv.appendChild(item);
         }
