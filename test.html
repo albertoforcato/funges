@@ -585,7 +585,7 @@
       display: none;
       position: fixed;
       bottom: 45px;
-      left: 50%;
+      left: calc(80px + ((100% - 80px) / 2)); /* Center between sidebar and right edge */
       transform: translateX(-50%);
       background: #fff4dd;
       padding: 10px 16px;
@@ -597,11 +597,9 @@
       font-weight: bold;
       text-align: center;
       width: max-content;
-      max-width: calc(100% - 100px); /* Prevent overflow on small screens */
+      max-width: calc(100% - 100px); /* Avoid overflow */
     }
 
-
-    
     #spontaneous-message.show {
       opacity: 1;
     }
