@@ -1,6 +1,5 @@
 garlic
-alt 650, sigma 1000
-
+alt 600, sigma 950
 
 dandelion 
 alt 500, sigma 1100
