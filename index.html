@@ -1245,7 +1245,7 @@
         const savedState = JSON.parse(localStorage.getItem('mapState'));
         if (savedState) {
           map.setCenter(savedState.center);
-          map.setZoom(savedState.zoom);
+          map.setZoom(5); // Always reset zoom to 5
           map.setBearing(savedState.bearing);
           map.setPitch(savedState.pitch);
           console.log('Map state restored.');
