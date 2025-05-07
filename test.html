@@ -955,17 +955,20 @@
     function initializeMapbox() {
         try {
           
-            mapboxgl.setPixelRatio(1); // Lower-res rendering for speed
-
             const map = new mapboxgl.Map({
-                container: 'map',
-                style: 'mapbox://styles/lodist/clzo3ivsk007d01piaoah1dfy',
-                center: [7.3359, 47.7508], 
-                zoom: 5,
-                maxZoom: 20,
-                minZoom: 5,
-                collectResourceTiming: false,
-                performanceMetricsCollection: false
+              container: 'map',
+              style: 'mapbox://styles/lodist/clzo3ivsk007d01piaoah1dfy?optimize=true', // Reduce unneeded layers
+              center: [7.3359, 47.7508],
+              zoom: 5,
+              minZoom: 5,
+              maxZoom: 20,
+              attributionControl: false,               // Disable UI elements you don't need
+              boxZoom: false,                          // Disable unused interactions
+              dragRotate: false,
+              touchZoomRotate: false,
+              trackResize: false,
+              collectResourceTiming: false,            // Already fine
+              performanceMetricsCollection: false      // Already fine
             });
     
             // Hide the region button when Mapbox is active
