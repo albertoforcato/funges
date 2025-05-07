@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -9,9 +10,9 @@
   {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    "name": "Fung.es – Real-Time Foraging Map for Wild Mushroom & Edible Plants",
+    "name": "Fung.es – Find Mushrooms and Wild Edible Plants Near You",
     "url": "https://fung.es",
-    "description": "An interactive map that helps foragers discover wild edible mushrooms and plants in real-time using weather and geospatial data.",
+    "description": "Fung.es is a free, real-time foraging map that helps you discover wild edible mushrooms and plants near you using weather, soil, and ecological data.",
     "author": {
       "@type": "Person",
       "name": "Loris Di Stefano"
@@ -26,11 +27,11 @@
       "name": "Fung.es",
       "url": "https://fung.es"
     },
-    "applicationCategory": ["Science & Nature", "MappingApplication"],
+    "applicationCategory": "NatureApplication",
     "operatingSystem": "Web",
     "offers": {
       "@type": "Offer",
-      "price": "0",
+      "price": "0.00",
       "priceCurrency": "EUR"
     },
     "screenshot": "https://fung.es/screenshot.png",
@@ -44,28 +45,29 @@
    -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Discover wild edible mushrooms and plants with real-time data. The interactive map uses weather and geospatial data to boost your foraging success.">
+  <meta name="description" content="Find mushrooms & edible plants near you with our real-time foraging map. Discover wild food hotspots using weather and geospatial data for successful foraging.">
+  <meta name="keywords" content="real-time mushroom map, mushroom foraging Europe, boletus hotspot finder, porcini mushroom map, chanterelle mushroom season map, morel mushroom forecast, wild garlic picking locations, where to find truffles in Europe, best places to forage mushrooms near me, edible wild plants map, seasonal mushroom guide, forest edible plant identification, mushroom and herb hotspot viewer, foraging map Spain France Italy Germany, mushroom season prediction tool, mushroom forecast by weather and soil, boletus edulis growth areas, real-time porcini map, wild asparagus habitat map, truffle hunting locations Europe, mushroom foraging near forests and rivers, edible plant hotspot explorer, wild food geospatial viewer, mushroom growth data map, mushroom habitat analyzer, top foraging zones Europe, find mushrooms by region and species, wild herbs and mushrooms locator, edible forest food discovery tool, spring mushroom growth zones, autumn mushroom abundance forecast, wild edible map with climate data, mushroom foraging using weather and terrain, best mushroom season finder, high-probability mushroom areas, edible mushroom and herb scoring map, species-specific mushroom zone finder, where to forage porcini black chanterelles and morels, real-time wild edibles explorer, mushroom hunting zone based on AI weather analysis, interactive mushroom zone forecast, map for edible plants and mushrooms based on soil temperature and pH, mushroom distribution map based on elevation and slope, forest edible food map overlay, open map for wild food in Europe, mushroom field guide integrated with map, best months to forage mushrooms in Europe, predictive mushroom map with geolocation, foraging near me mushrooms and herbs map, mushroom hunting trip planning map">
 
   <!-- Open Graph -->
-  <meta property="og:title" content="Fung.es – Wild Edible Map">
-  <meta property="og:description" content="Discover wild edible mushrooms and plants with real-time data. The interactive map uses weather and geospatial data to boost your foraging success.">
-  <meta property="og:image" content="https://fung.es/icons/logo_1.png"> <!-- LOGO FONT = Camar -->
+  <meta property="og:title" content="Fung.es – Real-Time Map for Mushrooms & Edible Plants in Europe">
+  <meta property="og:description" content="Discover porcini, chanterelles, truffles, wild garlic & more across Europe. Explore real-time foraging hotspots powered by weather, soil & forest data.">
+  <meta property="og:image" content="https://fung.es/icons/logo_1.png">
   <meta property="og:url" content="https://fung.es">
   <meta property="og:type" content="website">
   
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Fung.es – Wild Edible Map">
-  <meta name="twitter:description" content="Discover wild edible mushrooms and plants with real-time data.">
+  <meta name="twitter:title" content="Fung.es – Real-Time Foraging Map for Mushrooms & Wild Plants">
+  <meta name="twitter:description" content="Live maps for porcini, truffles, black chanterelles & herbs. Find edible hotspots using soil, weather & terrain data.">
   <meta name="twitter:image" content="https://fung.es/icons/logo_1.png">
-
-  <!-- IOS -->
+  
+  <!-- iOS -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="Fung.es">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <link rel="apple-touch-icon" href="icons/logo_1.png">
+  <link rel="apple-touch-icon" href="https://fung.es/icons/logo_1.png">
 
-  <title>Fung.es – Real-Time Foraging Map for Wild Mushroom & Edible Plant Hotspots</title>
+  <title>Fung.es – Find Mushrooms and Wild Edible Plants Near You</title>
   <link rel="icon" type="image/png" href="https://fung.es/icons/logo_1.png">
 
   <!-- Mapbox CSS -->
@@ -92,7 +94,7 @@
         justify-content: center;
         align-items: center;
         z-index: 2000; /* Ensure it stays on top */
-        animation: fadeOut 2.1s ease-out forwards;
+        animation: fadeOut 1.5s ease-out forwards;
     }
     /* Make the splash screen logo smaller */
     #splash-screen img {
@@ -675,7 +677,7 @@
       <img src="https://raw.githubusercontent.com/lodist/funges/main/icons/location_1.webp" alt="Locate Me Button" loading="lazy">
     </div>
     <div class="button" onclick="toggleDarkLayers()">
-      <img src="https://raw.githubusercontent.com/lodist/funges/main/icons/sunmoon_1.webp" alt="Sun/Moon Button" loading="lazy">
+      <img src="https://raw.githubusercontent.com/lodist/funges/main/icons/darkmode_1.webp" alt="Sun/Moon Button" loading="lazy">
     </div>
     <div class="button" onclick="toggleNumbersLayers()">
       <img src="https://raw.githubusercontent.com/lodist/funges/main/icons/numbers_1.webp" alt="Numbers Button" loading="lazy">
@@ -751,7 +753,7 @@
   </div>
   
   <div id="spontaneous-message">
-    📢 Spontaneously appears in season — often found by chance
+    📢 Appears Spontaneously and Sparsely in Season
   </div>
 
   <!-- Class Names -->
@@ -784,21 +786,24 @@
     const speciesOptions = {
       "🍄 Porcino (Boletus edulis)": "mushroom",
       "🌱 Amaranth (Amaranthus retroflexus)": "amaranth",
-      "🌱 Asparagus Wild (Asparagus acutifolius)": "asparagus",
-      "🍄 Black Chanterelle (Craterellus cornucopioides)": "black_chant",
-      "🍄 Black Truffle (Tuber melanosporum)": "truffle_b",
+      "🌱 Artichoke (Cynara cardunculus)": "artichoke",
+      "🌱 Asparagus (Asparagus acutifolius)": "asparagus",
+      "🍄 Chanterelle (Cantharellus cibarius)": "chant",
+      "🍄 Chanterelle Black (Craterellus cornucopioides)": "black_chant",
       "🌰 Chestnut (Castanea sativa)": "chestnut",
       "🌱 Chickweed (Stellaria media)": "chickweed",
       "🌸 Dandelion (Taraxacum officinale)": "dandelion",
-      "🌱 Garlic Wild (Allium ursinum)": "garlic",
+      "🌱 Garlic (Allium ursinum)": "garlic",
       "🍇 Lingonberry (Vaccinium vitis-idaea)": "lingonb",
       "🌱 Masterwort (Peucedanum ostruthium)": "masterwort",
       "🍄 Morel (Morchella esculenta)": "morel",
       "🌱 Nettle (Urtica dioica)": "nettle",
-      "🍄 Parasol Mushroom (Macrolepiota procera)": "parasol",
-      "🌱 Sorrel (Rumex acetosa)": "sorrel",
+      "🍄 Parasol (Macrolepiota procera)": "parasol",
       "🍇 Raspberry (Rubus idaeus)": "raspberry",
-      "🍇 Strawberry Wild (Fragaria vesca)": "strawberry",
+      "🌱 Sorrel (Rumex acetosa)": "sorrel",
+      "🍄 St. George's (Calocybe gambosa)": "st_george",
+      "🍇 Strawberry (Fragaria vesca)": "strawberry",
+      "🍄 Truffle Black (Tuber melanosporum)": "truffle_b",
       "🌰 Walnut (Juglans regia)": "walnut"
     };
     // 🍄  🌱  🌸 🌰 🍇
@@ -891,6 +896,25 @@
     </div>
   </div>
 
+  <!-- START of hidden SEO content -->
+  <div style="position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden;" aria-hidden="true">
+  <h1>Fung.es – Real-Time Map for Wild Mushrooms and Edible Plants</h1>
+  <p>Fung.es is an interactive foraging map to find wild mushrooms and edible plants near you. Discover morels, porcini (Boletus edulis), chanterelles, black trumpets, truffles, parasol mushrooms, and seasonal plants like wild garlic, nettle, dandelion, amaranth, and sorrel. The map uses live weather, soil, terrain, and land cover data to predict hotspots across Europe.</p>
+  <h2>How to Use the Foraging Map</h2>
+  <p>1. Choose your species (mushrooms or edible plants)<br>2. Select a region (Italy, Spain, France, Germany, etc.)<br>3. View real-time growth predictions and explore high-probability areas</p>
+  <h2>Best Places for Foraging</h2>
+  <p>Explore edible species in top foraging regions like the Black Forest, Alps, Pyrenees, Dolomites, Apennines, Scandinavian woodlands, and Mediterranean oak forests. Our prediction layer highlights peak locations based on weather and ecological factors.</p>
+  <h2>Best Season to Find Mushrooms</h2>
+  <p>Spring and fall are ideal seasons to find mushrooms in Europe, especially after rainfall. Fung.es uses forecast models and environmental indicators to tell you the best time to go mushroom hunting.</p>
+  <h2>Frequently Asked Questions</h2>
+  <p><strong>Where can I find morels or porcini near me?</strong><br>Use Fung.es to see active zones near your location using environmental data. Updated daily.</p>
+  <p><strong>Can I identify mushrooms with a photo?</strong><br>Yes. Use the built-in identification tool or explore the <a href="/species.html">full list of edible species</a>.</p>
+  <p><strong>Does the map work everywhere?</strong><br>Yes. Fung.es covers forests and wild areas near cities like Vienna, Geneva, Barcelona, Berlin, Munich, Ljubljana, and beyond.</p>
+  <p><strong>Which wild foods can I forage?</strong><br>Popular species include porcini, morels, black trumpets, chanterelles, truffles, parasol mushrooms, wild garlic, stinging nettle, sorrel, dandelion, and wild amaranth.</p>
+  <p>Start foraging smarter with our <a href="/instructions.html">how-to guide</a> or try seasonal <a href="/recipes.html">recipes using foraged ingredients</a>.</p>
+  </div>
+  <!-- END of hidden SEO content -->
+
   <!-- Mapbox JS -->
   <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
   <script>
@@ -933,11 +957,11 @@
         try {
             const map = new mapboxgl.Map({
                 container: 'map',
-                style: 'mapbox://styles/lodist/clzo3ivsk007d01piaoah1dfy',
+                style: 'mapbox://styles/lodist/cmabey79w00m501r41h0uf4ae',     
                 center: [7.3359, 47.7508], 
-                zoom: 4,
+                zoom: 5,
                 maxZoom: 20,
-                minZoom: 4,
+                minZoom: 5,
                 collectResourceTiming: false,
                 performanceMetricsCollection: false
             });
@@ -981,8 +1005,8 @@
     
             osmMap = L.map('map', {
                 center: [47.7508, 7.3359], 
-                zoom: 4,
-                minZoom: 4,
+                zoom: 5,
+                minZoom: 5,
                 maxZoom: 20
             });
           
@@ -1222,7 +1246,7 @@
         const savedState = JSON.parse(localStorage.getItem('mapState'));
         if (savedState) {
           map.setCenter(savedState.center);
-          map.setZoom(savedState.zoom);
+          map.setZoom(5); // Always reset zoom to 5
           map.setBearing(savedState.bearing);
           map.setPitch(savedState.pitch);
           console.log('Map state restored.');
@@ -1271,7 +1295,7 @@
     function locateUser() {
         const now = Date.now();
         const spinner = document.getElementById('loading-spinner'); // Get the spinner element
-        const timeoutDuration = 15000; // Reduced timeout to 15 seconds
+        const timeoutDuration = 20000; // Reduced timeout to 15 seconds
         let timeoutId;
     
         // If the marker exists, remove it and stop further execution
