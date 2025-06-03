@@ -962,7 +962,7 @@
                 maxZoom: 12,
                 minZoom: 5,
                 collectResourceTiming: false,
-                touchZoomRotate: false,
+                touchZoomRotate: true,
                 trackResize: false,
                 attributionControl: false,
                 localIdeographFontFamily: 'sans-serif',
@@ -985,6 +985,7 @@
         }
     }
     let map = initializeMapbox();
+    map.touchZoomRotate.disableRotation();
 
     function switchToOSM() {
         document.getElementById('map').innerHTML = '';
