@@ -1128,8 +1128,10 @@
   
       // ✅ Ensure at least 3 predictions exist
       let topPredictions = predictions.slice(0, 3);
-      let resultHTML = `<strong style="color: #aa1100 !important;">⚠️ Always seek professional advice before consuming wild edibles</strong><br><br>
-                        <strong>🍄 Top Predictions:</strong><br><br>`;
+      const t = translations[window.currentLang]?.resultbox || translations["en"].resultbox;
+      let resultHTML = `<strong style="color: #aa1100 !important;">${t.warning}</strong><br><br>
+                        <strong>${t.top}</strong><br><br>`;
+
   
       try {
           topPredictions.forEach((pred, rank) => {
@@ -2217,6 +2219,12 @@
           donate: "Donate:",
         },
         spontaneous: "📢 Appears Spontaneously and Sparsely in Season",
+        resultbox: {
+          prediction: "Prediction will appear here",
+          nearby: "Nearby Edibles",
+          warning: "⚠️ Always seek professional advice before consuming wild edibles",
+          top: "🍄 Top Predictions:"
+        },
         species: {
         "🍄 Porcino (Boletus edulis)": "mushroom",
         "🌱 Amaranth (Amaranthus retroflexus)": "amaranth",
@@ -2274,6 +2282,12 @@
           donate: "Donar:",
         },
         spontaneous: "📢 Aparece espontáneamente y con poca frecuencia en temporada",
+        resultbox: {
+          prediction: "El resultado aparecerá aquí",
+          nearby: "Comestibles cercanos",
+          warning: "⚠️ Consulta siempre a un experto antes de consumir alimentos silvestres",
+          top: "🍄 Principales resultados:"
+        },
         species: {
         "🍄 Boleto (Boletus edulis)": "mushroom",
         "🌱 Amaranto (Amaranthus retroflexus)": "amaranth",
@@ -2331,6 +2345,12 @@
           donate: "Dona:",
           },
         spontaneous: "📢 Appare spontaneamente e raramente durante la stagione",
+        resultbox: {
+          prediction: "Il risultato apparirà qui",
+          nearby: "Commestibili nelle vicinanze",
+          warning: "⚠️ Consulta sempre un esperto prima di consumare piante o funghi selvatici",
+          top: "🍄 Principali risultati:"
+        },
         species: {
         "🍄 Porcino (Boletus edulis)": "mushroom",
         "🌱 Amaranto (Amaranthus retroflexus)": "amaranth",
@@ -2388,6 +2408,12 @@
           donate: "Faire un don :",
           },
         spontaneous: "📢 Apparaît spontanément et rarement en saison",
+        resultbox: {
+          prediction: "Le résultat apparaîtra ici",
+          nearby: "Comestibles à proximité",
+          warning: "⚠️ Demandez toujours conseil à un expert avant de consommer des plantes ou champignons sauvages",
+          top: "🍄 Résultats principaux :"
+        },
         species: {
         "🍄 Cèpe (Boletus edulis)": "mushroom",
         "🌱 Amarante (Amaranthus retroflexus)": "amaranth",
@@ -2448,6 +2474,11 @@
       document.getElementById("support-title").innerHTML = t.support.title;
       document.getElementById("support-patreon").innerHTML = t.support.patreon;
       document.getElementById("support-coffee").innerHTML = t.support.coffee;
+      document.getElementById("support-donate").innerHTML = t.support.donate;
+      // Predictions
+      document.getElementById("prediction-text").textContent = t.resultbox.prediction;
+      document.getElementById("nearby-title").textContent = t.resultbox.nearby;
+      document.getElementById("support-title").innerHTML = t.support.title;
       document.getElementById("support-donate").innerHTML = t.support.donate;
 
       
