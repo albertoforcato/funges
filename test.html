@@ -795,7 +795,9 @@
   </div>
 
   
-  <div id="spontaneous-message"></div>
+  <div id="spontaneous-message">
+    📢 Appears Spontaneously and Sparsely in Season
+  </div>
 
   <!-- Class Names -->
   <script src="https://pub-92765923660e431daff3170fbef6471d.r2.dev/class_names.js"></script>
@@ -803,6 +805,147 @@
   <!-- TensorFlow.js & TFLite -->
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-tflite"></script>
+  
+  
+  <script>
+    let layersVisible = false;
+    let flagpoleMarker = null;
+    let geoJsonLayer = null; 
+    let cachedRegions = {}; 
+    let firstLoad = true; 
+    let userMarker = null;
+    let cachedCoordinates = null; 
+    let cacheTimestamp = null; 
+    let selectedSpecies = localStorage.getItem("selectedSpecies") || "mushroom";
+    let emojiFilter = "";
+    let darkLayersVisible = false;
+    let isDragging = false;
+    let isZooming = false;
+    let isLongPressActive = false;
+    let activeCoordinates = null;
+    let longPressTimeout;
+
+    const lang = localStorage.getItem("preferredLanguage") || "en";
+  
+    const speciesTranslations = {
+      en: {
+        "🍄 Porcino (Boletus edulis)": "mushroom",
+        "🌱 Amaranth (Amaranthus retroflexus)": "amaranth",
+        "🌱 Artichoke (Cynara cardunculus)": "artichoke",
+        "🌱 Asparagus (Asparagus acutifolius)": "asparagus",
+        "🍄 Chanterelle (Cantharellus cibarius)": "chant",
+        "🍄 Chanterelle Black (Craterellus cornucopioides)": "black_chant",
+        "🌰 Chestnut (Castanea sativa)": "chestnut",
+        "🌱 Chickweed (Stellaria media)": "chickweed",
+        "🌸 Dandelion (Taraxacum officinale)": "dandelion",
+        "🌱 Garlic (Allium ursinum)": "garlic",
+        "🍇 Lingonberry (Vaccinium vitis-idaea)": "lingonb",
+        "🌱 Masterwort (Peucedanum ostruthium)": "masterwort",
+        "🍄 Morel (Morchella esculenta)": "morel",
+        "🌱 Nettle (Urtica dioica)": "nettle",
+        "🍄 Parasol (Macrolepiota procera)": "parasol",
+        "🍇 Raspberry (Rubus idaeus)": "raspberry",
+        "🌱 Sorrel (Rumex acetosa)": "sorrel",
+        "🍄 St. George's (Calocybe gambosa)": "st_george",
+        "🍇 Strawberry (Fragaria vesca)": "strawberry",
+        "🍄 Truffle Black (Tuber melanosporum)": "truffle_b",
+        "🌰 Walnut (Juglans regia)": "walnut"
+      },
+      it: {
+        "🍄 Porcino (Boletus edulis)": "mushroom",
+        "🌱 Amaranto (Amaranthus retroflexus)": "amaranth",
+        "🌱 Carciofo (Cynara cardunculus)": "artichoke",
+        "🌱 Asparago (Asparagus acutifolius)": "asparagus",
+        "🍄 Finferlo (Cantharellus cibarius)": "chant",
+        "🍄 Trombetta dei morti (Craterellus cornucopioides)": "black_chant",
+        "🌰 Castagna (Castanea sativa)": "chestnut",
+        "🌱 Centocchio (Stellaria media)": "chickweed",
+        "🌸 Tarassaco (Taraxacum officinale)": "dandelion",
+        "🌱 Aglio orsino (Allium ursinum)": "garlic",
+        "🍇 Mirtillo rosso (Vaccinium vitis-idaea)": "lingonb",
+        "🌱 Imperatoria (Peucedanum ostruthium)": "masterwort",
+        "🍄 Spugnola (Morchella esculenta)": "morel",
+        "🌱 Ortica (Urtica dioica)": "nettle",
+        "🍄 Mazza di tamburo (Macrolepiota procera)": "parasol",
+        "🍇 Lampone (Rubus idaeus)": "raspberry",
+        "🌱 Acetosa (Rumex acetosa)": "sorrel",
+        "🍄 Prugnolo (Calocybe gambosa)": "st_george",
+        "🍇 Fragolina di bosco (Fragaria vesca)": "strawberry",
+        "🍄 Tartufo nero (Tuber melanosporum)": "truffle_b",
+        "🌰 Noce (Juglans regia)": "walnut"
+      },
+      es: {
+        "🍄 Boleto (Boletus edulis)": "mushroom",
+        "🌱 Amaranto (Amaranthus retroflexus)": "amaranth",
+        "🌱 Alcachofa (Cynara cardunculus)": "artichoke",
+        "🌱 Espárrago (Asparagus acutifolius)": "asparagus",
+        "🍄 Rebozuelo (Cantharellus cibarius)": "chant",
+        "🍄 Trompeta negra (Craterellus cornucopioides)": "black_chant",
+        "🌰 Castaña (Castanea sativa)": "chestnut",
+        "🌱 Pamplina (Stellaria media)": "chickweed",
+        "🌸 Diente de león (Taraxacum officinale)": "dandelion",
+        "🌱 Ajo de oso (Allium ursinum)": "garlic",
+        "🍇 Arándano rojo (Vaccinium vitis-idaea)": "lingonb",
+        "🌱 Imperatoria (Peucedanum ostruthium)": "masterwort",
+        "🍄 Colmenilla (Morchella esculenta)": "morel",
+        "🌱 Ortiga (Urtica dioica)": "nettle",
+        "🍄 Matacandil (Macrolepiota procera)": "parasol",
+        "🍇 Frambuesa (Rubus idaeus)": "raspberry",
+        "🌱 Acedera (Rumex acetosa)": "sorrel",
+        "🍄 Perretxiko (Calocybe gambosa)": "st_george",
+        "🍇 Fresa silvestre (Fragaria vesca)": "strawberry",
+        "🍄 Trufa negra (Tuber melanosporum)": "truffle_b",
+        "🌰 Nuez (Juglans regia)": "walnut"
+      },
+      fr: {
+        "🍄 Cèpe (Boletus edulis)": "mushroom",
+        "🌱 Amarante (Amaranthus retroflexus)": "amaranth",
+        "🌱 Artichaut (Cynara cardunculus)": "artichoke",
+        "🌱 Asperge (Asparagus acutifolius)": "asparagus",
+        "🍄 Girolle (Cantharellus cibarius)": "chant",
+        "🍄 Trompette de la mort (Craterellus cornucopioides)": "black_chant",
+        "🌰 Châtaigne (Castanea sativa)": "chestnut",
+        "🌱 Mouron des oiseaux (Stellaria media)": "chickweed",
+        "🌸 Pissenlit (Taraxacum officinale)": "dandelion",
+        "🌱 Ail des ours (Allium ursinum)": "garlic",
+        "🍇 Airelle rouge (Vaccinium vitis-idaea)": "lingonb",
+        "🌱 Peucédan (Peucedanum ostruthium)": "masterwort",
+        "🍄 Morille (Morchella esculenta)": "morel",
+        "🌱 Ortie (Urtica dioica)": "nettle",
+        "🍄 Coulemelle (Macrolepiota procera)": "parasol",
+        "🍇 Framboise (Rubus idaeus)": "raspberry",
+        "🌱 Oseille (Rumex acetosa)": "sorrel",
+        "🍄 Tricholome de la Saint-Georges (Calocybe gambosa)": "st_george",
+        "🍇 Fraise des bois (Fragaria vesca)": "strawberry",
+        "🍄 Truffe noire (Tuber melanosporum)": "truffle_b",
+        "🌰 Noyer (Juglans regia)": "walnut"
+      }
+    };
+  
+    const speciesOptions = speciesTranslations[lang];
+    const speciesDisplayMap = Object.entries(speciesOptions).reduce((acc, [label, code]) => {
+      acc[code] = label;
+      return acc;
+    }, {});
+  </script>
+  
+  <script>
+  
+  const spontaneousSpecies = ["amaranth", "chickweed", "dandelion", "nettle"];
+  
+  function showSpontaneousMessageIfNeeded(code) {
+    const msg = document.getElementById('spontaneous-message');
+    if (spontaneousSpecies.includes(code)) {
+      msg.classList.add('show');
+      msg.style.display = 'block';
+      clearTimeout(msg.dataset.timeout);
+      msg.dataset.timeout = setTimeout(() => {
+        msg.classList.remove('show');
+        setTimeout(() => { msg.style.display = 'none'; }, 400); // wait for fade-out
+      }, 7000);
+    }
+  }
+  </script>
     
   <!-- Load script.js AFTER TensorFlow -->
   <script src="script.js"></script>
@@ -1162,357 +1305,6 @@
         }).addTo(osmMap);
         console.log(`Map update complete.`);
     }
-
-
-
-
-
-
-
-
-
-
-
-    const translations = {
-      en: {
-        flag: "🇬🇧",
-        topbar: {
-          instructions: "How It Works",
-          species: "Wild Species",
-          recipes: "Recipes"
-        },
-        upload: {
-          dragText: "Drag an image here or use the camera",
-          dropZone: "Drop Image Here"
-        },
-        footer: {
-          impressum: "Impressum",
-          privacy: "Privacy Policy",
-          terms: "Terms of Use"
-        },
-        resultbox: {
-          prediction: "Prediction will appear here",
-          nearby: "Nearby Edibles"
-        },
-        osm: {
-          line1: "Dear Forager,<br>",
-          line2: `We’re currently unable to load the map tiles. This may be due to a poor internet connection or because we’ve reached our monthly usage limit.<br><br>
-                  If you'd like to help keep the project running and improve availability, please consider <strong>supporting the project</strong>.`,
-          line3: "In the meantime, enjoy this slightly less-than-perfect Boletus map — at least until we hit the threshold for this map as well 😅"
-        },
-        spontaneous: "📢 Appears Spontaneously and Sparsely in Season",
-        speciesOptions: {
-        "🍄 Porcino (Boletus edulis)": "mushroom",
-        "🌱 Amaranth (Amaranthus retroflexus)": "amaranth",
-        "🌱 Artichoke (Cynara cardunculus)": "artichoke",
-        "🌱 Asparagus (Asparagus acutifolius)": "asparagus",
-        "🍄 Chanterelle (Cantharellus cibarius)": "chant",
-        "🍄 Chanterelle Black (Craterellus cornucopioides)": "black_chant",
-        "🌰 Chestnut (Castanea sativa)": "chestnut",
-        "🌱 Chickweed (Stellaria media)": "chickweed",
-        "🌸 Dandelion (Taraxacum officinale)": "dandelion",
-        "🌱 Garlic (Allium ursinum)": "garlic",
-        "🍇 Lingonberry (Vaccinium vitis-idaea)": "lingonb",
-        "🌱 Masterwort (Peucedanum ostruthium)": "masterwort",
-        "🍄 Morel (Morchella esculenta)": "morel",
-        "🌱 Nettle (Urtica dioica)": "nettle",
-        "🍄 Parasol (Macrolepiota procera)": "parasol",
-        "🍇 Raspberry (Rubus idaeus)": "raspberry",
-        "🌱 Sorrel (Rumex acetosa)": "sorrel",
-        "🍄 St. George's (Calocybe gambosa)": "st_george",
-        "🍇 Strawberry (Fragaria vesca)": "strawberry",
-        "🍄 Truffle Black (Tuber melanosporum)": "truffle_b",
-        "🌰 Walnut (Juglans regia)": "walnut"
-        }
-      },
-      es: {
-        flag: "🇪🇸",
-        topbar: {
-          instructions: "Cómo funciona",
-          species: "Especies silvestres",
-          recipes: "Recetas"
-        },
-        upload: {
-          dragText: "Arrastra una imagen aquí o usa la cámara",
-          dropZone: "Suelta la imagen aquí"
-        },
-        footer: {
-          impressum: "Aviso legal",
-          privacy: "Política de privacidad",
-          terms: "Términos de uso"
-        },
-        resultbox: {
-          prediction: "El resultado aparecerá aquí",
-          nearby: "Comestibles cercanos"
-        },
-        osm: {
-          line1: "Querido recolector:<br>",
-          line2: `Actualmente no podemos cargar los mapas. Puede deberse a una mala conexión o a que hemos alcanzado nuestro límite mensual de uso.<br><br>
-                  Si quieres ayudar a que el proyecto siga activo y mejorar su disponibilidad, por favor considera <strong>apoyar el proyecto</strong>.`,
-          line3: "Mientras tanto, disfruta de este mapa de Boletus un poco imperfecto — al menos hasta que lleguemos al límite de este también 😅"
-        },
-        spontaneous: "📢 Aparece espontáneamente y con poca frecuencia en temporada",
-        speciesOptions: {
-        "🍄 Boleto (Boletus edulis)": "mushroom",
-        "🌱 Amaranto (Amaranthus retroflexus)": "amaranth",
-        "🌱 Alcachofa (Cynara cardunculus)": "artichoke",
-        "🌱 Espárrago (Asparagus acutifolius)": "asparagus",
-        "🍄 Rebozuelo (Cantharellus cibarius)": "chant",
-        "🍄 Trompeta negra (Craterellus cornucopioides)": "black_chant",
-        "🌰 Castaña (Castanea sativa)": "chestnut",
-        "🌱 Pamplina (Stellaria media)": "chickweed",
-        "🌸 Diente de león (Taraxacum officinale)": "dandelion",
-        "🌱 Ajo silvestre (Allium ursinum)": "garlic",
-        "🍇 Arándano rojo (Vaccinium vitis-idaea)": "lingonb",
-        "🌱 Angélica (Peucedanum ostruthium)": "masterwort",
-        "🍄 Colmenilla (Morchella esculenta)": "morel",
-        "🌱 Ortiga (Urtica dioica)": "nettle",
-        "🍄 Matacandil (Macrolepiota procera)": "parasol",
-        "🍇 Frambuesa (Rubus idaeus)": "raspberry",
-        "🌱 Acedera (Rumex acetosa)": "sorrel",
-        "🍄 Perretxico (Calocybe gambosa)": "st_george",
-        "🍇 Fresa silvestre (Fragaria vesca)": "strawberry",
-        "🍄 Trufa negra (Tuber melanosporum)": "truffle_b",
-        "🌰 Nogal (Juglans regia)": "walnut"
-        }
-      },
-      it: {
-        flag: "🇮🇹",
-        topbar: {
-          instructions: "Come funziona",
-          species: "Specie selvatiche",
-          recipes: "Ricette"
-        },
-        upload: {
-          dragText: "Trascina un'immagine qui o usa la fotocamera",
-          dropZone: "Rilascia l'immagine qui"
-        },
-        footer: {
-          impressum: "Note legali",
-          privacy: "Informativa sulla privacy",
-          terms: "Termini di utilizzo"
-        },
-        resultbox: {
-          prediction: "Il risultato apparirà qui",
-          nearby: "Commestibili nelle vicinanze"
-        },
-        osm: {
-          line1: "Caro cercatore,<br>",
-          line2: `Attualmente non riusciamo a caricare le mappe. Potrebbe essere per una connessione scarsa o perché abbiamo raggiunto il limite mensile.<br><br>
-                  Se vuoi contribuire al progetto e migliorarne la disponibilità, considera di <strong>sostenere il progetto</strong>.`,
-          line3: "Nel frattempo, goditi questa mappa dei porcini non perfetta — almeno finché non raggiungiamo il limite anche qui 😅"
-        },
-        spontaneous: "📢 Appare spontaneamente e raramente durante la stagione",
-        speciesOptions: {
-          "🍄 Porcino (Boletus edulis)": "mushroom",
-          "🌱 Amaranto (Amaranthus retroflexus)": "amaranth",
-          "🌱 Carciofo (Cynara cardunculus)": "artichoke",
-          "🌱 Asparago (Asparagus acutifolius)": "asparagus",
-          "🍄 Finferlo (Cantharellus cibarius)": "chant",
-          "🍄 Trombetta nera (Craterellus cornucopioides)": "black_chant",
-          "🌰 Castagna (Castanea sativa)": "chestnut",
-          "🌱 Centocchio (Stellaria media)": "chickweed",
-          "🌸 Tarassaco (Taraxacum officinale)": "dandelion",
-          "🌱 Aglio orsino (Allium ursinum)": "garlic",
-          "🍇 Mirtillo rosso (Vaccinium vitis-idaea)": "lingonb",
-          "🌱 Imperatoria (Peucedanum ostruthium)": "masterwort",
-          "🍄 Spugnola (Morchella esculenta)": "morel",
-          "🌱 Ortica (Urtica dioica)": "nettle",
-          "🍄 Mazza di tamburo (Macrolepiota procera)": "parasol",
-          "🍇 Lampone (Rubus idaeus)": "raspberry",
-          "🌱 Acetosa (Rumex acetosa)": "sorrel",
-          "🍄 Prugnolo (Calocybe gambosa)": "st_george",
-          "🍇 Fragolina di bosco (Fragaria vesca)": "strawberry",
-          "🍄 Tartufo nero (Tuber melanosporum)": "truffle_b",
-          "🌰 Noce (Juglans regia)": "walnut"
-          }
-      },
-      fr: {
-        flag: "🇫🇷",
-        topbar: {
-          instructions: "Comment ça marche",
-          species: "Espèces sauvages",
-          recipes: "Recettes"
-        },
-        upload: {
-          dragText: "Faites glisser une image ici ou utilisez la caméra",
-          dropZone: "Déposez l'image ici"
-        },
-        footer: {
-          impressum: "Mentions légales",
-          privacy: "Politique de confidentialité",
-          terms: "Conditions d'utilisation"
-        },
-        resultbox: {
-          prediction: "Le résultat apparaîtra ici",
-          nearby: "Comestibles à proximité"
-        },
-        osm: {
-          line1: "Cher cueilleur,<br>",
-          line2: `Nous ne pouvons actuellement pas charger les cartes. Cela peut être dû à une mauvaise connexion ou à une limite mensuelle atteinte.<br><br>
-                  Si vous souhaitez aider à maintenir le projet actif et améliorer sa disponibilité, merci de <strong>soutenir le projet</strong>.`,
-          line3: "En attendant, profitez de cette carte des bolets un peu imparfaite — du moins jusqu'à ce qu’on atteigne la limite ici aussi 😅"
-        },
-        spontaneous: "📢 Apparaît spontanément et rarement en saison",
-        speciesOptions: {
-          "🍄 Cèpe (Boletus edulis)": "mushroom",
-          "🌱 Amarante (Amaranthus retroflexus)": "amaranth",
-          "🌱 Artichaut (Cynara cardunculus)": "artichoke",
-          "🌱 Asperge sauvage (Asparagus acutifolius)": "asparagus",
-          "🍄 Girolle (Cantharellus cibarius)": "chant",
-          "🍄 Trompette de la mort (Craterellus cornucopioides)": "black_chant",
-          "🌰 Châtaigne (Castanea sativa)": "chestnut",
-          "🌱 Mouron des oiseaux (Stellaria media)": "chickweed",
-          "🌸 Pissenlit (Taraxacum officinale)": "dandelion",
-          "🌱 Ail des ours (Allium ursinum)": "garlic",
-          "🍇 Airelle rouge (Vaccinium vitis-idaea)": "lingonb",
-          "🌱 Peucédan d’Autriche (Peucedanum ostruthium)": "masterwort",
-          "🍄 Morille (Morchella esculenta)": "morel",
-          "🌱 Ortie (Urtica dioica)": "nettle",
-          "🍄 Coulemelle (Macrolepiota procera)": "parasol",
-          "🍇 Framboise (Rubus idaeus)": "raspberry",
-          "🌱 Oseille (Rumex acetosa)": "sorrel",
-          "🍄 Tricholome de la Saint-Georges (Calocybe gambosa)": "st_george",
-          "🍇 Fraise des bois (Fragaria vesca)": "strawberry",
-          "🍄 Truffe noire (Tuber melanosporum)": "truffle_b",
-          "🌰 Noyer (Juglans regia)": "walnut"
-        }
-      }
-    };
-
-    
-    function applyTranslations(lang) {
-      const t = translations[lang];
-    
-      // Topbar
-      document.getElementById("topbar-instructions").textContent = t.topbar.instructions;
-      document.getElementById("topbar-species").textContent = t.topbar.species;
-      document.getElementById("topbar-recipes").textContent = t.topbar.recipes;
-      // Upload section
-      document.getElementById("upload-drag-text").textContent = t.upload.dragText;
-      document.getElementById("drop-zone").textContent = t.upload.dropZone;
-      // Footer
-      document.getElementById("footer-impressum").textContent = t.footer.impressum;
-      document.getElementById("footer-privacy").textContent = t.footer.privacy;
-      document.getElementById("footer-terms").textContent = t.footer.terms;
-      // Prediction box and modal
-      document.getElementById("prediction-text").textContent = t.resultbox.prediction;
-      document.getElementById("nearby-title").textContent = t.resultbox.nearby;    
-      // OSM notice
-      document.getElementById("osm-line-1").innerHTML = t.osm.line1;
-      document.getElementById("osm-line-2").innerHTML = t.osm.line2;
-      document.getElementById("osm-line-3").innerHTML = t.osm.line3;    
-      // Species options 🍄  🌱  🌸 🌰 🍇
-      document.getElementById("spontaneous-message").textContent = t.spontaneous;
-
-    
-    
-    }
-    
-    function renderLanguageSelector(currentLang) {
-      const optionsDiv = document.getElementById("language-options");
-      const selectedDiv = document.getElementById("selected-language");
-    
-      optionsDiv.innerHTML = "";
-      Object.keys(translations).forEach(lang => {
-        if (lang !== currentLang) {
-          const el = document.createElement("div");
-          el.textContent = translations[lang].flag;
-          el.onclick = () => setLanguage(lang);
-          optionsDiv.appendChild(el);
-        }
-      });
-    
-      selectedDiv.textContent = translations[currentLang].flag;
-      selectedDiv.onclick = toggleLanguageDropup;
-    }
-    
-    function setLanguage(lang) {
-      localStorage.setItem("preferredLanguage", lang);
-      window.currentLang = lang;
-      renderLanguageSelector(lang);
-      applyTranslations(lang);
-      document.getElementById("language-options").style.display = "none";
-    }
-    
-    function toggleLanguageDropup() {
-      const menu = document.getElementById("language-options");
-      const currentDisplay = window.getComputedStyle(menu).display;
-      menu.style.display = (currentDisplay === "none") ? "flex" : "none";
-    }
-    
-    document.addEventListener("DOMContentLoaded", () => {
-      const lang = localStorage.getItem("preferredLanguage") || "en";
-      window.currentLang = lang;
-    
-      renderLanguageSelector(lang);
-      applyTranslations(lang);
-    
-      const speciesOptions = translations[lang].speciesOptions;
-      populateSpeciesDropdown(speciesOptions);
-    
-      const speciesDisplayMap = Object.entries(speciesOptions).reduce((acc, [label, code]) => {
-        acc[code] = label;
-        return acc;
-      }, {});
-      window.speciesDisplayMap = speciesDisplayMap;
-    
-      // Initialize selectedSpecies only after speciesOptions is available
-      window.selectedSpecies = localStorage.getItem("selectedSpecies") || "mushroom";
-    });
-
-
-
-
-    let layersVisible = false;
-    let flagpoleMarker = null;
-    let geoJsonLayer = null; 
-    let cachedRegions = {}; 
-    let firstLoad = true; 
-    let userMarker = null;
-    let cachedCoordinates = null; 
-    let cacheTimestamp = null; 
-    let selectedSpecies = localStorage.getItem("selectedSpecies") || "mushroom";
-    let emojiFilter = "";
-    let darkLayersVisible = false;
-    let isDragging = false;
-    let isZooming = false;
-    let isLongPressActive = false;
-    let activeCoordinates = null;
-    let longPressTimeout;
-
-  
-  const spontaneousSpecies = ["amaranth", "chickweed", "dandelion", "nettle"];
-  
-  function showSpontaneousMessageIfNeeded(code) {
-    const msg = document.getElementById('spontaneous-message');
-    if (spontaneousSpecies.includes(code)) {
-      msg.classList.add('show');
-      msg.style.display = 'block';
-      clearTimeout(msg.dataset.timeout);
-      msg.dataset.timeout = setTimeout(() => {
-        msg.classList.remove('show');
-        setTimeout(() => { msg.style.display = 'none'; }, 400); // wait for fade-out
-      }, 7000);
-    }
-  }
-
-
-
-
-    
-
-
-
-
-
-
-
-
-
-
-
-    
     
     function updateVisibleLayers() {
       const layers = map.getStyle().layers;
@@ -2040,6 +1832,183 @@
 
 
     
+    const translations = {
+      en: {
+        flag: "🇬🇧",
+        topbar: {
+          instructions: "How It Works",
+          species: "Wild Species",
+          recipes: "Recipes"
+        },
+        upload: {
+          dragText: "Drag an image here or use the camera",
+          dropZone: "Drop Image Here"
+        },
+        footer: {
+          impressum: "Impressum",
+          privacy: "Privacy Policy",
+          terms: "Terms of Use"
+        },
+        resultbox: {
+          prediction: "Prediction will appear here",
+          nearby: "Nearby Edibles"
+        },
+        osm: {
+          line1: "Dear Forager,<br>",
+          line2: `We’re currently unable to load the map tiles. This may be due to a poor internet connection or because we’ve reached our monthly usage limit.<br><br>
+                  If you'd like to help keep the project running and improve availability, please consider <strong>supporting the project</strong>.`,
+          line3: "In the meantime, enjoy this slightly less-than-perfect Boletus map — at least until we hit the threshold for this map as well 😅"
+        }
+      },
+      es: {
+        flag: "🇪🇸",
+        topbar: {
+          instructions: "Cómo funciona",
+          species: "Especies silvestres",
+          recipes: "Recetas"
+        },
+        upload: {
+          dragText: "Arrastra una imagen aquí o usa la cámara",
+          dropZone: "Suelta la imagen aquí"
+        },
+        footer: {
+          impressum: "Aviso legal",
+          privacy: "Política de privacidad",
+          terms: "Términos de uso"
+        },
+        resultbox: {
+          prediction: "El resultado aparecerá aquí",
+          nearby: "Comestibles cercanos"
+        },
+        osm: {
+          line1: "Querido recolector:<br>",
+          line2: `Actualmente no podemos cargar los mapas. Puede deberse a una mala conexión o a que hemos alcanzado nuestro límite mensual de uso.<br><br>
+                  Si quieres ayudar a que el proyecto siga activo y mejorar su disponibilidad, por favor considera <strong>apoyar el proyecto</strong>.`,
+          line3: "Mientras tanto, disfruta de este mapa de Boletus un poco imperfecto — al menos hasta que lleguemos al límite de este también 😅"
+        }
+      },
+      it: {
+        flag: "🇮🇹",
+        topbar: {
+          instructions: "Come funziona",
+          species: "Specie selvatiche",
+          recipes: "Ricette"
+        },
+        upload: {
+          dragText: "Trascina un'immagine qui o usa la fotocamera",
+          dropZone: "Rilascia l'immagine qui"
+        },
+        footer: {
+          impressum: "Note legali",
+          privacy: "Informativa sulla privacy",
+          terms: "Termini di utilizzo"
+        },
+        resultbox: {
+          prediction: "Il risultato apparirà qui",
+          nearby: "Commestibili nelle vicinanze"
+        },
+        osm: {
+          line1: "Caro cercatore,<br>",
+          line2: `Attualmente non riusciamo a caricare le mappe. Potrebbe essere per una connessione scarsa o perché abbiamo raggiunto il limite mensile.<br><br>
+                  Se vuoi contribuire al progetto e migliorarne la disponibilità, considera di <strong>sostenere il progetto</strong>.`,
+          line3: "Nel frattempo, goditi questa mappa dei porcini non perfetta — almeno finché non raggiungiamo il limite anche qui 😅"
+        }
+      },
+      fr: {
+        flag: "🇫🇷",
+        topbar: {
+          instructions: "Comment ça marche",
+          species: "Espèces sauvages",
+          recipes: "Recettes"
+        },
+        upload: {
+          dragText: "Faites glisser une image ici ou utilisez la caméra",
+          dropZone: "Déposez l'image ici"
+        },
+        footer: {
+          impressum: "Mentions légales",
+          privacy: "Politique de confidentialité",
+          terms: "Conditions d'utilisation"
+        },
+        resultbox: {
+          prediction: "Le résultat apparaîtra ici",
+          nearby: "Comestibles à proximité"
+        },
+        osm: {
+          line1: "Cher cueilleur,<br>",
+          line2: `Nous ne pouvons actuellement pas charger les cartes. Cela peut être dû à une mauvaise connexion ou à une limite mensuelle atteinte.<br><br>
+                  Si vous souhaitez aider à maintenir le projet actif et améliorer sa disponibilité, merci de <strong>soutenir le projet</strong>.`,
+          line3: "En attendant, profitez de cette carte des bolets un peu imparfaite — du moins jusqu'à ce qu’on atteigne la limite ici aussi 😅"
+        }
+      }
+    };
+
+    
+    function applyTranslations(lang) {
+      const t = translations[lang];
+    
+      // Topbar
+      document.getElementById("topbar-instructions").textContent = t.topbar.instructions;
+      document.getElementById("topbar-species").textContent = t.topbar.species;
+      document.getElementById("topbar-recipes").textContent = t.topbar.recipes;
+      // Upload section
+      document.getElementById("upload-drag-text").textContent = t.upload.dragText;
+      document.getElementById("drop-zone").textContent = t.upload.dropZone;
+      // Footer
+      document.getElementById("footer-impressum").textContent = t.footer.impressum;
+      document.getElementById("footer-privacy").textContent = t.footer.privacy;
+      document.getElementById("footer-terms").textContent = t.footer.terms;
+      // Prediction box and modal
+      document.getElementById("prediction-text").textContent = t.resultbox.prediction;
+      document.getElementById("nearby-title").textContent = t.resultbox.nearby;    
+      // OSM notice
+      document.getElementById("osm-line-1").innerHTML = t.osm.line1;
+      document.getElementById("osm-line-2").innerHTML = t.osm.line2;
+      document.getElementById("osm-line-3").innerHTML = t.osm.line3;    
+    
+    
+    
+    }
+    
+    function renderLanguageSelector(currentLang) {
+      const optionsDiv = document.getElementById("language-options");
+      const selectedDiv = document.getElementById("selected-language");
+    
+      optionsDiv.innerHTML = "";
+      Object.keys(translations).forEach(lang => {
+        if (lang !== currentLang) {
+          const el = document.createElement("div");
+          el.textContent = translations[lang].flag;
+          el.onclick = () => setLanguage(lang);
+          optionsDiv.appendChild(el);
+        }
+      });
+    
+      selectedDiv.textContent = translations[currentLang].flag;
+      selectedDiv.onclick = toggleLanguageDropup;
+    }
+    
+    function setLanguage(lang) {
+      localStorage.setItem("preferredLanguage", lang);
+      window.currentLang = lang;
+      renderLanguageSelector(lang);
+      applyTranslations(lang);
+      document.getElementById("language-options").style.display = "none";
+    }
+    
+    function toggleLanguageDropup() {
+      const menu = document.getElementById("language-options");
+      const currentDisplay = window.getComputedStyle(menu).display;
+      menu.style.display = (currentDisplay === "none") ? "flex" : "none";
+    }
+    
+    document.addEventListener("DOMContentLoaded", () => {
+      const lang = localStorage.getItem("preferredLanguage") || "en";
+      window.currentLang = lang;
+      renderLanguageSelector(lang);
+      applyTranslations(lang);
+    });
+
 
 
 
