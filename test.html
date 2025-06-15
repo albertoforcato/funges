@@ -1151,7 +1151,8 @@
   
               // ✅ Add prediction with DuckDuckGo search link
               resultHTML += `${rank + 1}. <strong>${className}</strong> (${probability}%)<br>`;
-              resultHTML += `<a href="${searchURL}" target="_blank" style="color: #aa1100; text-decoration: underline;">🔍 Search</a><br><br>`;
+              resultHTML += `<a href="${searchURL}" target="_blank" style="color: #aa1100; text-decoration: underline;">${t.search.link}</a><br><br>`;
+
   
               console.log(`📌 Rank ${rank + 1}: ${className} (${probability}%)`);
           });
@@ -2225,6 +2226,9 @@
           warning: "⚠️ Always seek professional advice before consuming wild edibles",
           top: "🍄 Top Predictions:"
         },
+        search: {
+          link: "🔍 Search"
+        },
         species: {
         "🍄 Porcino (Boletus edulis)": "mushroom",
         "🌱 Amaranth (Amaranthus retroflexus)": "amaranth",
@@ -2287,6 +2291,9 @@
           nearby: "Comestibles cercanos",
           warning: "⚠️ Consulta siempre a un experto antes de consumir alimentos silvestres",
           top: "🍄 Principales resultados:"
+        },
+        search: {
+          link: "🔍 Buscar"
         },
         species: {
         "🍄 Boleto (Boletus edulis)": "mushroom",
@@ -2351,6 +2358,9 @@
           warning: "⚠️ Consulta sempre un esperto prima di consumare piante o funghi selvatici",
           top: "🍄 Principali risultati:"
         },
+        search: {
+          link: "🔍 Cerca"
+        },
         species: {
         "🍄 Porcino (Boletus edulis)": "mushroom",
         "🌱 Amaranto (Amaranthus retroflexus)": "amaranth",
@@ -2413,6 +2423,9 @@
           nearby: "Comestibles à proximité",
           warning: "⚠️ Demandez toujours conseil à un expert avant de consommer des plantes ou champignons sauvages",
           top: "🍄 Résultats principaux :"
+        },
+        search: {
+          link: "🔍 Rechercher"
         },
         species: {
         "🍄 Cèpe (Boletus edulis)": "mushroom",
