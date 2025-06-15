@@ -825,6 +825,7 @@
     let longPressTimeout;
 
     const speciesOptions = translations[lang].speciesOptions;
+    populateSpeciesDropdown(speciesOptions);
     // 🍄  🌱  🌸 🌰 🍇
     
     const speciesDisplayMap = Object.entries(speciesOptions).reduce((acc, [label, code]) => {
