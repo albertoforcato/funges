@@ -608,11 +608,10 @@
     
     #language-dropup {
       position: fixed;
-      bottom: 55px; /* just above footer */
+      bottom: 70px; /* raised to avoid overlap */
       right: 20px;
       z-index: 9999;
       text-align: center;
-      font-weight: bold;
     }
     
     #selected-language {
@@ -623,26 +622,32 @@
       border-radius: 50%;
       line-height: 45px;
       cursor: pointer;
-      font-size: 14px;
+      font-size: 20px;
       user-select: none;
     }
     
     #language-options {
-      margin-bottom: 8px;
-      display: flex;
+      display: none;
       flex-direction: column-reverse;
       gap: 6px;
+      align-items: center;
     }
     
     #language-options div {
       background: #eee;
-      border-radius: 50%;
       width: 45px;
       height: 45px;
+      border-radius: 50%;
       line-height: 45px;
+      font-size: 20px;
       cursor: pointer;
-      font-size: 14px;
       user-select: none;
+      color: black;
+    }
+    
+    #language-options div.current {
+      background: red;
+      color: white;
     }
 
     
@@ -753,10 +758,10 @@
   <div id="language-dropup">
     <div id="selected-language" onclick="toggleLanguageDropup()">EN</div>
     <div id="language-options" style="display: none;">
-      <div onclick="changeLanguage('it')">🇮🇹 IT</div>
-      <div onclick="changeLanguage('es')">🇪🇸 ES</div>
-      <div onclick="changeLanguage('fr')">🇫🇷 FR</div>
-      <div onclick="changeLanguage('en')">🇬🇧 EN</div>
+      <div onclick="changeLanguage('en')">EN</div>
+      <div onclick="changeLanguage('it')">IT</div>
+      <div onclick="changeLanguage('es')">ES</div>
+      <div onclick="changeLanguage('fr')">FR</div>
     </div>
   </div>
 
@@ -1772,34 +1777,48 @@
 
 
 
-  const translations = {
-    en: { instructions: "How It Works", species: "Wild Species", recipes: "Recipes" },
-    it: { instructions: "Come funziona", species: "Specie Silvestri", recipes: "Ricette" },
-    es: { instructions: "Cómo funciona", species: "Especies silvestres", recipes: "Recetas" },
-    fr: { instructions: "Comment ça marche", species: "Espèces sauvages", recipes: "Recettes" }
-  };
-  
-  function changeLanguage(lang) {
-    localStorage.setItem("preferredLanguage", lang);
-    document.getElementById("selected-language").innerText = lang.toUpperCase();
-    const { instructions, species, recipes } = translations[lang] || translations.en;
-    document.getElementById("topbar").innerHTML = `
-      <a href="instructions.html">${instructions}</a>
-      <a href="species.html">${species}</a>
-      <a href="recipes.html">${recipes}</a>
+    
+
+const translations = {
+  en: { instructions: "How It Works", species: "Wild Species", recipes: "Recipes", flag: "🇬🇧" },
+  it: { instructions: "Come funziona", species: "Specie Silvestri", recipes: "Ricette", flag: "🇮🇹" },
+  es: { instructions: "Cómo funciona", species: "Especies silvestres", recipes: "Recetas", flag: "🇪🇸" },
+  fr: { instructions: "Comment ça marche", species: "Espèces sauvages", recipes: "Recettes", flag: "🇫🇷" }
+};
+
+function changeLanguage(lang) {
+  localStorage.setItem("preferredLanguage", lang);
+  const t = translations[lang] || translations.en;
+
+  // Update topbar
+  const topbar = document.getElementById("topbar");
+  if (topbar) {
+    topbar.innerHTML = `
+      <a href="instructions.html">${t.instructions}</a>
+      <a href="species.html">${t.species}</a>
+      <a href="recipes.html">${t.recipes}</a>
     `;
-    document.getElementById("language-options").style.display = "none";
   }
-  
-  function toggleLanguageDropup() {
-    const menu = document.getElementById("language-options");
-    menu.style.display = (menu.style.display === "none") ? "flex" : "none";
-  }
-  
-  document.addEventListener("DOMContentLoaded", () => {
-    const lang = localStorage.getItem("preferredLanguage") || "en";
-    changeLanguage(lang);
+
+  // Update button and highlight
+  document.getElementById("selected-language").innerText = t.flag;
+  document.querySelectorAll('#language-options div').forEach(div => {
+    div.classList.toggle('current', div.dataset.lang === lang);
   });
+
+  // Hide menu
+  document.getElementById("language-options").style.display = "none";
+}
+
+function toggleLanguageDropup() {
+  const menu = document.getElementById("language-options");
+  menu.style.display = (menu.style.display === "none") ? "flex" : "none";
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  const lang = localStorage.getItem("preferredLanguage") || "en";
+  changeLanguage(lang);
+});
 
     
   </script>
