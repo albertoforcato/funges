@@ -728,13 +728,13 @@
     <!-- Image Upload Mask (Popup) -->
     <div id="image-mask">
         <div id="image-mask-content">
-            <p>Drag an image here or use the camera</p>
+            <p id="upload-drag-text"></p>
             <!-- Hidden File Input for Manual Upload -->
             <input type="file" id="fileInput" accept="image/*" capture="environment" onchange="handleImage(event)" style="display: none;">
             <!-- Button to trigger File Selection -->
             <button onclick="document.getElementById('fileInput').click()" style="font-size: 24px;">📷</button>
             <!-- Drop Zone -->
-            <div id="drop-zone">Drop Image Here</div>
+            <div id="drop-zone"></div>
             <!-- Result Display -->
             <div id="result" style="margin-top: 15px; font-size: 12px; font-weight: bold;"></div>
         </div>
@@ -1772,6 +1772,10 @@
           instructions: "How It Works",
           species: "Wild Species",
           recipes: "Recipes"
+        },
+        upload: {
+          dragText: "Drag an image here or use the camera",
+          dropZone: "Drop Image Here"
         }
       },
       es: {
@@ -1780,6 +1784,10 @@
           instructions: "Cómo funciona",
           species: "Especies silvestres",
           recipes: "Recetas"
+        },
+        upload: {
+          dragText: "Arrastra una imagen aquí o usa la cámara",
+          dropZone: "Suelta la imagen aquí"
         }
       },
       it: {
@@ -1788,6 +1796,10 @@
           instructions: "Come funziona",
           species: "Specie selvatiche",
           recipes: "Ricette"
+        },
+        upload: {
+          dragText: "Trascina un'immagine qui o usa la fotocamera",
+          dropZone: "Rilascia l'immagine qui"
         }
       },
       fr: {
@@ -1796,9 +1808,14 @@
           instructions: "Comment ça marche",
           species: "Espèces sauvages",
           recipes: "Recettes"
+        },
+        upload: {
+          dragText: "Faites glisser une image ici ou utilisez la caméra",
+          dropZone: "Déposez l'image ici"
         }
       }
     };
+
     
     function applyTranslations(lang) {
       const t = translations[lang];
@@ -1807,6 +1824,9 @@
       document.getElementById("topbar-instructions").textContent = t.topbar.instructions;
       document.getElementById("topbar-species").textContent = t.topbar.species;
       document.getElementById("topbar-recipes").textContent = t.topbar.recipes;
+      // Upload section
+      document.getElementById("upload-drag-text").textContent = t.upload.dragText;
+      document.getElementById("drop-zone").textContent = t.upload.dropZone;
     }
     
     function renderLanguageSelector(currentLang) {
