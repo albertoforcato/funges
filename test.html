@@ -1122,7 +1122,8 @@
   
       if (predictions.length === 0) {
           console.error("❌ No predictions to display!");
-          predictionText.innerText = "❌ No predictions available!";
+          const tError = translations[window.currentLang]?.error || translations["en"].error;
+          predictionText.innerText = tError.display;
           return;
       }
   
@@ -1142,7 +1143,8 @@
               // ✅ Check if model and class exist
               if (!CLASS_NAMES[modelIndex] || !CLASS_NAMES[modelIndex][classIndex]) {
                   console.error(`❌ ERROR: CLASS_NAMES[${modelIndex}][${classIndex}] does not exist!`, { modelIndex, classIndex });
-                  resultHTML += `${rank + 1}. ❌ Unknown Class (${classIndex})<br>`;
+                  const tError = translations[window.currentLang]?.error || translations["en"].error;
+                  predictionText.innerText = tError.display;
                   return;
               }
   
@@ -1164,7 +1166,8 @@
   
       } catch (error) {
           console.error("❌ ERROR in displayResults:", error);
-          predictionText.innerText = "❌ Error displaying predictions!";
+          const tError = translations[window.currentLang]?.error || translations["en"].error;
+          predictionText.innerText = tError.display;
       }
   }
   
@@ -2229,6 +2232,9 @@
         search: {
           link: "🔍 Search"
         },
+        error: {
+          display: "❌ Error displaying predictions!"
+        },
         species: {
         "🍄 Porcino (Boletus edulis)": "mushroom",
         "🌱 Amaranth (Amaranthus retroflexus)": "amaranth",
@@ -2294,6 +2300,9 @@
         },
         search: {
           link: "🔍 Buscar"
+        },
+        error: {
+          display: "❌ Error al mostrar los resultados!"
         },
         species: {
         "🍄 Boleto (Boletus edulis)": "mushroom",
@@ -2361,6 +2370,9 @@
         search: {
           link: "🔍 Cerca"
         },
+        error: {
+          display: "❌ Errore nella visualizzazione dei risultati!"
+        },
         species: {
         "🍄 Porcino (Boletus edulis)": "mushroom",
         "🌱 Amaranto (Amaranthus retroflexus)": "amaranth",
@@ -2427,6 +2439,9 @@
         search: {
           link: "🔍 Rechercher"
         },
+        error: {
+          display: "❌ Erreur lors de l'affichage des résultats !"
+        },
         species: {
         "🍄 Cèpe (Boletus edulis)": "mushroom",
         "🌱 Amarante (Amaranthus retroflexus)": "amaranth",
@@ -2454,8 +2469,6 @@
     };
 
 
-
-    
     function applyTranslations(lang) {
       const t = translations[lang];
     
