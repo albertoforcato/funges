@@ -822,6 +822,8 @@
     let isLongPressActive = false;
     let activeCoordinates = null;
     let longPressTimeout;
+    let speciesOptions = {};
+    let speciesDisplayMap = {};
   </script>
   
   <script>
@@ -1935,14 +1937,12 @@
     };
 
 
-    let speciesOptions = {};
-    let speciesDisplayMap = {};
 
     
     function applyTranslations(lang) {
       const t = translations[lang];
     
-      speciesOptions = t.species;
+      speciesOptions = translations[lang].species;
       speciesDisplayMap = Object.entries(speciesOptions).reduce((acc, [label, code]) => {
         acc[code] = label;
         return acc;
@@ -1952,37 +1952,31 @@
       document.getElementById("topbar-instructions").textContent = t.topbar.instructions;
       document.getElementById("topbar-species").textContent = t.topbar.species;
       document.getElementById("topbar-recipes").textContent = t.topbar.recipes;
+    
       // Upload section
       document.getElementById("upload-drag-text").textContent = t.upload.dragText;
       document.getElementById("drop-zone").textContent = t.upload.dropZone;
+    
       // Footer
       document.getElementById("footer-impressum").textContent = t.footer.impressum;
       document.getElementById("footer-privacy").textContent = t.footer.privacy;
       document.getElementById("footer-terms").textContent = t.footer.terms;
+    
       // Prediction box and modal
       document.getElementById("prediction-text").textContent = t.resultbox.prediction;
       document.getElementById("nearby-title").textContent = t.resultbox.nearby;
+    
       // OSM notice
       document.getElementById("osm-line-1").innerHTML = t.osm.line1;
       document.getElementById("osm-line-2").innerHTML = t.osm.line2;
       document.getElementById("osm-line-3").innerHTML = t.osm.line3;
-      // Species list
-      const list = document.getElementById("custom-species-list");
-      list.innerHTML = "";
     
-      Object.entries(t.species).forEach(([label, code]) => {
-        const div = document.createElement("div");
-        div.className = "custom-species-option";
-        div.dataset.code = code;
-        div.textContent = label;
-        div.onclick = () => selectSpecies(code);
-        list.appendChild(div);
-      });
-    
-      // Update currently selected species label
-      document.getElementById("current-species-label").textContent =
-        Object.entries(t.species).find(([label, val]) => val === selectedSpecies)?.[0] || "";
+      // Species dropdown label
+      if (selectedSpecies && speciesDisplayMap[selectedSpecies]) {
+        document.getElementById("current-species-label").textContent = speciesDisplayMap[selectedSpecies];
+      }
     }
+
 
     
     function renderLanguageSelector(currentLang) {
