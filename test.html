@@ -749,7 +749,7 @@
   
   <div id="language-dropup">
     <div id="language-options"></div>
-    <div id="selected-language" onclick="toggleLanguageDropup()"></div>
+    <div id="selected-language"></div>
   </div>
 
   <!-- Footer -->
@@ -1774,7 +1774,7 @@
     function renderLanguageSelector(currentLang) {
       const optionsDiv = document.getElementById("language-options");
       const selectedDiv = document.getElementById("selected-language");
-    
+
       optionsDiv.innerHTML = "";
       Object.keys(translations).forEach(lang => {
         if (lang !== currentLang) {
@@ -1785,7 +1785,8 @@
         }
       });
     
-      selectedDiv.textContent = translations[currentLang].flag;
+      selectedDiv.textContent = translations[currentLang].flag;      
+      selectedDiv.onclick = toggleLanguageDropup;
     }
     
     function setLanguage(lang) {
