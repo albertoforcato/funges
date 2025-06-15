@@ -851,15 +851,16 @@
       <!-- Patreon and Buy Me a Coffee -->
       <div class="support-buttons">
         <a href="https://www.patreon.com/Funges" target="_blank" class="patreon-button" aria-label="Support Funges on Patreon">
-          <img src="https://raw.githubusercontent.com/lodist/funges/main/QR/patreon.webp" alt="Support on Patreon" loading="lazy">
+          <img src="https://raw.githubusercontent.com/lodist/funges/main/QR/patreon.webp" alt="Patreon QR" loading="lazy">
           <span id="support-patreon"></span>
         </a>
-  
+      
         <a href="https://buymeacoffee.com/lorisdisteq" target="_blank" class="bmc-button" aria-label="Support Funges on Buy Me a Coffee">
-          <img src="https://raw.githubusercontent.com/lodist/funges/main/QR/buymeacoffee.webp" alt="Buy Me a Coffee" loading="lazy">
+          <img src="https://raw.githubusercontent.com/lodist/funges/main/QR/buymeacoffee.webp" alt="Buy Me a Coffee QR" loading="lazy">
           <span id="support-coffee"></span>
         </a>
       </div>
+
   
       <p style="margin-top: 10px; font-weight: bold;" id="support-donate"></p>
       
@@ -1983,17 +1984,19 @@
       document.getElementById("osm-line-1").innerHTML = t.osm.line1;
       document.getElementById("osm-line-2").innerHTML = t.osm.line2;
       document.getElementById("osm-line-3").innerHTML = t.osm.line3;
-      // Support
-      document.getElementById("support-title").textContent = translations[lang].supportTitle;
-      document.getElementById("support-patreon").textContent = translations[lang].supportPatreon;
-      document.getElementById("support-coffee").textContent = translations[lang].supportCoffee;
-      document.getElementById("support-donate").textContent = translations[lang].supportDonate;
-      document.getElementById("copy-btc").textContent = translations[lang].support.copy;
-      document.getElementById("qr-btc").textContent = translations[lang].support.showQR;
-      document.getElementById("copy-iota").textContent = translations[lang].support.copy;
-      document.getElementById("qr-iota").textContent = translations[lang].support.showQR;
-      document.getElementById("copy-eth").textContent = translations[lang].support.copy;
-      document.getElementById("qr-eth").textContent = translations[lang].support.showQR;
+      // Support section
+      document.getElementById("support-title").textContent = t.supportTitle;
+      document.getElementById("support-patreon").textContent = t.supportPatreon;
+      document.getElementById("support-coffee").textContent = t.supportCoffee;
+      document.getElementById("support-donate").textContent = t.supportDonate;
+      
+      // Crypto buttons
+      document.getElementById("copy-btc").textContent = t.support.copy;
+      document.getElementById("qr-btc").textContent = t.support.showQR;
+      document.getElementById("copy-iota").textContent = t.support.copy;
+      document.getElementById("qr-iota").textContent = t.support.showQR;
+      document.getElementById("copy-eth").textContent = t.support.copy;
+      document.getElementById("qr-eth").textContent = t.support.showQR;
       
       // Species dropdown label
       if (selectedSpecies && speciesDisplayMap[selectedSpecies]) {
