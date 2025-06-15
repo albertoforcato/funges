@@ -851,16 +851,15 @@
       <!-- Patreon and Buy Me a Coffee -->
       <div class="support-buttons">
         <a href="https://www.patreon.com/Funges" target="_blank" class="patreon-button" aria-label="Support Funges on Patreon">
-          <img src="https://raw.githubusercontent.com/lodist/funges/main/QR/patreon.webp" alt="Patreon QR" loading="lazy">
+          <img src="https://raw.githubusercontent.com/lodist/funges/main/QR/patreon.webp" alt="Support on Patreon" loading="lazy">
           <span id="support-patreon"></span>
         </a>
-      
+  
         <a href="https://buymeacoffee.com/lorisdisteq" target="_blank" class="bmc-button" aria-label="Support Funges on Buy Me a Coffee">
-          <img src="https://raw.githubusercontent.com/lodist/funges/main/QR/buymeacoffee.webp" alt="Buy Me a Coffee QR" loading="lazy">
+          <img src="https://raw.githubusercontent.com/lodist/funges/main/QR/buymeacoffee.webp" alt="Buy Me a Coffee" loading="lazy">
           <span id="support-coffee"></span>
         </a>
       </div>
-
   
       <p style="margin-top: 10px; font-weight: bold;" id="support-donate"></p>
       
@@ -884,18 +883,18 @@
       <div class="mobile-crypto" id="crypto-section">
         <div class="crypto-item">
           <p><strong>BTC:</strong> bc1q0j9yf0w4a5zp45u4lsk0xjq6gfefxcuhsvy2p0</p>
-          <button id="copy-btc" onclick="copyToClipboard('bc1q0j9yf0w4a5zp45u4lsk0xjq6gfefxcuhsvy2p0')"></button>
-          <button id="qr-btc" onclick="openQR('bitcoin_qr.webp')"></button>
+          <button onclick="copyToClipboard('bc1q0j9yf0w4a5zp45u4lsk0xjq6gfefxcuhsvy2p0')">📋 Copy</button>
+          <button onclick="openQR('bitcoin_qr.webp')">🖼 Show QR</button>
         </div>
         <div class="crypto-item">
           <p><strong>IOTA:</strong> iota1qp24tfmlscaj9u34k64ma2hh7<br>lhgj93srmtsysqmh6a85lm4dn02vdg6t67</p>
-          <button id="copy-iota" onclick="copyToClipboard('iota1qp24tfmlscaj9u34k64ma2hh7lhgj93srmtsysqmh6a85lm4dn02vdg6t67')"></button>
-          <button id="qr-iota" onclick="openQR('iota_qr.webp')"></button>
+          <button onclick="copyToClipboard('iota1qp24tfmlscaj9u34k64ma2hh7lhgj93srmtsysqmh6a85lm4dn02vdg6t67')">📋 Copy</button>
+          <button onclick="openQR('iota_qr.webp')">🖼 Show QR</button>
         </div>
         <div class="crypto-item">
           <p><strong>ETH:</strong> 0xa8134D63F689b08ab227EE935bB43ba5526f9D4C</p>
-          <button id="copy-eth" onclick="copyToClipboard('0xa8134D63F689b08ab227EE935bB43ba5526f9D4C')"></button>
-          <button id="qr-eth" onclick="openQR('ethereum_qr.webp')"></button>
+          <button onclick="copyToClipboard('0xa8134D63F689b08ab227EE935bB43ba5526f9D4C')">📋 Copy</button>
+          <button onclick="openQR('ethereum_qr.webp')">🖼 Show QR</button>
         </div>
       </div>
     </div>
@@ -1777,9 +1776,7 @@
         supportTitle: "Support the Project",
         supportPatreon: "Support on Patreon",
         supportCoffee: "Buy Me a Coffee",
-        supportDonate: "Donate:",
-        copy: "📋 Copy",
-        showQR: "🖼 Show QR"
+        supportDonate: "Donate:"
       },
       es: {
         flag: "🇪🇸",
@@ -1832,11 +1829,9 @@
         "🌰 Nuez (Juglans regia)": "walnut"
         },
         supportTitle: "Apoya el proyecto",
-        supportPatreon: "Apoya en Patreon",
+        supportPatreon: "Apóyanos en Patreon",
         supportCoffee: "Invítame a un café",
-        supportDonate: "Donar:",
-        copy: "📋 Copiar",
-        showQR: "🖼 Ver QR"
+        supportDonate: "Donar:"
       },
       it: {
         flag: "🇮🇹",
@@ -1891,9 +1886,7 @@
         supportTitle: "Supporta il progetto",
         supportPatreon: "Supportaci su Patreon",
         supportCoffee: "Offrimi un caffè",
-        supportDonate: "Dona:",
-        copy: "📋 Copia",
-        showQR: "🖼 Mostra QR"
+        supportDonate: "Dona:"
       },
       fr: {
         flag: "🇫🇷",
@@ -1948,9 +1941,7 @@
         supportTitle: "Soutenir le projet",
         supportPatreon: "Soutenez-nous sur Patreon",
         supportCoffee: "Offrez-moi un café",
-        supportDonate: "Faire un don :",
-        copy: "📋 Copier",
-        showQR: "🖼 Voir le QR"
+        supportDonate: "Faire un don :"
       }
     };
 
@@ -1984,19 +1975,12 @@
       document.getElementById("osm-line-1").innerHTML = t.osm.line1;
       document.getElementById("osm-line-2").innerHTML = t.osm.line2;
       document.getElementById("osm-line-3").innerHTML = t.osm.line3;
-      // Support section
-      document.getElementById("support-title").textContent = t.supportTitle;
-      document.getElementById("support-patreon").textContent = t.supportPatreon;
-      document.getElementById("support-coffee").textContent = t.supportCoffee;
-      document.getElementById("support-donate").textContent = t.supportDonate;
-      
-      // Crypto buttons
-      document.getElementById("copy-btc").textContent = t.support.copy;
-      document.getElementById("qr-btc").textContent = t.support.showQR;
-      document.getElementById("copy-iota").textContent = t.support.copy;
-      document.getElementById("qr-iota").textContent = t.support.showQR;
-      document.getElementById("copy-eth").textContent = t.support.copy;
-      document.getElementById("qr-eth").textContent = t.support.showQR;
+      // Support
+      document.getElementById("support-title").textContent = translations[lang].supportTitle;
+      document.getElementById("support-patreon").textContent = translations[lang].supportPatreon;
+      document.getElementById("support-coffee").textContent = translations[lang].supportCoffee;
+      document.getElementById("support-donate").textContent = translations[lang].supportDonate;
+
       
       // Species dropdown label
       if (selectedSpecies && speciesDisplayMap[selectedSpecies]) {
