@@ -1799,7 +1799,6 @@
         }
       }
     };
-        
     
     function applyTranslations(lang) {
       const t = translations[lang];
@@ -1810,18 +1809,10 @@
       document.getElementById("topbar-recipes").textContent = t.topbar.recipes;
     }
     
-    
-    const translations = {
-      en: { flag: "🇬🇧" },
-      it: { flag: "🇮🇹" },
-      es: { flag: "🇪🇸" },
-      fr: { flag: "🇫🇷" }
-    };
-    
     function renderLanguageSelector(currentLang) {
       const optionsDiv = document.getElementById("language-options");
       const selectedDiv = document.getElementById("selected-language");
-
+    
       optionsDiv.innerHTML = "";
       Object.keys(translations).forEach(lang => {
         if (lang !== currentLang) {
@@ -1832,7 +1823,7 @@
         }
       });
     
-      selectedDiv.textContent = translations[currentLang].flag;      
+      selectedDiv.textContent = translations[currentLang].flag;
       selectedDiv.onclick = toggleLanguageDropup;
     }
     
@@ -1840,10 +1831,9 @@
       localStorage.setItem("preferredLanguage", lang);
       window.currentLang = lang;
       renderLanguageSelector(lang);
+      applyTranslations(lang);
       document.getElementById("language-options").style.display = "none";
     }
-    applyTranslations(lang);
-
     
     function toggleLanguageDropup() {
       const menu = document.getElementById("language-options");
@@ -1857,6 +1847,7 @@
       renderLanguageSelector(lang);
       applyTranslations(lang);
     });
+
 
 
 
