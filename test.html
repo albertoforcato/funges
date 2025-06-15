@@ -803,55 +803,6 @@
   <!-- TensorFlow.js & TFLite -->
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-tflite"></script>
-
-  
-  
-  <script>
-    let layersVisible = false;
-    let flagpoleMarker = null;
-    let geoJsonLayer = null; 
-    let cachedRegions = {}; 
-    let firstLoad = true; 
-    let userMarker = null;
-    let cachedCoordinates = null; 
-    let cacheTimestamp = null; 
-    let selectedSpecies = localStorage.getItem("selectedSpecies") || "mushroom";
-    let emojiFilter = "";
-    let darkLayersVisible = false;
-    let isDragging = false;
-    let isZooming = false;
-    let isLongPressActive = false;
-    let activeCoordinates = null;
-    let longPressTimeout;
-
-    const speciesOptions = translations[lang].speciesOptions;
-    populateSpeciesDropdown(speciesOptions);
-    // 🍄  🌱  🌸 🌰 🍇
-    
-    const speciesDisplayMap = Object.entries(speciesOptions).reduce((acc, [label, code]) => {
-      acc[code] = label;
-      return acc;
-    }, {});
-
-  </script>
-  
-  <script>
-  
-  const spontaneousSpecies = ["amaranth", "chickweed", "dandelion", "nettle"];
-  
-  function showSpontaneousMessageIfNeeded(code) {
-    const msg = document.getElementById('spontaneous-message');
-    if (spontaneousSpecies.includes(code)) {
-      msg.classList.add('show');
-      msg.style.display = 'block';
-      clearTimeout(msg.dataset.timeout);
-      msg.dataset.timeout = setTimeout(() => {
-        msg.classList.remove('show');
-        setTimeout(() => { msg.style.display = 'none'; }, 400); // wait for fade-out
-      }, 7000);
-    }
-  }
-  </script>
     
   <!-- Load script.js AFTER TensorFlow -->
   <script src="script.js"></script>
@@ -1967,7 +1918,7 @@
       document.getElementById("osm-line-1").innerHTML = t.osm.line1;
       document.getElementById("osm-line-2").innerHTML = t.osm.line2;
       document.getElementById("osm-line-3").innerHTML = t.osm.line3;    
-      // Species options
+      // Species options 🍄  🌱  🌸 🌰 🍇
       document.getElementById("spontaneous-message").textContent = t.spontaneous;
 
     
@@ -2009,9 +1960,53 @@
     document.addEventListener("DOMContentLoaded", () => {
       const lang = localStorage.getItem("preferredLanguage") || "en";
       window.currentLang = lang;
+    
       renderLanguageSelector(lang);
       applyTranslations(lang);
+    
+      const speciesOptions = translations[lang].speciesOptions;
+      populateSpeciesDropdown(speciesOptions);
+    
+      const speciesDisplayMap = Object.entries(speciesOptions).reduce((acc, [label, code]) => {
+        acc[code] = label;
+        return acc;
+      }, {});
+      window.speciesDisplayMap = speciesDisplayMap;
     });
+
+
+    let layersVisible = false;
+    let flagpoleMarker = null;
+    let geoJsonLayer = null; 
+    let cachedRegions = {}; 
+    let firstLoad = true; 
+    let userMarker = null;
+    let cachedCoordinates = null; 
+    let cacheTimestamp = null; 
+    let selectedSpecies = localStorage.getItem("selectedSpecies") || "mushroom";
+    let emojiFilter = "";
+    let darkLayersVisible = false;
+    let isDragging = false;
+    let isZooming = false;
+    let isLongPressActive = false;
+    let activeCoordinates = null;
+    let longPressTimeout;
+
+  
+  const spontaneousSpecies = ["amaranth", "chickweed", "dandelion", "nettle"];
+  
+  function showSpontaneousMessageIfNeeded(code) {
+    const msg = document.getElementById('spontaneous-message');
+    if (spontaneousSpecies.includes(code)) {
+      msg.classList.add('show');
+      msg.style.display = 'block';
+      clearTimeout(msg.dataset.timeout);
+      msg.dataset.timeout = setTimeout(() => {
+        msg.classList.remove('show');
+        setTimeout(() => { msg.style.display = 'none'; }, 400); // wait for fade-out
+      }, 7000);
+    }
+  }
 
 
 
