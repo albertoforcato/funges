@@ -850,24 +850,25 @@
   <div id="support-modal" class="modal-overlay" style="display: none;">
     <div class="modal-content">
       <button class="close-button" onclick="toggleSupportModal()">✖</button>
-      <h2>Support the Project</h2>
+      <h2 id="support-title"></h2>
   
-      <!-- Patreon Button -->
+      <!-- Patreon and Buy Me a Coffee Buttons -->
       <div class="support-buttons">
         <!-- Patreon Button -->
         <a href="https://www.patreon.com/Funges" target="_blank" class="patreon-button" aria-label="Support Funges on Patreon">
           <img src="https://raw.githubusercontent.com/lodist/funges/main/QR/patreon.webp" alt="Support on Patreon" loading="lazy">
-          Support on Patreon
+          <span id="support-patreon"></span>
         </a>
-      
+  
         <!-- Buy Me a Coffee Button -->
         <a href="https://buymeacoffee.com/lorisdisteq" target="_blank" class="bmc-button" aria-label="Support Funges on Buy Me a Coffee">
           <img src="https://raw.githubusercontent.com/lodist/funges/main/QR/buymeacoffee.webp" alt="Buy Me a Coffee" loading="lazy">
-          Buy Me a Coffee
+          <span id="support-coffee"></span>
         </a>
       </div>
+  
       <!-- Donate Heading -->
-      <p style="margin-top: 10px; font-weight: bold;">Donate:</p>
+      <p id="support-donate" style="margin-top: 10px; font-weight: bold;"></p>
       
       <!-- Desktop QR Section -->
       <div class="qr-row" id="qr-section">
@@ -1755,6 +1756,12 @@
                   If you'd like to help keep the project running and improve availability, please consider <strong>supporting the project</strong>.`,
           line3: "In the meantime, enjoy this slightly less-than-perfect Boletus map — at least until we hit the threshold for this map as well 😅"
         },
+        support: {
+          title: "Support the Project",
+          patreon: "Support on Patreon",
+          coffee: "Buy Me a Coffee",
+          donate: "Donate:",
+        },
         spontaneous: "📢 Appears Spontaneously and Sparsely in Season",
         species: {
         "🍄 Porcino (Boletus edulis)": "mushroom",
@@ -1805,6 +1812,12 @@
           line2: `Actualmente no podemos cargar los mapas. Puede deberse a una mala conexión o a que hemos alcanzado nuestro límite mensual de uso.<br><br>
                   Si quieres ayudar a que el proyecto siga activo y mejorar su disponibilidad, por favor considera <strong>apoyar el proyecto</strong>.`,
           line3: "Mientras tanto, disfruta de este mapa de Boletus un poco imperfecto — al menos hasta que lleguemos al límite de este también 😅"
+        },
+        support: {
+          title: "Apoya el proyecto",
+          patreon: "Apóyanos en Patreon",
+          coffee: "Invítame a un café",
+          donate: "Donar:",
         },
         spontaneous: "📢 Aparece espontáneamente y con poca frecuencia en temporada",
         species: {
@@ -1857,6 +1870,12 @@
                   Se vuoi contribuire al progetto e migliorarne la disponibilità, considera di <strong>sostenere il progetto</strong>.`,
           line3: "Nel frattempo, goditi questa mappa dei porcini non perfetta — almeno finché non raggiungiamo il limite anche qui 😅"
         },
+        support: {
+          title: "Supporta il progetto",
+          patreon: "Supportaci su Patreon",
+          coffee: "Offrimi un caffè",
+          donate: "Dona:",
+          },
         spontaneous: "📢 Appare spontaneamente e raramente durante la stagione",
         species: {
         "🍄 Porcino (Boletus edulis)": "mushroom",
@@ -1908,6 +1927,12 @@
                   Si vous souhaitez aider à maintenir le projet actif et améliorer sa disponibilité, merci de <strong>soutenir le projet</strong>.`,
           line3: "En attendant, profitez de cette carte des bolets un peu imparfaite — du moins jusqu'à ce qu’on atteigne la limite ici aussi 😅"
         },
+        support: {
+          title: "Soutenir le projet",
+          patreon: "Soutenez-nous sur Patreon",
+          coffee: "Offrez-moi un café",
+          donate: "Faire un don :",
+          },
         spontaneous: "📢 Apparaît spontanément et rarement en saison",
         species: {
         "🍄 Cèpe (Boletus edulis)": "mushroom",
@@ -1951,32 +1976,32 @@
       document.getElementById("topbar-instructions").textContent = t.topbar.instructions;
       document.getElementById("topbar-species").textContent = t.topbar.species;
       document.getElementById("topbar-recipes").textContent = t.topbar.recipes;
-    
       // Upload section
       document.getElementById("upload-drag-text").textContent = t.upload.dragText;
       document.getElementById("drop-zone").textContent = t.upload.dropZone;
-    
       // Footer
       document.getElementById("footer-impressum").textContent = t.footer.impressum;
       document.getElementById("footer-privacy").textContent = t.footer.privacy;
       document.getElementById("footer-terms").textContent = t.footer.terms;
-    
       // Prediction box and modal
       document.getElementById("prediction-text").textContent = t.resultbox.prediction;
       document.getElementById("nearby-title").textContent = t.resultbox.nearby;
-    
       // OSM notice
       document.getElementById("osm-line-1").innerHTML = t.osm.line1;
       document.getElementById("osm-line-2").innerHTML = t.osm.line2;
       document.getElementById("osm-line-3").innerHTML = t.osm.line3;
-    
+      // Support
+      document.getElementById("support-title").innerHTML = t.support.title;
+      document.getElementById("support-patreon").innerHTML = t.support.patreon;
+      document.getElementById("support-coffee").innerHTML = t.support.coffee;
+      document.getElementById("support-donate").innerHTML = t.support.donate;
+
+      
       // Species dropdown label
       if (selectedSpecies && speciesDisplayMap[selectedSpecies]) {
         document.getElementById("current-species-label").textContent = speciesDisplayMap[selectedSpecies];
       }
     }
-
-
     
     function renderLanguageSelector(currentLang) {
       const optionsDiv = document.getElementById("language-options");
