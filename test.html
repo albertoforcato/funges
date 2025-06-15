@@ -761,7 +761,6 @@
     <a href="termsuse.html" id="footer-terms"></a>
   </div>
 
-
     <!-- Loading Spinner -->
   <div id="loading-spinner" style="display: none;">
     <img src="https://raw.githubusercontent.com/lodist/funges/main/icons/loading_1.gif" alt="Loading" loading="lazy">
@@ -769,36 +768,32 @@
   
   <!-- Prediction Result Box -->
   <div id="prediction-box">
-      <p id="prediction-text">Prediction will appear here</p>
+    <p id="prediction-text"></p>
   </div>
   
   <div id="nearby-modal" class="modal-overlay" style="display: none;">
     <div class="modal-content">
       <button class="close-button" onclick="toggleNearbyModal()">×</button>
-      <h3>Nearby Edibles</h3>
+      <h3 id="nearby-title"></h3>
       <ul id="nearby-edibles-list" style="list-style: none; padding: 0;"></ul>
     </div>
   </div>
-    
+
   <!-- OSM Limit Notice -->
   <div id="osm-limit-notice" style="display: none;">
     <div class="osm-notice-content">
       <button id="close-osm-notice">✖</button>
-      <p>Dear Forager,<br></p>
-      <p>
-        We’re currently unable to load the map tiles. This may be due to a poor internet connection or because we’ve reached our monthly usage limit.
-        <br><br>
-        If you'd like to help keep the project running and improve availability, please consider <strong>supporting the project</strong>.
-      </p>
-      <!-- Support Button -->
+      <p id="osm-line-1"></p>
+      <p id="osm-line-2"></p>
       <div style="margin: 15px 0;">
         <a href="https://www.patreon.com/Funges" target="_blank">
           <img src="https://raw.githubusercontent.com/lodist/funges/main/icons/support_1.webp" alt="Support Button" style="width: 50px; height: auto; cursor: pointer;">
         </a>
       </div>
-      <p>In the meantime, enjoy this slightly less-than-perfect Boletus map — at least until we hit the threshold for this map as well 😅</p>
+      <p id="osm-line-3"></p>
     </div>
   </div>
+
   
   <div id="spontaneous-message">
     📢 Appears Spontaneously and Sparsely in Season
@@ -1782,6 +1777,16 @@
           impressum: "Impressum",
           privacy: "Privacy Policy",
           terms: "Terms of Use"
+        },
+        resultbox: {
+          prediction: "Prediction will appear here",
+          nearby: "Nearby Edibles"
+        },
+        osm: {
+          line1: "Dear Forager,<br>",
+          line2: `We’re currently unable to load the map tiles. This may be due to a poor internet connection or because we’ve reached our monthly usage limit.<br><br>
+                  If you'd like to help keep the project running and improve availability, please consider <strong>supporting the project</strong>.`,
+          line3: "In the meantime, enjoy this slightly less-than-perfect Boletus map — at least until we hit the threshold for this map as well 😅"
         }
       },
       es: {
@@ -1799,6 +1804,16 @@
           impressum: "Aviso legal",
           privacy: "Política de privacidad",
           terms: "Términos de uso"
+        },
+        resultbox: {
+          prediction: "El resultado aparecerá aquí",
+          nearby: "Comestibles cercanos"
+        },
+        osm: {
+          line1: "Querido recolector:<br>",
+          line2: `Actualmente no podemos cargar los mapas. Puede deberse a una mala conexión o a que hemos alcanzado nuestro límite mensual de uso.<br><br>
+                  Si quieres ayudar a que el proyecto siga activo y mejorar su disponibilidad, por favor considera <strong>apoyar el proyecto</strong>.`,
+          line3: "Mientras tanto, disfruta de este mapa de Boletus un poco imperfecto — al menos hasta que lleguemos al límite de este también 😅"
         }
       },
       it: {
@@ -1816,6 +1831,16 @@
           impressum: "Note legali",
           privacy: "Informativa sulla privacy",
           terms: "Termini di utilizzo"
+        },
+        resultbox: {
+          prediction: "Il risultato apparirà qui",
+          nearby: "Commestibili nelle vicinanze"
+        },
+        osm: {
+          line1: "Caro cercatore,<br>",
+          line2: `Attualmente non riusciamo a caricare le mappe. Potrebbe essere per una connessione scarsa o perché abbiamo raggiunto il limite mensile.<br><br>
+                  Se vuoi contribuire al progetto e migliorarne la disponibilità, considera di <strong>sostenere il progetto</strong>.`,
+          line3: "Nel frattempo, goditi questa mappa dei porcini non perfetta — almeno finché non raggiungiamo il limite anche qui 😅"
         }
       },
       fr: {
@@ -1833,6 +1858,16 @@
           impressum: "Mentions légales",
           privacy: "Politique de confidentialité",
           terms: "Conditions d'utilisation"
+        },
+        resultbox: {
+          prediction: "Le résultat apparaîtra ici",
+          nearby: "Comestibles à proximité"
+        },
+        osm: {
+          line1: "Cher cueilleur,<br>",
+          line2: `Nous ne pouvons actuellement pas charger les cartes. Cela peut être dû à une mauvaise connexion ou à une limite mensuelle atteinte.<br><br>
+                  Si vous souhaitez aider à maintenir le projet actif et améliorer sa disponibilité, merci de <strong>soutenir le projet</strong>.`,
+          line3: "En attendant, profitez de cette carte des bolets un peu imparfaite — du moins jusqu'à ce qu’on atteigne la limite ici aussi 😅"
         }
       }
     };
@@ -1852,7 +1887,16 @@
       document.getElementById("footer-impressum").textContent = t.footer.impressum;
       document.getElementById("footer-privacy").textContent = t.footer.privacy;
       document.getElementById("footer-terms").textContent = t.footer.terms;
-      
+      // Prediction box and modal
+      document.getElementById("prediction-text").textContent = t.resultbox.prediction;
+      document.getElementById("nearby-title").textContent = t.resultbox.nearby;    
+      // OSM notice
+      document.getElementById("osm-line-1").innerHTML = t.osm.line1;
+      document.getElementById("osm-line-2").innerHTML = t.osm.line2;
+      document.getElementById("osm-line-3").innerHTML = t.osm.line3;    
+    
+    
+    
     }
     
     function renderLanguageSelector(currentLang) {
