@@ -1800,7 +1800,8 @@
     
     function toggleLanguageDropup() {
       const menu = document.getElementById("language-options");
-      menu.style.display = (menu.style.display === "none") ? "flex" : "none";
+      const currentDisplay = window.getComputedStyle(menu).display;
+      menu.style.display = (currentDisplay === "none") ? "flex" : "none";
     }
     
     document.addEventListener("DOMContentLoaded", () => {
