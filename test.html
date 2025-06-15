@@ -883,18 +883,18 @@
       <div class="mobile-crypto" id="crypto-section">
         <div class="crypto-item">
           <p><strong>BTC:</strong> bc1q0j9yf0w4a5zp45u4lsk0xjq6gfefxcuhsvy2p0</p>
-          <button onclick="copyToClipboard('bc1q0j9yf0w4a5zp45u4lsk0xjq6gfefxcuhsvy2p0')">📋 Copy</button>
-          <button onclick="openQR('bitcoin_qr.webp')">🖼 Show QR</button>
+          <button onclick="copyToClipboard('bc1q0j9yf0w4a5zp45u4lsk0xjq6gfefxcuhsvy2p0')" id="copy-btc"></button>
+          <button onclick="openQR('bitcoin_qr.webp')" id="qr-btc"></button>
         </div>
         <div class="crypto-item">
           <p><strong>IOTA:</strong> iota1qp24tfmlscaj9u34k64ma2hh7<br>lhgj93srmtsysqmh6a85lm4dn02vdg6t67</p>
-          <button onclick="copyToClipboard('iota1qp24tfmlscaj9u34k64ma2hh7lhgj93srmtsysqmh6a85lm4dn02vdg6t67')">📋 Copy</button>
-          <button onclick="openQR('iota_qr.webp')">🖼 Show QR</button>
+          <button onclick="copyToClipboard('iota1qp24tfmlscaj9u34k64ma2hh7lhgj93srmtsysqmh6a85lm4dn02vdg6t67')" id="copy-iota"></button>
+          <button onclick="openQR('iota_qr.webp')" id="qr-iota"></button>
         </div>
         <div class="crypto-item">
           <p><strong>ETH:</strong> 0xa8134D63F689b08ab227EE935bB43ba5526f9D4C</p>
-          <button onclick="copyToClipboard('0xa8134D63F689b08ab227EE935bB43ba5526f9D4C')">📋 Copy</button>
-          <button onclick="openQR('ethereum_qr.webp')">🖼 Show QR</button>
+          <button onclick="copyToClipboard('0xa8134D63F689b08ab227EE935bB43ba5526f9D4C')" id="copy-eth"></button>
+          <button onclick="openQR('ethereum_qr.webp')" id="qr-eth"></button>
         </div>
       </div>
     </div>
@@ -1776,7 +1776,9 @@
         supportTitle: "Support the Project",
         supportPatreon: "Support on Patreon",
         supportCoffee: "Buy Me a Coffee",
-        supportDonate: "Donate:"
+        supportDonate: "Donate:",
+        copy: "📋 Copy",
+        showQR: "🖼 Show QR"
       },
       es: {
         flag: "🇪🇸",
@@ -1829,9 +1831,11 @@
         "🌰 Nuez (Juglans regia)": "walnut"
         },
         supportTitle: "Apoya el proyecto",
-        supportPatreon: "Apóyanos en Patreon",
+        supportPatreon: "Apoya en Patreon",
         supportCoffee: "Invítame a un café",
-        supportDonate: "Donar:"
+        supportDonate: "Donar:",
+        copy: "📋 Copiar",
+        showQR: "🖼 Ver QR"
       },
       it: {
         flag: "🇮🇹",
@@ -1886,7 +1890,9 @@
         supportTitle: "Supporta il progetto",
         supportPatreon: "Supportaci su Patreon",
         supportCoffee: "Offrimi un caffè",
-        supportDonate: "Dona:"
+        supportDonate: "Dona:",
+        copy: "📋 Copia",
+        showQR: "🖼 Mostra QR"
       },
       fr: {
         flag: "🇫🇷",
@@ -1941,7 +1947,9 @@
         supportTitle: "Soutenir le projet",
         supportPatreon: "Soutenez-nous sur Patreon",
         supportCoffee: "Offrez-moi un café",
-        supportDonate: "Faire un don :"
+        supportDonate: "Faire un don :",
+        copy: "📋 Copier",
+        showQR: "🖼 Voir le QR"
       }
     };
 
@@ -1980,7 +1988,9 @@
       document.getElementById("support-patreon").textContent = translations[lang].supportPatreon;
       document.getElementById("support-coffee").textContent = translations[lang].supportCoffee;
       document.getElementById("support-donate").textContent = translations[lang].supportDonate;
-
+      document.getElementById("support-title").innerText = t.title;
+      document.getElementById("support-patreon").innerText = t.patreon;
+      document.getElementById("support-donate").innerText = t.donate;
       
       // Species dropdown label
       if (selectedSpecies && speciesDisplayMap[selectedSpecies]) {
