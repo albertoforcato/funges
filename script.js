@@ -278,8 +278,11 @@ function displayResults(predictions) {
 
     // ✅ Ensure at least 3 predictions exist
     let topPredictions = predictions.slice(0, 3);
-    let resultHTML = `<strong style="color: #aa1100 !important;">⚠️ Always seek professional advice before consuming wild edibles</strong><br><br>
-                      <strong>🍄 Top Predictions:</strong><br><br>`;
+    const lang = localStorage.getItem("language") || "en";
+    const t = translations[lang];
+    
+    let resultHTML = `<strong style="color: #aa1100 !important;">${t["warning-edibles"]}</strong><br><br>
+                      <strong>${t["top-predictions"]}</strong><br><br>`;
 
     try {
         topPredictions.forEach((pred, rank) => {
