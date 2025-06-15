@@ -606,49 +606,48 @@
     }
 
     
+
+    
     #language-dropup {
       position: fixed;
-      bottom: 70px; /* raised to avoid overlap */
+      bottom: 55px;
       right: 20px;
       z-index: 9999;
       text-align: center;
+      display: flex;
+      flex-direction: column-reverse;
+      align-items: center;
+    }
+    
+    #selected-language,
+    #language-options div {
+      width: 45px;
+      height: 45px;
+      line-height: 45px;
+      border-radius: 50%;
+      text-align: center;
+      font-size: 20px;
+      cursor: pointer;
+      margin-bottom: 6px;
+      user-select: none;
     }
     
     #selected-language {
       background: #3d7e40;
       color: white;
-      width: 45px;
-      height: 45px;
-      border-radius: 50%;
-      line-height: 45px;
-      cursor: pointer;
-      font-size: 20px;
-      user-select: none;
+      font-weight: bold;
     }
     
     #language-options {
       display: none;
-      flex-direction: column-reverse;
-      gap: 6px;
-      align-items: center;
+      flex-direction: column;
     }
     
     #language-options div {
       background: #eee;
-      width: 45px;
-      height: 45px;
-      border-radius: 50%;
-      line-height: 45px;
-      font-size: 20px;
-      cursor: pointer;
-      user-select: none;
       color: black;
     }
-    
-    #language-options div.current {
-      background: red;
-      color: white;
-    }
+
 
     
   </style>
@@ -1778,47 +1777,64 @@
 
 
     
+    
+    const translations = {
+      en: { instructions: "How It Works", species: "Wild Species", recipes: "Recipes", flag: "🇬🇧" },
+      it: { instructions: "Come funziona", species: "Specie Silvestri", recipes: "Ricette", flag: "🇮🇹" },
+      es: { instructions: "Cómo funciona", species: "Especies silvestres", recipes: "Recetas", flag: "🇪🇸" },
+      fr: { instructions: "Comment ça marche", species: "Espèces sauvages", recipes: "Recettes", flag: "🇫🇷" }
+    };
+    
+    function renderLanguageSelector(currentLang) {
+      const optionsDiv = document.getElementById("language-options");
+      const selectedDiv = document.getElementById("selected-language");
+    
+      // Clear current options
+      optionsDiv.innerHTML = "";
+    
+      // Add all other languages as options
+      Object.keys(translations).forEach(lang => {
+        if (lang !== currentLang) {
+          const langDiv = document.createElement("div");
+          langDiv.textContent = translations[lang].flag;
+          langDiv.title = lang.toUpperCase();
+          langDiv.onclick = () => changeLanguage(lang);
+          optionsDiv.appendChild(langDiv);
+        }
+      });
+    
+      // Set current language button
+      selectedDiv.textContent = translations[currentLang].flag;
+      selectedDiv.title = currentLang.toUpperCase();
+    }
+    
+    function changeLanguage(lang) {
+      localStorage.setItem("preferredLanguage", lang);
+    
+      const t = translations[lang];
+      const topbar = document.getElementById("topbar");
+      if (topbar) {
+        topbar.innerHTML = `
+          <a href="instructions.html">${t.instructions}</a>
+          <a href="species.html">${t.species}</a>
+          <a href="recipes.html">${t.recipes}</a>
+        `;
+      }
+    
+      renderLanguageSelector(lang);
+      document.getElementById("language-options").style.display = "none";
+    }
+    
+    function toggleLanguageDropup() {
+      const menu = document.getElementById("language-options");
+      menu.style.display = (menu.style.display === "none") ? "flex" : "none";
+    }
+    
+    document.addEventListener("DOMContentLoaded", () => {
+      const lang = localStorage.getItem("preferredLanguage") || "en";
+      changeLanguage(lang);
+    });
 
-const translations = {
-  en: { instructions: "How It Works", species: "Wild Species", recipes: "Recipes", flag: "🇬🇧" },
-  it: { instructions: "Come funziona", species: "Specie Silvestri", recipes: "Ricette", flag: "🇮🇹" },
-  es: { instructions: "Cómo funciona", species: "Especies silvestres", recipes: "Recetas", flag: "🇪🇸" },
-  fr: { instructions: "Comment ça marche", species: "Espèces sauvages", recipes: "Recettes", flag: "🇫🇷" }
-};
-
-function changeLanguage(lang) {
-  localStorage.setItem("preferredLanguage", lang);
-  const t = translations[lang] || translations.en;
-
-  // Update topbar
-  const topbar = document.getElementById("topbar");
-  if (topbar) {
-    topbar.innerHTML = `
-      <a href="instructions.html">${t.instructions}</a>
-      <a href="species.html">${t.species}</a>
-      <a href="recipes.html">${t.recipes}</a>
-    `;
-  }
-
-  // Update button and highlight
-  document.getElementById("selected-language").innerText = t.flag;
-  document.querySelectorAll('#language-options div').forEach(div => {
-    div.classList.toggle('current', div.dataset.lang === lang);
-  });
-
-  // Hide menu
-  document.getElementById("language-options").style.display = "none";
-}
-
-function toggleLanguageDropup() {
-  const menu = document.getElementById("language-options");
-  menu.style.display = (menu.style.display === "none") ? "flex" : "none";
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-  const lang = localStorage.getItem("preferredLanguage") || "en";
-  changeLanguage(lang);
-});
 
     
   </script>
