@@ -184,9 +184,9 @@
 
       #selected-language,
       #language-options div {
-        width: 18px;
-        height: 18px;
-        font-size: 13px; /* Adjust emoji size accordingly */
+        width: 12px;
+        height: 12px;
+        font-size: 8px; /* Adjust emoji size accordingly */
         line-height: normal; /* Optional: reset if not using text */
       }
       
@@ -2022,6 +2022,17 @@
       window.currentLang = lang;
       renderLanguageSelector(lang);
       applyTranslations(lang);
+    });
+    
+    // Close language flag dropup when clicking outside
+    document.addEventListener("click", function (event) {
+      const languageOptions = document.getElementById("language-options");
+      const selectedLanguage = document.getElementById("selected-language");
+      if (
+        languageOptions && languageOptions.style.display === "flex" && !languageOptions.contains(event.target) && !selectedLanguage.contains(event.target)
+      ) {
+        languageOptions.style.display = "none";
+      }
     });
 
 
