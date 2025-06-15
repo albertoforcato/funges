@@ -654,11 +654,11 @@
   
   <!-- Top Navigation Bar -->
   <div id="topbar">
-    <a href="instructions.html">How It Works</a>
-    <a href="species.html">Wild Species</a>
-    <a href="recipes.html">Recipes</a>
+  <a href="instructions.html" id="topbar-instructions"></a>
+  <a href="species.html" id="topbar-species"></a>
+  <a href="recipes.html" id="topbar-recipes"></a>
   </div>
-  
+
   <div id="species-selector">
     <div id="species-display" onclick="toggleSpeciesDropdown()">
       <span id="current-species-label"></span> ▼
@@ -1765,6 +1765,51 @@
 
 
     
+    const translations = {
+      en: {
+        flag: "🇬🇧",
+        topbar: {
+          instructions: "How It Works",
+          species: "Wild Species",
+          recipes: "Recipes"
+        }
+      },
+      es: {
+        flag: "🇪🇸",
+        topbar: {
+          instructions: "Cómo funciona",
+          species: "Especies silvestres",
+          recipes: "Recetas"
+        }
+      },
+      it: {
+        flag: "🇮🇹",
+        topbar: {
+          instructions: "Come funziona",
+          species: "Specie selvatiche",
+          recipes: "Ricette"
+        }
+      },
+      fr: {
+        flag: "🇫🇷",
+        topbar: {
+          instructions: "Comment ça marche",
+          species: "Espèces sauvages",
+          recipes: "Recettes"
+        }
+      }
+    };
+        
+    
+    function applyTranslations(lang) {
+      const t = translations[lang];
+    
+      // Topbar
+      document.getElementById("topbar-instructions").textContent = t.topbar.instructions;
+      document.getElementById("topbar-species").textContent = t.topbar.species;
+      document.getElementById("topbar-recipes").textContent = t.topbar.recipes;
+    }
+    
     
     const translations = {
       en: { flag: "🇬🇧" },
@@ -1797,6 +1842,8 @@
       renderLanguageSelector(lang);
       document.getElementById("language-options").style.display = "none";
     }
+    applyTranslations(lang);
+
     
     function toggleLanguageDropup() {
       const menu = document.getElementById("language-options");
@@ -1808,7 +1855,10 @@
       const lang = localStorage.getItem("preferredLanguage") || "en";
       window.currentLang = lang;
       renderLanguageSelector(lang);
+      applyTranslations(lang);
     });
+
+
 
     
   </script>
