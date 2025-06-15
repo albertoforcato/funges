@@ -645,6 +645,8 @@
       background: rgba(255, 252, 239, 0.3);
     }
 
+
+    
   </style>
 </head>
   <body>
@@ -790,15 +792,17 @@
       <p id="osm-line-3"></p>
     </div>
   </div>
-    
+
+  
   <div id="spontaneous-message"></div>
-    
+
   <!-- Class Names -->
   <script src="https://pub-92765923660e431daff3170fbef6471d.r2.dev/class_names.js"></script>
 
   <!-- TensorFlow.js & TFLite -->
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-tflite"></script>
+  
   
   <script>
     let layersVisible = false;
@@ -846,22 +850,24 @@
   <div id="support-modal" class="modal-overlay" style="display: none;">
     <div class="modal-content">
       <button class="close-button" onclick="toggleSupportModal()">✖</button>
-      <h2 id="support-title"></h2>
+      <h2>Support the Project</h2>
   
-      <!-- Patreon and Buy Me a Coffee -->
+      <!-- Patreon Button -->
       <div class="support-buttons">
+        <!-- Patreon Button -->
         <a href="https://www.patreon.com/Funges" target="_blank" class="patreon-button" aria-label="Support Funges on Patreon">
           <img src="https://raw.githubusercontent.com/lodist/funges/main/QR/patreon.webp" alt="Support on Patreon" loading="lazy">
-          <span id="support-patreon"></span>
+          Support on Patreon
         </a>
-  
+      
+        <!-- Buy Me a Coffee Button -->
         <a href="https://buymeacoffee.com/lorisdisteq" target="_blank" class="bmc-button" aria-label="Support Funges on Buy Me a Coffee">
           <img src="https://raw.githubusercontent.com/lodist/funges/main/QR/buymeacoffee.webp" alt="Buy Me a Coffee" loading="lazy">
-          <span id="support-coffee"></span>
+          Buy Me a Coffee
         </a>
       </div>
-  
-      <p style="margin-top: 10px; font-weight: bold;" id="support-donate"></p>
+      <!-- Donate Heading -->
+      <p style="margin-top: 10px; font-weight: bold;">Donate:</p>
       
       <!-- Desktop QR Section -->
       <div class="qr-row" id="qr-section">
@@ -1772,11 +1778,7 @@
         "🍇 Strawberry (Fragaria vesca)": "strawberry",
         "🍄 Truffle Black (Tuber melanosporum)": "truffle_b",
         "🌰 Walnut (Juglans regia)": "walnut"
-        },
-        supportTitle: "Support the Project",
-        supportPatreon: "Support on Patreon",
-        supportCoffee: "Buy Me a Coffee",
-        supportDonate: "Donate:"
+        }
       },
       es: {
         flag: "🇪🇸",
@@ -1827,11 +1829,7 @@
         "🍇 Fresa silvestre (Fragaria vesca)": "strawberry",
         "🍄 Trufa negra (Tuber melanosporum)": "truffle_b",
         "🌰 Nuez (Juglans regia)": "walnut"
-        },
-        supportTitle: "Apoya el proyecto",
-        supportPatreon: "Apóyanos en Patreon",
-        supportCoffee: "Invítame a un café",
-        supportDonate: "Donar:"
+        }
       },
       it: {
         flag: "🇮🇹",
@@ -1882,11 +1880,7 @@
         "🍇 Fragolina di bosco (Fragaria vesca)": "strawberry",
         "🍄 Tartufo nero (Tuber melanosporum)": "truffle_b",
         "🌰 Noce (Juglans regia)": "walnut"
-        },
-        supportTitle: "Supporta il progetto",
-        supportPatreon: "Supportaci su Patreon",
-        supportCoffee: "Offrimi un caffè",
-        supportDonate: "Dona:"
+        }
       },
       fr: {
         flag: "🇫🇷",
@@ -1937,11 +1931,7 @@
         "🍇 Fraise des bois (Fragaria vesca)": "strawberry",
         "🍄 Truffe noire (Tuber melanosporum)": "truffle_b",
         "🌰 Noyer (Juglans regia)": "walnut"
-        },
-        supportTitle: "Soutenir le projet",
-        supportPatreon: "Soutenez-nous sur Patreon",
-        supportCoffee: "Offrez-moi un café",
-        supportDonate: "Faire un don :"
+        }
       }
     };
 
@@ -1961,27 +1951,25 @@
       document.getElementById("topbar-instructions").textContent = t.topbar.instructions;
       document.getElementById("topbar-species").textContent = t.topbar.species;
       document.getElementById("topbar-recipes").textContent = t.topbar.recipes;
+    
       // Upload section
       document.getElementById("upload-drag-text").textContent = t.upload.dragText;
       document.getElementById("drop-zone").textContent = t.upload.dropZone;
+    
       // Footer
       document.getElementById("footer-impressum").textContent = t.footer.impressum;
       document.getElementById("footer-privacy").textContent = t.footer.privacy;
       document.getElementById("footer-terms").textContent = t.footer.terms;
+    
       // Prediction box and modal
       document.getElementById("prediction-text").textContent = t.resultbox.prediction;
       document.getElementById("nearby-title").textContent = t.resultbox.nearby;
+    
       // OSM notice
       document.getElementById("osm-line-1").innerHTML = t.osm.line1;
       document.getElementById("osm-line-2").innerHTML = t.osm.line2;
       document.getElementById("osm-line-3").innerHTML = t.osm.line3;
-      // Support
-      document.getElementById("support-title").textContent = translations[lang].supportTitle;
-      document.getElementById("support-patreon").textContent = translations[lang].supportPatreon;
-      document.getElementById("support-coffee").textContent = translations[lang].supportCoffee;
-      document.getElementById("support-donate").textContent = translations[lang].supportDonate;
-
-      
+    
       // Species dropdown label
       if (selectedSpecies && speciesDisplayMap[selectedSpecies]) {
         document.getElementById("current-species-label").textContent = speciesDisplayMap[selectedSpecies];
