@@ -606,25 +606,23 @@
     }
 
     
-
     
     #language-dropup {
       position: fixed;
       bottom: 55px;
       right: 20px;
-      z-index: 9999;
-      text-align: center;
       display: flex;
       flex-direction: column-reverse;
       align-items: center;
+      z-index: 9999;
     }
     
     #selected-language,
     #language-options div {
       width: 45px;
       height: 45px;
-      line-height: 45px;
       border-radius: 50%;
+      line-height: 45px;
       text-align: center;
       font-size: 20px;
       cursor: pointer;
@@ -645,9 +643,7 @@
     
     #language-options div {
       background: #eee;
-      color: black;
     }
-
 
     
   </style>
@@ -655,7 +651,11 @@
   <body>
   
   <!-- Top Navigation Bar -->
-  <div id="topbar"></div>
+  <div id="topbar">
+    <a href="instructions.html">How It Works</a>
+    <a href="species.html">Wild Species</a>
+    <a href="recipes.html">Recipes</a>
+  </div>
   
   <div id="species-selector">
     <div id="species-display" onclick="toggleSpeciesDropdown()">
@@ -746,22 +746,17 @@
       <img src="https://raw.githubusercontent.com/lodist/funges/main/icons/gmaps_1.webp" alt="Google Maps Button" loading="lazy">
     </div>
   </div>
+  
+  <div id="language-dropup">
+    <div id="language-options"></div>
+    <div id="selected-language" onclick="toggleLanguageDropup()"></div>
+  </div>
 
   <!-- Footer -->
   <div id="footer">
     <a href="impressum.html">Impressum</a>
     <a href="privacy-policy.html">Privacy Policy</a>
     <a href="termsuse.html">Terms of Use</a>
-  </div>
-  
-  <div id="language-dropup">
-    <div id="selected-language" onclick="toggleLanguageDropup()">EN</div>
-    <div id="language-options" style="display: none;">
-      <div onclick="changeLanguage('en')">EN</div>
-      <div onclick="changeLanguage('it')">IT</div>
-      <div onclick="changeLanguage('es')">ES</div>
-      <div onclick="changeLanguage('fr')">FR</div>
-    </div>
   </div>
 
     <!-- Loading Spinner -->
@@ -943,16 +938,6 @@
           <button onclick="openQR('ethereum_qr.webp')">🖼 Show QR</button>
         </div>
       </div>
-    </div>
-  </div>
-  
-  <div id="language-dropup">
-    <div id="selected-language" onclick="toggleLanguageDropup()">EN</div>
-    <div id="language-options" style="display: none;">
-      <div onclick="changeLanguage('it')">🇮🇹 IT</div>
-      <div onclick="changeLanguage('es')">🇪🇸 ES</div>
-      <div onclick="changeLanguage('fr')">🇫🇷 FR</div>
-      <div onclick="changeLanguage('en')">🇬🇧 EN</div>
     </div>
   </div>
 
@@ -1776,51 +1761,36 @@
 
 
 
+
     
     
     const translations = {
-      en: { instructions: "How It Works", species: "Wild Species", recipes: "Recipes", flag: "🇬🇧" },
-      it: { instructions: "Come funziona", species: "Specie Silvestri", recipes: "Ricette", flag: "🇮🇹" },
-      es: { instructions: "Cómo funciona", species: "Especies silvestres", recipes: "Recetas", flag: "🇪🇸" },
-      fr: { instructions: "Comment ça marche", species: "Espèces sauvages", recipes: "Recettes", flag: "🇫🇷" }
+      en: { flag: "🇬🇧" },
+      it: { flag: "🇮🇹" },
+      es: { flag: "🇪🇸" },
+      fr: { flag: "🇫🇷" }
     };
     
     function renderLanguageSelector(currentLang) {
       const optionsDiv = document.getElementById("language-options");
       const selectedDiv = document.getElementById("selected-language");
     
-      // Clear current options
       optionsDiv.innerHTML = "";
-    
-      // Add all other languages as options
       Object.keys(translations).forEach(lang => {
         if (lang !== currentLang) {
-          const langDiv = document.createElement("div");
-          langDiv.textContent = translations[lang].flag;
-          langDiv.title = lang.toUpperCase();
-          langDiv.onclick = () => changeLanguage(lang);
-          optionsDiv.appendChild(langDiv);
+          const el = document.createElement("div");
+          el.textContent = translations[lang].flag;
+          el.onclick = () => setLanguage(lang);
+          optionsDiv.appendChild(el);
         }
       });
     
-      // Set current language button
       selectedDiv.textContent = translations[currentLang].flag;
-      selectedDiv.title = currentLang.toUpperCase();
     }
     
-    function changeLanguage(lang) {
+    function setLanguage(lang) {
       localStorage.setItem("preferredLanguage", lang);
-    
-      const t = translations[lang];
-      const topbar = document.getElementById("topbar");
-      if (topbar) {
-        topbar.innerHTML = `
-          <a href="instructions.html">${t.instructions}</a>
-          <a href="species.html">${t.species}</a>
-          <a href="recipes.html">${t.recipes}</a>
-        `;
-      }
-    
+      window.currentLang = lang;
       renderLanguageSelector(lang);
       document.getElementById("language-options").style.display = "none";
     }
@@ -1832,9 +1802,9 @@
     
     document.addEventListener("DOMContentLoaded", () => {
       const lang = localStorage.getItem("preferredLanguage") || "en";
-      changeLanguage(lang);
+      window.currentLang = lang;
+      renderLanguageSelector(lang);
     });
-
 
     
   </script>
