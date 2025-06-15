@@ -1241,18 +1241,20 @@
           const intro = document.createElement("p");
           intro.style.marginBottom = "12px";
   
+          const t = translations[window.currentLang]?.nearby || translations["en"].nearby;
           if (sortedItems.length === 0) {
-            intro.innerHTML = "🍃 Dear forager, the season is tough at the moment—nothing seems to be growing around you. But don't worry, better times will come. Stay tuned for more edibles to be added soon!";
+            intro.innerHTML = t.none;
             listContainer.appendChild(intro);
           } else {
-            intro.innerHTML = "🌿 Hey fellow forager! Following edibles could be growing in your proximity:";
+            intro.innerHTML = t.some;
             listContainer.appendChild(intro);
             sortedItems.forEach(([item, score]) => {
               const li = document.createElement("li");
               li.innerHTML = `<strong>${speciesDisplayMap[item] || item}</strong>`;
               listContainer.appendChild(li);
             });
-  
+          }
+          
             // Build URL with selected species as query string
             const selectedKeys = sortedItems.map(([item]) => Object.entries(speciesDisplayMap).find(([code, name]) => name === item)?.[0] || item);
             const url = new URL("https://fung.es/recipes.html");
@@ -2235,6 +2237,10 @@
         error: {
           display: "❌ Error displaying predictions!"
         },
+        nearby: {
+          none: "🍃 Dear forager, the season is tough at the moment—nothing seems to be growing around you. But don't worry, better times will come. Stay tuned for more edibles to be added soon!",
+          some: "🌿 Hey fellow forager! Following edibles could be growing in your proximity:"
+        },
         species: {
         "🍄 Porcino (Boletus edulis)": "mushroom",
         "🌱 Amaranth (Amaranthus retroflexus)": "amaranth",
@@ -2303,6 +2309,10 @@
         },
         error: {
           display: "❌ Error al mostrar los resultados!"
+        },
+        nearby: {
+          none: "🍃 Querido recolector, la temporada está difícil en este momento: no parece crecer nada a tu alrededor. Pero no te preocupes, ¡vendrán tiempos mejores! Pronto añadiremos más especies comestibles.",
+          some: "🌿 ¡Hola, recolector! Estas especies comestibles podrían estar creciendo cerca de ti:"
         },
         species: {
         "🍄 Boleto (Boletus edulis)": "mushroom",
@@ -2373,6 +2383,10 @@
         error: {
           display: "❌ Errore nella visualizzazione dei risultati!"
         },
+        nearby: {
+          none: "🍃 Caro cercatore, la stagione è dura in questo momento: non sembra crescere nulla intorno a te. Ma non preoccuparti, arriveranno tempi migliori. Presto verranno aggiunte altre specie commestibili!",
+          some: "🌿 Ehi cercatore! Queste specie commestibili potrebbero crescere vicino a te:"
+        },
         species: {
         "🍄 Porcino (Boletus edulis)": "mushroom",
         "🌱 Amaranto (Amaranthus retroflexus)": "amaranth",
@@ -2441,6 +2455,10 @@
         },
         error: {
           display: "❌ Erreur lors de l'affichage des résultats !"
+        },
+        nearby: {
+          none: "🍃 Cher cueilleur, la saison est difficile en ce moment : rien ne semble pousser autour de toi. Mais ne t’inquiète pas, des jours meilleurs viendront. D'autres comestibles seront ajoutés bientôt !",
+          some: "🌿 Salut cueilleur ! Ces comestibles pourraient pousser près de chez toi :"
         },
         species: {
         "🍄 Cèpe (Boletus edulis)": "mushroom",
