@@ -665,7 +665,7 @@
     </div>
     <div id="custom-species-dropdown">
       <div class="filter-wrapper">
-        <input type="text" id="species-filter" placeholder="🔍 Type to filter..." 
+        <input type="text" id="species-filter" placeholder="🔍 ..." 
                oninput="filterSpeciesOptions()">
       </div>
       <div style="text-align: center; margin-bottom: 8px;">
@@ -756,10 +756,11 @@
 
   <!-- Footer -->
   <div id="footer">
-    <a href="impressum.html">Impressum</a>
-    <a href="privacy-policy.html">Privacy Policy</a>
-    <a href="termsuse.html">Terms of Use</a>
+    <a href="impressum.html" id="footer-impressum"></a>
+    <a href="privacy-policy.html" id="footer-privacy"></a>
+    <a href="termsuse.html" id="footer-terms"></a>
   </div>
+
 
     <!-- Loading Spinner -->
   <div id="loading-spinner" style="display: none;">
@@ -1776,6 +1777,11 @@
         upload: {
           dragText: "Drag an image here or use the camera",
           dropZone: "Drop Image Here"
+        },
+        footer: {
+          impressum: "Impressum",
+          privacy: "Privacy Policy",
+          terms: "Terms of Use"
         }
       },
       es: {
@@ -1788,6 +1794,11 @@
         upload: {
           dragText: "Arrastra una imagen aquí o usa la cámara",
           dropZone: "Suelta la imagen aquí"
+        },
+        footer: {
+          impressum: "Aviso legal",
+          privacy: "Política de privacidad",
+          terms: "Términos de uso"
         }
       },
       it: {
@@ -1800,6 +1811,11 @@
         upload: {
           dragText: "Trascina un'immagine qui o usa la fotocamera",
           dropZone: "Rilascia l'immagine qui"
+        },
+        footer: {
+          impressum: "Note legali",
+          privacy: "Informativa sulla privacy",
+          terms: "Termini di utilizzo"
         }
       },
       fr: {
@@ -1812,6 +1828,11 @@
         upload: {
           dragText: "Faites glisser une image ici ou utilisez la caméra",
           dropZone: "Déposez l'image ici"
+        },
+        footer: {
+          impressum: "Mentions légales",
+          privacy: "Politique de confidentialité",
+          terms: "Conditions d'utilisation"
         }
       }
     };
@@ -1827,6 +1848,11 @@
       // Upload section
       document.getElementById("upload-drag-text").textContent = t.upload.dragText;
       document.getElementById("drop-zone").textContent = t.upload.dropZone;
+      // Footer
+      document.getElementById("footer-impressum").textContent = t.footer.impressum;
+      document.getElementById("footer-privacy").textContent = t.footer.privacy;
+      document.getElementById("footer-terms").textContent = t.footer.terms;
+      
     }
     
     function renderLanguageSelector(currentLang) {
