@@ -2575,6 +2575,7 @@
       window.currentLang = lang;
       renderLanguageSelector(lang);
       applyTranslations(lang);
+      document.getElementById("topbar-recipes").href = `recipes.html?lang=${window.currentLang}`;
     });
     
     // Close language flag dropup when clicking outside
