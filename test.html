@@ -2562,6 +2562,7 @@
       renderLanguageSelector(lang);
       applyTranslations(lang);
       document.getElementById("language-options").style.display = "none";
+      document.getElementById("topbar-recipes").href = `recipes.html?lang=${window.currentLang}`;
     }
     
     function toggleLanguageDropup() {
