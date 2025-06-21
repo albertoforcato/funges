@@ -455,8 +455,8 @@ instructions: `Nettoyer les champignons : Brosser délicatement les girolles ou 
         recipeDiv.dataset.species = recipe.species;
         recipeDiv.innerHTML = `
           <h3>${recipe.title}</h3>
-          <p><strong>Ingredients:</strong><br>${recipe.ingredients}</p>
-          <p><strong>Instructions:</strong><br>${recipe.instructions}</p>
+          <p><strong>${translations[window.currentLang].ingredients}</strong><br>${recipe.ingredients}</p>
+          <p><strong>${translations[window.currentLang].instructions}</strong><br>${recipe.instructions}</p>
         `;
         recipeList.appendChild(recipeDiv);
       });
