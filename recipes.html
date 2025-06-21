@@ -436,8 +436,9 @@ instructions: `Nettoyer les champignons : Brosser délicatement les girolles ou 
     function getQuerySpecies() {
       const params = new URLSearchParams(window.location.search);
       const ingredients = params.get("ingredients");
-      const langParam = params.get("lang") || "en";
-      window.currentLang = langParam;      
+      
+      // if lang= is in URL → use it, else take <html lang="">
+      window.currentLang = params.get("lang") || document.documentElement.lang || "en"; 
       const t = translations[window.currentLang] || translations["en"];
           
       if (!ingredients) return;
