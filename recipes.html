@@ -439,6 +439,7 @@ instructions: `Nettoyer les champignons : Brosser délicatement les girolles ou 
       
       // if lang= is in URL → use it, else take <html lang="">
       window.currentLang = params.get("lang") || document.documentElement.lang || "en"; 
+      console.log("🌍 Language detected:", window.currentLang);
       const t = translations[window.currentLang] || translations["en"];
           
       if (!ingredients) return;
