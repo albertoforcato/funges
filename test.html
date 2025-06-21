@@ -1259,6 +1259,8 @@
             const selectedKeys = sortedItems.map(([item]) => Object.entries(speciesDisplayMap).find(([code, name]) => name === item)?.[0] || item);
             const url = new URL("https://fung.es/recipes.html");
             url.searchParams.set("ingredients", selectedKeys.join(","));
+            url.searchParams.set("lang", window.currentLang);
+
               
             // 👉 Add "Go to recipes" link
             const recipeLink = document.createElement("a");
