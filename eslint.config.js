@@ -1,11 +1,11 @@
-import js from '@eslint/js'
-import globals from 'globals'
-import reactHooks from 'eslint-plugin-react-hooks'
-import reactRefresh from 'eslint-plugin-react-refresh'
-import react from 'eslint-plugin-react'
-import tailwindcss from 'eslint-plugin-tailwindcss'
-import prettier from 'eslint-plugin-prettier'
-import tseslint from 'typescript-eslint'
+import js from '@eslint/js';
+import globals from 'globals';
+import reactHooks from 'eslint-plugin-react-hooks';
+import reactRefresh from 'eslint-plugin-react-refresh';
+import react from 'eslint-plugin-react';
+import tailwindcss from 'eslint-plugin-tailwindcss';
+import prettier from 'eslint-plugin-prettier';
+import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
   { ignores: ['dist'] },
@@ -22,11 +22,11 @@ export default tseslint.config(
       },
     },
     plugins: {
-      'react': react,
+      react: react,
       'react-hooks': reactHooks,
       'react-refresh': reactRefresh,
-      'tailwindcss': tailwindcss,
-      'prettier': prettier,
+      tailwindcss: tailwindcss,
+      prettier: prettier,
     },
     rules: {
       ...reactHooks.configs.recommended.rules,
@@ -58,5 +58,5 @@ export default tseslint.config(
         version: 'detect',
       },
     },
-  },
-)
+  }
+);
