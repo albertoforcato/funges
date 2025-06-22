@@ -29,7 +29,7 @@ PLEASE: Ask for clarification if any functionality or data structure is unclear
 - [x] Install and configure **Prettier** + integrate with ESLint
 - [x] Install and configure **Vitest** for unit testing
 - [x] Configure **Storybook 9** with TypeScript and Tailwind support
-- [ ] Setup **Why Did You Render** for dev performance debugging
+- [x] Setup **Why Did You Render** for dev performance debugging
 
 ## 3. Styling & Theme
 
