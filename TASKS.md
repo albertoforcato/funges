@@ -28,7 +28,7 @@ PLEASE: Ask for clarification if any functionality or data structure is unclear
 - [x] Install and configure **ESLint** with `@typescript-eslint`, React, Tailwind plugins
 - [x] Install and configure **Prettier** + integrate with ESLint
 - [x] Install and configure **Vitest** for unit testing
-- [ ] Configure **Storybook 9** with TypeScript and Tailwind support
+- [x] Configure **Storybook 9** with TypeScript and Tailwind support
 - [ ] Setup **Why Did You Render** for dev performance debugging
 
 ## 3. Styling & Theme
