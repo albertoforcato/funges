@@ -8,9 +8,9 @@ PLEASE: Ask for clarification if any functionality or data structure is unclear
 
 ## 1. Project Setup
 
-* [ ] Initialize new project with **Vite**, using **React 19**, **TypeScript**, and **npm**
-* [ ] Configure `vite.config.ts` with Tailwind, Aliases, JSX transform
-* [ ] Setup folder structure:
+* [x] Initialize new project with **Vite**, using **React 19**, **TypeScript**, and **npm**
+* [x] Configure `vite.config.ts` with Tailwind, Aliases, JSX transform
+* [x] Setup folder structure:
 
   * `/src`
 
