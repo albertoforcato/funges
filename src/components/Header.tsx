@@ -1,9 +1,13 @@
 import { Link } from '@tanstack/react-router';
+import { useTranslation } from 'react-i18next';
+import LanguageSwitcher from './LanguageSwitcher';
 
 export const Header = () => {
+  const { t } = useTranslation();
+
   return (
     <header 
-      className="fixed top-0 left-20 right-0 h-12 bg-[rgba(255,252,239,0.95)] flex items-center justify-center gap-16 z-50 font-bold shadow-sm"
+      className="fixed top-0 left-20 right-0 h-12 bg-[rgba(255,252,239,0.95)] flex items-center justify-between px-4 z-50 font-bold shadow-sm"
       role="banner"
       aria-label="Main navigation"
     >
@@ -15,7 +19,7 @@ export const Header = () => {
               className="text-gray-800 no-underline text-lg px-8 py-2 rounded-md transition-colors hover:bg-[#f0eada] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
               aria-label="Learn how Fung.es works"
             >
-              How It Works
+              {t('navigation.instructions')}
             </Link>
           </li>
           <li>
@@ -24,7 +28,7 @@ export const Header = () => {
               className="text-gray-800 no-underline text-lg px-8 py-2 rounded-md transition-colors hover:bg-[#f0eada] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
               aria-label="Browse wild species database"
             >
-              Wild Species
+              {t('navigation.species')}
             </Link>
           </li>
           <li>
@@ -33,11 +37,15 @@ export const Header = () => {
               className="text-gray-800 no-underline text-lg px-8 py-2 rounded-md transition-colors hover:bg-[#f0eada] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
               aria-label="View cooking recipes"
             >
-              Recipes
+              {t('navigation.recipes')}
             </Link>
           </li>
         </ul>
       </nav>
+      
+      <div className="flex items-center">
+        <LanguageSwitcher />
+      </div>
     </header>
   );
 }; 

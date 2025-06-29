@@ -83,10 +83,16 @@ PLEASE: Ask for clarification if any functionality or data structure is unclear
 
 ## 11. Internationalization (i18n)
 
-- [ ] Install and configure **i18next** with `react-i18next`
-- [ ] Setup English and Italian locales
-- [ ] Extract all hardcoded text into translation files
-- [ ] Implement language switcher (e.g., flag or dropdown)
+- [x] Install and configure **i18next** with `react-i18next`
+- [x] Setup English and Italian locales
+- [x] Extract all hardcoded text into translation files
+- [x] Implement language switcher (e.g., flag or dropdown)
+
+## 11.1. Add a .env file
+
+- [ ] Add a .env file to the project
+- [ ] Add all the env variables to the .env file
+- [ ] Configure the project to use the .env file
 
 ## 12. Maps
 
@@ -217,23 +223,6 @@ PLEASE: Ask for clarification if any functionality or data structure is unclear
 
 - [ ] Add pre-commit hooks and pre-push hooks to run linting, formatting, testing and there ar enot unused import or unused variables
 - [ ] Add pre-commit hooks and pre-push hooks
-
-## 20. Add a .env file
-
-- [ ] Add a .env file to the project
-- [ ] Check the project for any .env files and remove them
-- [ ] Check the project for any .env.example files and remove them
-- [ ] Add all the env variables to the .env file
-
-## 21. Add a .env.example file
-
-- [ ] Add a .env.example file to the project
-- [ ] Add all the env variables to the .env.example file
-- [ ] Add the following variables to the .env.example file:
-
-  - [ ] VITE_API_URL
-  - [ ] VITE_MAPBOX_ACCESS_TOKEN
-  - [ ] VITE_MAPBOX_TILES_URL
 
 ## 21. Styling and standardization
 
