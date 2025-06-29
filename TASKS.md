@@ -190,7 +190,7 @@ PLEASE: Ask for clarification if any functionality or data structure is unclear
 
 ### UX & Accessibility
 
-- [ ] Implement dark mode (based on existing icon state)
+- [x] Implement dark mode (based on existing icon state)
 - [ ] Add mobile-friendly navigation + gestures
 - [ ] Ensure keyboard and screen-reader support
 - [ ] Add loading animations / feedback states

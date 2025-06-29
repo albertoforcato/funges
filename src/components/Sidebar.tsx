@@ -4,18 +4,18 @@ import {
   Camera,
   Navigation,
   Moon,
+  Sun,
   Hash,
   Users,
   Heart,
   Globe,
-  Leaf,
 } from 'lucide-react';
+import { useTheme } from '@/hooks/use-theme';
 
 interface SidebarProps {
   onImageUpload: () => void;
   onRegionSelect: (region: string) => void;
   onLocateUser: () => void;
-  onToggleDarkMode: () => void;
   onToggleNumbers: () => void;
   onToggleNearby: () => void;
   onToggleSupport: () => void;
@@ -25,13 +25,17 @@ export const Sidebar = ({
   onImageUpload,
   onRegionSelect,
   onLocateUser,
-  onToggleDarkMode,
   onToggleNumbers,
   onToggleNearby,
   onToggleSupport,
 }: SidebarProps) => {
   const [showRegionDropdown, setShowRegionDropdown] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const { theme, setTheme } = useTheme();
+
+  const toggleTheme = () => {
+    setTheme(theme === 'dark' ? 'light' : 'dark');
+  };
 
   const regions = [
     { id: 'WE_north', name: 'West Europe North' },
@@ -154,14 +158,18 @@ export const Sidebar = ({
 
       {/* Dark Mode Toggle */}
       <Button
-        onClick={onToggleDarkMode}
+        onClick={toggleTheme}
         variant='ghost'
         size='icon'
         className='w-12 h-12 rounded-lg hover:bg-hover-primary transition-colors'
         aria-label='Toggle dark mode'
         title='Toggle dark mode'
       >
-        <Moon className='w-6 h-6' />
+        {theme === 'dark' ? (
+          <Sun className='w-6 h-6' />
+        ) : (
+          <Moon className='w-6 h-6' />
+        )}
       </Button>
 
       {/* Numbers Toggle */}

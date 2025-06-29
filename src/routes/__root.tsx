@@ -15,7 +15,6 @@ function RootComponent() {
         onImageUpload={() => {}}
         onRegionSelect={() => {}}
         onLocateUser={() => {}}
-        onToggleDarkMode={() => {}}
         onToggleNumbers={() => {}}
         onToggleNearby={() => {}}
         onToggleSupport={() => {}}
