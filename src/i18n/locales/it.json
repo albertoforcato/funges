@@ -26,6 +26,12 @@
     "no": "No",
     "retry": "Riprova"
   },
+  "offline": {
+    "mode": "Modalità Offline",
+    "updateAvailable": "Aggiornamento Disponibile",
+    "installApp": "Installa App",
+    "reloadForUpdate": "Ricarica per Aggiornare"
+  },
   "navigation": {
     "home": "Home",
     "map": "Mappa",
@@ -377,5 +383,19 @@
     "dark": "Scuro",
     "light": "Chiaro",
     "system": "Sistema"
+  },
+  "html": {
+    "title": "Fung.es - Trova Funghi e Piante Commestibili Vicino a Te",
+    "description": "Trova funghi e piante commestibili vicino a te con la nostra mappa di raccolta in tempo reale. Scopri punti caldi di cibo selvatico utilizzando dati meteorologici e geospaziali per una raccolta di successo.",
+    "keywords": "funghi, raccolta, piante commestibili selvatiche, identificazione funghi, mappa raccolta, cibo selvatico, piante commestibili, caccia ai funghi, punti di raccolta, funghi selvatici",
+    "author": "Fung.es",
+    "ogTitle": "Fung.es - Trova Funghi e Piante Commestibili Vicino a Te",
+    "ogDescription": "Trova funghi e piante commestibili vicino a te con la nostra mappa di raccolta in tempo reale. Scopri punti caldi di cibo selvatico utilizzando dati meteorologici e geospaziali per una raccolta di successo.",
+    "ogType": "website",
+    "ogImage": "/icons/logo_funges.png",
+    "twitterCard": "summary_large_image",
+    "twitterTitle": "Fung.es - Trova Funghi e Piante Commestibili Vicino a Te",
+    "twitterDescription": "Trova funghi e piante commestibili vicino a te con la nostra mappa di raccolta in tempo reale. Scopri punti caldi di cibo selvatico utilizzando dati meteorologici e geospaziali per una raccolta di successo.",
+    "twitterImage": "/icons/logo_funges.png"
   }
 }

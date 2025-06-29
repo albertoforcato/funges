@@ -8,6 +8,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Globe } from 'lucide-react';
+import { setHtmlLanguage } from '@/lib/html-localization';
 
 const LanguageSwitcher: React.FC = () => {
   const { i18n } = useTranslation();
@@ -21,7 +22,8 @@ const LanguageSwitcher: React.FC = () => {
     languages.find(lang => lang.code === i18n.language) || languages[0];
 
   const handleLanguageChange = (languageCode: string) => {
-    i18n.changeLanguage(languageCode);
+    setHtmlLanguage(languageCode);
+    localStorage.setItem('language', languageCode);
   };
 
   return (

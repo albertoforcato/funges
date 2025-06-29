@@ -16,8 +16,36 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       workbox: {
-        globPatterns: ['**/*.{js,css,html,ico,png,svg,webp,avif}'],
+        globPatterns: ['**/*.{js,css,html,ico,png,svg,webp,avif,tflite}'],
         runtimeCaching: [
+          // TensorFlow Lite models caching
+          {
+            urlPattern: /^https:\/\/pub-92765923660e431daff3170fbef6471d\.r2\.dev\/.*\.tflite$/i,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'tensorflow-models-cache',
+              expiration: {
+                maxEntries: 10,
+                maxAgeSeconds: 60 * 60 * 24 * 365, // 1 year - models rarely change
+              },
+              cacheableResponse: {
+                statuses: [0, 200],
+              },
+            },
+          },
+          // Local TensorFlow models
+          {
+            urlPattern: /\/assets\/.*\.tflite$/i,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'local-models-cache',
+              expiration: {
+                maxEntries: 10,
+                maxAgeSeconds: 60 * 60 * 24 * 365, // 1 year
+              },
+            },
+          },
+          // Mapbox API caching
           {
             urlPattern: /^https:\/\/api\.mapbox\.com\/.*/i,
             handler: 'CacheFirst',
@@ -29,6 +57,7 @@ export default defineConfig({
               },
             },
           },
+          // Mapbox tiles caching
           {
             urlPattern: /^https:\/\/.*\.tiles\.mapbox\.com\/.*/i,
             handler: 'CacheFirst',
@@ -40,7 +69,52 @@ export default defineConfig({
               },
             },
           },
+          // Static assets caching
+          {
+            urlPattern: /\.(?:png|jpg|jpeg|svg|gif|webp|avif|ico)$/i,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'images-cache',
+              expiration: {
+                maxEntries: 100,
+                maxAgeSeconds: 60 * 60 * 24 * 30, // 30 days
+              },
+            },
+          },
+          // Fonts caching
+          {
+            urlPattern: /\.(?:woff|woff2|eot|ttf|otf)$/i,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'fonts-cache',
+              expiration: {
+                maxEntries: 20,
+                maxAgeSeconds: 60 * 60 * 24 * 365, // 1 year
+              },
+            },
+          },
+          // API calls - Network First with fallback
+          {
+            urlPattern: /^https:\/\/.*\/api\/.*/i,
+            handler: 'NetworkFirst',
+            options: {
+              cacheName: 'api-cache',
+              expiration: {
+                maxEntries: 50,
+                maxAgeSeconds: 60 * 60 * 24, // 1 day
+              },
+              networkTimeoutSeconds: 10,
+            },
+          },
         ],
+        // Offline fallback
+        navigateFallback: '/index.html',
+        navigateFallbackAllowlist: [/^(?!\/__).*/],
+        // Skip waiting for immediate activation
+        skipWaiting: true,
+        clientsClaim: true,
+        // Clean up old caches
+        cleanupOutdatedCaches: true,
       },
       manifest: {
         name: 'Funges - Wild Mushroom & Edible Plants Foraging Map',
@@ -70,6 +144,18 @@ export default defineConfig({
             sizes: '256x256',
             type: 'image/png',
             purpose: 'any',
+          },
+        ],
+        // Add categories for better app store discovery
+        categories: ['nature', 'education', 'food', 'travel'],
+        // Add screenshots for app stores
+        screenshots: [
+          {
+            src: '/icons/logo_app.png',
+            sizes: '512x512',
+            type: 'image/png',
+            form_factor: 'wide',
+            label: 'Funges App Screenshot',
           },
         ],
       },

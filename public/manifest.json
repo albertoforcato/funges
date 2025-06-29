@@ -1,0 +1,35 @@
+{
+  "name": "Fung.es - Mushroom Identification App",
+  "short_name": "Fung.es",
+  "description": "Identify mushrooms with AI-powered recognition. Explore species, find recipes, and discover mushroom locations on an interactive map.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#16a34a",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "en",
+  "icons": [
+    {
+      "src": "/icons/logo_funges.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/logo_app.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["nature", "education", "utilities"],
+  "screenshots": [
+    {
+      "src": "/icons/logo_app.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide"
+    }
+  ]
+} 
