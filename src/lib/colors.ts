@@ -29,37 +29,37 @@ export const MAP_COLORS = {
       '#f0f8ff', // Very low
       '#e6f3ff', // Low
       '#b3d9ff', // Medium-low
-      '#4da6ff', // Medium
-      '#0066cc', // High
-      '#003366', // Very high
+      '#80bfff', // Medium
+      '#4da6ff', // High
+      '#1a8cff', // Very high
     ],
     dark: [
-      '#1a2a3a', // Very low
-      '#2a3a4a', // Low
-      '#3a4a5a', // Medium-low
-      '#4a5a6a', // Medium
-      '#5a6a7a', // High
-      '#6a7a8a', // Very high
+      '#0a1a2e', // Very low
+      '#1a2a3e', // Low
+      '#2a3a4e', // Medium-low
+      '#3a4a5e', // Medium
+      '#4a5a6e', // High
+      '#5a6a7e', // Very high
     ],
   },
 
-  // Herb color scale (green colors)
+  // Herb color scale (green colors - updated to match new theme)
   herbs: {
     light: [
-      '#f0fff0', // Very low
-      '#e6ffe6', // Low
-      '#b3ffb3', // Medium-low
-      '#4dff4d', // Medium
-      '#00cc00', // High
-      '#006600', // Very high
+      '#f0f9f4', // Very low - light green
+      '#dcf2e3', // Low - very light green
+      '#b8e4c7', // Medium-low - light green
+      '#94d6ab', // Medium - medium light green
+      '#70c88f', // High - medium green
+      '#4cba73', // Very high - main theme color
     ],
     dark: [
-      '#1a3a1a', // Very low
-      '#2a4a2a', // Low
-      '#3a5a3a', // Medium-low
-      '#4a6a4a', // Medium
-      '#5a7a5a', // High
-      '#6a8a6a', // Very high
+      '#0a1a0e', // Very low
+      '#1a2a1e', // Low
+      '#2a3a2e', // Medium-low
+      '#3a4a3e', // Medium
+      '#4a5a4e', // High
+      '#5a6a5e', // Very high
     ],
   },
 
@@ -95,33 +95,67 @@ export const MAP_UI_COLORS = {
     dark: '#ffffff',
   },
   pin: {
-    light: '#3b82f6', // Blue
-    dark: '#60a5fa', // Lighter blue for dark mode
+    light: '#4cba73', // Updated to new primary color - oklch(0.5234 0.1347 144.1672)
+    dark: '#4cba73', // Updated to new primary color - oklch(0.5234 0.1347 144.1672)
   },
 };
 
-// Score indicator colors
+// Score colors for confidence indicators
 export const SCORE_COLORS = {
   excellent: {
-    light: '#10b981', // Green
-    dark: '#34d399',
+    light: '#4cba73', // oklch(0.5234 0.1347 144.1672) - primary color
+    dark: '#4cba73',
   },
   good: {
-    light: '#f59e0b', // Yellow
-    dark: '#fbbf24',
+    light: '#70c88f', // Medium green
+    dark: '#70c88f',
   },
   fair: {
-    light: '#f97316', // Orange
-    dark: '#fb923c',
+    light: '#f59e0b', // Warning color
+    dark: '#f59e0b',
   },
   poor: {
-    light: '#ef4444', // Red
-    dark: '#f87171',
+    light: '#ef4444', // Error color
+    dark: '#ef4444',
   },
+};
+
+// Status colors
+export const STATUS_COLORS = {
+  success: '#4cba73', // oklch(0.5234 0.1347 144.1672) - primary color
+  warning: '#f59e0b',
+  error: '#ef4444',
+  info: '#3b82f6',
+};
+
+// Theme-aware color getters
+export const getThemeColor = (
+  color: string,
+  theme: 'light' | 'dark' = 'light'
+) => {
+  const colorMap: Record<string, { light: string; dark: string }> = {
+    primary: {
+      light: '#4cba73', // oklch(0.5234 0.1347 144.1672)
+      dark: '#4cba73',
+    },
+    background: {
+      light: '#fafafa',
+      dark: '#171717',
+    },
+    text: {
+      light: '#1a1a1a',
+      dark: '#f5f5f5',
+    },
+  };
+
+  return colorMap[color]?.[theme] || colorMap[color]?.light || color;
 };
 
 // Utility function to get color based on theme and score
-export const getScoreColor = (score: number, theme: 'light' | 'dark' = 'light') => {
+export const getScoreColor = (
+  score: number,
+  theme: 'light' | 'dark' = 'light'
+) => {
   if (score >= 8) return SCORE_COLORS.excellent[theme];
   if (score >= 6) return SCORE_COLORS.good[theme];
   if (score >= 4) return SCORE_COLORS.fair[theme];
@@ -129,15 +163,22 @@ export const getScoreColor = (score: number, theme: 'light' | 'dark' = 'light') 
 };
 
 // Utility function to get species color scale
-export const getSpeciesColorScale = (species: string, theme: 'light' | 'dark' = 'light') => {
+export const getSpeciesColorScale = (
+  species: string,
+  theme: 'light' | 'dark' = 'light'
+) => {
   const colorScale = MAP_COLORS[species as keyof typeof MAP_COLORS];
   return colorScale ? colorScale[theme] : MAP_COLORS.mushrooms[theme];
 };
 
 // Utility function to get color for a specific score
-export const getColorForScore = (score: number, species: string, theme: 'light' | 'dark' = 'light') => {
+export const getColorForScore = (
+  score: number,
+  species: string,
+  theme: 'light' | 'dark' = 'light'
+) => {
   const colors = getSpeciesColorScale(species, theme);
-  
+
   if (score <= 2) return colors[0];
   if (score <= 4) return colors[1];
   if (score <= 6) return colors[2];

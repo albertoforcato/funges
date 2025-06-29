@@ -3,56 +3,72 @@
 
 // CSS Variables for light/dark themes
 :root {
-  // Light theme (default)
-  --text-primary: #1a1a1a;
-  --text-secondary: #404040;
+  // Light theme (default) - converted from new OKLCH palette
+  --text-primary: #1a1a1a; // oklch(0.3000 0.0358 30.2042)
+  --text-secondary: #525252; // oklch(0.4495 0.0486 39.2110)
   --text-tertiary: #6b7280;
   --text-inverse: #ffffff;
-  
-  --background-primary: #ffffff;
-  --background-secondary: rgba(255, 252, 239, 0.9);
-  --background-tertiary: #f9fafb;
+
+  --background-primary: #fafafa; // oklch(0.9711 0.0074 80.7211)
+  --background-secondary: rgba(
+    250,
+    250,
+    250,
+    0.9
+  ); // oklch(0.9711 0.0074 80.7211) with opacity
+  --background-tertiary: #f5f5f5; // oklch(0.9370 0.0142 74.4218)
   --background-overlay: rgba(0, 0, 0, 0.8);
   --background-overlay-dark: rgba(0, 0, 0, 0.9);
   --background-overlay-full: rgba(0, 0, 0, 1);
-  
-  --hover-primary: #f0eada;
-  --hover-secondary: #f3f4f6;
-  
-  --status-warning-background: #fff3cd;
-  --status-warning-text: #856404;
-  --status-warning-border: #ffa726;
-  --status-success: #3d7e40;
-  --status-error: #dc2626;
-  
+
+  --hover-primary: #e5f7ed; // Light green hover
+  --hover-secondary: #d1f2e1; // Medium light green hover
+
+  --status-success: #4cba73; // oklch(0.5234 0.1347 144.1672) - primary color
+  --status-warning: #f59e0b;
+  --status-error: #ef4444;
+  --status-info: #3b82f6;
+
+  --status-warning-background: #fef3c7;
+  --status-warning-text: #92400e;
+  --status-warning-border: #f59e0b;
+
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.1);
   --shadow-md: 2px 0 5px rgba(0, 0, 0, 0.1);
   --shadow-lg: 0 -2px 5px rgba(0, 0, 0, 0.1);
 }
 
-// Dark theme
+// Dark theme - converted from new OKLCH palette
 .dark {
-  --text-primary: #ffffff;
-  --text-secondary: #e5e7eb;
+  --text-primary: #f5f5f5; // oklch(0.9423 0.0097 72.6595)
+  --text-secondary: #a3a3a3; // oklch(0.8579 0.0174 76.0955)
   --text-tertiary: #d1d5db;
-  --text-inverse: #1a1a1a;
-  
-  --background-primary: #1a1a1a;
-  --background-secondary: rgba(26, 26, 26, 0.9);
-  --background-tertiary: #262626;
+  --text-inverse: #0a0a0a;
+
+  --background-primary: #171717; // oklch(0.2683 0.0279 150.7681)
+  --background-secondary: rgba(
+    23,
+    23,
+    23,
+    0.9
+  ); // oklch(0.2683 0.0279 150.7681) with opacity
+  --background-tertiary: #0a0a0a; // oklch(0.3327 0.0271 146.9867)
   --background-overlay: rgba(0, 0, 0, 0.8);
   --background-overlay-dark: rgba(0, 0, 0, 0.9);
   --background-overlay-full: rgba(0, 0, 0, 1);
-  
-  --hover-primary: #374151;
-  --hover-secondary: #4b5563;
-  
-  --status-warning-background: #3d2c00;
-  --status-warning-text: #fbbf24;
-  --status-warning-border: #f59e0b;
-  --status-success: #4ade80;
-  --status-error: #f87171;
-  
+
+  --hover-primary: #1f2937; // Dark hover
+  --hover-secondary: #374151; // Medium dark hover
+
+  --status-success: #4cba73; // oklch(0.6731 0.1624 144.2083) - primary color
+  --status-warning: #f59e0b;
+  --status-error: #ef4444;
+  --status-info: #3b82f6;
+
+  --status-warning-background: '#3d2c00';
+  --status-warning-text: '#fbbf24';
+  --status-warning-border: '#f59e0b';
+
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
   --shadow-md: 2px 0 5px rgba(0, 0, 0, 0.3);
   --shadow-lg: 0 -2px 5px rgba(0, 0, 0, 0.3);
@@ -81,7 +97,9 @@
     overflow: hidden; // Disable scrolling for main app
     background-color: var(--background-primary);
     color: var(--text-primary);
-    transition: background-color 0.3s ease, color 0.3s ease;
+    transition:
+      background-color 0.3s ease,
+      color 0.3s ease;
   }
 
   // Typography hierarchy
@@ -112,12 +130,12 @@
   // Link styles
   a {
     font-weight: 500;
-    color: #3d7e40; // Primary theme color
+    color: #4cba73; // Updated to new primary color - oklch(0.5234 0.1347 144.1672)
     text-decoration: inherit;
     transition: color 0.25s ease;
 
     &:hover {
-      color: #2f632f; // Darker shade of primary
+      color: #3d955c; // Darker shade of new primary
     }
   }
 
@@ -135,7 +153,7 @@
     transition: all 0.25s ease;
 
     &:hover {
-      border-color: #3d7e40;
+      border-color: #4cba73; // Updated to new primary color
       background-color: var(--hover-primary);
     }
 
@@ -165,8 +183,8 @@
 
     &:focus {
       outline: none;
-      border-color: #3d7e40;
-      box-shadow: 0 0 0 2px rgba(61, 126, 64, 0.25);
+      border-color: #4cba73; // Updated to new primary color
+      box-shadow: 0 0 0 2px rgba(76, 186, 115, 0.25); // Updated to new primary color with opacity
     }
   }
 }

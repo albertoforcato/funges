@@ -9,21 +9,21 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Primary colors (based on old project theme color #3d7e40)
+        // Primary colors (based on new OKLCH color palette - oklch(0.5234 0.1347 144.1672))
         primary: {
-          50: '#f0f9f0',
-          100: '#e0f2e0',
-          200: '#c4e6c4',
-          300: '#9dd69d',
-          400: '#6bc26b',
-          500: '#3d7e40', // Main theme color from old project
-          600: '#2f632f',
-          700: '#254d25',
-          800: '#1f3f1f',
-          900: '#1a351a',
+          50: '#f0f9f4', // Light green background
+          100: '#dcf2e3', // Very light green
+          200: '#b8e4c7', // Light green
+          300: '#94d6ab', // Medium light green
+          400: '#70c88f', // Medium green
+          500: '#4cba73', // Main theme color - oklch(0.5234 0.1347 144.1672)
+          600: '#3d955c', // Darker green
+          700: '#2e7045', // Dark green
+          800: '#1f4a2e', // Very dark green
+          900: '#102517', // Darkest green
         },
 
-        // Neutral colors for light/dark themes
+        // Neutral colors
         neutral: {
           50: '#fafafa',
           100: '#f5f5f5',
@@ -45,35 +45,47 @@ export default {
           inverse: 'var(--text-inverse)',
         },
 
-        background: {
-          primary: 'var(--background-primary)',
-          secondary: 'var(--background-secondary)',
-          tertiary: 'var(--background-tertiary)',
-          overlay: 'var(--background-overlay)',
-          overlayDark: 'var(--background-overlay-dark)',
-          overlayFull: 'var(--background-overlay-full)',
+        background: 'hsl(var(--background))',
+        foreground: 'hsl(var(--foreground))',
+        card: {
+          DEFAULT: 'hsl(var(--card))',
+          foreground: 'hsl(var(--card-foreground))',
         },
-
-        hover: {
-          primary: 'var(--hover-primary)',
-          secondary: 'var(--hover-secondary)',
+        popover: {
+          DEFAULT: 'hsl(var(--popover))',
+          foreground: 'hsl(var(--popover-foreground))',
         },
+        secondary: {
+          DEFAULT: 'hsl(var(--secondary))',
+          foreground: 'hsl(var(--secondary-foreground))',
+        },
+        muted: {
+          DEFAULT: 'hsl(var(--muted))',
+          foreground: 'hsl(var(--muted-foreground))',
+        },
+        accent: {
+          DEFAULT: 'hsl(var(--accent))',
+          foreground: 'hsl(var(--accent-foreground))',
+        },
+        destructive: {
+          DEFAULT: 'hsl(var(--destructive))',
+          foreground: 'hsl(var(--destructive-foreground))',
+        },
+        border: 'hsl(var(--border))',
+        input: 'hsl(var(--input))',
+        ring: 'hsl(var(--ring))',
 
         // Status colors
-        status: {
-          warning: {
-            background: 'var(--status-warning-background)',
-            text: 'var(--status-warning-text)',
-            border: 'var(--status-warning-border)',
-          },
-          success: 'var(--status-success)',
-          error: 'var(--status-error)',
-        },
+        success: '#4cba73', // oklch(0.5234 0.1347 144.1672) - primary color
+        warning: '#f59e0b',
+        error: '#ef4444',
+        info: '#3b82f6',
       },
 
       fontFamily: {
-        primary: ['Arial', 'sans-serif'],
-        system: ['system-ui', 'Avenir', 'Helvetica', 'Arial', 'sans-serif'],
+        sans: ['Montserrat', 'sans-serif'],
+        serif: ['Merriweather', 'serif'],
+        mono: ['Source Code Pro', 'monospace'],
       },
 
       fontSize: {
@@ -109,10 +121,9 @@ export default {
       },
 
       borderRadius: {
-        sm: '5px',
-        md: '6px',
-        lg: '8px',
-        xl: '12px',
+        lg: 'var(--radius)',
+        md: 'calc(var(--radius) - 2px)',
+        sm: 'calc(var(--radius) - 4px)',
       },
 
       boxShadow: {
@@ -135,7 +146,23 @@ export default {
         overlay: '1000',
         splash: '2000',
       },
+
+      keyframes: {
+        'accordion-down': {
+          from: { height: '0' },
+          to: { height: 'var(--radix-accordion-content-height)' },
+        },
+        'accordion-up': {
+          from: { height: 'var(--radix-accordion-content-height)' },
+          to: { height: '0' },
+        },
+      },
+
+      animation: {
+        'accordion-down': 'accordion-down 0.2s ease-out',
+        'accordion-up': 'accordion-up 0.2s ease-out',
+      },
     },
   },
-  plugins: [],
+  plugins: [require('tailwindcss-animate')],
 };

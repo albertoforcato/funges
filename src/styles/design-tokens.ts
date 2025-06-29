@@ -1,18 +1,18 @@
 // Design tokens extracted from legacy Fung.es CSS
 export const designTokens = {
   colors: {
-    // Primary colors (based on old project theme color #3d7e40)
+    // Primary colors (based on new OKLCH color palette - oklch(0.5234 0.1347 144.1672))
     primary: {
-      50: '#f0f9f0',
-      100: '#e0f2e0',
-      200: '#c4e6c4',
-      300: '#9dd69d',
-      400: '#6bc26b',
-      500: '#3d7e40', // Main theme color from old project
-      600: '#2f632f',
-      700: '#254d25',
-      800: '#1f3f1f',
-      900: '#1a351a',
+      50: '#f0f9f4', // Light green background
+      100: '#dcf2e3', // Very light green
+      200: '#b8e4c7', // Light green
+      300: '#94d6ab', // Medium light green
+      400: '#70c88f', // Medium green
+      500: '#4cba73', // Main theme color - oklch(0.5234 0.1347 144.1672)
+      600: '#3d955c', // Darker green
+      700: '#2e7045', // Dark green
+      800: '#1f4a2e', // Very dark green
+      900: '#102517', // Darkest green
     },
 
     // Neutral colors for light/dark themes
@@ -29,131 +29,113 @@ export const designTokens = {
       900: '#171717',
     },
 
-    // Text colors for light/dark themes
+    // Text colors
     text: {
       light: {
-        primary: '#1a1a1a',
-        secondary: '#404040',
-        tertiary: '#6b7280',
-        inverse: '#ffffff',
+        primary: '#1a1a1a', // Dark text for light theme
+        secondary: '#525252', // Medium gray text
       },
       dark: {
-        primary: '#ffffff',
-        secondary: '#e5e7eb',
-        tertiary: '#d1d5db',
-        inverse: '#1a1a1a',
+        primary: '#f5f5f5', // Light text for dark theme
+        secondary: '#a3a3a3', // Medium gray text
       },
     },
 
-    // Background colors for light/dark themes
+    // Background colors
     background: {
       light: {
-        primary: '#ffffff',
-        secondary: 'rgba(255, 252, 239, 0.9)', // White halo color from old project
-        tertiary: '#f9fafb',
-        overlay: 'rgba(0, 0, 0, 0.8)',
-        overlayDark: 'rgba(0, 0, 0, 0.9)',
-        overlayFull: 'rgba(0, 0, 0, 1)',
+        primary: '#fafafa', // Light background
+        secondary: 'rgba(250, 250, 250, 0.9)', // Light background with opacity
+        tertiary: '#f5f5f5', // Slightly darker background
       },
       dark: {
-        primary: '#1a1a1a',
-        secondary: 'rgba(26, 26, 26, 0.9)',
-        tertiary: '#262626',
-        overlay: 'rgba(0, 0, 0, 0.8)',
-        overlayDark: 'rgba(0, 0, 0, 0.9)',
-        overlayFull: 'rgba(0, 0, 0, 1)',
+        primary: '#171717', // Dark background
+        secondary: 'rgba(23, 23, 23, 0.9)', // Dark background with opacity
+        tertiary: '#0a0a0a', // Darker background
       },
     },
 
     // Status colors
     status: {
-      warning: {
-        light: {
-          background: '#fff3cd',
-          text: '#856404',
-          border: '#ffa726',
-        },
-        dark: {
-          background: '#3d2c00',
-          text: '#fbbf24',
-          border: '#f59e0b',
-        },
-      },
-      success: {
-        light: '#3d7e40', // Theme color from manifest
-        dark: '#4ade80',
-      },
-      error: {
-        light: '#dc2626',
-        dark: '#f87171',
-      },
+      success: '#4cba73', // oklch(0.5234 0.1347 144.1672) - primary color
+      warning: '#f59e0b',
+      error: '#ef4444',
+      info: '#3b82f6',
     },
 
-    // Hover colors for light/dark themes
+    // Hover states
     hover: {
       light: {
-        primary: '#f0eada', // Warm hover color from old project
-        secondary: '#f3f4f6',
+        primary: '#e5f7ed', // Light green hover
+        secondary: '#d1f2e1', // Medium light green hover
       },
       dark: {
-        primary: '#374151',
-        secondary: '#4b5563',
+        primary: '#1f2937', // Dark hover
+        secondary: '#374151', // Medium dark hover
       },
     },
   },
 
+  // Typography
   typography: {
     fontFamily: {
-      primary: 'Arial, sans-serif',
-      system: 'system-ui, Avenir, Helvetica, Arial, sans-serif',
+      sans: 'Montserrat, sans-serif',
+      serif: 'Merriweather, serif',
+      mono: 'Source Code Pro, monospace',
     },
     fontSize: {
-      xs: '12px',
-      sm: '14px',
-      base: '16px',
-      lg: '18px',
-      xl: '20px',
-      '2xl': '24px',
-      '3xl': '32px',
+      xs: '0.75rem',
+      sm: '0.875rem',
+      base: '1rem',
+      lg: '1.125rem',
+      xl: '1.25rem',
+      '2xl': '1.5rem',
+      '3xl': '1.875rem',
+      '4xl': '2.25rem',
+      '5xl': '3rem',
+      '6xl': '3.75rem',
     },
     fontWeight: {
-      normal: '400',
-      medium: '500',
-      bold: '700',
-    },
-    lineHeight: {
-      tight: '1.1',
-      normal: '1.5',
-      relaxed: '1.75',
+      light: 300,
+      normal: 400,
+      medium: 500,
+      semibold: 600,
+      bold: 700,
+      extrabold: 800,
     },
   },
 
+  // Spacing
   spacing: {
-    xs: '4px',
-    sm: '8px',
-    md: '12px',
-    lg: '15px',
-    xl: '20px',
-    '2xl': '40px',
-    '3xl': '60px',
+    xs: '0.25rem',
+    sm: '0.5rem',
+    md: '1rem',
+    lg: '1.5rem',
+    xl: '2rem',
+    '2xl': '3rem',
+    '3xl': '4rem',
   },
 
+  // Border radius
   borderRadius: {
-    sm: '5px',
-    md: '6px',
-    lg: '8px',
-    xl: '12px',
+    none: '0',
+    sm: '0.125rem',
+    base: '0.25rem',
+    md: '0.375rem',
+    lg: '0.5rem',
+    xl: '0.75rem',
+    '2xl': '1rem',
+    full: '9999px',
   },
 
+  // Shadows
   shadows: {
-    sm: '0 1px 2px rgba(0, 0, 0, 0.1)',
-    md: '2px 0 5px rgba(0, 0, 0, 0.1)',
-    lg: '0 -2px 5px rgba(0, 0, 0, 0.1)',
-    dark: {
-      sm: '0 1px 2px rgba(0, 0, 0, 0.3)',
-      md: '2px 0 5px rgba(0, 0, 0, 0.3)',
-      lg: '0 -2px 5px rgba(0, 0, 0, 0.3)',
-    },
+    sm: '0 1px 2px 0 rgb(0 0 0 / 0.05)',
+    base: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
+    md: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
+    lg: '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)',
+    xl: '0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)',
+    '2xl': '0 25px 50px -12px rgb(0 0 0 / 0.25)',
   },
 
   layout: {
