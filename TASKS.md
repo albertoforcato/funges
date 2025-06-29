@@ -139,10 +139,10 @@ PLEASE: Ask for clarification if any functionality or data structure is unclear
 
 ## 15. GitHub Pages Deployment
 
-- [ ] Set up project for **static site deployment** via GitHub Pages
-- [ ] Configure Vite `base` path to match the GitHub Pages repo name
-- [ ] Add deploy script (e.g. using `gh-pages` or manual push of `dist/`)
-- [ ] Document local build + deploy process in `README.md`
+- [x] Set up project for **static site deployment** via GitHub Pages
+- [x] Configure Vite `base` path to match the GitHub Pages repo name
+- [x] Add deploy script (e.g. using `gh-pages` or manual push of `dist/`)
+- [x] Document local build + deploy process in `README.md`
 
 ## 16. Dockerization
 
