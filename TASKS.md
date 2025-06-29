@@ -33,7 +33,7 @@ PLEASE: Ask for clarification if any functionality or data structure is unclear
 
 ## 3. Styling & Theme
 
-- [ ] Install and configure **TailwindCSS**
+- [x] Install and configure **TailwindCSS**
 - [ ] Extract design tokens (colors, spacing, typography) from legacy CSS
 - [ ] Create custom Tailwind theme (`tailwind.config.ts`) to match existing project styles
 - [ ] Migrate global styles (e.g., typography rules) to `src/styles/globals.scss`
