@@ -67,7 +67,7 @@ PLEASE: Ask for clarification if any functionality or data structure is unclear
 
 - [x] Install **shadcn/ui** (based on Radix + Tailwind)
 - [x] Use shadcn components for buttons, dialogs, inputs, etc.
-- [ ] Decompose existing HTML UI into composable React components
+- [x] Decompose existing HTML UI into composable React components
 - [ ] Ensure accessibility (labels, ARIA, keyboard support)
 
 ## 9. Animations
@@ -234,3 +234,8 @@ PLEASE: Ask for clarification if any functionality or data structure is unclear
   - [ ] VITE_API_URL
   - [ ] VITE_MAPBOX_ACCESS_TOKEN
   - [ ] VITE_MAPBOX_TILES_URL
+
+## 21. Styling and standardization
+
+- [ ] Add more than one standard scss to define all the colors, spacing, typography, etc.
+- [ ] Exctract all the colors in hex to the standars scss file and use them in the project
