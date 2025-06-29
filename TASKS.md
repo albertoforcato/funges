@@ -48,8 +48,8 @@ PLEASE: Ask for clarification if any functionality or data structure is unclear
 ## 5. Routing
 
 - [x] Install and configure **TanStack Router**
-- [ ] Define routes based on original HTML pages
-- [ ] Migrate legacy navigation to `<Link>` components
+- [x] Define routes based on original HTML pages
+- [x] Migrate legacy navigation to `<Link>` components
 
 ## 6. Forms & Validation
 
