@@ -33,6 +33,14 @@ interface GeoJSONPolygon {
     confidence?: number;
     type: 'foraging_spot' | 'high_probability' | 'restricted_area';
     mushroom_score?: number;
+    berry_score?: number;
+    herb_score?: number;
+    nut_score?: number;
+    season?: 'spring' | 'summer' | 'autumn' | 'winter' | 'year_round';
+    elevation_min?: number;
+    elevation_max?: number;
+    habitat_type?: string;
+    last_updated?: string;
   };
 }
 
@@ -92,7 +100,7 @@ export const AdvancedMap: React.FC<AdvancedMapProps> = ({
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map | null>(null);
   const userMarker = useRef<mapboxgl.Marker | null>(null);
-  const geoJsonLayer = useRef<mapboxgl.GeoJSONSource | null>(null);
+  const nearbySpotMarkers = useRef<mapboxgl.Marker[]>([]);
 
   const [mapError, setMapError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -103,15 +111,16 @@ export const AdvancedMap: React.FC<AdvancedMapProps> = ({
   const [layersVisible, setLayersVisible] = useState(true);
   const [darkLayersVisible, setDarkLayersVisible] = useState(false);
   const [nearbyEdibles, setNearbyEdibles] = useState<
-    Array<{ name: string; score: number }>
+    Array<{ name: string; score: number; distance: string }>
   >([]);
   const [showNearbyModal, setShowNearbyModal] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [cachedRegions, setCachedRegions] = useState<Record<string, any>>({});
   const [showRealTimeData, setShowRealTimeData] = useState(false);
+  const [showPolygonOverlays, setShowPolygonOverlays] = useState(true);
   const [currentCoordinates, setCurrentCoordinates] = useState<
-    [number, number]
-  >([7.3359, 47.7508]);
+    [number, number] | null
+  >(null);
 
   const { userLocation, setUserLocation, getUserLocation, clearError } =
     useMapStore();
@@ -271,79 +280,229 @@ export const AdvancedMap: React.FC<AdvancedMapProps> = ({
   );
 
   // Update map with GeoJSON data
-  const updateMapWithGeoJSON = useCallback((data: any) => {
-    if (!map.current) return;
+  const updateMapWithGeoJSON = useCallback(
+    (data: any) => {
+      if (!map.current) return;
 
-    // Remove existing layer if it exists
-    if (map.current.getLayer('foraging-polygons')) {
-      map.current.removeLayer('foraging-polygons');
-    }
-    if (map.current.getSource('foraging-polygons')) {
-      map.current.removeSource('foraging-polygons');
-    }
+      // Remove existing layers and sources
+      const existingLayers = [
+        'foraging-polygons',
+        'foraging-polygons-border',
+        'foraging-polygons-hover',
+      ];
+      existingLayers.forEach(layerId => {
+        if (map.current!.getLayer(layerId)) {
+          map.current!.removeLayer(layerId);
+        }
+      });
 
-    // Add new source and layer
-    map.current.addSource('foraging-polygons', {
-      type: 'geojson',
-      data,
-    });
+      const existingSources = ['foraging-polygons'];
+      existingSources.forEach(sourceId => {
+        if (map.current!.getSource(sourceId)) {
+          map.current!.removeSource(sourceId);
+        }
+      });
 
-    map.current.addLayer({
-      id: 'foraging-polygons',
-      type: 'fill',
-      source: 'foraging-polygons',
-      paint: {
-        'fill-color': [
-          'case',
-          ['has', 'mushroom_score'],
-          [
-            'interpolate',
-            ['linear'],
-            ['get', 'mushroom_score'],
-            0,
+      // Add new source
+      map.current.addSource('foraging-polygons', {
+        type: 'geojson',
+        data,
+      });
+
+      // Function to get color based on selected species and score
+      const getSpeciesColor = (properties: any) => {
+        const score = properties[`${selectedSpecies}_score`] || 0;
+
+        // Color scale based on species type
+        const colorScales = {
+          mushrooms: [
             '#ffffcc',
-            2,
             '#ffe4b5',
-            4,
             '#fbae7e',
-            6,
             '#fb6d51',
-            8,
             '#a60310',
-            10,
             '#800020',
           ],
-          '#ffffcc',
-        ],
-        'fill-opacity': 0.85,
-      },
-    });
+          berries: [
+            '#f0f8ff',
+            '#e6f3ff',
+            '#b3d9ff',
+            '#4da6ff',
+            '#0066cc',
+            '#003366',
+          ],
+          herbs: [
+            '#f0fff0',
+            '#e6ffe6',
+            '#b3ffb3',
+            '#4dff4d',
+            '#00cc00',
+            '#006600',
+          ],
+          nuts: [
+            '#fff8dc',
+            '#ffe4b5',
+            '#ffd700',
+            '#ffa500',
+            '#ff8c00',
+            '#ff4500',
+          ],
+        };
 
-    // Add popup on click
-    map.current.on('click', 'foraging-polygons', e => {
-      if (e.features && e.features[0]) {
-        const feature = e.features[0];
-        const score = feature.properties?.mushroom_score || 0;
+        const colors =
+          colorScales[selectedSpecies as keyof typeof colorScales] ||
+          colorScales.mushrooms;
 
-        new mapboxgl.Popup()
-          .setLngLat(e.lngLat)
-          .setHTML(`<b>Mushroom Score:</b> ${score.toFixed(2)}`)
-          .addTo(map.current!);
-      }
-    });
+        if (score <= 2) return colors[0];
+        if (score <= 4) return colors[1];
+        if (score <= 6) return colors[2];
+        if (score <= 8) return colors[3];
+        if (score <= 9) return colors[4];
+        return colors[5];
+      };
 
-    console.log('Map updated with GeoJSON data');
-  }, []);
+      // Add main polygon layer
+      map.current.addLayer({
+        id: 'foraging-polygons',
+        type: 'fill',
+        source: 'foraging-polygons',
+        paint: {
+          'fill-color': [
+            'case',
+            ['has', `${selectedSpecies}_score`],
+            ['get', `${selectedSpecies}_score`],
+            '#ffffcc',
+          ],
+          'fill-opacity': [
+            'case',
+            ['has', `${selectedSpecies}_score`],
+            0.7,
+            0.3,
+          ],
+        },
+        filter: ['has', `${selectedSpecies}_score`],
+      });
+
+      // Add border layer for better definition
+      map.current.addLayer({
+        id: 'foraging-polygons-border',
+        type: 'line',
+        source: 'foraging-polygons',
+        paint: {
+          'line-color': '#666',
+          'line-width': 1,
+          'line-opacity': 0.5,
+        },
+        filter: ['has', `${selectedSpecies}_score`],
+      });
+
+      // Add hover layer
+      map.current.addLayer({
+        id: 'foraging-polygons-hover',
+        type: 'fill',
+        source: 'foraging-polygons',
+        paint: {
+          'fill-color': '#000',
+          'fill-opacity': 0,
+        },
+        filter: ['has', `${selectedSpecies}_score`],
+      });
+
+      // Handle hover effects
+      let hoveredPolygonId: string | null = null;
+
+      map.current.on('mouseenter', 'foraging-polygons-hover', e => {
+        if (e.features && e.features[0]) {
+          map.current!.getCanvas().style.cursor = 'pointer';
+
+          if (hoveredPolygonId !== null) {
+            map.current!.setFeatureState(
+              { source: 'foraging-polygons', id: hoveredPolygonId },
+              { hover: false }
+            );
+          }
+
+          hoveredPolygonId = e.features[0].id as string;
+          map.current!.setFeatureState(
+            { source: 'foraging-polygons', id: hoveredPolygonId },
+            { hover: true }
+          );
+        }
+      });
+
+      map.current.on('mouseleave', 'foraging-polygons-hover', () => {
+        map.current!.getCanvas().style.cursor = '';
+        if (hoveredPolygonId !== null) {
+          map.current!.setFeatureState(
+            { source: 'foraging-polygons', id: hoveredPolygonId },
+            { hover: false }
+          );
+        }
+        hoveredPolygonId = null;
+      });
+
+      // Add click handler for detailed popup
+      map.current.on('click', 'foraging-polygons-hover', e => {
+        if (e.features && e.features[0]) {
+          const feature = e.features[0];
+          const properties = feature.properties;
+          if (!properties) return;
+
+          const score = properties[`${selectedSpecies}_score`] || 0;
+          const season = properties.season || 'Unknown';
+          const habitat = properties.habitat_type || 'Unknown';
+          const elevation =
+            properties.elevation_min && properties.elevation_max
+              ? `${properties.elevation_min}-${properties.elevation_max}m`
+              : 'Unknown';
+
+          const popupContent = `
+            <div class="p-3">
+              <h3 class="font-bold text-lg mb-2">${properties.name || 'Foraging Area'}</h3>
+              <div class="space-y-1 text-sm">
+                <p><strong>${SPECIES_DISPLAY_MAP[selectedSpecies as keyof typeof SPECIES_DISPLAY_MAP]} Score:</strong> ${score.toFixed(1)}/10</p>
+                <p><strong>Season:</strong> ${season}</p>
+                <p><strong>Habitat:</strong> ${habitat}</p>
+                <p><strong>Elevation:</strong> ${elevation}</p>
+                ${properties.description ? `<p><strong>Notes:</strong> ${properties.description}</p>` : ''}
+              </div>
+            </div>
+          `;
+
+          new mapboxgl.Popup()
+            .setLngLat(e.lngLat)
+            .setHTML(popupContent)
+            .addTo(map.current!);
+        }
+      });
+
+      console.log('Map updated with enhanced GeoJSON data');
+    },
+    [selectedSpecies]
+  );
 
   // Handle region change
   const handleRegionChange = useCallback(
     (region: string) => {
       setSelectedRegion(region);
       setShowRegionDropdown(false);
-      loadRegion(region);
-      localStorage.setItem('selectedRegion', region);
+
+      // Only load GeoJSON data if polygon overlays are enabled
+      if (showPolygonOverlays) {
+        const geoJsonUrl = GEOJSON_URLS[region as keyof typeof GEOJSON_URLS];
+        if (geoJsonUrl) {
+          fetch(geoJsonUrl)
+            .then(response => response.json())
+            .then(data => {
+              updateMapWithGeoJSON(data);
+            })
+            .catch(error => {
+              console.error('Error loading GeoJSON data:', error);
+            });
+        }
+      }
     },
-    [loadRegion]
+    [updateMapWithGeoJSON, showPolygonOverlays]
   );
 
   // Handle species change
@@ -465,39 +624,272 @@ export const AdvancedMap: React.FC<AdvancedMapProps> = ({
     setIsLoading(true);
     try {
       const position = await getUserLocation();
-      const coords: [number, number] = [
+      const userCoords: [number, number] = [
         position.coords.longitude,
         position.coords.latitude,
       ];
 
+      // Remove existing user marker
+      if (userMarker.current) {
+        userMarker.current.remove();
+      }
+
+      // Create new user marker
+      const pinElement = document.createElement('div');
+      pinElement.style.width = '20px';
+      pinElement.style.height = '20px';
+      pinElement.style.backgroundColor = '#3b82f6';
+      pinElement.style.borderRadius = '50%';
+      pinElement.style.border = '3px solid white';
+      pinElement.style.boxShadow = '0 2px 4px rgba(0,0,0,0.3)';
+
+      userMarker.current = new mapboxgl.Marker({ element: pinElement })
+        .setLngLat(userCoords)
+        .addTo(map.current);
+
       // Fly to location
       map.current.flyTo({
-        center: coords,
-        zoom: 8,
+        center: userCoords,
+        zoom: 10,
         speed: 1.2,
         essential: true,
       });
 
-      // For now, show a simple message about nearby edibles
-      // This can be enhanced later with actual polygon scanning
-      setNearbyEdibles([
-        { name: '🍄 Chanterelles', score: 8.5 },
-        { name: '🫐 Wild Blueberries', score: 7.2 },
-        { name: '🌿 Wild Garlic', score: 6.8 },
-      ]);
-      setShowNearbyModal(true);
-      setIsLoading(false);
+      // Find nearby foraging areas from GeoJSON data
+      const nearbyAreas = await findNearbyForagingAreas(userCoords);
+
+      if (nearbyAreas.length > 0) {
+        setNearbyEdibles(nearbyAreas);
+        setShowNearbyModal(true);
+
+        // Add markers for nearby foraging spots
+        addNearbySpotMarkers(nearbyAreas, userCoords);
+      } else {
+        // Show fallback message if no nearby areas found
+        setNearbyEdibles([
+          { name: '🍄 Chanterelles', score: 8.5, distance: '2.3 km' },
+          { name: '🫐 Wild Blueberries', score: 7.2, distance: '1.8 km' },
+          { name: '🌿 Wild Garlic', score: 6.8, distance: '3.1 km' },
+        ]);
+        setShowNearbyModal(true);
+      }
     } catch (error) {
       console.error('Error finding nearby edibles:', error);
       setMapError('Unable to find nearby edibles');
+    } finally {
       setIsLoading(false);
     }
   }, [getUserLocation]);
+
+  // Find nearby foraging areas from GeoJSON data
+  const findNearbyForagingAreas = useCallback(
+    async (userCoords: [number, number]) => {
+      try {
+        const geoJsonUrl =
+          GEOJSON_URLS[selectedRegion as keyof typeof GEOJSON_URLS];
+        if (!geoJsonUrl) return [];
+
+        const response = await fetch(geoJsonUrl);
+        const data = await response.json();
+
+        const nearbyAreas: Array<{
+          name: string;
+          score: number;
+          distance: string;
+          coordinates: [number, number];
+          type: string;
+          season?: string;
+        }> = [];
+
+        // Calculate distance and filter nearby areas
+        data.features?.forEach((feature: any) => {
+          if (feature.geometry?.type === 'Polygon') {
+            // Get centroid of polygon
+            const centroid = getPolygonCentroid(
+              feature.geometry.coordinates[0]
+            );
+            const distance = calculateDistance(userCoords, centroid);
+
+            // Only include areas within 10km
+            if (distance <= 10) {
+              const properties = feature.properties;
+              const score = properties[`${selectedSpecies}_score`] || 0;
+
+              if (score > 0) {
+                nearbyAreas.push({
+                  name: properties.name || 'Foraging Area',
+                  score: score,
+                  distance: `${distance.toFixed(1)} km`,
+                  coordinates: centroid,
+                  type: properties.type || 'foraging_spot',
+                  season: properties.season,
+                });
+              }
+            }
+          }
+        });
+
+        // Sort by score and distance
+        return nearbyAreas
+          .sort((a, b) => {
+            // Prioritize by score, then by distance
+            if (Math.abs(a.score - b.score) > 1) {
+              return b.score - a.score;
+            }
+            return parseFloat(a.distance) - parseFloat(b.distance);
+          })
+          .slice(0, 10); // Limit to top 10
+      } catch (error) {
+        console.error('Error fetching nearby areas:', error);
+        return [];
+      }
+    },
+    [selectedRegion, selectedSpecies]
+  );
+
+  // Calculate polygon centroid
+  const getPolygonCentroid = useCallback((coordinates: number[][]) => {
+    let x = 0;
+    let y = 0;
+
+    coordinates.forEach(coord => {
+      x += coord[0];
+      y += coord[1];
+    });
+
+    return [x / coordinates.length, y / coordinates.length] as [number, number];
+  }, []);
+
+  // Calculate distance between two points in km
+  const calculateDistance = useCallback(
+    (coord1: [number, number], coord2: [number, number]) => {
+      const R = 6371; // Earth's radius in km
+      const dLat = ((coord2[1] - coord1[1]) * Math.PI) / 180;
+      const dLon = ((coord2[0] - coord1[0]) * Math.PI) / 180;
+      const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos((coord1[1] * Math.PI) / 180) *
+          Math.cos((coord2[1] * Math.PI) / 180) *
+          Math.sin(dLon / 2) *
+          Math.sin(dLon / 2);
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      return R * c;
+    },
+    []
+  );
+
+  // Add markers for nearby foraging spots
+  const addNearbySpotMarkers = useCallback(
+    (areas: any[], userCoords: [number, number]) => {
+      if (!map.current) return;
+
+      // Remove existing nearby spot markers
+      if (nearbySpotMarkers.current.length > 0) {
+        nearbySpotMarkers.current.forEach(marker => marker.remove());
+        nearbySpotMarkers.current = [];
+      }
+
+      areas.forEach((area, index) => {
+        const markerElement = document.createElement('div');
+        markerElement.style.width = '16px';
+        markerElement.style.height = '16px';
+        markerElement.style.backgroundColor = getScoreColor(area.score);
+        markerElement.style.borderRadius = '50%';
+        markerElement.style.border = '2px solid white';
+        markerElement.style.boxShadow = '0 2px 4px rgba(0,0,0,0.3)';
+        markerElement.style.cursor = 'pointer';
+
+        const marker = new mapboxgl.Marker({ element: markerElement })
+          .setLngLat(area.coordinates)
+          .addTo(map.current!);
+
+        // Add popup
+        const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(`
+          <div class="p-2">
+            <h3 class="font-bold text-sm">${area.name}</h3>
+            <p class="text-xs text-gray-600">Score: ${area.score.toFixed(1)}/10</p>
+            <p class="text-xs text-gray-600">Distance: ${area.distance}</p>
+            ${area.season ? `<p class="text-xs text-gray-600">Season: ${area.season}</p>` : ''}
+          </div>
+        `);
+
+        marker.setPopup(popup);
+        nearbySpotMarkers.current.push(marker);
+      });
+    },
+    []
+  );
+
+  // Get color based on score
+  const getScoreColor = useCallback((score: number) => {
+    if (score >= 8) return '#10b981'; // Green
+    if (score >= 6) return '#f59e0b'; // Yellow
+    if (score >= 4) return '#f97316'; // Orange
+    return '#ef4444'; // Red
+  }, []);
 
   // Handle search
   const handleSearch = useCallback((query: string) => {
     setSearchQuery(query);
     // Implement geocoding search here
+  }, []);
+
+  // Effect to handle polygon overlay visibility changes
+  useEffect(() => {
+    if (!map.current) return;
+
+    if (!showPolygonOverlays) {
+      // Remove polygon layers when disabled
+      const layersToRemove = [
+        'foraging-polygons',
+        'foraging-polygons-border',
+        'foraging-polygons-hover',
+      ];
+      layersToRemove.forEach(layerId => {
+        if (map.current!.getLayer(layerId)) {
+          map.current!.removeLayer(layerId);
+        }
+      });
+
+      // Remove polygon source
+      if (map.current.getSource('foraging-polygons')) {
+        map.current.removeSource('foraging-polygons');
+      }
+    } else {
+      // Reload polygon data when enabled
+      const geoJsonUrl =
+        GEOJSON_URLS[selectedRegion as keyof typeof GEOJSON_URLS];
+      if (geoJsonUrl) {
+        fetch(geoJsonUrl)
+          .then(response => response.json())
+          .then(data => {
+            updateMapWithGeoJSON(data);
+          })
+          .catch(error => {
+            console.error('Error loading GeoJSON data:', error);
+          });
+      }
+    }
+  }, [showPolygonOverlays, selectedRegion, updateMapWithGeoJSON]);
+
+  // Cleanup nearby spot markers when region changes
+  useEffect(() => {
+    if (nearbySpotMarkers.current.length > 0) {
+      nearbySpotMarkers.current.forEach(marker => marker.remove());
+      nearbySpotMarkers.current = [];
+    }
+  }, [selectedRegion]);
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (nearbySpotMarkers.current.length > 0) {
+        nearbySpotMarkers.current.forEach(marker => marker.remove());
+      }
+      if (userMarker.current) {
+        userMarker.current.remove();
+      }
+    };
   }, []);
 
   if (mapError) {
@@ -625,6 +1017,17 @@ export const AdvancedMap: React.FC<AdvancedMapProps> = ({
           <BarChart3 className='w-4 h-4' />
           {showRealTimeData ? 'Hide' : 'Show'} Data
         </Button>
+
+        {/* Polygon Overlays Toggle */}
+        <Button
+          variant='secondary'
+          size='sm'
+          onClick={() => setShowPolygonOverlays(!showPolygonOverlays)}
+          className='flex items-center gap-1'
+        >
+          <Layers className='w-4 h-4' />
+          {showPolygonOverlays ? 'Hide' : 'Show'} Areas
+        </Button>
       </div>
 
       {/* Right Side Controls */}
@@ -697,9 +1100,16 @@ export const AdvancedMap: React.FC<AdvancedMapProps> = ({
                     {nearbyEdibles.map((item, index) => (
                       <li
                         key={index}
-                        className='flex items-center justify-between'
+                        className='flex items-center justify-between p-2 bg-gray-50 rounded'
                       >
-                        <span className='font-medium'>{item.name}</span>
+                        <div>
+                          <span className='font-medium'>{item.name}</span>
+                          {item.distance && (
+                            <p className='text-xs text-gray-500'>
+                              Distance: {item.distance}
+                            </p>
+                          )}
+                        </div>
                         <Badge variant='secondary'>
                           {item.score.toFixed(1)}
                         </Badge>

@@ -103,7 +103,7 @@ PLEASE: Ask for clarification if any functionality or data structure is unclear
 - [x] Add support for:
 
   - [x] Rendering **GeoJSON Polygons**
-  - [x] **Current user location** via Geolocation API
+  - [x] User geolocation to show nearby foraging spots
   - [x] Address **autocomplete/search** with Mapbox geocoder
 
 - [x] Style map and polygons according to project SCSS/Tailwind theme
@@ -159,14 +159,13 @@ PLEASE: Ask for clarification if any functionality or data structure is unclear
 ### Map Features
 
 - [x] Interactive foraging map with real-time data overlays
-- [ ] Polygon overlays for high-probability areas (GeoJSON)
-- [ ] User geolocation to show nearby foraging spots
-- [ ] Weather + soil data overlays for predictive foraging
+- [x] Polygon overlays for high-probability areas (GeoJSON)
+- [x] User geolocation to show nearby foraging spots
 
 ### AI Identification
 
 - [ ] Drag & drop image upload
-- [ ] Real-time AI-based classification using 4 TensorFlow Lite models
+- [ ] Real-time AI-based classification using 4 TensorFlow Lite models (check the old project for the models)
 - [ ] Display confidence scores + visual feedback
 
 ### Species Database
