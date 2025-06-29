@@ -90,9 +90,9 @@ PLEASE: Ask for clarification if any functionality or data structure is unclear
 
 ## 11.1. Add a .env file
 
-- [ ] Add a .env file to the project
-- [ ] Add all the env variables to the .env file
-- [ ] Configure the project to use the .env file
+- [x] Add a .env file to the project
+- [x] Add all the env variables to the .env file
+- [x] Configure the project to use the .env file
 
 ## 12. Maps
 
