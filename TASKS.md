@@ -212,3 +212,25 @@ PLEASE: Ask for clarification if any functionality or data structure is unclear
   - Project structure
   - Setup & usage instructions
   - Deployment and Docker instructions
+
+## 19. Add pre-commit hooks and pre-push hooks
+
+- [ ] Add pre-commit hooks and pre-push hooks to run linting, formatting, testing and there ar enot unused import or unused variables
+- [ ] Add pre-commit hooks and pre-push hooks
+
+## 20. Add a .env file
+
+- [ ] Add a .env file to the project
+- [ ] Check the project for any .env files and remove them
+- [ ] Check the project for any .env.example files and remove them
+- [ ] Add all the env variables to the .env file
+
+## 21. Add a .env.example file
+
+- [ ] Add a .env.example file to the project
+- [ ] Add all the env variables to the .env.example file
+- [ ] Add the following variables to the .env.example file:
+
+  - [ ] VITE_API_URL
+  - [ ] VITE_MAPBOX_ACCESS_TOKEN
+  - [ ] VITE_MAPBOX_TILES_URL
