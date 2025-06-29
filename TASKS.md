@@ -36,7 +36,9 @@ PLEASE: Ask for clarification if any functionality or data structure is unclear
 - [ ] Install and configure **TailwindCSS**
 - [ ] Extract design tokens (colors, spacing, typography) from legacy CSS
 - [ ] Create custom Tailwind theme (`tailwind.config.ts`) to match existing project styles
-- [ ] Migrate global styles (e.g., typography rules) to `src/styles/globals.css`
+- [ ] Migrate global styles (e.g., typography rules) to `src/styles/globals.scss`
+- [ ] Use **SCSS modules** for component-specific styles (e.g., `ComponentName.module.scss`)
+- [ ] Ensure SCSS build integration in Vite (add `sass` as a dev dependency)
 
 ## 4. State & Logic
 
@@ -88,16 +90,18 @@ PLEASE: Ask for clarification if any functionality or data structure is unclear
 
 ## 12. Maps
 
-- [ ] Install **MapLibre GL** and setup map component
-- [ ] Use **OpenStreetMap** tiles with styling
-- [ ] Integrate **Nominatim** or **Photon** for geocoding + address search
+- [ ] Install **Mapbox GL JS** and set up map component
+- [ ] Configure **Mapbox Access Token** via environment variable (`.env`)
+- [ ] Use **Mapbox tiles** with custom styling
+- [ ] Integrate **Mapbox Geocoding API** for address search/autocomplete
 - [ ] Add support for:
 
   - [ ] Rendering **GeoJSON Polygons**
   - [ ] **Current user location** via Geolocation API
-  - [ ] Address **autocomplete/search**
+  - [ ] Address **autocomplete/search** with Mapbox geocoder
 
-- [ ] Style polygons according to project palette
+- [ ] Style map and polygons according to project SCSS/Tailwind theme
+- [ ] Add map fallback or graceful error UI if API fails
 
 ## 13. Storybook
 
