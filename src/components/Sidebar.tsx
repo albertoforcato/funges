@@ -79,8 +79,12 @@ export const Sidebar = ({
     >
       {/* Logo */}
       <div className='mb-8'>
-        <div className='w-12 h-12 bg-primary-500 rounded-lg flex items-center justify-center'>
-          <Leaf className='w-8 h-8 text-white' />
+        <div className='w-12 h-12 bg-primary-500 rounded-lg flex items-center justify-center overflow-hidden'>
+          <img
+            src='/icons/logo_app.png'
+            alt='Fung.es Logo'
+            className='w-10 h-10 object-contain'
+          />
         </div>
       </div>
 
