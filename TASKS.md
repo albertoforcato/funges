@@ -191,6 +191,10 @@ PLEASE: Ask for clarification if any functionality or data structure is unclear
 ### UX & Accessibility
 
 - [x] Implement dark mode (based on existing icon state)
+
+
+--- DO NOT PROCEED WITH THESE TASKS UNTIL THE MENU AND THE SIDEBAR IS COMPLETED---
+
 - [ ] Add mobile-friendly navigation + gestures
 - [ ] Ensure keyboard and screen-reader support
 - [ ] Add loading animations / feedback states
