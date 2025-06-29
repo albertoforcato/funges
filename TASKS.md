@@ -42,7 +42,7 @@ PLEASE: Ask for clarification if any functionality or data structure is unclear
 
 ## 4. State & Logic
 
-- [ ] Install and set up **Zustand** for global state management
+- [x] Install and set up **Zustand** for global state management
 - [ ] Define initial store structure (e.g. UI state, user, data cache)
 
 ## 5. Routing
