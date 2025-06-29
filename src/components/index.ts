@@ -1,14 +1,14 @@
-export { Header } from './Header';
-export { Sidebar } from './Sidebar';
-export { SpeciesSelector } from './SpeciesSelector';
-export { ImageUploadModal } from './ImageUploadModal';
-export { SupportModal } from './SupportModal';
-export { Footer } from './Footer';
+export { Header } from '@/components/Header';
+export { Sidebar } from '@/components/Sidebar';
+export { SpeciesSelector } from '@/components/SpeciesSelector';
+export { ImageUploadModal } from '@/components/ImageUploadModal';
+export { SupportModal } from '@/components/SupportModal';
+export { Footer } from '@/components/Footer';
 
 // Re-export UI components
-export * from './ui/button';
-export * from './ui/input';
-export * from './ui/label';
-export * from './ui/card';
-export * from './ui/dialog';
-export * from './ui/form'; 
+export * from '@/components/ui/button';
+export * from '@/components/ui/input';
+export * from '@/components/ui/label';
+export * from '@/components/ui/card';
+export * from '@/components/ui/dialog';
+export * from '@/components/ui/form'; 

@@ -1,7 +1,7 @@
 import { useState, useRef, useCallback } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from './ui/dialog';
-import { Button } from './ui/button';
-import { Card } from './ui/card';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 import { Upload, Camera, X, FileImage } from 'lucide-react';
 
 interface ImageUploadModalProps {
@@ -37,7 +37,7 @@ export const ImageUploadModal = ({ isOpen, onClose, onImageUpload }: ImageUpload
   const handleDrop = useCallback((e: React.DragEvent) => {
     e.preventDefault();
     setIsDragOver(false);
-    
+
     const files = Array.from(e.dataTransfer.files);
     if (files.length > 0) {
       handleFileSelect(files[0]);
@@ -79,11 +79,10 @@ export const ImageUploadModal = ({ isOpen, onClose, onImageUpload }: ImageUpload
         <div className="space-y-4">
           {/* Drag & Drop Area */}
           <Card
-            className={`p-8 border-2 border-dashed text-center transition-colors ${
-              isDragOver 
-                ? 'border-blue-500 bg-blue-50' 
+            className={`p-8 border-2 border-dashed text-center transition-colors ${isDragOver
+                ? 'border-blue-500 bg-blue-50'
                 : 'border-gray-300 hover:border-gray-400'
-            }`}
+              }`}
             onDragOver={handleDragOver}
             onDragLeave={handleDragLeave}
             onDrop={handleDrop}

@@ -221,8 +221,7 @@ PLEASE: Ask for clarification if any functionality or data structure is unclear
 
 ## 19. Add pre-commit hooks and pre-push hooks
 
-- [ ] Add pre-commit hooks and pre-push hooks to run linting, formatting, testing and there ar enot unused import or unused variables
-- [ ] Add pre-commit hooks and pre-push hooks
+- [ ] Add pre-commit hooks and pre-push hooks to run linting, formatting, testing and there ar enot unused import or unused variables. Check also for absolute imports instead of relative imports.
 
 ## 21. Styling and standardization
 

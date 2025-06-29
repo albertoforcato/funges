@@ -8,7 +8,7 @@ import {
   type ClassificationResult,
   type DonationInfo,
   type WeatherForecast,
-} from '../types/api';
+} from '@/types/api';
 
 // API functions
 export const api = {

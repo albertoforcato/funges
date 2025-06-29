@@ -1,7 +1,7 @@
 import { QueryClient } from '@tanstack/react-query';
 import { useQuery } from '@tanstack/react-query';
-import { api } from './api';
-import type { Species } from '../types/api';
+import { api } from '@/lib/api';
+import type { Species } from '@/types/api';
 
 // Create a query client with default options
 export const queryClient = new QueryClient({

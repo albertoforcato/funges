@@ -1,10 +1,10 @@
 import { useState, useRef, useEffect } from 'react';
-import { Button } from './ui/button';
-import { Input } from './ui/input';
-import { Card } from './ui/card';
-import { useSpeciesList } from '../lib/query';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Card } from '@/components/ui/card';
+import { useSpeciesList } from '@/lib/query';
 import { Search, ChevronDown, Filter } from 'lucide-react';
-import type { Species } from '../types/api';
+import type { Species } from '@/types/api';
 
 interface SpeciesSelectorProps {
   selectedSpecies?: Species;
@@ -16,7 +16,7 @@ export const SpeciesSelector = ({ selectedSpecies, onSpeciesSelect }: SpeciesSel
   const [filter, setFilter] = useState('');
   const [typeFilter, setTypeFilter] = useState<string>('');
   const [focusedIndex, setFocusedIndex] = useState(-1);
-  
+
   const { data: species = [], isLoading } = useSpeciesList();
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -30,7 +30,7 @@ export const SpeciesSelector = ({ selectedSpecies, onSpeciesSelect }: SpeciesSel
 
   const filteredSpecies = species.filter((s) => {
     const matchesFilter = s.name.toLowerCase().includes(filter.toLowerCase()) ||
-                         s.scientificName.toLowerCase().includes(filter.toLowerCase());
+      s.scientificName.toLowerCase().includes(filter.toLowerCase());
     const matchesType = !typeFilter || s.type === typeFilter;
     return matchesFilter && matchesType;
   });
@@ -165,9 +165,8 @@ export const SpeciesSelector = ({ selectedSpecies, onSpeciesSelect }: SpeciesSel
                     setIsOpen(false);
                     setFocusedIndex(-1);
                   }}
-                  className={`w-full text-left p-3 rounded-lg hover:bg-gray-100 focus:bg-gray-100 focus:outline-none ${
-                    focusedIndex === index ? 'bg-gray-100' : ''
-                  }`}
+                  className={`w-full text-left p-3 rounded-lg hover:bg-gray-100 focus:bg-gray-100 focus:outline-none ${focusedIndex === index ? 'bg-gray-100' : ''
+                    }`}
                   role="option"
                   aria-selected={focusedIndex === index}
                 >
