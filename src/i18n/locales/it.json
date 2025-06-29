@@ -150,7 +150,11 @@
     "species": "Specie",
     "recommendations": "Raccomandazioni",
     "tryAgain": "Riprova",
-    "uploadAnother": "Carica Altra Immagine"
+    "uploadAnother": "Carica Altra Immagine",
+    "confidenceAnalysis": "Analisi della Confidenza",
+    "highConfidence": "Alta Confidenza",
+    "moderateConfidence": "Confidenza Moderata",
+    "lowConfidence": "Bassa Confidenza"
   },
   "recipes": {
     "title": "Ricette",
@@ -260,7 +264,12 @@
     "model": "Modello",
     "averageConfidence": "Confidenza Media",
     "allPredictions": "Tutte le Previsioni dei Modelli",
-    "safetyWarning": "Questa identificazione AI è solo a scopo educativo. Consulta sempre un micologo esperto prima di consumare qualsiasi fungo selvatico. Non fare affidamento esclusivamente su strumenti di identificazione digitale per la sicurezza."
+    "safetyWarning": "Questa identificazione AI è solo a scopo educativo. Consulta sempre un micologo esperto prima di consumare funghi selvatici. Non fare affidamento esclusivamente su strumenti di identificazione digitale per la sicurezza.",
+    "confidence": "confidenza",
+    "confidenceAnalysis": "Analisi della Confidenza",
+    "highConfidence": "Alta Confidenza",
+    "moderateConfidence": "Confidenza Moderata",
+    "lowConfidence": "Bassa Confidenza"
   },
   "species": {
     "title": "Database delle Specie",

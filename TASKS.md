@@ -166,7 +166,7 @@ PLEASE: Ask for clarification if any functionality or data structure is unclear
 
 - [x] Drag & drop image upload
 - [x] Real-time AI-based classification using 4 TensorFlow Lite models (check the old project for the models)
-- [ ] Display confidence scores + visual feedback
+- [x] Display confidence scores + visual feedback
 
 ### Fix routes
 - [ ] Take all the components defined in routes folder and extract them into a pages folder

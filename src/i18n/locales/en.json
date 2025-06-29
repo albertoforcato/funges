@@ -147,7 +147,12 @@
     "model": "Model",
     "averageConfidence": "Average Confidence",
     "allPredictions": "All Model Predictions",
-    "safetyWarning": "This AI identification is for educational purposes only. Always consult with an expert mycologist before consuming any wild mushrooms. Never rely solely on digital identification tools for safety."
+    "safetyWarning": "This AI identification is for educational purposes only. Always consult with an expert mycologist before consuming any wild mushrooms. Never rely solely on digital identification tools for safety.",
+    "confidence": "confidence",
+    "confidenceAnalysis": "Confidence Analysis",
+    "highConfidence": "High Confidence",
+    "moderateConfidence": "Moderate Confidence",
+    "lowConfidence": "Low Confidence"
   },
   "recipes": {
     "title": "Recipe Collection",

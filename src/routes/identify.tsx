@@ -11,7 +11,14 @@ import {
 } from '../components/ui/card';
 import { Badge } from '../components/ui/badge';
 import { Separator } from '../components/ui/separator';
-import { Camera, Upload, AlertTriangle, CheckCircle, Info } from 'lucide-react';
+import {
+  Camera,
+  Upload,
+  AlertTriangle,
+  CheckCircle,
+  Info,
+  TrendingUp,
+} from 'lucide-react';
 import { tensorflowService } from '../lib/tensorflow';
 import type { ClassificationResult } from '../lib/tensorflow';
 
@@ -44,15 +51,40 @@ export default function IdentifyPage() {
   };
 
   const getConfidenceColor = (confidence: number) => {
-    if (confidence >= 0.8) return 'bg-green-100 text-green-800';
-    if (confidence >= 0.6) return 'bg-yellow-100 text-yellow-800';
-    return 'bg-red-100 text-red-800';
+    if (confidence >= 0.8)
+      return 'bg-green-100 text-green-800 border-green-200';
+    if (confidence >= 0.6)
+      return 'bg-yellow-100 text-yellow-800 border-yellow-200';
+    return 'bg-red-100 text-red-800 border-red-200';
   };
 
   const getConfidenceIcon = (confidence: number) => {
     if (confidence >= 0.8) return <CheckCircle className='w-4 h-4' />;
     if (confidence >= 0.6) return <Info className='w-4 h-4' />;
     return <AlertTriangle className='w-4 h-4' />;
+  };
+
+  const getConfidenceLevel = (confidence: number) => {
+    if (confidence >= 0.9) return 'Excellent';
+    if (confidence >= 0.8) return 'Very High';
+    if (confidence >= 0.7) return 'High';
+    if (confidence >= 0.6) return 'Moderate';
+    if (confidence >= 0.5) return 'Low';
+    return 'Very Low';
+  };
+
+  const getConfidenceDescription = (confidence: number) => {
+    if (confidence >= 0.8)
+      return 'High confidence - likely accurate identification';
+    if (confidence >= 0.6)
+      return 'Moderate confidence - consider additional verification';
+    return 'Low confidence - manual verification recommended';
+  };
+
+  const getProgressBarColor = (confidence: number) => {
+    if (confidence >= 0.8) return 'bg-green-500';
+    if (confidence >= 0.6) return 'bg-yellow-500';
+    return 'bg-red-500';
   };
 
   return (
@@ -108,42 +140,52 @@ export default function IdentifyPage() {
       {result && (
         <div className='space-y-6'>
           {/* Top Prediction */}
-          <Card>
+          <Card className='border-2 border-primary/20'>
             <CardHeader>
               <CardTitle className='flex items-center gap-2'>
                 {getConfidenceIcon(result.topPrediction.confidence)}
                 {t('identify.topPrediction')}
+                <Badge variant='secondary' className='ml-auto'>
+                  {getConfidenceLevel(result.topPrediction.confidence)}
+                </Badge>
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className='flex items-center justify-between mb-4'>
                 <div>
-                  <h3 className='text-xl font-semibold'>
+                  <h3 className='text-2xl font-bold text-primary'>
                     {result.topPrediction.species}
                   </h3>
                   <p className='text-sm text-muted-foreground'>
                     {t('identify.model')} {result.topPrediction.modelIndex + 1}
                   </p>
+                  <p className='text-sm text-muted-foreground mt-1'>
+                    {getConfidenceDescription(result.topPrediction.confidence)}
+                  </p>
                 </div>
-                <Badge
-                  className={getConfidenceColor(
-                    result.topPrediction.confidence
-                  )}
-                >
-                  {(result.topPrediction.confidence * 100).toFixed(1)}%
-                </Badge>
+                <div className='text-right'>
+                  <Badge
+                    className={`${getConfidenceColor(
+                      result.topPrediction.confidence
+                    )} text-lg px-4 py-2 border-2`}
+                  >
+                    {(result.topPrediction.confidence * 100).toFixed(1)}%
+                  </Badge>
+                </div>
               </div>
 
-              <div className='space-y-2'>
+              <div className='space-y-3'>
                 <div className='flex justify-between text-sm'>
-                  <span>{t('identify.averageConfidence')}:</span>
                   <span className='font-medium'>
+                    {t('identify.averageConfidence')}:
+                  </span>
+                  <span className='font-bold text-lg'>
                     {(result.averageConfidence * 100).toFixed(1)}%
                   </span>
                 </div>
-                <div className='w-full bg-gray-200 rounded-full h-2'>
+                <div className='w-full bg-gray-200 rounded-full h-3 overflow-hidden'>
                   <div
-                    className='bg-primary h-2 rounded-full transition-all duration-300'
+                    className={`${getProgressBarColor(result.averageConfidence)} h-3 rounded-full transition-all duration-1000 ease-out`}
                     style={{
                       width: `${result.averageConfidence * 100}%`,
                     }}
@@ -156,40 +198,93 @@ export default function IdentifyPage() {
           {/* All Model Predictions */}
           <Card>
             <CardHeader>
-              <CardTitle>{t('identify.allPredictions')}</CardTitle>
+              <CardTitle className='flex items-center gap-2'>
+                <TrendingUp className='w-5 h-5' />
+                {t('identify.allPredictions')}
+              </CardTitle>
             </CardHeader>
             <CardContent>
               <div className='space-y-4'>
-                {result.predictions.map((prediction, index) => (
-                  <div key={index}>
-                    <div className='flex items-center justify-between mb-2'>
+                {result.predictions.map(prediction => (
+                  <div key={`${prediction.modelIndex}-${prediction.species}`}>
+                    <div className='flex items-center justify-between mb-3'>
                       <div className='flex items-center gap-3'>
-                        <Badge variant='outline'>
+                        <Badge variant='outline' className='font-mono'>
                           {t('identify.model')} {prediction.modelIndex + 1}
                         </Badge>
-                        <span className='font-medium'>
-                          {prediction.species}
-                        </span>
+                        <div>
+                          <span className='font-semibold text-lg'>
+                            {prediction.species}
+                          </span>
+                          <p className='text-xs text-muted-foreground'>
+                            {getConfidenceLevel(prediction.confidence)}{' '}
+                            {t('identify.confidence')}
+                          </p>
+                        </div>
                       </div>
-                      <Badge
-                        className={getConfidenceColor(prediction.confidence)}
-                      >
-                        {(prediction.confidence * 100).toFixed(1)}%
-                      </Badge>
+                      <div className='text-right'>
+                        <Badge
+                          className={`${getConfidenceColor(prediction.confidence)} border-2`}
+                        >
+                          {(prediction.confidence * 100).toFixed(1)}%
+                        </Badge>
+                      </div>
                     </div>
-                    <div className='w-full bg-gray-200 rounded-full h-1'>
+                    <div className='w-full bg-gray-200 rounded-full h-2 overflow-hidden'>
                       <div
-                        className='bg-primary h-1 rounded-full transition-all duration-300'
+                        className={`${getProgressBarColor(prediction.confidence)} h-2 rounded-full transition-all duration-1000 ease-out`}
                         style={{
                           width: `${prediction.confidence * 100}%`,
                         }}
                       ></div>
                     </div>
-                    {index < result.predictions.length - 1 && (
+                    {prediction.modelIndex < result.predictions.length - 1 && (
                       <Separator className='mt-4' />
                     )}
                   </div>
                 ))}
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Confidence Summary */}
+          <Card className='bg-gradient-to-r from-blue-50 to-indigo-50 border-blue-200'>
+            <CardHeader>
+              <CardTitle className='flex items-center gap-2 text-blue-900'>
+                <TrendingUp className='w-5 h-5' />
+                {t('identify.confidenceAnalysis')}
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
+                <div className='text-center p-3 bg-white rounded-lg border'>
+                  <div className='text-2xl font-bold text-blue-600'>
+                    {result.predictions.filter(p => p.confidence >= 0.8).length}
+                  </div>
+                  <div className='text-sm text-muted-foreground'>
+                    {t('identify.highConfidence')}
+                  </div>
+                </div>
+                <div className='text-center p-3 bg-white rounded-lg border'>
+                  <div className='text-2xl font-bold text-yellow-600'>
+                    {
+                      result.predictions.filter(
+                        p => p.confidence >= 0.6 && p.confidence < 0.8
+                      ).length
+                    }
+                  </div>
+                  <div className='text-sm text-muted-foreground'>
+                    {t('identify.moderateConfidence')}
+                  </div>
+                </div>
+                <div className='text-center p-3 bg-white rounded-lg border'>
+                  <div className='text-2xl font-bold text-red-600'>
+                    {result.predictions.filter(p => p.confidence < 0.6).length}
+                  </div>
+                  <div className='text-sm text-muted-foreground'>
+                    {t('identify.lowConfidence')}
+                  </div>
+                </div>
               </div>
             </CardContent>
           </Card>
