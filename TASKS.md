@@ -65,8 +65,8 @@ PLEASE: Ask for clarification if any functionality or data structure is unclear
 
 ## 8. UI Component Migration
 
-- [ ] Install **shadcn/ui** (based on Radix + Tailwind)
-- [ ] Use shadcn components for buttons, dialogs, inputs, etc.
+- [x] Install **shadcn/ui** (based on Radix + Tailwind)
+- [x] Use shadcn components for buttons, dialogs, inputs, etc.
 - [ ] Decompose existing HTML UI into composable React components
 - [ ] Ensure accessibility (labels, ARIA, keyboard support)
 
