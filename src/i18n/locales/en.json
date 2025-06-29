@@ -77,15 +77,23 @@
     "plants": "Plants",
     "berries": "Berries",
     "herbs": "Herbs",
+    "nuts": "Nuts",
+    "flowers": "Flowers",
     "scientificName": "Scientific Name",
     "commonName": "Common Name",
     "edibility": "Edibility",
     "season": "Season",
     "habitat": "Habitat",
     "description": "Description",
+    "howTo": "Foraging Instructions",
     "cookingTips": "Cooking Tips",
     "safetyNotes": "Safety Notes",
     "preparation": "Preparation",
+    "found": "Found",
+    "species": "species",
+    "noResults": "No species found",
+    "noResultsDescription": "Try adjusting your search or filter criteria",
+    "safetyWarning": "Always consult with an expert before consuming any wild foods. This information is for educational purposes only.",
     "chanterelle": {
       "name": "Chanterelle",
       "description": "A golden-yellow mushroom with a distinctive funnel shape and fruity aroma",
@@ -135,6 +143,71 @@
       "name": "Chicken of the Woods",
       "description": "A bright orange-yellow bracket fungus that grows on trees",
       "howTo": "Look for it growing on dead or dying trees, especially oak"
+    },
+    "oysterMushroom": {
+      "name": "Oyster Mushroom",
+      "description": "A white to gray mushroom with a fan-shaped cap that grows in clusters on dead wood",
+      "howTo": "Look for them growing on dead trees, especially beech and oak, in fall and winter"
+    },
+    "shiitake": {
+      "name": "Shiitake",
+      "description": "A brown-capped mushroom with white gills, highly prized in Asian cuisine",
+      "howTo": "Found growing on dead hardwood trees, especially oak and beech, in spring and fall"
+    },
+    "raspberry": {
+      "name": "Wild Raspberry",
+      "description": "Sweet red berries that grow on thorny canes with distinctive compound leaves",
+      "howTo": "Look for raspberry canes in hedgerows, woodland edges, and disturbed areas in summer"
+    },
+    "blueberry": {
+      "name": "Wild Blueberry",
+      "description": "Small, sweet blue berries that grow on low shrubs in acidic soil",
+      "howTo": "Found in heathland, moorland, and acidic forests in summer and early fall"
+    },
+    "strawberry": {
+      "name": "Wild Strawberry",
+      "description": "Small, intensely flavored red berries with white flowers and trifoliate leaves",
+      "howTo": "Look for them in meadows, woodland edges, and grassy areas in spring and summer"
+    },
+    "wildMint": {
+      "name": "Wild Mint",
+      "description": "Aromatic herb with square stems and opposite leaves that release minty scent when crushed",
+      "howTo": "Found in damp areas, along streams, and in wet meadows in spring and summer"
+    },
+    "chickweed": {
+      "name": "Chickweed",
+      "description": "A low-growing plant with small white flowers and oval leaves, very nutritious",
+      "howTo": "Common in gardens, disturbed areas, and meadows throughout the growing season"
+    },
+    "plantain": {
+      "name": "Common Plantain",
+      "description": "A low-growing plant with broad, oval leaves and tall flower spikes",
+      "howTo": "Found in lawns, meadows, and disturbed areas throughout the growing season"
+    },
+    "walnut": {
+      "name": "Walnut",
+      "description": "Large, round nuts with a hard shell and rich, oily flavor",
+      "howTo": "Look for walnut trees in parks, gardens, and woodland edges in fall"
+    },
+    "chestnut": {
+      "name": "Sweet Chestnut",
+      "description": "Large, sweet nuts encased in spiky green husks that split open when ripe",
+      "howTo": "Found in chestnut groves and mixed forests in fall, often near paths"
+    },
+    "elderflower": {
+      "name": "Elderflower",
+      "description": "Creamy white flowers that grow in large, flat clusters on elder trees",
+      "howTo": "Look for elder trees in hedgerows and woodland edges in late spring and early summer"
+    },
+    "daisy": {
+      "name": "Common Daisy",
+      "description": "Small white flowers with yellow centers that grow close to the ground",
+      "howTo": "Common in lawns, meadows, and grassy areas throughout spring and summer"
+    },
+    "violets": {
+      "name": "Sweet Violet",
+      "description": "Small purple flowers with heart-shaped leaves and a sweet fragrance",
+      "howTo": "Found in woodland edges, hedgerows, and shady areas in early spring"
     }
   },
   "identification": {

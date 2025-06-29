@@ -78,15 +78,23 @@
     "plants": "Piante",
     "berries": "Bacche",
     "herbs": "Erbe",
+    "nuts": "Noci",
+    "flowers": "Fiori",
     "scientificName": "Nome Scientifico",
     "commonName": "Nome Comune",
     "edibility": "Commestibilità",
     "season": "Stagione",
     "habitat": "Habitat",
     "description": "Descrizione",
+    "howTo": "Istruzioni di Raccolta",
     "cookingTips": "Consigli di Cucina",
     "safetyNotes": "Note di Sicurezza",
     "preparation": "Preparazione",
+    "found": "Trovati",
+    "species": "specie",
+    "noResults": "Nessuna specie trovata",
+    "noResultsDescription": "Prova a modificare la tua ricerca o i criteri di filtro",
+    "safetyWarning": "Consulta sempre un esperto prima di consumare qualsiasi cibo selvatico. Queste informazioni sono solo a scopo educativo.",
     "chanterelle": {
       "name": "Galletti",
       "description": "Un fungo giallo dorato con una forma a imbuto distintiva e aroma fruttato",
@@ -136,6 +144,71 @@
       "name": "Grifola Frondosa",
       "description": "Un fungo a mensola arancione-giallo brillante che cresce sugli alberi",
       "howTo": "Cercalo che cresce su alberi morti o morenti, specialmente querce"
+    },
+    "oysterMushroom": {
+      "name": "Pleurotus Ostreatus",
+      "description": "Un fungo bianco-grigio con cappello a ventaglio che cresce in grappoli su legno morto",
+      "howTo": "Cercali che crescono su alberi morti, specialmente faggi e querce, in autunno e inverno"
+    },
+    "shiitake": {
+      "name": "Shiitake",
+      "description": "Un fungo con cappello marrone e lamelle bianche, molto apprezzato nella cucina asiatica",
+      "howTo": "Trovato che cresce su alberi di legno duro morti, specialmente querce e faggi, in primavera e autunno"
+    },
+    "raspberry": {
+      "name": "Lampone Selvatico",
+      "description": "Bacche rosse dolci che crescono su canne spinose con foglie composte distintive",
+      "howTo": "Cerca canne di lampone in siepi, bordi boschivi e aree disturbate in estate"
+    },
+    "blueberry": {
+      "name": "Mirtillo Selvatico",
+      "description": "Piccole bacche blu dolci che crescono su arbusti bassi in terreno acido",
+      "howTo": "Trovato in brughiere, lande e foreste acide in estate e inizio autunno"
+    },
+    "strawberry": {
+      "name": "Fragola Selvatica",
+      "description": "Piccole bacche rosse dal sapore intenso con fiori bianchi e foglie trifogliate",
+      "howTo": "Cercale in praterie, bordi boschivi e aree erbose in primavera ed estate"
+    },
+    "wildMint": {
+      "name": "Menta Selvatica",
+      "description": "Erba aromatica con steli quadrati e foglie opposte che rilasciano profumo di menta quando schiacciate",
+      "howTo": "Trovata in aree umide, lungo i ruscelli e in praterie umide in primavera ed estate"
+    },
+    "chickweed": {
+      "name": "Centocchio",
+      "description": "Una pianta bassa con piccoli fiori bianchi e foglie ovali, molto nutriente",
+      "howTo": "Comune in giardini, aree disturbate e praterie durante la stagione di crescita"
+    },
+    "plantain": {
+      "name": "Piantaggine Comune",
+      "description": "Una pianta bassa con foglie larghe e ovali e alte spighe di fiori",
+      "howTo": "Trovata in prati, praterie e aree disturbate durante la stagione di crescita"
+    },
+    "walnut": {
+      "name": "Noce",
+      "description": "Noci grandi e rotonde con guscio duro e sapore ricco e oleoso",
+      "howTo": "Cerca alberi di noce in parchi, giardini e bordi boschivi in autunno"
+    },
+    "chestnut": {
+      "name": "Castagna",
+      "description": "Noci grandi e dolci racchiuse in bucce verdi spinose che si aprono quando mature",
+      "howTo": "Trovate in castagneti e foreste miste in autunno, spesso vicino ai sentieri"
+    },
+    "elderflower": {
+      "name": "Fiori di Sambuco",
+      "description": "Fiori bianco crema che crescono in grandi grappoli piatti sui sambuchi",
+      "howTo": "Cerca alberi di sambuco in siepi e bordi boschivi in tarda primavera e inizio estate"
+    },
+    "daisy": {
+      "name": "Margherita Comune",
+      "description": "Piccoli fiori bianchi con centri gialli che crescono vicino al terreno",
+      "howTo": "Comune in prati, praterie e aree erbose durante primavera ed estate"
+    },
+    "violets": {
+      "name": "Viola Mammola",
+      "description": "Piccoli fiori viola con foglie a forma di cuore e un profumo dolce",
+      "howTo": "Trovata in bordi boschivi, siepi e aree ombreggiate all'inizio della primavera"
     }
   },
   "identification": {

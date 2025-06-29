@@ -169,13 +169,13 @@ PLEASE: Ask for clarification if any functionality or data structure is unclear
 - [x] Display confidence scores + visual feedback
 
 ### Fix routes
-- [ ] Take all the components defined in routes folder and extract them into a pages folder
+- [x] Take all the components defined in routes folder and extract them into a pages folder
 
 ### Species Database
 
-- [ ] Page with 20+ species profiles (mushrooms, plants, berries, etc.)
-- [ ] Scientific names, foraging instructions, safety notes
-- [ ] Cooking tips and preparation methods
+- [x] Page with 20+ species profiles (mushrooms, plants, berries, etc.)
+- [x] Scientific names, foraging instructions, safety notes
+- [x] Cooking tips and preparation methods
 
 ### Recipe Collection
 
@@ -196,12 +196,6 @@ PLEASE: Ask for clarification if any functionality or data structure is unclear
 - [ ] Add mobile-friendly navigation + gestures
 - [ ] Ensure keyboard and screen-reader support
 - [ ] Add loading animations / feedback states
-
-### Data-Driven Features
-
-- [ ] Weather/soil APIs integration for real-time predictions
-- [ ] Display seasonal forecasts based on region/species
-- [ ] Use geospatial data to improve prediction accuracy
 
 ### Donation & Support
 

@@ -31,22 +31,26 @@ A modern React 19 + TypeScript + Vite refactor of the legacy Fung.es HTML/CSS/JS
 ## 📦 Installation
 
 1. **Clone the repository**
+
    ```bash
    git clone https://github.com/your-username/funges-fork.git
    cd funges-fork
    ```
 
 2. **Install dependencies**
+
    ```bash
    npm install
    ```
 
 3. **Set up environment variables**
+
    ```bash
    cp .env.example .env
    ```
-   
+
    Edit `.env` and add your API keys:
+
    ```env
    VITE_MAPBOX_ACCESS_TOKEN=your_mapbox_token_here
    ```
@@ -90,11 +94,13 @@ make docker-build # Build Docker image
 The project is configured for GitHub Pages deployment:
 
 1. **Build and deploy**
+
    ```bash
    make deploy
    ```
-   
+
    Or manually:
+
    ```bash
    npm run build
    npx gh-pages -d dist
@@ -107,52 +113,59 @@ The project is configured for GitHub Pages deployment:
    - Select `gh-pages` branch
    - Set folder to `/ (root)`
 
-The app will be available at: `https://your-username.github.io/funges-fork/`
+The app will be available at: `https://your-username.github.io/`
 
 ### Docker Deployment
 
 The project includes a multi-stage Dockerfile for production deployment:
 
 1. **Build Docker image**
+
    ```bash
    make docker-build
    ```
-   
+
    Or manually:
+
    ```bash
    docker build -t funges-app .
    ```
 
 2. **Run container**
+
    ```bash
    make docker-run
    ```
-   
+
    Or manually:
+
    ```bash
    docker run -p 3000:80 funges-app
    ```
 
 3. **Using Docker Compose** (optional)
-   
+
    Create a `docker-compose.yml` file:
+
    ```yaml
    version: '3.8'
    services:
      funges-app:
        build: .
        ports:
-         - "3000:80"
+         - '3000:80'
        environment:
          - NODE_ENV=production
    ```
-   
+
    Then run:
+
    ```bash
    docker-compose up -d
    ```
 
 **Features of the Docker setup:**
+
 - Multi-stage build for optimized image size
 - Nginx for serving static files
 - Gzip compression enabled
@@ -192,7 +205,6 @@ src/
 
 The project uses Vite with the following key configurations:
 
-- **Base path**: `/funges-fork/` (for GitHub Pages)
 - **TypeScript**: Strict mode enabled
 - **TailwindCSS**: Custom theme with design tokens
 - **SCSS**: Support for component-specific styles
