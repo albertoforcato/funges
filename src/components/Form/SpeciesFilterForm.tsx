@@ -1,7 +1,7 @@
 import React from 'react';
-import { useFormContext } from 'react-hook-form';
 import { z } from 'zod';
-import { useZodForm, type FormFieldProps } from '../../lib/forms';
+import { useZodForm } from '../../lib/forms';
+import { useSpeciesList } from '../../lib/query';
 
 // Define the species filter schema
 const speciesFilterSchema = z.object({
@@ -12,13 +12,13 @@ const speciesFilterSchema = z.object({
 
 type SpeciesFilterData = z.infer<typeof speciesFilterSchema>;
 
-// Species options (moved from legacy JS)
-const speciesOptions = {
-  '🍄 Mushrooms': 'mushroom',
-  '🌱 Plants': 'plant',
-  '🌰 Nuts': 'nut',
-  '🍇 Berries': 'berry',
-  '🌸 Flowers': 'flower',
+// Emoji mapping for species types
+const emojiMap: Record<string, string> = {
+  mushroom: '🍄',
+  plant: '🌱',
+  nut: '🌰',
+  berry: '🍇',
+  flower: '🌸',
 };
 
 interface SpeciesFilterFormProps {
@@ -39,6 +39,9 @@ export function SpeciesFilterForm({ onFilterChange }: SpeciesFilterFormProps) {
   const emojiFilter = watch('emojiFilter');
   const selectedSpecies = watch('selectedSpecies');
 
+  // Fetch species list from API
+  const { data: speciesList, isLoading, error } = useSpeciesList();
+
   // Update parent when form changes
   React.useEffect(() => {
     const subscription = watch((value) => {
@@ -58,6 +61,17 @@ export function SpeciesFilterForm({ onFilterChange }: SpeciesFilterFormProps) {
     setValue('selectedSpecies', newSelected);
   };
 
+  // Filter species by emoji/type and search term
+  const filteredSpecies = React.useMemo(() => {
+    if (!speciesList) return [];
+    return speciesList.filter((sp) => {
+      const emoji = emojiMap[sp.type];
+      const matchesEmoji = !emojiFilter || emoji === emojiFilter;
+      const matchesSearch = !searchTerm || sp.name.toLowerCase().includes(searchTerm.toLowerCase());
+      return matchesEmoji && matchesSearch;
+    });
+  }, [speciesList, emojiFilter, searchTerm]);
+
   return (
     <div className="species-filter-form">
       <div className="filter-wrapper">
@@ -69,64 +83,40 @@ export function SpeciesFilterForm({ onFilterChange }: SpeciesFilterFormProps) {
           className="species-filter-input"
         />
       </div>
-      
       <div className="emoji-filters">
-        <span 
-          className={`emoji-filter ${emojiFilter === '🍄' ? 'active' : ''}`}
-          onClick={() => handleEmojiFilter('🍄')}
-        >
-          🍄
-        </span>
-        <span 
-          className={`emoji-filter ${emojiFilter === '🌱' ? 'active' : ''}`}
-          onClick={() => handleEmojiFilter('🌱')}
-        >
-          🌱
-        </span>
-        <span 
-          className={`emoji-filter ${emojiFilter === '🌰' ? 'active' : ''}`}
-          onClick={() => handleEmojiFilter('🌰')}
-        >
-          🌰
-        </span>
-        <span 
-          className={`emoji-filter ${emojiFilter === '🍇' ? 'active' : ''}`}
-          onClick={() => handleEmojiFilter('🍇')}
-        >
-          🍇
-        </span>
-        <span 
-          className={`emoji-filter ${emojiFilter === '🌸' ? 'active' : ''}`}
-          onClick={() => handleEmojiFilter('🌸')}
-        >
-          🌸
-        </span>
-        <span 
+        {Object.values(emojiMap).map((emoji) => (
+          <span
+            key={emoji}
+            className={`emoji-filter ${emojiFilter === emoji ? 'active' : ''}`}
+            onClick={() => handleEmojiFilter(emoji)}
+          >
+            {emoji}
+          </span>
+        ))}
+        <span
           className={`emoji-filter ${emojiFilter === '' ? 'active' : ''}`}
           onClick={() => handleEmojiFilter('')}
         >
           ✖️
         </span>
       </div>
-
       <div className="species-list">
-        {Object.entries(speciesOptions)
-          .filter(([label]) => 
-            !emojiFilter || label.includes(emojiFilter) ||
-            !searchTerm || label.toLowerCase().includes(searchTerm.toLowerCase())
-          )
-          .map(([label, value]) => (
-            <div key={value} className="species-option">
-              <input
-                type="checkbox"
-                id={value}
-                value={value}
-                checked={selectedSpecies.includes(value)}
-                onChange={() => handleSpeciesToggle(value)}
-              />
-              <label htmlFor={value}>{label}</label>
-            </div>
-          ))}
+        {isLoading && <div>Loading species...</div>}
+        {error && <div>Error loading species.</div>}
+        {!isLoading && !error && filteredSpecies.map((sp) => (
+          <div key={sp.id} className="species-option">
+            <input
+              type="checkbox"
+              id={sp.id}
+              value={sp.id}
+              checked={selectedSpecies.includes(sp.id)}
+              onChange={() => handleSpeciesToggle(sp.id)}
+            />
+            <label htmlFor={sp.id}>
+              {emojiMap[sp.type] || ''} {sp.name}
+            </label>
+          </div>
+        ))}
       </div>
     </div>
   );

@@ -1,4 +1,7 @@
 import { QueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
+import { api } from './api';
+import type { Species } from '../types/api';
 
 // Create a query client with default options
 export const queryClient = new QueryClient({
@@ -56,4 +59,52 @@ export const queryKeys = {
     all: ['classification'] as const,
     result: (imageHash: string) => [...queryKeys.classification.all, 'result', imageHash] as const,
   },
-} as const; 
+} as const;
+
+// Custom hooks for data fetching
+export const useSpeciesList = () => {
+  return useQuery({
+    queryKey: ['species', 'list'],
+    queryFn: api.species.getAll,
+  });
+};
+
+export const useSpeciesById = (id: string) => {
+  return useQuery({
+    queryKey: ['species', id],
+    queryFn: () => api.species.getById(id),
+    enabled: !!id,
+  });
+};
+
+export const useSpeciesSearch = (query: string) => {
+  return useQuery({
+    queryKey: ['species', 'search', query],
+    queryFn: () => api.species.search(query),
+    enabled: !!query && query.length > 2,
+  });
+};
+
+export const useSpeciesByType = (type: Species['type']) => {
+  return useQuery({
+    queryKey: ['species', 'type', type],
+    queryFn: () => api.species.getByType(type),
+    enabled: !!type,
+  });
+};
+
+export const useSpeciesByRegion = (region: string) => {
+  return useQuery({
+    queryKey: ['species', 'region', region],
+    queryFn: () => api.species.getByRegion(region),
+    enabled: !!region,
+  });
+};
+
+export const useSpeciesBySeason = (season: string) => {
+  return useQuery({
+    queryKey: ['species', 'season', season],
+    queryFn: () => api.species.getBySeason(season),
+    enabled: !!season,
+  });
+}; 

@@ -60,8 +60,8 @@ PLEASE: Ask for clarification if any functionality or data structure is unclear
 ## 7. Data Fetching
 
 - [x] Install and configure **TanStack Query**
-- [ ] Replace any fetch/axios code with TanStack Query hooks
-- [ ] Create API layer in `src/lib/api.ts` with query functions
+- [x] Replace any fetch/axios code with TanStack Query hooks
+- [x] Create API layer in `src/lib/api.ts` with query functions
 
 ## 8. UI Component Migration
 
