@@ -27,7 +27,7 @@
 // Button variants
 .primary {
   @extend .button;
-  background-color: #007BFF;
+  background-color: #007bff;
   color: white;
 
   &:hover:not(:disabled) {
@@ -58,8 +58,8 @@
 .outline {
   @extend .button;
   background-color: transparent;
-  color: #007BFF;
-  border-color: #007BFF;
+  color: #007bff;
+  border-color: #007bff;
 
   &:hover:not(:disabled) {
     background-color: rgba(0, 123, 255, 0.1);
@@ -129,4 +129,4 @@
     padding: 0.7em 1.4em;
     font-size: 1em;
   }
-} 
+}

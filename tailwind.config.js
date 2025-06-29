@@ -1,9 +1,9 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
-    "./src/**/*.stories.{js,ts,jsx,tsx}",
+    './index.html',
+    './src/**/*.{js,ts,jsx,tsx}',
+    './src/**/*.stories.{js,ts,jsx,tsx}',
   ],
   theme: {
     extend: {
@@ -16,7 +16,7 @@ export default {
           600: '#0056b3',
           700: '#004085',
         },
-        
+
         // Neutral colors
         neutral: {
           50: '#fafafa',
@@ -30,7 +30,7 @@ export default {
           800: '#262626',
           900: '#171717',
         },
-        
+
         // Text colors
         text: {
           primary: '#333',
@@ -38,7 +38,7 @@ export default {
           tertiary: '#555',
           inverse: '#fff',
         },
-        
+
         // Background colors
         background: {
           primary: '#ffffff',
@@ -47,7 +47,7 @@ export default {
           overlayDark: 'rgba(0, 0, 0, 0.9)',
           overlayFull: 'rgba(0, 0, 0, 1)',
         },
-        
+
         // Status colors
         status: {
           warning: {
@@ -59,12 +59,12 @@ export default {
           error: '#dc2626',
         },
       },
-      
+
       fontFamily: {
         primary: ['Arial', 'sans-serif'],
         system: ['system-ui', 'Avenir', 'Helvetica', 'Arial', 'sans-serif'],
       },
-      
+
       fontSize: {
         xs: '12px',
         sm: '14px',
@@ -74,19 +74,19 @@ export default {
         '2xl': '24px',
         '3xl': '32px',
       },
-      
+
       fontWeight: {
         normal: '400',
         medium: '500',
         bold: '700',
       },
-      
+
       lineHeight: {
         tight: '1.1',
         normal: '1.5',
         relaxed: '1.75',
       },
-      
+
       spacing: {
         xs: '4px',
         sm: '8px',
@@ -96,29 +96,29 @@ export default {
         '2xl': '40px',
         '3xl': '60px',
       },
-      
+
       borderRadius: {
         sm: '5px',
         md: '6px',
         lg: '8px',
         xl: '12px',
       },
-      
+
       boxShadow: {
         sm: '0 1px 2px rgba(0, 0, 0, 0.1)',
         md: '2px 0 5px rgba(0, 0, 0, 0.1)',
         lg: '0 -2px 5px rgba(0, 0, 0, 0.1)',
       },
-      
+
       width: {
         sidebar: '80px',
       },
-      
+
       height: {
         footer: '40px',
         header: '50px',
       },
-      
+
       zIndex: {
         base: '0',
         overlay: '1000',
@@ -127,4 +127,4 @@ export default {
     },
   },
   plugins: [],
-} 
+};

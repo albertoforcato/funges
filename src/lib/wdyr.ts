@@ -11,4 +11,4 @@ if (process.env.NODE_ENV === 'development') {
     collapseGroups: true,
     hotReloadBufferMs: 500,
   });
-} 
+}

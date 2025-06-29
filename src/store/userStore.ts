@@ -26,18 +26,18 @@ export interface UserState {
   // User data
   userId: string | null;
   username: string | null;
-  
+
   // Location
   location: UserLocation | null;
   locationPermission: 'granted' | 'denied' | 'prompt';
-  
+
   // Preferences
   preferences: UserPreferences;
-  
+
   // Session
   isAuthenticated: boolean;
   lastActive: number;
-  
+
   // Actions
   setUser: (userId: string, username: string) => void;
   clearUser: () => void;
@@ -47,7 +47,9 @@ export interface UserState {
   setLanguage: (language: UserPreferences['language']) => void;
   setUnits: (units: UserPreferences['units']) => void;
   toggleNotifications: (type: keyof UserPreferences['notifications']) => void;
-  updatePrivacySettings: (settings: Partial<UserPreferences['privacy']>) => void;
+  updatePrivacySettings: (
+    settings: Partial<UserPreferences['privacy']>
+  ) => void;
   updateLastActive: () => void;
 }
 
@@ -78,66 +80,65 @@ export const useUserStore = create<UserState>()(
       lastActive: Date.now(),
 
       // Actions
-      setUser: (userId: string, username: string) => 
-        set({ 
-          userId, 
-          username, 
+      setUser: (userId: string, username: string) =>
+        set({
+          userId,
+          username,
           isAuthenticated: true,
-          lastActive: Date.now()
+          lastActive: Date.now(),
         }),
-      
-      clearUser: () => 
-        set({ 
-          userId: null, 
-          username: null, 
-          isAuthenticated: false 
+
+      clearUser: () =>
+        set({
+          userId: null,
+          username: null,
+          isAuthenticated: false,
         }),
-      
-      setLocation: (location: UserLocation) => 
-        set({ location }),
-      
-      setLocationPermission: (permission: UserState['locationPermission']) => 
+
+      setLocation: (location: UserLocation) => set({ location }),
+
+      setLocationPermission: (permission: UserState['locationPermission']) =>
         set({ locationPermission: permission }),
-      
-      updatePreferences: (newPreferences: Partial<UserPreferences>) => 
-        set((state) => ({
-          preferences: { ...state.preferences, ...newPreferences }
+
+      updatePreferences: (newPreferences: Partial<UserPreferences>) =>
+        set(state => ({
+          preferences: { ...state.preferences, ...newPreferences },
         })),
-      
-      setLanguage: (language: UserPreferences['language']) => 
-        set((state) => ({
-          preferences: { ...state.preferences, language }
+
+      setLanguage: (language: UserPreferences['language']) =>
+        set(state => ({
+          preferences: { ...state.preferences, language },
         })),
-      
-      setUnits: (units: UserPreferences['units']) => 
-        set((state) => ({
-          preferences: { ...state.preferences, units }
+
+      setUnits: (units: UserPreferences['units']) =>
+        set(state => ({
+          preferences: { ...state.preferences, units },
         })),
-      
-      toggleNotifications: (type: keyof UserPreferences['notifications']) => 
-        set((state) => ({
+
+      toggleNotifications: (type: keyof UserPreferences['notifications']) =>
+        set(state => ({
           preferences: {
             ...state.preferences,
             notifications: {
               ...state.preferences.notifications,
-              [type]: !state.preferences.notifications[type]
-            }
-          }
+              [type]: !state.preferences.notifications[type],
+            },
+          },
         })),
-      
-      updatePrivacySettings: (settings: Partial<UserPreferences['privacy']>) => 
-        set((state) => ({
+
+      updatePrivacySettings: (settings: Partial<UserPreferences['privacy']>) =>
+        set(state => ({
           preferences: {
             ...state.preferences,
-            privacy: { ...state.preferences.privacy, ...settings }
-          }
+            privacy: { ...state.preferences.privacy, ...settings },
+          },
         })),
-      
+
       updateLastActive: () => set({ lastActive: Date.now() }),
     }),
     {
       name: 'funges-user-storage',
-      partialize: (state) => ({
+      partialize: state => ({
         userId: state.userId,
         username: state.username,
         preferences: state.preferences,
@@ -145,4 +146,4 @@ export const useUserStore = create<UserState>()(
       }),
     }
   )
-); 
+);

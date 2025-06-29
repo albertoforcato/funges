@@ -13,10 +13,7 @@ declare module '@welldone-software/why-did-you-render' {
     whyDidYouRender?: boolean | WhyDidYouRenderOptions;
   }
 
-  function whyDidYouRender(
-    React: any,
-    options?: WhyDidYouRenderOptions
-  ): void;
+  function whyDidYouRender(React: any, options?: WhyDidYouRenderOptions): void;
 
   export = whyDidYouRender;
 }
@@ -27,4 +24,4 @@ declare global {
       whyDidYouRender?: boolean | any;
     }
   }
-} 
+}

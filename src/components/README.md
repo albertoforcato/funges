@@ -1,6 +1,7 @@
 # Component Styling with SCSS Modules
 
 This project uses **SCSS Modules** for component-specific styling to ensure:
+
 - **Scoped styles** - No CSS conflicts between components
 - **Type safety** - Full TypeScript support for CSS classes
 - **Maintainability** - Styles are co-located with components
@@ -41,7 +42,7 @@ src/components/
 
 .primary {
   @extend .button;
-  background-color: #007BFF;
+  background-color: #007bff;
   color: white;
 }
 
@@ -66,12 +67,8 @@ interface ButtonProps {
 
 const Button: React.FC<ButtonProps> = ({ variant = 'primary', children }) => {
   const buttonClass = variant === 'primary' ? styles.primary : styles.secondary;
-  
-  return (
-    <button className={buttonClass}>
-      {children}
-    </button>
-  );
+
+  return <button className={buttonClass}>{children}</button>;
 };
 
 export default Button;
@@ -95,7 +92,8 @@ export default Button;
 ## Global Styles
 
 Global styles are defined in `src/styles/globals.scss` and imported in `src/index.css`. These include:
+
 - Base typography rules
 - Global element styles
 - Utility classes
-- Responsive breakpoints 
+- Responsive breakpoints

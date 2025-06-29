@@ -32,24 +32,24 @@ export interface MapOverlay {
 export interface MapState {
   // Map viewport
   viewport: MapViewport;
-  
+
   // Foraging spots
   foragingSpots: ForagingSpot[];
   selectedSpot: ForagingSpot | null;
-  
+
   // Overlays
   overlays: MapOverlay[];
-  
+
   // Map settings
   showForagingSpots: boolean;
   showWeatherOverlay: boolean;
   showSoilOverlay: boolean;
   showSpeciesOverlay: boolean;
-  
+
   // Map controls
   isMapLoading: boolean;
   mapStyle: 'streets' | 'satellite' | 'outdoors' | 'light' | 'dark';
-  
+
   // Actions
   setViewport: (viewport: Partial<MapViewport>) => void;
   setForagingSpots: (spots: ForagingSpot[]) => void;
@@ -91,72 +91,72 @@ export const useMapStore = create<MapState>((set, get) => ({
   mapStyle: 'streets',
 
   // Actions
-  setViewport: (newViewport: Partial<MapViewport>) => 
-    set((state) => ({
-      viewport: { ...state.viewport, ...newViewport }
+  setViewport: (newViewport: Partial<MapViewport>) =>
+    set(state => ({
+      viewport: { ...state.viewport, ...newViewport },
     })),
 
   setForagingSpots: (spots: ForagingSpot[]) => set({ foragingSpots: spots }),
 
-  addForagingSpot: (spot: ForagingSpot) => 
-    set((state) => ({
-      foragingSpots: [...state.foragingSpots, spot]
+  addForagingSpot: (spot: ForagingSpot) =>
+    set(state => ({
+      foragingSpots: [...state.foragingSpots, spot],
     })),
 
-  updateForagingSpot: (id: string, updates: Partial<ForagingSpot>) => 
-    set((state) => ({
-      foragingSpots: state.foragingSpots.map(spot => 
+  updateForagingSpot: (id: string, updates: Partial<ForagingSpot>) =>
+    set(state => ({
+      foragingSpots: state.foragingSpots.map(spot =>
         spot.id === id ? { ...spot, ...updates } : spot
-      )
+      ),
     })),
 
-  removeForagingSpot: (id: string) => 
-    set((state) => ({
-      foragingSpots: state.foragingSpots.filter(spot => spot.id !== id)
+  removeForagingSpot: (id: string) =>
+    set(state => ({
+      foragingSpots: state.foragingSpots.filter(spot => spot.id !== id),
     })),
 
   setSelectedSpot: (spot: ForagingSpot | null) => set({ selectedSpot: spot }),
 
-  addOverlay: (overlay: MapOverlay) => 
-    set((state) => ({
-      overlays: [...state.overlays, overlay]
+  addOverlay: (overlay: MapOverlay) =>
+    set(state => ({
+      overlays: [...state.overlays, overlay],
     })),
 
-  updateOverlay: (id: string, updates: Partial<MapOverlay>) => 
-    set((state) => ({
-      overlays: state.overlays.map(overlay => 
+  updateOverlay: (id: string, updates: Partial<MapOverlay>) =>
+    set(state => ({
+      overlays: state.overlays.map(overlay =>
         overlay.id === id ? { ...overlay, ...updates } : overlay
-      )
+      ),
     })),
 
-  removeOverlay: (id: string) => 
-    set((state) => ({
-      overlays: state.overlays.filter(overlay => overlay.id !== id)
+  removeOverlay: (id: string) =>
+    set(state => ({
+      overlays: state.overlays.filter(overlay => overlay.id !== id),
     })),
 
-  toggleForagingSpots: () => 
-    set((state) => ({ showForagingSpots: !state.showForagingSpots })),
+  toggleForagingSpots: () =>
+    set(state => ({ showForagingSpots: !state.showForagingSpots })),
 
-  toggleWeatherOverlay: () => 
-    set((state) => ({ showWeatherOverlay: !state.showWeatherOverlay })),
+  toggleWeatherOverlay: () =>
+    set(state => ({ showWeatherOverlay: !state.showWeatherOverlay })),
 
-  toggleSoilOverlay: () => 
-    set((state) => ({ showSoilOverlay: !state.showSoilOverlay })),
+  toggleSoilOverlay: () =>
+    set(state => ({ showSoilOverlay: !state.showSoilOverlay })),
 
-  toggleSpeciesOverlay: () => 
-    set((state) => ({ showSpeciesOverlay: !state.showSpeciesOverlay })),
+  toggleSpeciesOverlay: () =>
+    set(state => ({ showSpeciesOverlay: !state.showSpeciesOverlay })),
 
   setMapLoading: (loading: boolean) => set({ isMapLoading: loading }),
 
   setMapStyle: (style: MapState['mapStyle']) => set({ mapStyle: style }),
 
-  flyToLocation: (latitude: number, longitude: number, zoom: number = 12) => 
-    set((state) => ({
+  flyToLocation: (latitude: number, longitude: number, zoom: number = 12) =>
+    set(state => ({
       viewport: {
         ...state.viewport,
         latitude,
         longitude,
         zoom,
-      }
+      },
     })),
-})); 
+}));

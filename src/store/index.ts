@@ -8,4 +8,4 @@ export { useMapStore } from './mapStore';
 export type { UIState } from './uiStore';
 export type { UserState } from './userStore';
 export type { DataState } from './dataStore';
-export type { MapState } from './mapStore'; 
+export type { MapState } from './mapStore';

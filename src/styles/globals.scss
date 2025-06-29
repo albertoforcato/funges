@@ -25,7 +25,12 @@
   }
 
   // Typography hierarchy
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     margin: 0;
     font-weight: 500;
     line-height: 1.1;
@@ -46,7 +51,7 @@
   // Link styles
   a {
     font-weight: 500;
-    color: #007BFF;
+    color: #007bff;
     text-decoration: inherit;
     transition: color 0.25s ease;
 
@@ -69,7 +74,7 @@
     transition: border-color 0.25s ease;
 
     &:hover {
-      border-color: #007BFF;
+      border-color: #007bff;
     }
 
     &:focus,
@@ -84,7 +89,9 @@
   }
 
   // Form elements
-  input, textarea, select {
+  input,
+  textarea,
+  select {
     font-family: inherit;
     font-size: inherit;
     border-radius: 6px;
@@ -94,7 +101,7 @@
 
     &:focus {
       outline: none;
-      border-color: #007BFF;
+      border-color: #007bff;
       box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
     }
   }
@@ -156,7 +163,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(255, 252, 239, 0.90);
+    background: rgba(255, 252, 239, 0.9);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -175,30 +182,50 @@
 @layer utilities {
   // Fade out animation
   @keyframes fadeOut {
-    0% { 
-      opacity: 1; 
+    0% {
+      opacity: 1;
     }
-    100% { 
-      opacity: 0; 
-      visibility: hidden; 
+    100% {
+      opacity: 0;
+      visibility: hidden;
     }
   }
 
   // Text utilities
-  .text-primary { color: #333; }
-  .text-secondary { color: #444; }
-  .text-tertiary { color: #555; }
-  .text-inverse { color: #fff; }
+  .text-primary {
+    color: #333;
+  }
+  .text-secondary {
+    color: #444;
+  }
+  .text-tertiary {
+    color: #555;
+  }
+  .text-inverse {
+    color: #fff;
+  }
 
   // Background utilities
-  .bg-halo { background-color: rgba(255, 252, 239, 0.90); }
-  .bg-overlay { background-color: rgba(0, 0, 0, 0.8); }
-  .bg-overlay-dark { background-color: rgba(0, 0, 0, 0.9); }
+  .bg-halo {
+    background-color: rgba(255, 252, 239, 0.9);
+  }
+  .bg-overlay {
+    background-color: rgba(0, 0, 0, 0.8);
+  }
+  .bg-overlay-dark {
+    background-color: rgba(0, 0, 0, 0.9);
+  }
 
   // Layout utilities
-  .sidebar-width { width: 80px; }
-  .footer-height { height: 40px; }
-  .header-height { height: 50px; }
+  .sidebar-width {
+    width: 80px;
+  }
+  .footer-height {
+    height: 40px;
+  }
+  .header-height {
+    height: 50px;
+  }
 }
 
 // Responsive design
@@ -231,4 +258,4 @@
     background-color: #f9f9f9;
     color: #333;
   }
-} 
+}

@@ -9,7 +9,7 @@ export const designTokens = {
       600: '#0056b3',
       700: '#004085',
     },
-    
+
     // Neutral colors
     neutral: {
       50: '#fafafa',
@@ -23,7 +23,7 @@ export const designTokens = {
       800: '#262626',
       900: '#171717',
     },
-    
+
     // Text colors
     text: {
       primary: '#333',
@@ -31,7 +31,7 @@ export const designTokens = {
       tertiary: '#555',
       inverse: '#fff',
     },
-    
+
     // Background colors
     background: {
       primary: '#ffffff',
@@ -40,7 +40,7 @@ export const designTokens = {
       overlayDark: 'rgba(0, 0, 0, 0.9)',
       overlayFull: 'rgba(0, 0, 0, 1)',
     },
-    
+
     // Status colors
     status: {
       warning: {
@@ -52,7 +52,7 @@ export const designTokens = {
       error: '#dc2626',
     },
   },
-  
+
   typography: {
     fontFamily: {
       primary: 'Arial, sans-serif',
@@ -78,7 +78,7 @@ export const designTokens = {
       relaxed: '1.75',
     },
   },
-  
+
   spacing: {
     xs: '4px',
     sm: '8px',
@@ -88,26 +88,26 @@ export const designTokens = {
     '2xl': '40px',
     '3xl': '60px',
   },
-  
+
   borderRadius: {
     sm: '5px',
     md: '6px',
     lg: '8px',
     xl: '12px',
   },
-  
+
   shadows: {
     sm: '0 1px 2px rgba(0, 0, 0, 0.1)',
     md: '2px 0 5px rgba(0, 0, 0, 0.1)',
     lg: '0 -2px 5px rgba(0, 0, 0, 0.1)',
   },
-  
+
   layout: {
     sidebarWidth: '80px',
     footerHeight: '40px',
     headerHeight: '50px',
   },
-  
+
   zIndex: {
     base: '0',
     overlay: '1000',
@@ -115,4 +115,4 @@ export const designTokens = {
   },
 } as const;
 
-export type DesignTokens = typeof designTokens; 
+export type DesignTokens = typeof designTokens;
