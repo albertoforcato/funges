@@ -280,7 +280,10 @@
   "footer": {
     "madeWith": "Made with ❤️ for the foraging community",
     "disclaimer": "Always verify identification before consuming any wild edibles",
-    "copyright": "© 2024 Fung.es. All rights reserved."
+    "copyright": "© 2024 Fung.es. All rights reserved.",
+    "impressum": "Impressum",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfUse": "Terms of Use"
   },
   "errors": {
     "general": "Something went wrong. Please try again.",

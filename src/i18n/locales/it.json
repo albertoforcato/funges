@@ -306,7 +306,10 @@
   "footer": {
     "madeWith": "Fatto con ❤️ per la comunità di raccolta",
     "disclaimer": "Verifica sempre l'identificazione prima di consumare qualsiasi cibo selvatico",
-    "copyright": "© 2024 Fung.es. Tutti i diritti riservati."
+    "copyright": "© 2024 Fung.es. Tutti i diritti riservati.",
+    "impressum": "Impressum",
+    "privacyPolicy": "Informativa sulla Privacy",
+    "termsOfUse": "Termini di Utilizzo"
   },
   "errors": {
     "general": "Qualcosa è andato storto. Riprova.",

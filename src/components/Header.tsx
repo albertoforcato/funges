@@ -1,9 +1,17 @@
 import { Link } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
+import { Button } from '@/components/ui/button';
+import { Moon, Sun } from 'lucide-react';
+import { useTheme } from '@/hooks/use-theme';
 
 export const Header = () => {
   const { t } = useTranslation();
+  const { theme, setTheme } = useTheme();
+
+  const toggleTheme = () => {
+    setTheme(theme === 'dark' ? 'light' : 'dark');
+  };
 
   return (
     <header
@@ -61,7 +69,21 @@ export const Header = () => {
         </ul>
       </nav>
 
-      <div className='flex items-center'>
+      <div className='flex items-center gap-2'>
+        <Button
+          onClick={toggleTheme}
+          variant='ghost'
+          size='icon'
+          className='w-8 h-8 rounded-md hover:bg-[#f0eada] transition-colors'
+          aria-label='Toggle dark mode'
+          title='Toggle dark mode'
+        >
+          {theme === 'dark' ? (
+            <Sun className='w-4 h-4' />
+          ) : (
+            <Moon className='w-4 h-4' />
+          )}
+        </Button>
         <LanguageSwitcher />
       </div>
     </header>
