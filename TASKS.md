@@ -118,20 +118,24 @@ PLEASE: Ask for clarification if any functionality or data structure is unclear
 
 ## 14. Makefile Setup
 
-- [ ] Create a `Makefile` in the project root
-- [ ] Define common commands:
+- [x] Create a `Makefile` in the project root
+- [x] Define common commands:
 
-  - [ ] `make dev` – start dev server
-  - [ ] `make build` – build app for production
-  - [ ] `make lint` – run ESLint
-  - [ ] `make format` – run Prettier format
-  - [ ] `make test` – run Vitest
-  - [ ] `make storybook` – start Storybook
-  - [ ] `make i18n-check` – validate translation files
-  - [ ] `make analyze` – run bundle analyzer if needed
-  - [ ] `make deploy` – build and push to GitHub Pages
-  - [ ] `make docker-build` – build Docker image of the frontend
-  - [ ] Add other commands to the Makefile
+  - [x] `make dev` – start dev server
+  - [x] `make build` – build app for production
+  - [x] `make lint` – run ESLint
+  - [x] `make format` – run Prettier format
+  - [x] `make test` – run Vitest
+  - [x] `make storybook` – start Storybook
+  - [x] `make i18n-check` – validate translation files
+  - [x] `make analyze` – run bundle analyzer if needed
+  - [x] `make deploy` – build and push to GitHub Pages
+  - [x] `make docker-build` – build Docker image of the frontend
+  - [x] Add other commands to the Makefile
+
+## 14.1. Export the old project into the new one
+
+- [ ] Export the old project into the new one
 
 ## 15. GitHub Pages Deployment
 
