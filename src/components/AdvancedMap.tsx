@@ -9,12 +9,14 @@ import {
   Layers,
   Eye,
   EyeOff,
+  BarChart3,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useMapStore } from '@/store/mapStore';
+import RealTimeDataOverlay from './RealTimeDataOverlay';
 
 // Set Mapbox access token from environment variable
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN || '';
@@ -106,9 +108,21 @@ export const AdvancedMap: React.FC<AdvancedMapProps> = ({
   const [showNearbyModal, setShowNearbyModal] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [cachedRegions, setCachedRegions] = useState<Record<string, any>>({});
+  const [showRealTimeData, setShowRealTimeData] = useState(false);
+  const [currentCoordinates, setCurrentCoordinates] = useState<
+    [number, number]
+  >([7.3359, 47.7508]);
 
   const { userLocation, setUserLocation, getUserLocation, clearError } =
     useMapStore();
+
+  // Handle map move to update current coordinates
+  const handleMapMove = useCallback(() => {
+    if (map.current) {
+      const center = map.current.getCenter();
+      setCurrentCoordinates([center.lng, center.lat]);
+    }
+  }, []);
 
   // Initialize map
   useEffect(() => {
@@ -144,6 +158,9 @@ export const AdvancedMap: React.FC<AdvancedMapProps> = ({
         onMapLoad?.(map.current!);
         loadRegion(selectedRegion);
       });
+
+      // Handle map move
+      map.current.on('moveend', handleMapMove);
 
       // Save map state on unload
       const handleBeforeUnload = () => {
@@ -597,6 +614,17 @@ export const AdvancedMap: React.FC<AdvancedMapProps> = ({
             Dark
           </Button>
         </div>
+
+        {/* Real-Time Data Toggle */}
+        <Button
+          variant='secondary'
+          size='sm'
+          onClick={() => setShowRealTimeData(!showRealTimeData)}
+          className='flex items-center gap-1'
+        >
+          <BarChart3 className='w-4 h-4' />
+          {showRealTimeData ? 'Hide' : 'Show'} Data
+        </Button>
       </div>
 
       {/* Right Side Controls */}
@@ -637,6 +665,13 @@ export const AdvancedMap: React.FC<AdvancedMapProps> = ({
           </Button>
         </div>
       </div>
+
+      {/* Real-Time Data Overlay */}
+      <RealTimeDataOverlay
+        coordinates={currentCoordinates}
+        isVisible={showRealTimeData}
+        onToggleVisibility={() => setShowRealTimeData(!showRealTimeData)}
+      />
 
       {/* Nearby Edibles Modal */}
       {showNearbyModal && (

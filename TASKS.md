@@ -146,19 +146,19 @@ PLEASE: Ask for clarification if any functionality or data structure is unclear
 
 ## 16. Dockerization
 
-- [ ] Create a lightweight **Dockerfile** to build and serve the Vite app
+- [x] Create a lightweight **Dockerfile** to build and serve the Vite app
 
   - Multi-stage build: Node → static assets → nginx/alpine
 
-- [ ] Add `.dockerignore`
-- [ ] Add Docker image build command to Makefile: `make docker-build`
-- [ ] Document how to build and run the Docker container in `README.md`
+- [x] Add `.dockerignore`
+- [x] Add Docker image build command to Makefile: `make docker-build`
+- [x] Document how to build and run the Docker container in `README.md`
 
 ## 17. Preserve Existing Fung.es Functionalities
 
 ### Map Features
 
-- [ ] Interactive foraging map with real-time data overlays
+- [x] Interactive foraging map with real-time data overlays
 - [ ] Polygon overlays for high-probability areas (GeoJSON)
 - [ ] User geolocation to show nearby foraging spots
 - [ ] Weather + soil data overlays for predictive foraging

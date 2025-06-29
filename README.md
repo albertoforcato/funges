@@ -111,15 +111,55 @@ The app will be available at: `https://your-username.github.io/funges-fork/`
 
 ### Docker Deployment
 
+The project includes a multi-stage Dockerfile for production deployment:
+
 1. **Build Docker image**
    ```bash
    make docker-build
+   ```
+   
+   Or manually:
+   ```bash
+   docker build -t funges-app .
    ```
 
 2. **Run container**
    ```bash
    make docker-run
    ```
+   
+   Or manually:
+   ```bash
+   docker run -p 3000:80 funges-app
+   ```
+
+3. **Using Docker Compose** (optional)
+   
+   Create a `docker-compose.yml` file:
+   ```yaml
+   version: '3.8'
+   services:
+     funges-app:
+       build: .
+       ports:
+         - "3000:80"
+       environment:
+         - NODE_ENV=production
+   ```
+   
+   Then run:
+   ```bash
+   docker-compose up -d
+   ```
+
+**Features of the Docker setup:**
+- Multi-stage build for optimized image size
+- Nginx for serving static files
+- Gzip compression enabled
+- Security headers configured
+- Client-side routing support
+- Static asset caching
+- Health check endpoint at `/health`
 
 The app will be available at `http://localhost:3000`
 

@@ -57,6 +57,20 @@ export const queryKeys = {
       [...queryKeys.map.all, 'weather', region] as const,
     soil: (region: string) => [...queryKeys.map.all, 'soil', region] as const,
   },
+  // Weather data
+  weather: {
+    all: ['weather'] as const,
+    forecast: (coordinates: [number, number]) =>
+      [...queryKeys.weather.all, 'forecast', coordinates] as const,
+    current: (coordinates: [number, number]) =>
+      [...queryKeys.weather.all, 'current', coordinates] as const,
+  },
+  // Soil data
+  soil: {
+    all: ['soil'] as const,
+    region: (regionId: string) =>
+      [...queryKeys.soil.all, 'region', regionId] as const,
+  },
   // AI classification
   classification: {
     all: ['classification'] as const,
@@ -110,5 +124,37 @@ export const useSpeciesBySeason = (season: string) => {
     queryKey: ['species', 'season', season],
     queryFn: () => api.species.getBySeason(season),
     enabled: !!season,
+  });
+};
+
+// Weather hooks
+export const useWeatherForecast = (coordinates: [number, number]) => {
+  return useQuery({
+    queryKey: queryKeys.weather.forecast(coordinates),
+    queryFn: () => api.weather.getForecast(coordinates),
+    enabled: !!coordinates && coordinates.length === 2,
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    gcTime: 10 * 60 * 1000, // 10 minutes
+  });
+};
+
+export const useCurrentWeather = (coordinates: [number, number]) => {
+  return useQuery({
+    queryKey: queryKeys.weather.current(coordinates),
+    queryFn: () => api.weather.getCurrent(coordinates),
+    enabled: !!coordinates && coordinates.length === 2,
+    staleTime: 2 * 60 * 1000, // 2 minutes
+    gcTime: 5 * 60 * 1000, // 5 minutes
+  });
+};
+
+// Soil hooks
+export const useSoilData = (regionId: string) => {
+  return useQuery({
+    queryKey: queryKeys.soil.region(regionId),
+    queryFn: () => api.map.getSoil(regionId),
+    enabled: !!regionId,
+    staleTime: 30 * 60 * 1000, // 30 minutes (soil data changes less frequently)
+    gcTime: 60 * 60 * 1000, // 1 hour
   });
 };
