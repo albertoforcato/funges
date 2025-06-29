@@ -1,7 +1,7 @@
 # Fung.es Project Makefile
 # Common development and deployment commands
 
-.PHONY: help dev build lint format test storybook i18n-check analyze deploy docker-build clean install
+.PHONY: help dev build lint format test storybook i18n-check analyze deploy docker-build clean install generate-splash
 
 # Default target
 help:
@@ -21,6 +21,7 @@ help:
 	@echo "  make storybook    - Start Storybook"
 	@echo "  make i18n-check   - Validate translation files"
 	@echo "  make analyze      - Run bundle analyzer"
+	@echo "  make generate-splash - Generate PWA splash screen images"
 	@echo ""
 	@echo "Deployment:"
 	@echo "  make deploy       - Build and deploy to GitHub Pages"
@@ -95,6 +96,15 @@ analyze:
 	@echo "Running bundle analyzer..."
 	npm run build
 	npx vite-bundle-analyzer dist
+
+generate-splash:
+	@echo "Generating PWA splash screen images..."
+	@if [ ! -f "node_modules/canvas/package.json" ]; then \
+		echo "Installing canvas dependency..."; \
+		npm install canvas; \
+	fi
+	@node scripts/generate-splash-screens.js
+	@echo "Splash screen images generated successfully!"
 
 # Deployment
 deploy:

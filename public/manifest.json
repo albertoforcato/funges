@@ -9,6 +9,8 @@
   "orientation": "portrait-primary",
   "scope": "/",
   "lang": "en",
+  "dir": "ltr",
+  "categories": ["nature", "education", "utilities", "food", "travel"],
   "icons": [
     {
       "src": "/icons/logo_funges.png",
@@ -21,15 +23,67 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/logo_1.png",
+      "sizes": "256x256",
+      "type": "image/png",
+      "purpose": "any"
     }
   ],
-  "categories": ["nature", "education", "utilities"],
   "screenshots": [
     {
       "src": "/icons/logo_app.png",
       "sizes": "1280x720",
       "type": "image/png",
-      "form_factor": "wide"
+      "form_factor": "wide",
+      "label": "Fung.es App Screenshot"
     }
-  ]
+  ],
+  "shortcuts": [
+    {
+      "name": "Identify Mushroom",
+      "short_name": "Identify",
+      "description": "Quickly identify a mushroom using AI",
+      "url": "/identify",
+      "icons": [
+        {
+          "src": "/icons/logo_funges.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "View Map",
+      "short_name": "Map",
+      "description": "Open the foraging map",
+      "url": "/map",
+      "icons": [
+        {
+          "src": "/icons/logo_funges.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Browse Species",
+      "short_name": "Species",
+      "description": "Browse mushroom and plant species",
+      "url": "/species",
+      "icons": [
+        {
+          "src": "/icons/logo_funges.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false,
+  "edge_side_panel": {
+    "preferred_width": 400
+  },
+  "launch_handler": {
+    "client_mode": "navigate-existing"
+  }
 } 
