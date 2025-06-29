@@ -33,6 +33,15 @@ export const Header = () => {
           </li>
           <li>
             <Link
+              to='/identify'
+              className='text-gray-800 no-underline text-lg px-8 py-2 rounded-md transition-colors hover:bg-[#f0eada] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2'
+              aria-label='AI mushroom identification'
+            >
+              {t('navigation.identify')}
+            </Link>
+          </li>
+          <li>
+            <Link
               to='/species'
               className='text-gray-800 no-underline text-lg px-8 py-2 rounded-md transition-colors hover:bg-[#f0eada] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2'
               aria-label='Browse wild species database'

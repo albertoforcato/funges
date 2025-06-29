@@ -164,9 +164,12 @@ PLEASE: Ask for clarification if any functionality or data structure is unclear
 
 ### AI Identification
 
-- [ ] Drag & drop image upload
-- [ ] Real-time AI-based classification using 4 TensorFlow Lite models (check the old project for the models)
+- [x] Drag & drop image upload
+- [x] Real-time AI-based classification using 4 TensorFlow Lite models (check the old project for the models)
 - [ ] Display confidence scores + visual feedback
+
+### Fix routes
+- [ ] Take all the components defined in routes folder and extract them into a pages folder
 
 ### Species Database
 

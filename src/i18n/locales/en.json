@@ -1,7 +1,7 @@
 {
   "common": {
     "loading": "Loading...",
-    "error": "Error",
+    "error": "An error occurred",
     "success": "Success",
     "cancel": "Cancel",
     "save": "Save",
@@ -23,11 +23,19 @@
     "remove": "Remove",
     "confirm": "Confirm",
     "yes": "Yes",
-    "no": "No"
+    "no": "No",
+    "retry": "Retry",
+    "language": "Language",
+    "theme": "Theme",
+    "dark": "Dark",
+    "light": "Light",
+    "system": "System",
+    "sort": "Sort"
   },
   "navigation": {
     "home": "Home",
     "map": "Map",
+    "identify": "Identify",
     "species": "Species",
     "recipes": "Recipes",
     "instructions": "Instructions",
@@ -44,18 +52,25 @@
     "learnMore": "Learn More"
   },
   "map": {
-    "title": "Foraging Map",
-    "subtitle": "Find the best spots for wild edibles",
-    "currentLocation": "Current Location",
-    "searchLocation": "Search location...",
-    "weatherOverlay": "Weather Overlay",
-    "soilData": "Soil Data",
-    "highProbability": "High Probability Areas",
-    "legend": "Legend"
+    "title": "Interactive Foraging Map",
+    "description": "Explore foraging locations and real-time data",
+    "loading": "Loading map...",
+    "error": "Failed to load map",
+    "geolocation": {
+      "enable": "Enable location",
+      "finding": "Finding your location...",
+      "found": "Location found",
+      "error": "Unable to get location"
+    },
+    "overlays": {
+      "title": "Map Overlays",
+      "polygons": "Show foraging areas",
+      "realtime": "Show real-time data"
+    }
   },
   "species": {
     "title": "Species Database",
-    "subtitle": "Learn about wild edibles",
+    "description": "Explore our comprehensive database of edible species",
     "filterByType": "Filter by type",
     "allTypes": "All Types",
     "mushrooms": "Mushrooms",
@@ -73,97 +88,76 @@
     "preparation": "Preparation",
     "chanterelle": {
       "name": "Chanterelle",
-      "description": "A golden-yellow mushroom with a distinctive funnel shape and fruity apricot-like aroma. Highly prized for its excellent flavor and meaty texture.",
-      "howTo": "Look for chanterelles in mixed forests, particularly under oak and pine trees. They grow in clusters and prefer moist, well-drained soil. Harvest by gently twisting and pulling from the base."
+      "description": "A golden-yellow mushroom with a distinctive funnel shape and fruity aroma",
+      "howTo": "Look for them in deciduous forests, especially near oak and beech trees"
     },
     "porcini": {
       "name": "Porcini",
-      "description": "A large, meaty mushroom with a thick stem and brown cap. Known for its rich, nutty flavor and firm texture. One of the most sought-after wild mushrooms.",
-      "howTo": "Find porcini in deciduous and coniferous forests, often near oak, beech, and pine trees. They prefer well-drained soil and can grow quite large. Cut at the base to harvest."
+      "description": "Also known as King Bolete, this prized mushroom has a brown cap and white to yellow pores",
+      "howTo": "Found in coniferous and deciduous forests, often near pine trees"
     },
     "morel": {
       "name": "Morel",
-      "description": "A distinctive mushroom with a honeycomb-like cap and hollow stem. Highly prized for its unique flavor and texture. Often found in spring after forest fires.",
-      "howTo": "Search for morels in disturbed areas, burned forests, and near dead or dying trees. They appear in spring and early summer. Cut at the base and always cook thoroughly."
+      "description": "A distinctive honeycomb-capped mushroom that appears in spring",
+      "howTo": "Look in disturbed areas, burned forests, and near dead trees in spring"
     },
     "blackberry": {
       "name": "Blackberry",
-      "description": "A sweet, juicy berry that grows on thorny bushes. Rich in antioxidants and vitamins. Available in late summer and early fall.",
-      "howTo": "Look for blackberry bushes in open areas, along trails, and in forest edges. Pick only fully ripe, dark berries. Wear gloves to avoid thorns."
+      "description": "Sweet, dark purple berries that grow on thorny bushes",
+      "howTo": "Found in hedgerows, woodland edges, and disturbed areas in late summer"
     },
     "elderberry": {
       "name": "Elderberry",
-      "description": "Small, dark purple berries that grow in clusters on elder trees. Used for jams, syrups, and traditional medicine. Must be cooked before consumption.",
-      "howTo": "Find elder trees in moist areas, along streams, and in forest edges. Harvest entire clusters when berries are fully ripe. Remove stems and cook thoroughly."
+      "description": "Small, dark purple berries that grow in clusters on elder trees",
+      "howTo": "Look for elder trees in hedgerows and woodland edges in autumn"
     },
     "nettle": {
       "name": "Stinging Nettle",
-      "description": "A nutritious green plant with stinging hairs. Rich in iron, vitamins, and minerals. Used in soups, teas, and as a spinach substitute.",
-      "howTo": "Wear gloves when harvesting nettles. Pick young, tender leaves in spring. Avoid flowering plants. Blanch or cook to remove stinging properties."
+      "description": "A nutritious green plant with stinging hairs that must be cooked",
+      "howTo": "Found in disturbed areas, hedgerows, and woodland edges in spring and summer"
     },
     "dandelion": {
       "name": "Dandelion",
-      "description": "A common weed with bright yellow flowers and nutritious leaves. All parts are edible and rich in vitamins and minerals.",
-      "howTo": "Harvest young leaves in spring for salads, or use mature leaves for cooking. Dig roots in fall for tea. Pick flowers for wine or fritters."
+      "description": "A common weed with bright yellow flowers and edible leaves",
+      "howTo": "Found in lawns, meadows, and disturbed areas throughout the growing season"
     },
     "hazelnut": {
       "name": "Hazelnut",
-      "description": "Sweet, nutty kernels encased in hard shells. Rich in protein, healthy fats, and vitamins. Available in late summer and fall.",
-      "howTo": "Look for hazelnut trees in forest edges and open areas. Harvest when nuts fall to the ground. Remove husks and dry thoroughly before storing."
+      "description": "Sweet, round nuts that grow on hazel trees",
+      "howTo": "Look for hazel trees in hedgerows and woodland edges in autumn"
     },
     "wildGarlic": {
       "name": "Wild Garlic",
-      "description": "A pungent herb with broad leaves and white flowers. Strong garlic flavor and aroma. Used as a seasoning and in pesto.",
-      "howTo": "Find wild garlic in moist, shady areas and forest floors. Harvest leaves before flowering for best flavor. Use fresh or preserve in oil."
+      "description": "A pungent herb with broad leaves and white flowers",
+      "howTo": "Found in deciduous woodlands in spring, often forming large patches"
     },
     "chickenOfTheWoods": {
       "name": "Chicken of the Woods",
-      "description": "A bright orange or yellow shelf mushroom that grows on trees. Named for its chicken-like texture when cooked. Excellent meat substitute.",
-      "howTo": "Look for this mushroom on dead or dying trees, particularly oak. Harvest young, tender specimens. Cut from the tree and clean thoroughly."
+      "description": "A bright orange-yellow bracket fungus that grows on trees",
+      "howTo": "Look for it growing on dead or dying trees, especially oak"
     }
   },
   "identification": {
-    "title": "AI Identification",
-    "subtitle": "Upload an image to identify wild edibles",
-    "dragDrop": "Drag and drop an image here, or click to select",
+    "title": "AI Mushroom Identification",
+    "description": "Upload a photo or use your camera to identify mushrooms and other edible species using our advanced AI models",
     "uploadImage": "Upload Image",
-    "takePhoto": "Take Photo",
-    "analyzing": "Analyzing image...",
-    "results": "Identification Results",
-    "confidence": "Confidence",
-    "species": "Species",
-    "recommendations": "Recommendations",
-    "tryAgain": "Try Again",
-    "uploadAnother": "Upload Another Image"
+    "captureImage": "Use Camera",
+    "processing": "Analyzing your image...",
+    "topPrediction": "Top Prediction",
+    "model": "Model",
+    "averageConfidence": "Average Confidence",
+    "allPredictions": "All Model Predictions",
+    "safetyWarning": "This AI identification is for educational purposes only. Always consult with an expert mycologist before consuming any wild mushrooms. Never rely solely on digital identification tools for safety."
   },
   "recipes": {
-    "title": "Recipes",
-    "subtitle": "Delicious recipes using wild edibles",
-    "filterByIngredient": "Filter by ingredient",
-    "allIngredients": "All Ingredients",
-    "difficulty": "Difficulty",
-    "prepTime": "Prep Time",
-    "cookTime": "Cook Time",
-    "servings": "Servings",
-    "ingredients": "Ingredients",
-    "instructions": "Instructions",
-    "tips": "Tips",
-    "warnings": "Warnings",
-    "chanterellePasta": {
-      "title": "Chanterelle Pasta"
-    },
-    "morelRisotto": {
-      "title": "Morel Risotto"
-    },
-    "nettleSoup": {
-      "title": "Nettle Soup"
-    },
-    "elderberryJam": {
-      "title": "Elderberry Jam"
-    },
-    "wildGarlicPesto": {
-      "title": "Wild Garlic Pesto"
-    }
+    "title": "Recipe Collection",
+    "description": "Discover delicious recipes using foraged ingredients",
+    "filterBy": "Filter by ingredient type",
+    "all": "All",
+    "mushroom": "Mushroom",
+    "berry": "Berry",
+    "plant": "Plant",
+    "nut": "Nut"
   },
   "support": {
     "title": "Support Fung.es",

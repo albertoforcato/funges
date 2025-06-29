@@ -23,11 +23,13 @@
     "remove": "Rimuovi",
     "confirm": "Conferma",
     "yes": "Sì",
-    "no": "No"
+    "no": "No",
+    "retry": "Riprova"
   },
   "navigation": {
     "home": "Home",
     "map": "Mappa",
+    "identify": "Identifica",
     "species": "Specie",
     "recipes": "Ricette",
     "instructions": "Istruzioni",
@@ -51,7 +53,21 @@
     "weatherOverlay": "Sovrapposizione Meteo",
     "soilData": "Dati del Suolo",
     "highProbability": "Aree ad Alta Probabilità",
-    "legend": "Legenda"
+    "legend": "Legenda",
+    "description": "Esplora luoghi di raccolta e dati in tempo reale",
+    "loading": "Caricamento mappa...",
+    "error": "Impossibile caricare la mappa",
+    "geolocation": {
+      "enable": "Abilita posizione",
+      "finding": "Ricerca della tua posizione...",
+      "found": "Posizione trovata",
+      "error": "Impossibile ottenere la posizione"
+    },
+    "overlays": {
+      "title": "Sovrapposizioni Mappa",
+      "polygons": "Mostra aree di raccolta",
+      "realtime": "Mostra dati in tempo reale"
+    }
   },
   "species": {
     "title": "Database delle Specie",
@@ -72,54 +88,54 @@
     "safetyNotes": "Note di Sicurezza",
     "preparation": "Preparazione",
     "chanterelle": {
-      "name": "Finferlo",
-      "description": "Un fungo giallo dorato con una forma a imbuto distintiva e aroma fruttato simile all'albicocca. Molto apprezzato per il suo eccellente sapore e consistenza carnosa.",
-      "howTo": "Cerca i finferli nei boschi misti, in particolare sotto querce e pini. Crescono in gruppi e preferiscono terreni umidi e ben drenati. Raccogli girando e tirando delicatamente dalla base."
+      "name": "Galletti",
+      "description": "Un fungo giallo dorato con una forma a imbuto distintiva e aroma fruttato",
+      "howTo": "Cercali nelle foreste decidue, specialmente vicino a querce e faggi"
     },
     "porcini": {
-      "name": "Porcino",
-      "description": "Un fungo grande e carnoso con un gambo spesso e cappello marrone. Conosciuto per il suo sapore ricco e nocciolato e consistenza ferma. Uno dei funghi selvatici più ricercati.",
-      "howTo": "Trova i porcini nei boschi di latifoglie e conifere, spesso vicino a querce, faggi e pini. Preferiscono terreni ben drenati e possono crescere abbastanza grandi. Taglia alla base per raccogliere."
+      "name": "Porcini",
+      "description": "Conosciuto anche come Boleto Reale, questo fungo pregiato ha un cappello marrone e pori bianchi o gialli",
+      "howTo": "Trovato nelle foreste di conifere e decidue, spesso vicino ai pini"
     },
     "morel": {
-      "name": "Spugnola",
-      "description": "Un fungo distintivo con cappello a nido d'ape e gambo cavo. Molto apprezzato per il suo sapore e consistenza unici. Spesso trovato in primavera dopo incendi boschivi.",
-      "howTo": "Cerca le spugnole in aree disturbate, foreste bruciate e vicino ad alberi morti o morenti. Appaiono in primavera e inizio estate. Taglia alla base e cuoci sempre accuratamente."
+      "name": "Spugnole",
+      "description": "Un fungo distintivo con cappello a nido d'ape che appare in primavera",
+      "howTo": "Cerca in aree disturbate, foreste bruciate e vicino ad alberi morti in primavera"
     },
     "blackberry": {
-      "name": "Mora",
-      "description": "Una bacca dolce e succosa che cresce su cespugli spinosi. Ricca di antiossidanti e vitamine. Disponibile in tarda estate e inizio autunno.",
-      "howTo": "Cerca cespugli di more in aree aperte, lungo i sentieri e ai margini della foresta. Raccogli solo bacche completamente mature e scure. Indossa guanti per evitare le spine."
+      "name": "More",
+      "description": "Bacche dolci, viola scuro che crescono su cespugli spinosi",
+      "howTo": "Trovate in siepi, bordi boschivi e aree disturbate in tarda estate"
     },
     "elderberry": {
       "name": "Sambuco",
-      "description": "Piccole bacche viola scuro che crescono in grappoli sui sambuchi. Usato per marmellate, sciroppi e medicina tradizionale. Deve essere cotto prima del consumo.",
-      "howTo": "Trova alberi di sambuco in aree umide, lungo i torrenti e ai margini della foresta. Raccogli interi grappoli quando le bacche sono completamente mature. Rimuovi i gambi e cuoci accuratamente."
+      "description": "Piccole bacche viola scuro che crescono in grappoli sui sambuchi",
+      "howTo": "Cerca alberi di sambuco in siepi e bordi boschivi in autunno"
     },
     "nettle": {
       "name": "Ortica",
-      "description": "Una pianta verde nutriente con peli urticanti. Ricca di ferro, vitamine e minerali. Usata in zuppe, tè e come sostituto degli spinaci.",
-      "howTo": "Indossa guanti quando raccogli le ortiche. Raccogli foglie giovani e tenere in primavera. Evita piante in fiore. Sbollenta o cuoci per rimuovere le proprietà urticanti."
+      "description": "Una pianta verde nutriente con peli urticanti che deve essere cotta",
+      "howTo": "Trovata in aree disturbate, siepi e bordi boschivi in primavera ed estate"
     },
     "dandelion": {
       "name": "Tarassaco",
-      "description": "Un'erbaccia comune con fiori gialli brillanti e foglie nutrienti. Tutte le parti sono commestibili e ricche di vitamine e minerali.",
-      "howTo": "Raccogli foglie giovani in primavera per insalate, o usa foglie mature per cucinare. Scava le radici in autunno per il tè. Raccogli fiori per vino o frittelle."
+      "description": "Un'erbaccia comune con fiori gialli brillanti e foglie commestibili",
+      "howTo": "Trovato in prati, praterie e aree disturbate durante la stagione di crescita"
     },
     "hazelnut": {
       "name": "Nocciola",
-      "description": "Gherigli dolci e nocciolati racchiusi in gusci duri. Ricca di proteine, grassi sani e vitamine. Disponibile in tarda estate e autunno.",
-      "howTo": "Cerca alberi di nocciolo ai margini della foresta e in aree aperte. Raccogli quando le noci cadono a terra. Rimuovi i gusci e asciuga accuratamente prima di conservare."
+      "description": "Noci dolci e rotonde che crescono sui noccioli",
+      "howTo": "Cerca noccioli in siepi e bordi boschivi in autunno"
     },
     "wildGarlic": {
       "name": "Aglio Orsino",
-      "description": "Un'erba pungente con foglie larghe e fiori bianchi. Forte sapore e aroma di aglio. Usato come condimento e nel pesto.",
-      "howTo": "Trova l'aglio orsino in aree umide e ombreggiate e sui pavimenti forestali. Raccogli foglie prima della fioritura per il miglior sapore. Usa fresco o conserva in olio."
+      "description": "Un'erba pungente con foglie larghe e fiori bianchi",
+      "howTo": "Trovato in boschi decidui in primavera, spesso forma grandi macchie"
     },
     "chickenOfTheWoods": {
       "name": "Grifola Frondosa",
-      "description": "Un fungo a mensola arancione o giallo brillante che cresce sugli alberi. Chiamato così per la sua consistenza simile al pollo quando cotto. Eccellente sostituto della carne.",
-      "howTo": "Cerca questo fungo su alberi morti o morenti, in particolare querce. Raccogli esemplari giovani e teneri. Taglia dall'albero e pulisci accuratamente."
+      "description": "Un fungo a mensola arancione-giallo brillante che cresce sugli alberi",
+      "howTo": "Cercalo che cresce su alberi morti o morenti, specialmente querce"
     }
   },
   "identification": {
@@ -163,7 +179,15 @@
     },
     "wildGarlicPesto": {
       "title": "Pesto di Aglio Orsino"
-    }
+    },
+    "title": "Collezione di Ricette",
+    "description": "Scopri deliziose ricette usando ingredienti raccolti",
+    "filterBy": "Filtra per tipo di ingrediente",
+    "all": "Tutti",
+    "mushroom": "Fungo",
+    "berry": "Bacca",
+    "plant": "Pianta",
+    "nut": "Noce"
   },
   "support": {
     "title": "Supporta Fung.es",
@@ -214,5 +238,59 @@
     "identification": "Identificazione immagine fallita. Riprova.",
     "notFound": "Pagina non trovata.",
     "unauthorized": "Non sei autorizzato ad accedere a questa risorsa."
+  },
+  "nav": {
+    "home": "Home",
+    "map": "Mappa",
+    "species": "Specie",
+    "recipes": "Ricette",
+    "identify": "Identifica",
+    "instructions": "Istruzioni",
+    "impressum": "Impressum",
+    "privacy": "Privacy",
+    "terms": "Termini"
+  },
+  "identify": {
+    "title": "Identificazione AI dei Funghi",
+    "description": "Carica una foto o usa la fotocamera per identificare funghi e altre specie commestibili usando i nostri modelli AI avanzati",
+    "uploadImage": "Carica Immagine",
+    "captureImage": "Usa Fotocamera",
+    "processing": "Analizzando la tua immagine...",
+    "topPrediction": "Migliore Previsione",
+    "model": "Modello",
+    "averageConfidence": "Confidenza Media",
+    "allPredictions": "Tutte le Previsioni dei Modelli",
+    "safetyWarning": "Questa identificazione AI è solo a scopo educativo. Consulta sempre un micologo esperto prima di consumare qualsiasi fungo selvatico. Non fare affidamento esclusivamente su strumenti di identificazione digitale per la sicurezza."
+  },
+  "species": {
+    "title": "Database delle Specie",
+    "description": "Esplora il nostro database completo di specie commestibili"
+  },
+  "recipes": {
+    "title": "Collezione di Ricette",
+    "description": "Scopri deliziose ricette usando ingredienti raccolti"
+  },
+  "map": {
+    "title": "Mappa Interattiva di Raccolta",
+    "description": "Esplora luoghi di raccolta e dati in tempo reale"
+  },
+  "common": {
+    "loading": "Caricamento...",
+    "error": "Si è verificato un errore",
+    "retry": "Riprova",
+    "close": "Chiudi",
+    "save": "Salva",
+    "cancel": "Annulla",
+    "delete": "Elimina",
+    "edit": "Modifica",
+    "view": "Visualizza",
+    "search": "Cerca",
+    "filter": "Filtra",
+    "sort": "Ordina",
+    "language": "Lingua",
+    "theme": "Tema",
+    "dark": "Scuro",
+    "light": "Chiaro",
+    "system": "Sistema"
   }
 }
