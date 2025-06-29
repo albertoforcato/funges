@@ -53,13 +53,13 @@ PLEASE: Ask for clarification if any functionality or data structure is unclear
 
 ## 6. Forms & Validation
 
-- [ ] Install and configure **React Hook Form**
-- [ ] Integrate **Zod** for schema-based validation
-- [ ] Refactor legacy forms to RHF components with validation
+- [x] Install and configure **React Hook Form**
+- [x] Integrate **Zod** for schema-based validation
+- [x] Refactor legacy forms to RHF components with validation
 
 ## 7. Data Fetching
 
-- [ ] Install and configure **TanStack Query**
+- [x] Install and configure **TanStack Query**
 - [ ] Replace any fetch/axios code with TanStack Query hooks
 - [ ] Create API layer in `src/lib/api.ts` with query functions
 
