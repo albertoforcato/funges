@@ -116,15 +116,15 @@ export default function RecipesPage() {
   }, [recipes, searchQuery, selectedCategory]);
 
   const getDifficultyColor = (difficulty: string) => {
-    switch (difficulty) {
+    switch (difficulty.toLowerCase()) {
       case 'easy':
-        return 'bg-green-100 text-green-800';
+        return 'bg-success/10 text-success';
       case 'medium':
-        return 'bg-yellow-100 text-yellow-800';
+        return 'bg-warning/10 text-warning';
       case 'hard':
-        return 'bg-red-100 text-red-800';
+        return 'bg-error/10 text-error';
       default:
-        return 'bg-gray-100 text-gray-800';
+        return 'bg-background-secondary text-text-primary';
     }
   };
 
@@ -132,10 +132,10 @@ export default function RecipesPage() {
     <div className='recipes-page max-w-7xl mx-auto px-4 py-8'>
       {/* Header */}
       <div className='text-center mb-8'>
-        <h1 className='text-4xl font-bold text-gray-900 mb-4'>
+        <h1 className='text-4xl font-bold text-text-primary mb-4'>
           {t('recipes.title')}
         </h1>
-        <p className='text-lg text-gray-600 max-w-2xl mx-auto'>
+        <p className='text-lg text-text-secondary max-w-2xl mx-auto'>
           {t('recipes.description')}
         </p>
       </div>
@@ -144,7 +144,7 @@ export default function RecipesPage() {
       <div className='mb-8 space-y-4'>
         {/* Search Bar */}
         <div className='relative'>
-          <Search className='absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4' />
+          <Search className='absolute left-3 top-1/2 transform -translate-y-1/2 text-text-tertiary h-4 w-4' />
           <Input
             type='text'
             placeholder='Search recipes, ingredients, or tags...'
@@ -156,7 +156,7 @@ export default function RecipesPage() {
 
         {/* Category Filters */}
         <div className='flex flex-wrap gap-2'>
-          <span className='flex items-center gap-2 text-sm font-medium text-gray-700'>
+          <span className='flex items-center gap-2 text-sm font-medium text-text-primary'>
             <Filter className='h-4 w-4' />
             {t('recipes.filterBy')}:
           </span>
@@ -180,7 +180,7 @@ export default function RecipesPage() {
         </div>
 
         {/* Results Count */}
-        <div className='text-sm text-gray-600'>
+        <div className='text-sm text-text-secondary'>
           {filteredRecipes.length} recipe
           {filteredRecipes.length !== 1 ? 's' : ''} found
         </div>
@@ -189,11 +189,11 @@ export default function RecipesPage() {
       {/* Recipes Grid */}
       {filteredRecipes.length === 0 ? (
         <div className='text-center py-12'>
-          <ChefHat className='h-12 w-12 text-gray-400 mx-auto mb-4' />
-          <h3 className='text-lg font-medium text-gray-900 mb-2'>
+          <ChefHat className='h-12 w-12 text-text-tertiary mx-auto mb-4' />
+          <h3 className='text-lg font-medium text-text-primary mb-2'>
             No recipes found
           </h3>
-          <p className='text-gray-600'>
+          <p className='text-text-secondary'>
             Try adjusting your search terms or filters to find more recipes.
           </p>
         </div>
@@ -220,7 +220,7 @@ export default function RecipesPage() {
 
               <CardContent className='flex-1 flex flex-col'>
                 {/* Recipe Stats */}
-                <div className='flex items-center gap-4 text-sm text-gray-600 mb-4'>
+                <div className='flex items-center gap-4 text-sm text-text-secondary mb-4'>
                   <div className='flex items-center gap-1'>
                     <Clock className='h-4 w-4' />
                     <span>{recipe.prepTime}</span>

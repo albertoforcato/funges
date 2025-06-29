@@ -43,7 +43,7 @@ export default function MapPage() {
   };
 
   return (
-    <div className='flex h-screen bg-gray-50'>
+    <div className='flex h-screen bg-background-secondary'>
       {/* Main Map Area */}
       <div className='flex-1 relative'>
         <AdvancedMap
@@ -59,8 +59,8 @@ export default function MapPage() {
         {isLoading && (
           <div className='absolute inset-0 bg-black/20 flex items-center justify-center z-20'>
             <div className='bg-white rounded-lg p-6 shadow-lg'>
-              <div className='animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500 mx-auto mb-2'></div>
-              <p className='text-gray-600'>Loading map data...</p>
+              <div className='animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-2'></div>
+              <p className='text-text-secondary'>Loading map data...</p>
             </div>
           </div>
         )}
@@ -68,9 +68,9 @@ export default function MapPage() {
         {/* Error Overlay */}
         {error && (
           <div className='absolute top-4 left-4 right-4 z-20'>
-            <div className='bg-red-50 border border-red-200 rounded-lg p-4'>
+            <div className='bg-error/10 border border-error/20 rounded-lg p-4'>
               <div className='flex items-center justify-between'>
-                <p className='text-red-700'>{error}</p>
+                <p className='text-error'>{error}</p>
                 <Button variant='ghost' size='sm' onClick={clearError}>
                   ×
                 </Button>
@@ -81,7 +81,7 @@ export default function MapPage() {
       </div>
 
       {/* Sidebar */}
-      <div className='w-80 bg-white border-l border-gray-200 overflow-y-auto'>
+      <div className='w-80 bg-background-primary border-l border-border overflow-y-auto'>
         <div className='p-4'>
           <h2 className='text-xl font-semibold mb-4'>Foraging Spots</h2>
 
@@ -127,10 +127,10 @@ export default function MapPage() {
                   </div>
                 </CardHeader>
                 <CardContent className='pt-0'>
-                  <p className='text-sm text-gray-600 mb-2'>
+                  <p className='text-sm text-text-secondary mb-2'>
                     {spot.description}
                   </p>
-                  <div className='flex items-center gap-4 text-xs text-gray-500'>
+                  <div className='flex items-center gap-4 text-xs text-text-tertiary'>
                     <div className='flex items-center gap-1'>
                       <Calendar className='w-3 h-3' />
                       <span>{spot.season.join(', ')}</span>
@@ -146,8 +146,8 @@ export default function MapPage() {
           </div>
 
           {foragingSpots.length === 0 && !isLoading && (
-            <div className='text-center py-8 text-gray-500'>
-              <MapPin className='w-8 h-8 mx-auto mb-2 text-gray-300' />
+            <div className='text-center py-8 text-text-tertiary'>
+              <MapPin className='w-8 h-8 mx-auto mb-2 text-text-tertiary' />
               <p>No foraging spots found nearby</p>
               <p className='text-sm'>
                 Try moving the map or getting your location

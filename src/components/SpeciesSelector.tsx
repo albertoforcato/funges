@@ -118,7 +118,7 @@ export const SpeciesSelector = ({
         <Card className='absolute top-full left-0 right-0 mt-1 p-4 max-h-96 overflow-y-auto z-50'>
           {/* Search Input */}
           <div className='relative mb-3'>
-            <Search className='absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400' />
+            <Search className='absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-text-tertiary' />
             <Input
               placeholder='Search species...'
               value={filter}
@@ -160,11 +160,11 @@ export const SpeciesSelector = ({
           {/* Species List */}
           <div role='listbox' aria-label='Species selection'>
             {isLoading ? (
-              <div className='text-center py-4 text-gray-500'>
+              <div className='text-center py-4 text-text-tertiary'>
                 Loading species...
               </div>
             ) : filteredSpecies.length === 0 ? (
-              <div className='text-center py-4 text-gray-500'>
+              <div className='text-center py-4 text-text-tertiary'>
                 No species found
               </div>
             ) : (
@@ -176,8 +176,8 @@ export const SpeciesSelector = ({
                     setIsOpen(false);
                     setFocusedIndex(-1);
                   }}
-                  className={`w-full text-left p-3 rounded-lg hover:bg-gray-100 focus:bg-gray-100 focus:outline-none ${
-                    focusedIndex === index ? 'bg-gray-100' : ''
+                  className={`w-full text-left p-3 rounded-lg hover:bg-background-secondary focus:bg-background-secondary focus:outline-none ${
+                    focusedIndex === index ? 'bg-background-secondary' : ''
                   }`}
                   role='option'
                   aria-selected={focusedIndex === index}
@@ -186,7 +186,7 @@ export const SpeciesSelector = ({
                     <span className='text-lg'>{typeMap[species.type]}</span>
                     <div>
                       <div className='font-medium'>{species.name}</div>
-                      <div className='text-sm text-gray-500 italic'>
+                      <div className='text-sm text-text-tertiary italic'>
                         {species.scientificName}
                       </div>
                     </div>

@@ -33,7 +33,7 @@ export const SupportModal = ({ isOpen, onClose }: SupportModalProps) => {
       <DialogContent className='max-w-md'>
         <DialogHeader>
           <DialogTitle className='flex items-center gap-2'>
-            <Heart className='h-5 w-5 text-red-500' />
+            <Heart className='h-5 w-5 text-error' />
             {t('support.title')}
           </DialogTitle>
         </DialogHeader>

@@ -22,6 +22,7 @@ import {
   ChefHat,
   AlertTriangle,
 } from 'lucide-react';
+import { getSeasonClass, getHabitatClass } from '@/lib/colors';
 
 export default function SpeciesPage() {
   const { t } = useTranslation();
@@ -56,31 +57,17 @@ export default function SpeciesPage() {
     { value: 'flower', label: t('species.flowers'), icon: '🌸' },
   ];
 
-  const getSeasonColor = (season?: string) => {
-    if (!season) return 'bg-gray-100 text-gray-700';
-    if (season.includes('spring')) return 'bg-green-100 text-green-700';
-    if (season.includes('summer')) return 'bg-yellow-100 text-yellow-700';
-    if (season.includes('fall')) return 'bg-orange-100 text-orange-700';
-    if (season.includes('winter')) return 'bg-blue-100 text-blue-700';
-    return 'bg-gray-100 text-gray-700';
-  };
-
-  const getHabitatColor = (habitat?: string) => {
-    if (!habitat) return 'bg-gray-100 text-gray-700';
-    if (habitat === 'forest') return 'bg-emerald-100 text-emerald-700';
-    if (habitat === 'meadows') return 'bg-lime-100 text-lime-700';
-    if (habitat === 'hedgerows') return 'bg-amber-100 text-amber-700';
-    return 'bg-gray-100 text-gray-700';
-  };
+  const getSeasonColor = getSeasonClass;
+  const getHabitatColor = getHabitatClass;
 
   return (
     <div className='container mx-auto px-4 py-8 max-w-7xl'>
       {/* Header */}
       <div className='text-center mb-8'>
-        <h1 className='text-4xl font-bold text-gray-900 mb-4'>
+        <h1 className='text-4xl font-bold text-text-primary mb-4'>
           {t('species.title')}
         </h1>
-        <p className='text-lg text-gray-600 max-w-2xl mx-auto'>
+        <p className='text-lg text-text-secondary max-w-2xl mx-auto'>
           {t('species.description')}
         </p>
       </div>
@@ -90,7 +77,7 @@ export default function SpeciesPage() {
         <div className='flex flex-col sm:flex-row gap-4'>
           {/* Search Input */}
           <div className='relative flex-1'>
-            <Search className='absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4' />
+            <Search className='absolute left-3 top-1/2 transform -translate-y-1/2 text-text-tertiary h-4 w-4' />
             <Input
               placeholder={t('common.search')}
               value={searchQuery}
@@ -118,7 +105,7 @@ export default function SpeciesPage() {
         </div>
 
         {/* Results Count */}
-        <div className='text-sm text-gray-600'>
+        <div className='text-sm text-text-secondary'>
           {t('common.found')} {filteredSpecies.length} {t('species.species')}
         </div>
       </div>
@@ -135,10 +122,10 @@ export default function SpeciesPage() {
                 <div className='flex items-center gap-3'>
                   <span className='text-2xl'>{species.emoji}</span>
                   <div>
-                    <CardTitle className='text-lg font-semibold text-gray-900'>
+                    <CardTitle className='text-lg font-semibold text-text-primary'>
                       {species.name}
                     </CardTitle>
-                    <p className='text-sm text-gray-600 italic'>
+                    <p className='text-sm text-text-secondary italic'>
                       {species.scientificName}
                     </p>
                   </div>
@@ -153,12 +140,12 @@ export default function SpeciesPage() {
               {/* Description */}
               <div>
                 <div className='flex items-center gap-2 mb-2'>
-                  <Info className='h-4 w-4 text-gray-500' />
-                  <span className='text-sm font-medium text-gray-700'>
+                  <Info className='h-4 w-4 text-text-tertiary' />
+                  <span className='text-sm font-medium text-text-secondary'>
                     {t('species.description')}
                   </span>
                 </div>
-                <p className='text-sm text-gray-600 leading-relaxed'>
+                <p className='text-sm text-text-secondary leading-relaxed'>
                   {species.description}
                 </p>
               </div>
@@ -168,12 +155,12 @@ export default function SpeciesPage() {
               {/* Foraging Instructions */}
               <div>
                 <div className='flex items-center gap-2 mb-2'>
-                  <Leaf className='h-4 w-4 text-green-500' />
-                  <span className='text-sm font-medium text-gray-700'>
+                  <Leaf className='h-4 w-4 text-success' />
+                  <span className='text-sm font-medium text-text-secondary'>
                     {t('species.howTo')}
                   </span>
                 </div>
-                <p className='text-sm text-gray-600 leading-relaxed'>
+                <p className='text-sm text-text-secondary leading-relaxed'>
                   {species.howTo}
                 </p>
               </div>
@@ -184,7 +171,7 @@ export default function SpeciesPage() {
               <div className='grid grid-cols-2 gap-3'>
                 {species.season && (
                   <div className='flex items-center gap-2'>
-                    <Calendar className='h-4 w-4 text-blue-500' />
+                    <Calendar className='h-4 w-4 text-primary' />
                     <Badge className={getSeasonColor(species.season)}>
                       {species.season}
                     </Badge>
@@ -192,7 +179,7 @@ export default function SpeciesPage() {
                 )}
                 {species.habitat && (
                   <div className='flex items-center gap-2'>
-                    <MapPin className='h-4 w-4 text-green-500' />
+                    <MapPin className='h-4 w-4 text-success' />
                     <Badge className={getHabitatColor(species.habitat)}>
                       {species.habitat}
                     </Badge>
@@ -201,14 +188,14 @@ export default function SpeciesPage() {
               </div>
 
               {/* Safety Notes */}
-              <div className='bg-amber-50 border border-amber-200 rounded-lg p-3'>
+              <div className='bg-status-warning border border-status-warning-border rounded-lg p-3'>
                 <div className='flex items-start gap-2'>
-                  <AlertTriangle className='h-4 w-4 text-amber-600 mt-0.5 flex-shrink-0' />
+                  <AlertTriangle className='h-4 w-4 text-status-warning-text mt-0.5 flex-shrink-0' />
                   <div>
-                    <p className='text-sm font-medium text-amber-800 mb-1'>
+                    <p className='text-sm font-medium text-status-warning-text mb-1'>
                       {t('species.safetyNotes')}
                     </p>
-                    <p className='text-xs text-amber-700'>
+                    <p className='text-xs text-status-warning-text'>
                       {t('species.safetyWarning')}
                     </p>
                   </div>
@@ -216,14 +203,14 @@ export default function SpeciesPage() {
               </div>
 
               {/* Cooking Tips */}
-              <div className='bg-blue-50 border border-blue-200 rounded-lg p-3'>
+              <div className='bg-info/10 border border-info/30 rounded-lg p-3'>
                 <div className='flex items-start gap-2'>
-                  <ChefHat className='h-4 w-4 text-blue-600 mt-0.5 flex-shrink-0' />
+                  <ChefHat className='h-4 w-4 text-info mt-0.5 flex-shrink-0' />
                   <div>
-                    <p className='text-sm font-medium text-blue-800 mb-1'>
+                    <p className='text-sm font-medium text-info mb-1'>
                       {t('species.cookingTips')}
                     </p>
-                    <p className='text-xs text-blue-700'>
+                    <p className='text-xs text-info'>
                       {t(
                         `species.${species.id}.cookingTips`,
                         'Best when fresh and properly identified.'
@@ -241,10 +228,10 @@ export default function SpeciesPage() {
       {filteredSpecies.length === 0 && (
         <div className='text-center py-12'>
           <div className='text-6xl mb-4'>🔍</div>
-          <h3 className='text-xl font-semibold text-gray-900 mb-2'>
+          <h3 className='text-xl font-semibold text-text-primary mb-2'>
             {t('species.noResults')}
           </h3>
-          <p className='text-gray-600 mb-4'>
+          <p className='text-text-secondary mb-4'>
             {t('species.noResultsDescription')}
           </p>
           <Button

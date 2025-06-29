@@ -1,16 +1,21 @@
 // Design tokens extracted from legacy Fung.es CSS
 export const designTokens = {
   colors: {
-    // Primary colors
+    // Primary colors (based on old project theme color #3d7e40)
     primary: {
-      50: '#f0f9ff',
-      100: '#e0f2fe',
-      500: '#007BFF',
-      600: '#0056b3',
-      700: '#004085',
+      50: '#f0f9f0',
+      100: '#e0f2e0',
+      200: '#c4e6c4',
+      300: '#9dd69d',
+      400: '#6bc26b',
+      500: '#3d7e40', // Main theme color from old project
+      600: '#2f632f',
+      700: '#254d25',
+      800: '#1f3f1f',
+      900: '#1a351a',
     },
 
-    // Neutral colors
+    // Neutral colors for light/dark themes
     neutral: {
       50: '#fafafa',
       100: '#f5f5f5',
@@ -24,32 +29,76 @@ export const designTokens = {
       900: '#171717',
     },
 
-    // Text colors
+    // Text colors for light/dark themes
     text: {
-      primary: '#333',
-      secondary: '#444',
-      tertiary: '#555',
-      inverse: '#fff',
+      light: {
+        primary: '#1a1a1a',
+        secondary: '#404040',
+        tertiary: '#6b7280',
+        inverse: '#ffffff',
+      },
+      dark: {
+        primary: '#ffffff',
+        secondary: '#e5e7eb',
+        tertiary: '#d1d5db',
+        inverse: '#1a1a1a',
+      },
     },
 
-    // Background colors
+    // Background colors for light/dark themes
     background: {
-      primary: '#ffffff',
-      secondary: 'rgba(255, 252, 239, 0.90)', // White halo color
-      overlay: 'rgba(0, 0, 0, 0.8)',
-      overlayDark: 'rgba(0, 0, 0, 0.9)',
-      overlayFull: 'rgba(0, 0, 0, 1)',
+      light: {
+        primary: '#ffffff',
+        secondary: 'rgba(255, 252, 239, 0.9)', // White halo color from old project
+        tertiary: '#f9fafb',
+        overlay: 'rgba(0, 0, 0, 0.8)',
+        overlayDark: 'rgba(0, 0, 0, 0.9)',
+        overlayFull: 'rgba(0, 0, 0, 1)',
+      },
+      dark: {
+        primary: '#1a1a1a',
+        secondary: 'rgba(26, 26, 26, 0.9)',
+        tertiary: '#262626',
+        overlay: 'rgba(0, 0, 0, 0.8)',
+        overlayDark: 'rgba(0, 0, 0, 0.9)',
+        overlayFull: 'rgba(0, 0, 0, 1)',
+      },
     },
 
     // Status colors
     status: {
       warning: {
-        background: '#fff3cd',
-        text: '#856404',
-        border: '#ffa726',
+        light: {
+          background: '#fff3cd',
+          text: '#856404',
+          border: '#ffa726',
+        },
+        dark: {
+          background: '#3d2c00',
+          text: '#fbbf24',
+          border: '#f59e0b',
+        },
       },
-      success: '#3d7e40', // Theme color from manifest
-      error: '#dc2626',
+      success: {
+        light: '#3d7e40', // Theme color from manifest
+        dark: '#4ade80',
+      },
+      error: {
+        light: '#dc2626',
+        dark: '#f87171',
+      },
+    },
+
+    // Hover colors for light/dark themes
+    hover: {
+      light: {
+        primary: '#f0eada', // Warm hover color from old project
+        secondary: '#f3f4f6',
+      },
+      dark: {
+        primary: '#374151',
+        secondary: '#4b5563',
+      },
     },
   },
 
@@ -100,6 +149,11 @@ export const designTokens = {
     sm: '0 1px 2px rgba(0, 0, 0, 0.1)',
     md: '2px 0 5px rgba(0, 0, 0, 0.1)',
     lg: '0 -2px 5px rgba(0, 0, 0, 0.1)',
+    dark: {
+      sm: '0 1px 2px rgba(0, 0, 0, 0.3)',
+      md: '2px 0 5px rgba(0, 0, 0, 0.3)',
+      lg: '0 -2px 5px rgba(0, 0, 0, 0.3)',
+    },
   },
 
   layout: {

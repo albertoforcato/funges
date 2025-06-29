@@ -5,19 +5,25 @@ export default {
     './src/**/*.{js,ts,jsx,tsx}',
     './src/**/*.stories.{js,ts,jsx,tsx}',
   ],
+  darkMode: 'class',
   theme: {
     extend: {
       colors: {
-        // Primary colors
+        // Primary colors (based on old project theme color #3d7e40)
         primary: {
-          50: '#f0f9ff',
-          100: '#e0f2fe',
-          500: '#007BFF',
-          600: '#0056b3',
-          700: '#004085',
+          50: '#f0f9f0',
+          100: '#e0f2e0',
+          200: '#c4e6c4',
+          300: '#9dd69d',
+          400: '#6bc26b',
+          500: '#3d7e40', // Main theme color from old project
+          600: '#2f632f',
+          700: '#254d25',
+          800: '#1f3f1f',
+          900: '#1a351a',
         },
 
-        // Neutral colors
+        // Neutral colors for light/dark themes
         neutral: {
           50: '#fafafa',
           100: '#f5f5f5',
@@ -31,32 +37,37 @@ export default {
           900: '#171717',
         },
 
-        // Text colors
+        // CSS Variables for dynamic theming
         text: {
-          primary: '#333',
-          secondary: '#444',
-          tertiary: '#555',
-          inverse: '#fff',
+          primary: 'var(--text-primary)',
+          secondary: 'var(--text-secondary)',
+          tertiary: 'var(--text-tertiary)',
+          inverse: 'var(--text-inverse)',
         },
 
-        // Background colors
         background: {
-          primary: '#ffffff',
-          secondary: 'rgba(255, 252, 239, 0.90)',
-          overlay: 'rgba(0, 0, 0, 0.8)',
-          overlayDark: 'rgba(0, 0, 0, 0.9)',
-          overlayFull: 'rgba(0, 0, 0, 1)',
+          primary: 'var(--background-primary)',
+          secondary: 'var(--background-secondary)',
+          tertiary: 'var(--background-tertiary)',
+          overlay: 'var(--background-overlay)',
+          overlayDark: 'var(--background-overlay-dark)',
+          overlayFull: 'var(--background-overlay-full)',
+        },
+
+        hover: {
+          primary: 'var(--hover-primary)',
+          secondary: 'var(--hover-secondary)',
         },
 
         // Status colors
         status: {
           warning: {
-            background: '#fff3cd',
-            text: '#856404',
-            border: '#ffa726',
+            background: 'var(--status-warning-background)',
+            text: 'var(--status-warning-text)',
+            border: 'var(--status-warning-border)',
           },
-          success: '#3d7e40',
-          error: '#dc2626',
+          success: 'var(--status-success)',
+          error: 'var(--status-error)',
         },
       },
 
@@ -105,9 +116,9 @@ export default {
       },
 
       boxShadow: {
-        sm: '0 1px 2px rgba(0, 0, 0, 0.1)',
-        md: '2px 0 5px rgba(0, 0, 0, 0.1)',
-        lg: '0 -2px 5px rgba(0, 0, 0, 0.1)',
+        sm: 'var(--shadow-sm)',
+        md: 'var(--shadow-md)',
+        lg: 'var(--shadow-lg)',
       },
 
       width: {

@@ -4,8 +4,8 @@ import { useTranslation } from 'react-i18next';
 export const Footer = () => {
   const { t } = useTranslation();
 
-  const footerLinkClass =
-    'text-xs text-gray-700 no-underline hover:underline focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 rounded';
+  const linkClasses =
+    'text-xs text-text-secondary no-underline hover:underline focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1 rounded';
 
   return (
     <footer
@@ -18,7 +18,7 @@ export const Footer = () => {
           <li>
             <Link
               to='/impressum'
-              className={footerLinkClass}
+              className={linkClasses}
               aria-label='View legal information'
             >
               {t('footer.impressum')}
@@ -27,7 +27,7 @@ export const Footer = () => {
           <li>
             <Link
               to='/privacy-policy'
-              className={footerLinkClass}
+              className={linkClasses}
               aria-label='View privacy policy'
             >
               {t('footer.privacyPolicy')}
@@ -36,7 +36,7 @@ export const Footer = () => {
           <li>
             <Link
               to='/termsuse'
-              className={footerLinkClass}
+              className={linkClasses}
               aria-label='View terms of use'
             >
               {t('footer.termsOfUse')}

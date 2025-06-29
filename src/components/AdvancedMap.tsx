@@ -17,6 +17,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useMapStore } from '@/store/mapStore';
 import RealTimeDataOverlay from './RealTimeDataOverlay';
+import { useTheme } from '@/hooks/use-theme';
+import { getColorForScore, MAP_UI_COLORS, getScoreColor } from '@/lib/colors';
 
 // Set Mapbox access token from environment variable
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN || '';
@@ -125,6 +127,14 @@ export const AdvancedMap: React.FC<AdvancedMapProps> = ({
   const { userLocation, setUserLocation, getUserLocation, clearError } =
     useMapStore();
 
+  const { theme } = useTheme();
+  const currentTheme =
+    theme === 'system'
+      ? window.matchMedia('(prefers-color-scheme: dark)').matches
+        ? 'dark'
+        : 'light'
+      : theme;
+
   // Handle map move to update current coordinates
   const handleMapMove = useCallback(() => {
     if (map.current) {
@@ -132,6 +142,14 @@ export const AdvancedMap: React.FC<AdvancedMapProps> = ({
       setCurrentCoordinates([center.lng, center.lat]);
     }
   }, []);
+
+  // Color function for polygons - now theme-aware
+  const getColor = useCallback(
+    (score: number) => {
+      return getColorForScore(score, selectedSpecies, currentTheme);
+    },
+    [selectedSpecies, currentTheme]
+  );
 
   // Initialize map
   useEffect(() => {
@@ -225,21 +243,6 @@ export const AdvancedMap: React.FC<AdvancedMapProps> = ({
     }
   }, [map.current]);
 
-  // Color function for polygons
-  const getColor = useCallback((score: number) => {
-    if (score <= 0.5) return '#ffffcc';
-    if (score <= 1) return '#ffffcc';
-    if (score <= 2) return '#ffe4b5';
-    if (score <= 3) return '#ffdab9';
-    if (score <= 4) return '#fbae7e';
-    if (score <= 5) return '#fa733d';
-    if (score <= 7) return '#fb6d51';
-    if (score <= 8) return '#fb4646';
-    if (score <= 9) return '#a60310';
-    if (score <= 10) return '#800020';
-    return '#800020';
-  }, []);
-
   // Load region data
   const loadRegion = useCallback(
     async (region: string) => {
@@ -309,56 +312,10 @@ export const AdvancedMap: React.FC<AdvancedMapProps> = ({
         data,
       });
 
-      // Function to get color based on selected species and score
+      // Function to get color based on selected species and score - now theme-aware
       const getSpeciesColor = (properties: any) => {
         const score = properties[`${selectedSpecies}_score`] || 0;
-
-        // Color scale based on species type
-        const colorScales = {
-          mushrooms: [
-            '#ffffcc',
-            '#ffe4b5',
-            '#fbae7e',
-            '#fb6d51',
-            '#a60310',
-            '#800020',
-          ],
-          berries: [
-            '#f0f8ff',
-            '#e6f3ff',
-            '#b3d9ff',
-            '#4da6ff',
-            '#0066cc',
-            '#003366',
-          ],
-          herbs: [
-            '#f0fff0',
-            '#e6ffe6',
-            '#b3ffb3',
-            '#4dff4d',
-            '#00cc00',
-            '#006600',
-          ],
-          nuts: [
-            '#fff8dc',
-            '#ffe4b5',
-            '#ffd700',
-            '#ffa500',
-            '#ff8c00',
-            '#ff4500',
-          ],
-        };
-
-        const colors =
-          colorScales[selectedSpecies as keyof typeof colorScales] ||
-          colorScales.mushrooms;
-
-        if (score <= 2) return colors[0];
-        if (score <= 4) return colors[1];
-        if (score <= 6) return colors[2];
-        if (score <= 8) return colors[3];
-        if (score <= 9) return colors[4];
-        return colors[5];
+        return getColorForScore(score, selectedSpecies, currentTheme);
       };
 
       // Add main polygon layer
@@ -371,7 +328,7 @@ export const AdvancedMap: React.FC<AdvancedMapProps> = ({
             'case',
             ['has', `${selectedSpecies}_score`],
             ['get', `${selectedSpecies}_score`],
-            '#ffffcc',
+            getColorForScore(0, selectedSpecies, currentTheme),
           ],
           'fill-opacity': [
             'case',
@@ -389,7 +346,7 @@ export const AdvancedMap: React.FC<AdvancedMapProps> = ({
         type: 'line',
         source: 'foraging-polygons',
         paint: {
-          'line-color': '#666',
+          'line-color': MAP_UI_COLORS.border[currentTheme],
           'line-width': 1,
           'line-opacity': 0.5,
         },
@@ -402,7 +359,7 @@ export const AdvancedMap: React.FC<AdvancedMapProps> = ({
         type: 'fill',
         source: 'foraging-polygons',
         paint: {
-          'fill-color': '#000',
+          'fill-color': MAP_UI_COLORS.hover[currentTheme],
           'fill-opacity': 0,
         },
         filter: ['has', `${selectedSpecies}_score`],
@@ -478,7 +435,7 @@ export const AdvancedMap: React.FC<AdvancedMapProps> = ({
 
       console.log('Map updated with enhanced GeoJSON data');
     },
-    [selectedSpecies]
+    [selectedSpecies, currentTheme]
   );
 
   // Handle region change
@@ -598,7 +555,7 @@ export const AdvancedMap: React.FC<AdvancedMapProps> = ({
       const pinElement = document.createElement('div');
       pinElement.style.width = '20px';
       pinElement.style.height = '20px';
-      pinElement.style.backgroundColor = '#3b82f6';
+      pinElement.style.backgroundColor = MAP_UI_COLORS.pin[currentTheme];
       pinElement.style.borderRadius = '50%';
       pinElement.style.border = '3px solid white';
       pinElement.style.boxShadow = '0 2px 4px rgba(0,0,0,0.3)';
@@ -615,7 +572,7 @@ export const AdvancedMap: React.FC<AdvancedMapProps> = ({
     } finally {
       setIsLoading(false);
     }
-  }, [getUserLocation]);
+  }, [getUserLocation, currentTheme]);
 
   // Find nearby edibles
   const findNearbyEdibles = useCallback(async () => {
@@ -638,7 +595,7 @@ export const AdvancedMap: React.FC<AdvancedMapProps> = ({
       const pinElement = document.createElement('div');
       pinElement.style.width = '20px';
       pinElement.style.height = '20px';
-      pinElement.style.backgroundColor = '#3b82f6';
+      pinElement.style.backgroundColor = MAP_UI_COLORS.pin[currentTheme];
       pinElement.style.borderRadius = '50%';
       pinElement.style.border = '3px solid white';
       pinElement.style.boxShadow = '0 2px 4px rgba(0,0,0,0.3)';
@@ -679,7 +636,7 @@ export const AdvancedMap: React.FC<AdvancedMapProps> = ({
     } finally {
       setIsLoading(false);
     }
-  }, [getUserLocation]);
+  }, [getUserLocation, currentTheme]);
 
   // Find nearby foraging areas from GeoJSON data
   const findNearbyForagingAreas = useCallback(
@@ -807,9 +764,9 @@ export const AdvancedMap: React.FC<AdvancedMapProps> = ({
         const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(`
           <div class="p-2">
             <h3 class="font-bold text-sm">${area.name}</h3>
-            <p class="text-xs text-gray-600">Score: ${area.score.toFixed(1)}/10</p>
-            <p class="text-xs text-gray-600">Distance: ${area.distance}</p>
-            ${area.season ? `<p class="text-xs text-gray-600">Season: ${area.season}</p>` : ''}
+            <p class="text-xs text-text-secondary">Score: ${area.score.toFixed(1)}/10</p>
+            <p class="text-xs text-text-secondary">Distance: ${area.distance}</p>
+            ${area.season ? `<p class="text-xs text-text-secondary">Season: ${area.season}</p>` : ''}
           </div>
         `);
 
@@ -821,12 +778,12 @@ export const AdvancedMap: React.FC<AdvancedMapProps> = ({
   );
 
   // Get color based on score
-  const getScoreColor = useCallback((score: number) => {
-    if (score >= 8) return '#10b981'; // Green
-    if (score >= 6) return '#f59e0b'; // Yellow
-    if (score >= 4) return '#f97316'; // Orange
-    return '#ef4444'; // Red
-  }, []);
+  const getLocalScoreColor = useCallback(
+    (score: number) => {
+      return getScoreColor(score, currentTheme);
+    },
+    [currentTheme]
+  );
 
   // Handle search
   const handleSearch = useCallback((query: string) => {
@@ -895,10 +852,10 @@ export const AdvancedMap: React.FC<AdvancedMapProps> = ({
   if (mapError) {
     return (
       <div
-        className={`flex items-center justify-center h-96 bg-gray-100 rounded-lg ${className}`}
+        className={`flex items-center justify-center h-96 bg-background-secondary rounded-lg ${className}`}
       >
         <div className='text-center'>
-          <p className='text-red-600 mb-4'>{mapError}</p>
+          <p className='text-error mb-4'>{mapError}</p>
           <Button onClick={() => setMapError(null)}>Retry</Button>
         </div>
       </div>
@@ -937,7 +894,7 @@ export const AdvancedMap: React.FC<AdvancedMapProps> = ({
                 <button
                   key={code}
                   onClick={() => handleRegionChange(code)}
-                  className='block w-full text-left px-4 py-2 hover:bg-gray-100 first:rounded-t-lg last:rounded-b-lg'
+                  className='block w-full text-left px-4 py-2 hover:bg-background-secondary first:rounded-t-lg last:rounded-b-lg'
                 >
                   {name}
                 </button>
@@ -967,7 +924,7 @@ export const AdvancedMap: React.FC<AdvancedMapProps> = ({
                 <button
                   key={code}
                   onClick={() => handleSpeciesChange(code)}
-                  className='block w-full text-left px-4 py-2 hover:bg-gray-100 first:rounded-t-lg last:rounded-b-lg'
+                  className='block w-full text-left px-4 py-2 hover:bg-background-secondary first:rounded-t-lg last:rounded-b-lg'
                 >
                   {name}
                 </button>
@@ -1085,7 +1042,7 @@ export const AdvancedMap: React.FC<AdvancedMapProps> = ({
             </CardHeader>
             <CardContent>
               {nearbyEdibles.length === 0 ? (
-                <p className='text-gray-600'>
+                <p className='text-text-secondary'>
                   🍃 Dear forager, the season is tough at the moment—nothing
                   seems to be growing around you. But don't worry, better times
                   will come. Stay tuned for more edibles to be added soon!
@@ -1100,12 +1057,12 @@ export const AdvancedMap: React.FC<AdvancedMapProps> = ({
                     {nearbyEdibles.map((item, index) => (
                       <li
                         key={index}
-                        className='flex items-center justify-between p-2 bg-gray-50 rounded'
+                        className='flex items-center justify-between p-2 bg-background-secondary rounded'
                       >
                         <div>
                           <span className='font-medium'>{item.name}</span>
                           {item.distance && (
-                            <p className='text-xs text-gray-500'>
+                            <p className='text-xs text-text-tertiary'>
                               Distance: {item.distance}
                             </p>
                           )}

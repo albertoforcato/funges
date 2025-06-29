@@ -15,7 +15,7 @@ export const Header = () => {
 
   return (
     <header
-      className='fixed top-0 left-20 right-0 h-12 bg-[rgba(255,252,239,0.95)] flex items-center justify-between px-4 z-50 font-bold shadow-sm'
+      className='fixed top-0 left-20 right-0 h-12 bg-background-primary/70 backdrop-blur-md flex items-center justify-between px-4 z-50 font-bold shadow-sm'
       role='banner'
       aria-label='Main navigation'
     >
@@ -24,7 +24,7 @@ export const Header = () => {
           <li>
             <Link
               to='/instructions'
-              className='text-gray-800 no-underline text-lg px-8 py-2 rounded-md transition-colors hover:bg-[#f0eada] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2'
+              className='text-text-primary no-underline text-lg px-8 py-2 rounded-md transition-colors hover:bg-hover-primary focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2'
               aria-label='Learn how Fung.es works'
             >
               {t('navigation.instructions')}
@@ -33,7 +33,7 @@ export const Header = () => {
           <li>
             <Link
               to='/map'
-              className='text-gray-800 no-underline text-lg px-8 py-2 rounded-md transition-colors hover:bg-[#f0eada] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2'
+              className='text-text-primary no-underline text-lg px-8 py-2 rounded-md transition-colors hover:bg-hover-primary focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2'
               aria-label='View foraging map'
             >
               {t('navigation.map')}
@@ -42,7 +42,7 @@ export const Header = () => {
           <li>
             <Link
               to='/identify'
-              className='text-gray-800 no-underline text-lg px-8 py-2 rounded-md transition-colors hover:bg-[#f0eada] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2'
+              className='text-text-primary no-underline text-lg px-8 py-2 rounded-md transition-colors hover:bg-hover-primary focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2'
               aria-label='AI mushroom identification'
             >
               {t('navigation.identify')}
@@ -51,7 +51,7 @@ export const Header = () => {
           <li>
             <Link
               to='/species'
-              className='text-gray-800 no-underline text-lg px-8 py-2 rounded-md transition-colors hover:bg-[#f0eada] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2'
+              className='text-text-primary no-underline text-lg px-8 py-2 rounded-md transition-colors hover:bg-hover-primary focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2'
               aria-label='Browse wild species database'
             >
               {t('navigation.species')}
@@ -60,7 +60,7 @@ export const Header = () => {
           <li>
             <Link
               to='/recipes'
-              className='text-gray-800 no-underline text-lg px-8 py-2 rounded-md transition-colors hover:bg-[#f0eada] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2'
+              className='text-text-primary no-underline text-lg px-8 py-2 rounded-md transition-colors hover:bg-hover-primary focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2'
               aria-label='View cooking recipes'
             >
               {t('navigation.recipes')}
@@ -74,7 +74,7 @@ export const Header = () => {
           onClick={toggleTheme}
           variant='ghost'
           size='icon'
-          className='w-8 h-8 rounded-md hover:bg-[#f0eada] transition-colors'
+          className='w-8 h-8 rounded-md hover:bg-hover-primary transition-colors'
           aria-label='Toggle dark mode'
           title='Toggle dark mode'
         >

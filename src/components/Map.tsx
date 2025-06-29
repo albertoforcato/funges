@@ -93,10 +93,10 @@ export const Map: React.FC<MapProps> = ({
   if (mapError) {
     return (
       <div
-        className={`flex items-center justify-center bg-gray-100 rounded-lg p-8 ${className}`}
+        className={`flex items-center justify-center bg-background-secondary rounded-lg p-8 ${className}`}
       >
         <div className='text-center'>
-          <div className='text-red-500 mb-2'>
+          <div className='text-error mb-2'>
             <svg
               className='w-8 h-8 mx-auto'
               fill='none'
@@ -111,8 +111,8 @@ export const Map: React.FC<MapProps> = ({
               />
             </svg>
           </div>
-          <p className='text-gray-700'>{mapError}</p>
-          <p className='text-sm text-gray-500 mt-2'>
+          <p className='text-text-primary'>{mapError}</p>
+          <p className='text-sm text-text-secondary mt-2'>
             Please check your .env file and ensure VITE_MAPBOX_ACCESS_TOKEN is
             set correctly.
           </p>

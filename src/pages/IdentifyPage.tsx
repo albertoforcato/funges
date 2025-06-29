@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import { tensorflowService } from '@/lib/tensorflow';
 import type { ClassificationResult } from '@/lib/tensorflow';
+import { getConfidenceBadgeClass, getConfidenceBarClass } from '@/lib/colors';
 
 export default function IdentifyPage() {
   const { t } = useTranslation();
@@ -40,13 +41,8 @@ export default function IdentifyPage() {
     }
   };
 
-  const getConfidenceColor = (confidence: number) => {
-    if (confidence >= 0.8)
-      return 'bg-green-100 text-green-800 border-green-200';
-    if (confidence >= 0.6)
-      return 'bg-yellow-100 text-yellow-800 border-yellow-200';
-    return 'bg-red-100 text-red-800 border-red-200';
-  };
+  const getConfidenceColor = getConfidenceBadgeClass;
+  const getProgressBarColor = getConfidenceBarClass;
 
   const getConfidenceIcon = (confidence: number) => {
     if (confidence >= 0.8) return <CheckCircle className='w-4 h-4' />;
@@ -69,12 +65,6 @@ export default function IdentifyPage() {
     if (confidence >= 0.6)
       return 'Moderate confidence - consider additional verification';
     return 'Low confidence - manual verification recommended';
-  };
-
-  const getProgressBarColor = (confidence: number) => {
-    if (confidence >= 0.8) return 'bg-green-500';
-    if (confidence >= 0.6) return 'bg-yellow-500';
-    return 'bg-red-500';
   };
 
   return (
@@ -117,9 +107,9 @@ export default function IdentifyPage() {
       )}
 
       {error && (
-        <Card className='mb-6 border-red-200 bg-red-50'>
+        <Card className='mb-6 border-error/30 bg-error/10'>
           <CardContent className='pt-6'>
-            <div className='flex items-center gap-2 text-red-800'>
+            <div className='flex items-center gap-2 text-error'>
               <AlertTriangle className='h-4 w-4' />
               <span>{error}</span>
             </div>
@@ -173,7 +163,7 @@ export default function IdentifyPage() {
                     {(result.averageConfidence * 100).toFixed(1)}%
                   </span>
                 </div>
-                <div className='w-full bg-gray-200 rounded-full h-3 overflow-hidden'>
+                <div className='w-full bg-muted rounded-full h-3 overflow-hidden'>
                   <div
                     className={`${getProgressBarColor(result.averageConfidence)} h-3 rounded-full transition-all duration-1000 ease-out`}
                     style={{
@@ -220,7 +210,7 @@ export default function IdentifyPage() {
                         </Badge>
                       </div>
                     </div>
-                    <div className='w-full bg-gray-200 rounded-full h-2 overflow-hidden'>
+                    <div className='w-full bg-muted rounded-full h-2 overflow-hidden'>
                       <div
                         className={`${getProgressBarColor(prediction.confidence)} h-2 rounded-full transition-all duration-1000 ease-out`}
                         style={{
@@ -238,25 +228,25 @@ export default function IdentifyPage() {
           </Card>
 
           {/* Confidence Summary */}
-          <Card className='bg-gradient-to-r from-blue-50 to-indigo-50 border-blue-200'>
+          <Card className='bg-gradient-to-r from-info/10 to-info/20 border-info/30'>
             <CardHeader>
-              <CardTitle className='flex items-center gap-2 text-blue-900'>
+              <CardTitle className='flex items-center gap-2 text-info'>
                 <TrendingUp className='w-5 h-5' />
                 {t('identify.confidenceAnalysis')}
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
-                <div className='text-center p-3 bg-white rounded-lg border'>
-                  <div className='text-2xl font-bold text-blue-600'>
+                <div className='text-center p-3 bg-background rounded-lg border'>
+                  <div className='text-2xl font-bold text-info'>
                     {result.predictions.filter(p => p.confidence >= 0.8).length}
                   </div>
                   <div className='text-sm text-muted-foreground'>
                     {t('identify.highConfidence')}
                   </div>
                 </div>
-                <div className='text-center p-3 bg-white rounded-lg border'>
-                  <div className='text-2xl font-bold text-yellow-600'>
+                <div className='text-center p-3 bg-background rounded-lg border'>
+                  <div className='text-2xl font-bold text-warning'>
                     {
                       result.predictions.filter(
                         p => p.confidence >= 0.6 && p.confidence < 0.8
@@ -267,8 +257,8 @@ export default function IdentifyPage() {
                     {t('identify.moderateConfidence')}
                   </div>
                 </div>
-                <div className='text-center p-3 bg-white rounded-lg border'>
-                  <div className='text-2xl font-bold text-red-600'>
+                <div className='text-center p-3 bg-background rounded-lg border'>
+                  <div className='text-2xl font-bold text-error'>
                     {result.predictions.filter(p => p.confidence < 0.6).length}
                   </div>
                   <div className='text-sm text-muted-foreground'>
@@ -280,9 +270,9 @@ export default function IdentifyPage() {
           </Card>
 
           {/* Safety Information */}
-          <Card className='border-blue-200 bg-blue-50'>
+          <Card className='border-info/30 bg-info/10'>
             <CardContent className='pt-6'>
-              <div className='flex items-center gap-2 text-blue-800'>
+              <div className='flex items-center gap-2 text-info'>
                 <Info className='h-4 w-4' />
                 <span>{t('identify.safetyWarning')}</span>
               </div>

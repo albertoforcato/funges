@@ -73,13 +73,13 @@ export const Sidebar = ({
 
   return (
     <aside
-      className='fixed left-0 top-0 h-full w-20 bg-[rgba(255,252,239,0.95)] flex flex-col items-center py-4 gap-4 z-50 shadow-sm'
+      className='fixed left-0 top-0 h-full w-20 bg-background-secondary flex flex-col items-center py-4 gap-4 z-50 shadow-sm'
       role='complementary'
       aria-label='Main controls sidebar'
     >
       {/* Logo */}
       <div className='mb-8'>
-        <div className='w-12 h-12 bg-green-600 rounded-lg flex items-center justify-center'>
+        <div className='w-12 h-12 bg-primary-500 rounded-lg flex items-center justify-center'>
           <Leaf className='w-8 h-8 text-white' />
         </div>
       </div>
@@ -89,7 +89,7 @@ export const Sidebar = ({
         onClick={onImageUpload}
         variant='ghost'
         size='icon'
-        className='w-12 h-12 rounded-lg hover:bg-[#f0eada] transition-colors'
+        className='w-12 h-12 rounded-lg hover:bg-hover-primary transition-colors'
         aria-label='Upload image for identification'
         title='Upload image for identification'
       >
@@ -102,7 +102,7 @@ export const Sidebar = ({
           onClick={() => setShowRegionDropdown(!showRegionDropdown)}
           variant='ghost'
           size='icon'
-          className='w-12 h-12 rounded-lg hover:bg-[#f0eada] transition-colors'
+          className='w-12 h-12 rounded-lg hover:bg-hover-primary transition-colors'
           aria-label='Select region'
           aria-expanded={showRegionDropdown}
           aria-haspopup='listbox'
@@ -114,7 +114,7 @@ export const Sidebar = ({
 
         {showRegionDropdown && (
           <div
-            className='absolute left-16 top-0 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50'
+            className='absolute left-16 top-0 w-48 bg-background-primary rounded-lg shadow-lg border border-border py-2 z-50'
             role='listbox'
             aria-label='Region selection'
           >
@@ -125,7 +125,7 @@ export const Sidebar = ({
                   onRegionSelect(region.id);
                   setShowRegionDropdown(false);
                 }}
-                className='w-full text-left px-4 py-2 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none'
+                className='w-full text-left px-4 py-2 hover:bg-hover-secondary focus:bg-hover-secondary focus:outline-none text-text-primary'
                 role='option'
                 aria-selected='false'
               >
@@ -141,7 +141,7 @@ export const Sidebar = ({
         onClick={onLocateUser}
         variant='ghost'
         size='icon'
-        className='w-12 h-12 rounded-lg hover:bg-[#f0eada] transition-colors'
+        className='w-12 h-12 rounded-lg hover:bg-hover-primary transition-colors'
         aria-label='Locate my position'
         title='Locate my position'
       >
@@ -153,7 +153,7 @@ export const Sidebar = ({
         onClick={onToggleDarkMode}
         variant='ghost'
         size='icon'
-        className='w-12 h-12 rounded-lg hover:bg-[#f0eada] transition-colors'
+        className='w-12 h-12 rounded-lg hover:bg-hover-primary transition-colors'
         aria-label='Toggle dark mode'
         title='Toggle dark mode'
       >
@@ -165,7 +165,7 @@ export const Sidebar = ({
         onClick={onToggleNumbers}
         variant='ghost'
         size='icon'
-        className='w-12 h-12 rounded-lg hover:bg-[#f0eada] transition-colors'
+        className='w-12 h-12 rounded-lg hover:bg-hover-primary transition-colors'
         aria-label='Toggle numbers display'
         title='Toggle numbers display'
       >
@@ -177,7 +177,7 @@ export const Sidebar = ({
         onClick={onToggleNearby}
         variant='ghost'
         size='icon'
-        className='w-12 h-12 rounded-lg hover:bg-[#f0eada] transition-colors'
+        className='w-12 h-12 rounded-lg hover:bg-hover-primary transition-colors'
         aria-label='Toggle nearby spots'
         title='Toggle nearby spots'
       >
@@ -189,7 +189,7 @@ export const Sidebar = ({
         onClick={onToggleSupport}
         variant='ghost'
         size='icon'
-        className='w-12 h-12 rounded-lg hover:bg-[#f0eada] transition-colors'
+        className='w-12 h-12 rounded-lg hover:bg-hover-primary transition-colors'
         aria-label='Support Fung.es'
         title='Support Fung.es'
       >

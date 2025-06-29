@@ -78,7 +78,7 @@ const RealTimeDataOverlay: React.FC<RealTimeDataOverlayProps> = ({
       return {
         score: 0,
         recommendation: 'No data available',
-        color: 'bg-gray-500',
+        color: 'bg-text-tertiary',
       };
     }
 
@@ -131,16 +131,16 @@ const RealTimeDataOverlay: React.FC<RealTimeDataOverlayProps> = ({
 
     if (score >= 80) {
       recommendation = 'Excellent foraging conditions!';
-      color = 'bg-green-500';
+      color = 'bg-success';
     } else if (score >= 60) {
       recommendation = 'Good foraging conditions';
-      color = 'bg-blue-500';
+      color = 'bg-primary';
     } else if (score >= 40) {
       recommendation = 'Moderate foraging conditions';
-      color = 'bg-yellow-500';
+      color = 'bg-warning';
     } else {
       recommendation = 'Poor foraging conditions';
-      color = 'bg-red-500';
+      color = 'bg-error';
     }
 
     return { score: Math.max(0, Math.min(100, score)), recommendation, color };
@@ -219,7 +219,7 @@ const RealTimeDataOverlay: React.FC<RealTimeDataOverlayProps> = ({
           {(weatherQuery.error ||
             currentWeatherQuery.error ||
             soilQuery.error) && (
-            <div className='text-red-500 text-sm p-2 bg-red-50 rounded'>
+            <div className='text-error text-sm p-2 bg-error/10 rounded'>
               Error loading data. Please try again.
             </div>
           )}
@@ -228,7 +228,7 @@ const RealTimeDataOverlay: React.FC<RealTimeDataOverlayProps> = ({
           {(weatherQuery.isLoading ||
             currentWeatherQuery.isLoading ||
             soilQuery.isLoading) && (
-            <div className='text-gray-500 text-sm p-2 bg-gray-50 rounded'>
+            <div className='text-text-tertiary text-sm p-2 bg-background-secondary rounded'>
               Loading data...
             </div>
           )}
@@ -252,23 +252,23 @@ const RealTimeDataOverlay: React.FC<RealTimeDataOverlayProps> = ({
 
               <div className='grid grid-cols-2 gap-2 text-sm'>
                 <div className='flex items-center'>
-                  <Thermometer className='w-4 h-4 mr-2 text-red-500' />
+                  <Thermometer className='w-4 h-4 mr-2 text-error' />
                   <span>
                     {weatherQuery.data.current?.temperature || 'N/A'}°C
                   </span>
                 </div>
                 <div className='flex items-center'>
-                  <Droplets className='w-4 h-4 mr-2 text-blue-500' />
+                  <Droplets className='w-4 h-4 mr-2 text-primary' />
                   <span>{weatherQuery.data.current?.humidity || 'N/A'}%</span>
                 </div>
                 <div className='flex items-center'>
-                  <Wind className='w-4 h-4 mr-2 text-gray-500' />
+                  <Wind className='w-4 h-4 mr-2 text-text-tertiary' />
                   <span>
                     {weatherQuery.data.current?.windSpeed || 'N/A'} km/h
                   </span>
                 </div>
                 <div className='flex items-center'>
-                  <CloudRain className='w-4 h-4 mr-2 text-blue-600' />
+                  <CloudRain className='w-4 h-4 mr-2 text-primary' />
                   <span>
                     {weatherQuery.data.current?.precipitation || 'N/A'} mm
                   </span>
@@ -278,7 +278,7 @@ const RealTimeDataOverlay: React.FC<RealTimeDataOverlayProps> = ({
               {weatherQuery.data.forecast &&
                 weatherQuery.data.forecast.length > 0 && (
                   <div className='mt-2'>
-                    <p className='text-xs text-gray-600 mb-1'>24h Forecast:</p>
+                    <p className='text-xs text-text-secondary mb-1'>24h Forecast:</p>
                     <div className='flex gap-1'>
                       {weatherQuery.data.forecast
                         .slice(0, 4)
@@ -313,11 +313,11 @@ const RealTimeDataOverlay: React.FC<RealTimeDataOverlayProps> = ({
 
               <div className='grid grid-cols-2 gap-2 text-sm'>
                 <div>
-                  <span className='text-gray-600'>Moisture:</span>
+                  <span className='text-text-secondary'>Moisture:</span>
                   <div className='flex items-center'>
-                    <div className='w-16 bg-gray-200 rounded-full h-2 mr-2'>
+                    <div className='w-16 bg-background-secondary rounded-full h-2 mr-2'>
                       <div
-                        className='bg-blue-500 h-2 rounded-full'
+                        className='bg-primary h-2 rounded-full'
                         style={{ width: `${soilQuery.data.moisture || 0}%` }}
                       />
                     </div>
@@ -325,15 +325,15 @@ const RealTimeDataOverlay: React.FC<RealTimeDataOverlayProps> = ({
                   </div>
                 </div>
                 <div>
-                  <span className='text-gray-600'>pH Level:</span>
+                  <span className='text-text-secondary'>pH Level:</span>
                   <span className='ml-2'>{soilQuery.data.ph || 'N/A'}</span>
                 </div>
                 <div>
-                  <span className='text-gray-600'>Type:</span>
+                  <span className='text-text-secondary'>Type:</span>
                   <span className='ml-2'>{soilQuery.data.type || 'N/A'}</span>
                 </div>
                 <div>
-                  <span className='text-gray-600'>Nutrients:</span>
+                  <span className='text-text-secondary'>Nutrients:</span>
                   <span className='ml-2'>
                     N:{soilQuery.data.nutrients?.nitrogen || 'N/A'}
                   </span>
@@ -368,7 +368,7 @@ const RealTimeDataOverlay: React.FC<RealTimeDataOverlayProps> = ({
                 >
                   {foragingScore.score}
                 </div>
-                <p className='text-sm text-gray-600'>
+                <p className='text-sm text-text-secondary'>
                   {foragingScore.recommendation}
                 </p>
               </div>

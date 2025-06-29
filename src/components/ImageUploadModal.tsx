@@ -102,18 +102,18 @@ export const ImageUploadModal = ({
           <Card
             className={`p-8 border-2 border-dashed text-center transition-colors ${
               isDragOver
-                ? 'border-blue-500 bg-blue-50'
-                : 'border-gray-300 hover:border-gray-400'
+                ? 'border-primary bg-primary/10'
+                : 'border-border hover:border-border-hover'
             }`}
             onDragOver={handleDragOver}
             onDragLeave={handleDragLeave}
             onDrop={handleDrop}
           >
-            <Upload className='w-12 h-12 mx-auto mb-4 text-gray-400' />
+            <Upload className='w-12 h-12 mx-auto mb-4 text-text-tertiary' />
             <p className='text-lg font-medium mb-2'>
               Drag and drop an image here
             </p>
-            <p className='text-sm text-gray-500 mb-4'>
+            <p className='text-sm text-text-secondary mb-4'>
               or click to browse files
             </p>
             <Button
@@ -135,7 +135,9 @@ export const ImageUploadModal = ({
 
           {/* Camera Capture */}
           <div className='text-center'>
-            <p className='text-sm text-gray-500 mb-2'>Or capture with camera</p>
+            <p className='text-sm text-text-secondary mb-2'>
+              Or capture with camera
+            </p>
             <Button
               onClick={handleCameraCapture}
               variant='outline'
@@ -149,7 +151,7 @@ export const ImageUploadModal = ({
 
           {/* Result Display */}
           {result && (
-            <Card className='p-4 bg-gray-50'>
+            <Card className='p-4 bg-background-secondary'>
               <div className='flex items-center gap-2'>
                 <span className='text-sm'>{result}</span>
                 <Button
