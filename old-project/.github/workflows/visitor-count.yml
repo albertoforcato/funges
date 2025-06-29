@@ -1,9 +1,9 @@
 name: Track Unique Visitors
 
 on:
-  workflow_dispatch:  # Allows manual runs
+  workflow_dispatch: # Allows manual runs
   schedule:
-    - cron: "0 */3 * * *"  # Runs every 3 hours at the start of the hour
+    - cron: '0 */3 * * *' # Runs every 3 hours at the start of the hour
 #    - cron: "0 * * * *"  # Runs every hour at the start of the hour
 #    - cron: "0,30 * * * *"  # Runs every 30 minutes
 
@@ -31,5 +31,5 @@ jobs:
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          commit_message: "Update visitor count"
-          file_pattern: "visitors.json"
+          commit_message: 'Update visitor count'
+          file_pattern: 'visitors.json'
