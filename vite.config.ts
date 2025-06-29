@@ -18,6 +18,13 @@ export default defineConfig({
       '@types': '/src/types',
     },
   },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        // SCSS preprocessing options can be added here if needed
+      },
+    },
+  },
   server: {
     port: 3000,
     open: true,

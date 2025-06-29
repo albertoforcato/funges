@@ -36,9 +36,9 @@ PLEASE: Ask for clarification if any functionality or data structure is unclear
 - [x] Install and configure **TailwindCSS**
 - [x] Extract design tokens (colors, spacing, typography) from legacy CSS
 - [x] Create custom Tailwind theme (`tailwind.config.ts`) to match existing project styles
-- [ ] Migrate global styles (e.g., typography rules) to `src/styles/globals.scss`
-- [ ] Use **SCSS modules** for component-specific styles (e.g., `ComponentName.module.scss`)
-- [ ] Ensure SCSS build integration in Vite (add `sass` as a dev dependency)
+- [x] Migrate global styles (e.g., typography rules) to `src/styles/globals.scss`
+- [x] Use **SCSS modules** for component-specific styles (e.g., `ComponentName.module.scss`)
+- [x] Ensure SCSS build integration in Vite (add `sass` as a dev dependency)
 
 ## 4. State & Logic
 

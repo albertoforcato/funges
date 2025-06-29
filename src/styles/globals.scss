@@ -1,0 +1,234 @@
+// Global styles for Fung.es application
+// Extracted from legacy CSS and enhanced with SCSS features
+
+// Base typography rules
+@layer base {
+  :root {
+    font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    line-height: 1.5;
+    font-weight: 400;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    min-width: 320px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    height: 100dvh; // Use dynamic viewport height where supported
+    overflow: hidden; // Disable scrolling for main app
+  }
+
+  // Typography hierarchy
+  h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+    font-weight: 500;
+    line-height: 1.1;
+  }
+
+  h1 {
+    font-size: 3.2em;
+  }
+
+  h2 {
+    font-size: 2.4em;
+  }
+
+  h3 {
+    font-size: 1.8em;
+  }
+
+  // Link styles
+  a {
+    font-weight: 500;
+    color: #007BFF;
+    text-decoration: inherit;
+    transition: color 0.25s ease;
+
+    &:hover {
+      color: #0056b3;
+    }
+  }
+
+  // Button base styles
+  button {
+    border-radius: 8px;
+    border: 1px solid transparent;
+    padding: 0.6em 1.2em;
+    font-size: 1em;
+    font-weight: 500;
+    font-family: inherit;
+    background-color: #1a1a1a;
+    color: #fff;
+    cursor: pointer;
+    transition: border-color 0.25s ease;
+
+    &:hover {
+      border-color: #007BFF;
+    }
+
+    &:focus,
+    &:focus-visible {
+      outline: 4px auto -webkit-focus-ring-color;
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+
+  // Form elements
+  input, textarea, select {
+    font-family: inherit;
+    font-size: inherit;
+    border-radius: 6px;
+    border: 1px solid #d4d4d4;
+    padding: 0.5em 0.75em;
+    transition: border-color 0.25s ease;
+
+    &:focus {
+      outline: none;
+      border-color: #007BFF;
+      box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+    }
+  }
+}
+
+// Component layer for reusable styles
+@layer components {
+  // Card component
+  .card {
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  }
+
+  // Overlay component
+  .overlay {
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+  }
+
+  // Warning component
+  .warning {
+    background: #fff3cd;
+    color: #856404;
+    padding: 12px 16px;
+    border-left: 5px solid #ffa726;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    font-size: 15px;
+  }
+
+  // Loading spinner
+  .loading-spinner {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: none;
+    padding: 0;
+    border-radius: 0;
+
+    img {
+      width: 260px;
+      height: auto;
+    }
+  }
+
+  // Splash screen
+  .splash-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 252, 239, 0.90);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    animation: fadeOut 1.5s ease-out forwards;
+
+    img {
+      width: 60vw;
+      max-width: 550px;
+      height: auto;
+    }
+  }
+}
+
+// Utility layer for custom utilities
+@layer utilities {
+  // Fade out animation
+  @keyframes fadeOut {
+    0% { 
+      opacity: 1; 
+    }
+    100% { 
+      opacity: 0; 
+      visibility: hidden; 
+    }
+  }
+
+  // Text utilities
+  .text-primary { color: #333; }
+  .text-secondary { color: #444; }
+  .text-tertiary { color: #555; }
+  .text-inverse { color: #fff; }
+
+  // Background utilities
+  .bg-halo { background-color: rgba(255, 252, 239, 0.90); }
+  .bg-overlay { background-color: rgba(0, 0, 0, 0.8); }
+  .bg-overlay-dark { background-color: rgba(0, 0, 0, 0.9); }
+
+  // Layout utilities
+  .sidebar-width { width: 80px; }
+  .footer-height { height: 40px; }
+  .header-height { height: 50px; }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  body {
+    height: 100vh; // Fallback for mobile browsers
+  }
+
+  .splash-screen img {
+    width: 80vw; // Larger on mobile
+  }
+
+  .loading-spinner img {
+    width: 200px; // Smaller on mobile
+  }
+}
+
+// Dark mode support (if needed in future)
+@media (prefers-color-scheme: dark) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+
+  a:hover {
+    color: #747bff;
+  }
+
+  button {
+    background-color: #f9f9f9;
+    color: #333;
+  }
+} 
