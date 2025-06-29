@@ -72,9 +72,9 @@ PLEASE: Ask for clarification if any functionality or data structure is unclear
 
 ## 9. Animations
 
-- [ ] Install **motion.dev** (successor to Framer Motion)
-- [ ] Migrate any legacy animations (fade, slide, hover) to motion.dev
-- [ ] Create reusable animation presets if applicable
+- [x] Install **motion.dev** (successor to Framer Motion)
+- [x] Migrate any legacy animations (fade, slide, hover) to motion.dev
+- [x] Create reusable animation presets if applicable
 
 ## 10. Icons
 
