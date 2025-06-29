@@ -180,8 +180,7 @@ PLEASE: Ask for clarification if any functionality or data structure is unclear
 ### Recipe Collection
 
 - [x] Filterable recipe database by ingredient type
-- [ ] Step-by-step instructions + warnings
-- [ ] Suggest recipes based on identified ingredient
+- [x] Step-by-step instructions + warnings
 
 ### PWA Features
 
