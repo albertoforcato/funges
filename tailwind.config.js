@@ -1,4 +1,6 @@
 /** @type {import('tailwindcss').Config} */
+import { colors } from './src/lib/colors.js';
+
 export default {
   content: [
     './index.html',
@@ -9,35 +11,12 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Primary colors (based on new OKLCH color palette - oklch(0.5234 0.1347 144.1672))
-        primary: {
-          50: '#f0f9f4', // Light green background
-          100: '#dcf2e3', // Very light green
-          200: '#b8e4c7', // Light green
-          300: '#94d6ab', // Medium light green
-          400: '#70c88f', // Medium green
-          500: '#4cba73', // Main theme color - oklch(0.5234 0.1347 144.1672)
-          600: '#3d955c', // Darker green
-          700: '#2e7045', // Dark green
-          800: '#1f4a2e', // Very dark green
-          900: '#102517', // Darkest green
-        },
+        // Import from centralized color system
+        primary: colors.primary,
+        neutral: colors.neutral,
+        status: colors.status,
 
-        // Neutral colors
-        neutral: {
-          50: '#fafafa',
-          100: '#f5f5f5',
-          200: '#e5e5e5',
-          300: '#d4d4d4',
-          400: '#a3a3a3',
-          500: '#737373',
-          600: '#525252',
-          700: '#404040',
-          800: '#262626',
-          900: '#171717',
-        },
-
-        // CSS Variables for dynamic theming
+        // CSS Variables for dynamic theming (shadcn/ui)
         text: {
           primary: 'var(--text-primary)',
           secondary: 'var(--text-secondary)',
@@ -75,11 +54,19 @@ export default {
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
 
-        // Status colors
-        success: '#4cba73', // oklch(0.5234 0.1347 144.1672) - primary color
-        warning: '#f59e0b',
-        error: '#ef4444',
-        info: '#3b82f6',
+        // Semantic color classes for theme-aware usage
+        'text-primary': 'var(--text-primary)',
+        'text-secondary': 'var(--text-secondary)',
+        'text-tertiary': 'var(--text-tertiary)',
+        'text-inverse': 'var(--text-inverse)',
+        
+        'bg-primary': 'var(--background-primary)',
+        'bg-secondary': 'var(--background-secondary)',
+        'bg-tertiary': 'var(--background-tertiary)',
+        'bg-overlay': 'var(--background-overlay)',
+        
+        'hover-primary': 'var(--hover-primary)',
+        'hover-secondary': 'var(--hover-secondary)',
       },
 
       fontFamily: {

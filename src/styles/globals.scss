@@ -1,78 +1,5 @@
 // Global styles for Fung.es application
-// Extracted from legacy CSS and enhanced with SCSS features
-
-// CSS Variables for light/dark themes
-:root {
-  // Light theme (default) - converted from new OKLCH palette
-  --text-primary: #1a1a1a; // oklch(0.3000 0.0358 30.2042)
-  --text-secondary: #525252; // oklch(0.4495 0.0486 39.2110)
-  --text-tertiary: #6b7280;
-  --text-inverse: #ffffff;
-
-  --background-primary: #fafafa; // oklch(0.9711 0.0074 80.7211)
-  --background-secondary: rgba(
-    250,
-    250,
-    250,
-    0.9
-  ); // oklch(0.9711 0.0074 80.7211) with opacity
-  --background-tertiary: #f5f5f5; // oklch(0.9370 0.0142 74.4218)
-  --background-overlay: rgba(0, 0, 0, 0.8);
-  --background-overlay-dark: rgba(0, 0, 0, 0.9);
-  --background-overlay-full: rgba(0, 0, 0, 1);
-
-  --hover-primary: #e5f7ed; // Light green hover
-  --hover-secondary: #d1f2e1; // Medium light green hover
-
-  --status-success: #4cba73; // oklch(0.5234 0.1347 144.1672) - primary color
-  --status-warning: #f59e0b;
-  --status-error: #ef4444;
-  --status-info: #3b82f6;
-
-  --status-warning-background: #fef3c7;
-  --status-warning-text: #92400e;
-  --status-warning-border: #f59e0b;
-
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.1);
-  --shadow-md: 2px 0 5px rgba(0, 0, 0, 0.1);
-  --shadow-lg: 0 -2px 5px rgba(0, 0, 0, 0.1);
-}
-
-// Dark theme - converted from new OKLCH palette
-.dark {
-  --text-primary: #f5f5f5; // oklch(0.9423 0.0097 72.6595)
-  --text-secondary: #a3a3a3; // oklch(0.8579 0.0174 76.0955)
-  --text-tertiary: #d1d5db;
-  --text-inverse: #0a0a0a;
-
-  --background-primary: #171717; // oklch(0.2683 0.0279 150.7681)
-  --background-secondary: rgba(
-    23,
-    23,
-    23,
-    0.9
-  ); // oklch(0.2683 0.0279 150.7681) with opacity
-  --background-tertiary: #0a0a0a; // oklch(0.3327 0.0271 146.9867)
-  --background-overlay: rgba(0, 0, 0, 0.8);
-  --background-overlay-dark: rgba(0, 0, 0, 0.9);
-  --background-overlay-full: rgba(0, 0, 0, 1);
-
-  --hover-primary: #1f2937; // Dark hover
-  --hover-secondary: #374151; // Medium dark hover
-
-  --status-success: #4cba73; // oklch(0.6731 0.1624 144.2083) - primary color
-  --status-warning: #f59e0b;
-  --status-error: #ef4444;
-  --status-info: #3b82f6;
-
-  --status-warning-background: '#3d2c00';
-  --status-warning-text: '#fbbf24';
-  --status-warning-border: '#f59e0b';
-
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
-  --shadow-md: 2px 0 5px rgba(0, 0, 0, 0.3);
-  --shadow-lg: 0 -2px 5px rgba(0, 0, 0, 0.3);
-}
+// Uses centralized color system via CSS variables
 
 // Base typography rules
 @layer base {
@@ -130,12 +57,12 @@
   // Link styles
   a {
     font-weight: 500;
-    color: #4cba73; // Updated to new primary color - oklch(0.5234 0.1347 144.1672)
+    color: var(--primary); // Use CSS variable from centralized system
     text-decoration: inherit;
     transition: color 0.25s ease;
 
     &:hover {
-      color: #3d955c; // Darker shade of new primary
+      color: var(--primary-600, #3d955c); // Fallback to darker shade
     }
   }
 
@@ -153,7 +80,7 @@
     transition: all 0.25s ease;
 
     &:hover {
-      border-color: #4cba73; // Updated to new primary color
+      border-color: var(--primary);
       background-color: var(--hover-primary);
     }
 
@@ -174,30 +101,151 @@
   select {
     font-family: inherit;
     font-size: inherit;
-    border-radius: 6px;
-    border: 1px solid var(--text-tertiary);
-    padding: 0.5em 0.75em;
-    background-color: var(--background-primary);
+    line-height: inherit;
     color: var(--text-primary);
+    background-color: var(--background-primary);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 0.5em;
     transition: border-color 0.25s ease;
 
     &:focus {
       outline: none;
-      border-color: #4cba73; // Updated to new primary color
-      box-shadow: 0 0 0 2px rgba(76, 186, 115, 0.25); // Updated to new primary color with opacity
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px var(--ring);
     }
+
+    &::placeholder {
+      color: var(--text-secondary);
+    }
+  }
+
+  // Selection styles
+  ::selection {
+    background-color: var(--primary);
+    color: var(--primary-foreground);
+  }
+
+  // Scrollbar styles
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--background-tertiary);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 4px;
+
+    &:hover {
+      background: var(--text-secondary);
+    }
+  }
+
+  // Focus styles for accessibility
+  *:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
   }
 }
 
-// Component layer for reusable styles
+// Component-specific styles
 @layer components {
   // Card component
   .card {
-    background-color: var(--background-secondary);
-    border-radius: 8px;
-    padding: 20px;
+    background-color: var(--card);
+    color: var(--card-foreground);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1rem;
     box-shadow: var(--shadow-sm);
-    color: var(--text-primary);
+  }
+
+  // Button variants
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius);
+    font-weight: 500;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    border: 1px solid transparent;
+
+    &-primary {
+      background-color: var(--primary);
+      color: var(--primary-foreground);
+
+      &:hover {
+        background-color: var(--primary-600, #3d955c);
+      }
+    }
+
+    &-secondary {
+      background-color: var(--secondary);
+      color: var(--secondary-foreground);
+
+      &:hover {
+        background-color: var(--secondary-600, #525252);
+      }
+    }
+
+    &-outline {
+      background-color: transparent;
+      color: var(--text-primary);
+      border-color: var(--border);
+
+      &:hover {
+        background-color: var(--hover-primary);
+      }
+    }
+  }
+
+  // Badge component
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    border-radius: var(--radius);
+    font-size: 0.75rem;
+    font-weight: 500;
+    padding: 0.25rem 0.5rem;
+
+    &-primary {
+      background-color: var(--primary);
+      color: var(--primary-foreground);
+    }
+
+    &-secondary {
+      background-color: var(--secondary);
+      color: var(--secondary-foreground);
+    }
+
+    &-destructive {
+      background-color: var(--destructive);
+      color: var(--destructive-foreground);
+    }
+  }
+
+  // Status indicators
+  .status {
+    &-success {
+      color: var(--status-success, #4cba73);
+    }
+
+    &-warning {
+      color: var(--status-warning, #f59e0b);
+    }
+
+    &-error {
+      color: var(--status-error, #ef4444);
+    }
+
+    &-info {
+      color: var(--status-info, #3b82f6);
+    }
   }
 
   // Overlay component
@@ -261,7 +309,7 @@
   }
 }
 
-// Utility layer for custom utilities
+// Utility classes
 @layer utilities {
   // Fade out animation
   @keyframes fadeOut {
@@ -296,7 +344,7 @@
     background-color: var(--background-overlay);
   }
   .bg-overlay-dark {
-    background-color: var(--background-overlay-dark);
+    background-color: var(--background-overlay-dark, rgba(0, 0, 0, 0.9));
   }
 
   // Layout utilities

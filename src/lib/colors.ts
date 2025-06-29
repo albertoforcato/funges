@@ -1,184 +1,141 @@
-// Color constants for the application
-// These colors are used across components and should be theme-aware
+// Centralized color system for Fung.es application
+// This is the single source of truth for all colors in the application
 
-// Map color scales for different species types
-export const MAP_COLORS = {
-  // Mushroom color scale (warm colors)
-  mushrooms: {
-    light: [
-      '#ffffcc', // Very low
-      '#ffe4b5', // Low
-      '#fbae7e', // Medium-low
-      '#fb6d51', // Medium
-      '#a60310', // High
-      '#800020', // Very high
-    ],
-    dark: [
-      '#2d2d00', // Very low
-      '#4d3d1a', // Low
-      '#6d4d2a', // Medium-low
-      '#8d5d3a', // Medium
-      '#ad6d4a', // High
-      '#cd7d5a', // Very high
-    ],
+// Base color palette using OKLCH color space
+export const colors = {
+  // Primary brand colors (green theme)
+  primary: {
+    50: '#f0f9f4',   // oklch(0.9711 0.0074 80.7211)
+    100: '#dcf2e3',  // oklch(0.9370 0.0142 74.4218)
+    200: '#b8e4c7',  // oklch(0.8952 0.0504 146.0366)
+    300: '#94d6ab',  // oklch(0.8579 0.0174 76.0955)
+    400: '#70c88f',  // oklch(0.6731 0.1624 144.2083)
+    500: '#4cba73',  // oklch(0.5234 0.1347 144.1672) - main brand color
+    600: '#3d955c',  // oklch(0.5752 0.1446 144.1813)
+    700: '#2e7045',  // oklch(0.4254 0.1159 144.3078)
+    800: '#1f4a2e',  // oklch(0.3942 0.0265 142.9926)
+    900: '#102517',  // oklch(0.2157 0.0453 145.7256)
   },
 
-  // Berry color scale (blue colors)
-  berries: {
-    light: [
-      '#f0f8ff', // Very low
-      '#e6f3ff', // Low
-      '#b3d9ff', // Medium-low
-      '#80bfff', // Medium
-      '#4da6ff', // High
-      '#1a8cff', // Very high
-    ],
-    dark: [
-      '#0a1a2e', // Very low
-      '#1a2a3e', // Low
-      '#2a3a4e', // Medium-low
-      '#3a4a5e', // Medium
-      '#4a5a6e', // High
-      '#5a6a7e', // Very high
-    ],
+  // Neutral grays
+  neutral: {
+    50: '#fafafa',   // oklch(0.9711 0.0074 80.7211)
+    100: '#f5f5f5',  // oklch(0.9370 0.0142 74.4218)
+    200: '#e5e5e5',  // oklch(0.8805 0.0208 74.6428)
+    300: '#d4d4d4',  // oklch(0.8579 0.0174 76.0955)
+    400: '#a3a3a3',  // oklch(0.4495 0.0486 39.2110)
+    500: '#737373',  // oklch(0.3000 0.0358 30.2042)
+    600: '#525252',  // oklch(0.4495 0.0486 39.2110)
+    700: '#404040',  // oklch(0.3942 0.0265 142.9926)
+    800: '#262626',  // oklch(0.3327 0.0271 146.9867)
+    900: '#171717',  // oklch(0.2683 0.0279 150.7681)
   },
 
-  // Herb color scale (green colors - updated to match new theme)
-  herbs: {
-    light: [
-      '#f0f9f4', // Very low - light green
-      '#dcf2e3', // Low - very light green
-      '#b8e4c7', // Medium-low - light green
-      '#94d6ab', // Medium - medium light green
-      '#70c88f', // High - medium green
-      '#4cba73', // Very high - main theme color
-    ],
-    dark: [
-      '#0a1a0e', // Very low
-      '#1a2a1e', // Low
-      '#2a3a2e', // Medium-low
-      '#3a4a3e', // Medium
-      '#4a5a4e', // High
-      '#5a6a5e', // Very high
-    ],
+  // Status colors
+  status: {
+    success: '#4cba73',  // Same as primary-500
+    warning: '#f59e0b',  // Amber
+    error: '#ef4444',    // Red
+    info: '#3b82f6',     // Blue
   },
 
-  // Nut color scale (orange/yellow colors)
-  nuts: {
-    light: [
-      '#fff8dc', // Very low
-      '#ffe4b5', // Low
-      '#ffd700', // Medium-low
-      '#ffa500', // Medium
-      '#ff8c00', // High
-      '#ff4500', // Very high
-    ],
-    dark: [
-      '#3a2d1a', // Very low
-      '#4a3d2a', // Low
-      '#5a4d3a', // Medium-low
-      '#6a5d4a', // Medium
-      '#7a6d5a', // High
-      '#8a7d6a', // Very high
-    ],
-  },
-};
-
-// Map border and overlay colors
-export const MAP_UI_COLORS = {
-  border: {
-    light: '#666666',
-    dark: '#999999',
-  },
-  hover: {
-    light: '#000000',
-    dark: '#ffffff',
-  },
-  pin: {
-    light: '#4cba73', // Updated to new primary color - oklch(0.5234 0.1347 144.1672)
-    dark: '#4cba73', // Updated to new primary color - oklch(0.5234 0.1347 144.1672)
-  },
-};
-
-// Score colors for confidence indicators
-export const SCORE_COLORS = {
-  excellent: {
-    light: '#4cba73', // oklch(0.5234 0.1347 144.1672) - primary color
-    dark: '#4cba73',
-  },
-  good: {
-    light: '#70c88f', // Medium green
-    dark: '#70c88f',
-  },
-  fair: {
-    light: '#f59e0b', // Warning color
-    dark: '#f59e0b',
-  },
-  poor: {
-    light: '#ef4444', // Error color
-    dark: '#ef4444',
-  },
-};
-
-// Status colors
-export const STATUS_COLORS = {
-  success: '#4cba73', // oklch(0.5234 0.1347 144.1672) - primary color
-  warning: '#f59e0b',
-  error: '#ef4444',
-  info: '#3b82f6',
-};
-
-// Theme-aware color getters
-export const getThemeColor = (
-  color: string,
-  theme: 'light' | 'dark' = 'light'
-) => {
-  const colorMap: Record<string, { light: string; dark: string }> = {
-    primary: {
-      light: '#4cba73', // oklch(0.5234 0.1347 144.1672)
-      dark: '#4cba73',
+  // Semantic colors for light theme
+  light: {
+    text: {
+      primary: '#1a1a1a',    // oklch(0.3000 0.0358 30.2042)
+      secondary: '#525252',  // oklch(0.4495 0.0486 39.2110)
+      tertiary: '#6b7280',   // oklch(0.4495 0.0486 39.2110)
+      inverse: '#ffffff',    // oklch(1.0000 0 0)
     },
     background: {
-      light: '#fafafa',
-      dark: '#171717',
+      primary: '#fafafa',    // oklch(0.9711 0.0074 80.7211)
+      secondary: 'rgba(250, 250, 250, 0.9)',
+      tertiary: '#f5f5f5',   // oklch(0.9370 0.0142 74.4218)
+      overlay: 'rgba(0, 0, 0, 0.8)',
     },
+    hover: {
+      primary: '#e5f7ed',    // Light green hover
+      secondary: '#d1f2e1',  // Medium light green hover
+    },
+  },
+
+  // Semantic colors for dark theme
+  dark: {
     text: {
-      light: '#1a1a1a',
-      dark: '#f5f5f5',
+      primary: '#f5f5f5',    // oklch(0.9423 0.0097 72.6595)
+      secondary: '#a3a3a3',  // oklch(0.8579 0.0174 76.0955)
+      tertiary: '#d1d5db',   // oklch(0.8579 0.0174 76.0955)
+      inverse: '#0a0a0a',    // oklch(0.3327 0.0271 146.9867)
     },
-  };
+    background: {
+      primary: '#171717',    // oklch(0.2683 0.0279 150.7681)
+      secondary: 'rgba(23, 23, 23, 0.9)',
+      tertiary: '#0a0a0a',   // oklch(0.3327 0.0271 146.9867)
+      overlay: 'rgba(0, 0, 0, 0.8)',
+    },
+    hover: {
+      primary: '#1f2937',    // Dark hover
+      secondary: '#374151',  // Medium dark hover
+    },
+  },
 
-  return colorMap[color]?.[theme] || colorMap[color]?.light || color;
+  // Map-specific colors
+  map: {
+    mushrooms: {
+      light: ['#ffffcc', '#ffe4b5', '#fbae7e', '#fb6d51', '#a60310', '#800020'],
+      dark: ['#2d2d00', '#4d3d1a', '#6d4d2a', '#8d5d3a', '#ad6d4a', '#cd7d5a'],
+    },
+    berries: {
+      light: ['#f0f8ff', '#e6f3ff', '#b3d9ff', '#80bfff', '#4da6ff', '#1a8cff'],
+      dark: ['#0a1a2e', '#1a2a3e', '#2a3a4e', '#3a4a5e', '#4a5a6e', '#5a6a7e'],
+    },
+    herbs: {
+      light: ['#f0f9f4', '#dcf2e3', '#b8e4c7', '#94d6ab', '#70c88f', '#4cba73'],
+      dark: ['#0a1a0e', '#1a2a1e', '#2a3a2e', '#3a4a3e', '#4a5a4e', '#5a6a5e'],
+    },
+    nuts: {
+      light: ['#fff8dc', '#ffe4b5', '#ffd700', '#ffa500', '#ff8c00', '#ff4500'],
+      dark: ['#3a2d1a', '#4a3d2a', '#5a4d3a', '#6a5d4a', '#7a6d5a', '#8a7d6a'],
+    },
+    ui: {
+      border: { light: '#666666', dark: '#999999' },
+      hover: { light: '#000000', dark: '#ffffff' },
+      pin: { light: '#4cba73', dark: '#4cba73' },
+    },
+  },
+
+  // Score colors for confidence indicators
+  score: {
+    excellent: { light: '#4cba73', dark: '#4cba73' },
+    good: { light: '#70c88f', dark: '#70c88f' },
+    fair: { light: '#f59e0b', dark: '#f59e0b' },
+    poor: { light: '#ef4444', dark: '#ef4444' },
+  },
+} as const;
+
+// Type definitions
+export type ColorTheme = 'light' | 'dark';
+export type SpeciesType = 'mushrooms' | 'berries' | 'herbs' | 'nuts';
+
+// Utility functions
+export const getThemeColor = (color: keyof typeof colors.light | keyof typeof colors.dark, theme: ColorTheme = 'light') => {
+  return theme === 'light' ? colors.light[color] : colors.dark[color];
 };
 
-// Utility function to get color based on theme and score
-export const getScoreColor = (
-  score: number,
-  theme: 'light' | 'dark' = 'light'
-) => {
-  if (score >= 8) return SCORE_COLORS.excellent[theme];
-  if (score >= 6) return SCORE_COLORS.good[theme];
-  if (score >= 4) return SCORE_COLORS.fair[theme];
-  return SCORE_COLORS.poor[theme];
+export const getScoreColor = (score: number, theme: ColorTheme = 'light') => {
+  if (score >= 8) return colors.score.excellent[theme];
+  if (score >= 6) return colors.score.good[theme];
+  if (score >= 4) return colors.score.fair[theme];
+  return colors.score.poor[theme];
 };
 
-// Utility function to get species color scale
-export const getSpeciesColorScale = (
-  species: string,
-  theme: 'light' | 'dark' = 'light'
-) => {
-  const colorScale = MAP_COLORS[species as keyof typeof MAP_COLORS];
-  return colorScale ? colorScale[theme] : MAP_COLORS.mushrooms[theme];
+export const getSpeciesColorScale = (species: SpeciesType, theme: ColorTheme = 'light') => {
+  return colors.map[species][theme];
 };
 
-// Utility function to get color for a specific score
-export const getColorForScore = (
-  score: number,
-  species: string,
-  theme: 'light' | 'dark' = 'light'
-) => {
+export const getColorForScore = (score: number, species: SpeciesType, theme: ColorTheme = 'light') => {
   const colors = getSpeciesColorScale(species, theme);
-
+  
   if (score <= 2) return colors[0];
   if (score <= 4) return colors[1];
   if (score <= 6) return colors[2];
@@ -186,6 +143,15 @@ export const getColorForScore = (
   if (score <= 9) return colors[4];
   return colors[5];
 };
+
+// Export individual color groups for convenience
+export const { primary, neutral, status, light, dark, map, score } = colors;
+
+// Legacy exports for backward compatibility
+export const MAP_COLORS = colors.map;
+export const MAP_UI_COLORS = colors.map.ui;
+export const SCORE_COLORS = colors.score;
+export const STATUS_COLORS = colors.status;
 
 // Utility: Map season to semantic class names
 export const getSeasonClass = (season?: string) => {
