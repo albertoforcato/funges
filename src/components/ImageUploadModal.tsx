@@ -2,6 +2,7 @@ import { useState, useRef, useCallback } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from './ui/dialog';
 import { Button } from './ui/button';
 import { Card } from './ui/card';
+import { Upload, Camera, X, FileImage } from 'lucide-react';
 
 interface ImageUploadModalProps {
   isOpen: boolean;
@@ -18,24 +19,10 @@ export const ImageUploadModal = ({ isOpen, onClose, onImageUpload }: ImageUpload
     if (file && file.type.startsWith('image/')) {
       onImageUpload(file);
       setResult('Image uploaded successfully!');
-      setTimeout(() => {
-        onClose();
-        setResult('');
-      }, 2000);
     } else {
       setResult('Please select a valid image file.');
     }
-  }, [onImageUpload, onClose]);
-
-  const handleDrop = useCallback((e: React.DragEvent) => {
-    e.preventDefault();
-    setIsDragOver(false);
-    
-    const files = Array.from(e.dataTransfer.files);
-    if (files.length > 0) {
-      handleFileSelect(files[0]);
-    }
-  }, [handleFileSelect]);
+  }, [onImageUpload]);
 
   const handleDragOver = useCallback((e: React.DragEvent) => {
     e.preventDefault();
@@ -47,6 +34,16 @@ export const ImageUploadModal = ({ isOpen, onClose, onImageUpload }: ImageUpload
     setIsDragOver(false);
   }, []);
 
+  const handleDrop = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragOver(false);
+    
+    const files = Array.from(e.dataTransfer.files);
+    if (files.length > 0) {
+      handleFileSelect(files[0]);
+    }
+  }, [handleFileSelect]);
+
   const handleFileInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -55,101 +52,97 @@ export const ImageUploadModal = ({ isOpen, onClose, onImageUpload }: ImageUpload
   }, [handleFileSelect]);
 
   const handleCameraCapture = useCallback(() => {
-    // This would integrate with device camera
-    setResult('Camera capture not yet implemented');
+    if ('mediaDevices' in navigator && 'getUserMedia' in navigator.mediaDevices) {
+      // Implementation for camera capture would go here
+      setResult('Camera capture not yet implemented');
+    } else {
+      setResult('Camera not available');
+    }
   }, []);
 
+  const handleClose = useCallback(() => {
+    setResult('');
+    setIsDragOver(false);
+    onClose();
+  }, [onClose]);
+
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent 
-        className="sm:max-w-md"
-        onKeyDown={(e) => {
-          if (e.key === 'Escape') {
-            onClose();
-          }
-        }}
-      >
+    <Dialog open={isOpen} onOpenChange={handleClose}>
+      <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Upload Image for Identification</DialogTitle>
+          <DialogTitle className="flex items-center gap-2">
+            <FileImage className="w-5 h-5" />
+            Upload Image for Identification
+          </DialogTitle>
         </DialogHeader>
-        
+
         <div className="space-y-4">
           {/* Drag & Drop Area */}
           <Card
-            className={`p-8 text-center border-2 border-dashed transition-colors ${
+            className={`p-8 border-2 border-dashed text-center transition-colors ${
               isDragOver 
                 ? 'border-blue-500 bg-blue-50' 
                 : 'border-gray-300 hover:border-gray-400'
             }`}
-            onDrop={handleDrop}
             onDragOver={handleDragOver}
             onDragLeave={handleDragLeave}
-            role="button"
-            tabIndex={0}
-            aria-label="Drag and drop image here or click to select file"
-            onClick={() => fileInputRef.current?.click()}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                fileInputRef.current?.click();
-              }
-            }}
+            onDrop={handleDrop}
           >
-            <div className="space-y-2">
-              <div className="text-4xl" aria-hidden="true">📷</div>
-              <p className="text-lg font-medium">
-                Drag & drop your image here
-              </p>
-              <p className="text-sm text-gray-500">
-                or click to browse files
-              </p>
-            </div>
-          </Card>
-
-          {/* File Input (Hidden) */}
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept="image/*"
-            onChange={handleFileInputChange}
-            className="hidden"
-            aria-label="Select image file"
-          />
-
-          {/* Action Buttons */}
-          <div className="flex gap-2 justify-center">
+            <Upload className="w-12 h-12 mx-auto mb-4 text-gray-400" />
+            <p className="text-lg font-medium mb-2">
+              Drag and drop an image here
+            </p>
+            <p className="text-sm text-gray-500 mb-4">
+              or click to browse files
+            </p>
             <Button
               onClick={() => fileInputRef.current?.click()}
-              aria-label="Browse for image file"
+              variant="outline"
+              className="w-full"
             >
-              Browse Files
+              Choose File
             </Button>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              onChange={handleFileInputChange}
+              className="hidden"
+              aria-label="Select image file"
+            />
+          </Card>
+
+          {/* Camera Capture */}
+          <div className="text-center">
+            <p className="text-sm text-gray-500 mb-2">Or capture with camera</p>
             <Button
               onClick={handleCameraCapture}
               variant="outline"
-              aria-label="Capture image with camera"
+              size="sm"
+              className="w-full"
             >
-              📸 Camera
+              <Camera className="w-4 h-4 mr-2" />
+              Use Camera
             </Button>
           </div>
 
-          {/* Result Message */}
+          {/* Result Display */}
           {result && (
-            <div 
-              className="p-3 text-center rounded-md bg-blue-50 text-blue-800"
-              role="status"
-              aria-live="polite"
-            >
-              {result}
-            </div>
+            <Card className="p-4 bg-gray-50">
+              <div className="flex items-center gap-2">
+                <span className="text-sm">{result}</span>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setResult('')}
+                  className="ml-auto"
+                  aria-label="Clear result"
+                >
+                  <X className="w-4 h-4" />
+                </Button>
+              </div>
+            </Card>
           )}
-
-          {/* Instructions */}
-          <div className="text-sm text-gray-600 space-y-2">
-            <p><strong>Supported formats:</strong> JPG, PNG, GIF, WebP</p>
-            <p><strong>Maximum size:</strong> 10MB</p>
-            <p><strong>Tip:</strong> Clear, well-lit photos work best for identification</p>
-          </div>
         </div>
       </DialogContent>
     </Dialog>

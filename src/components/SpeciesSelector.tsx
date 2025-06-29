@@ -3,6 +3,7 @@ import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Card } from './ui/card';
 import { useSpeciesList } from '../lib/query';
+import { Search, ChevronDown, Filter } from 'lucide-react';
 import type { Species } from '../types/api';
 
 interface SpeciesSelectorProps {
@@ -13,26 +14,25 @@ interface SpeciesSelectorProps {
 export const SpeciesSelector = ({ selectedSpecies, onSpeciesSelect }: SpeciesSelectorProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [filter, setFilter] = useState('');
-  const [emojiFilter, setEmojiFilter] = useState<string>('');
+  const [typeFilter, setTypeFilter] = useState<string>('');
   const [focusedIndex, setFocusedIndex] = useState(-1);
   
   const { data: species = [], isLoading } = useSpeciesList();
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
 
-  const emojiMap: Record<string, string> = {
-    '🍄': 'mushroom',
-    '🌱': 'plant',
-    '🌰': 'nut',
-    '🍇': 'berry',
-    '🌸': 'flower',
+  const typeMap: Record<string, string> = {
+    'mushroom': '🍄',
+    'plant': '🌿',
+    'berry': '🫐',
+    'nut': '🌰',
+    'flower': '🌸',
   };
 
-  const filteredSpecies = species.filter((species) => {
-    const matchesText = species.name.toLowerCase().includes(filter.toLowerCase()) ||
-                       species.scientificName.toLowerCase().includes(filter.toLowerCase());
-    const matchesEmoji = !emojiFilter || species.type === emojiMap[emojiFilter];
-    return matchesText && matchesEmoji;
+  const filteredSpecies = species.filter((s) => {
+    const matchesFilter = s.name.toLowerCase().includes(filter.toLowerCase()) ||
+                         s.scientificName.toLowerCase().includes(filter.toLowerCase());
+    const matchesType = !typeFilter || s.type === typeFilter;
+    return matchesFilter && matchesType;
   });
 
   // Close dropdown when clicking outside
@@ -58,20 +58,18 @@ export const SpeciesSelector = ({ selectedSpecies, onSpeciesSelect }: SpeciesSel
     switch (event.key) {
       case 'ArrowDown':
         event.preventDefault();
-        setFocusedIndex(prev => 
-          prev < filteredSpecies.length - 1 ? prev + 1 : 0
-        );
+        setFocusedIndex(prev => Math.min(prev + 1, filteredSpecies.length - 1));
         break;
       case 'ArrowUp':
         event.preventDefault();
-        setFocusedIndex(prev => 
-          prev > 0 ? prev - 1 : filteredSpecies.length - 1
-        );
+        setFocusedIndex(prev => Math.max(prev - 1, -1));
         break;
       case 'Enter':
         event.preventDefault();
         if (focusedIndex >= 0 && filteredSpecies[focusedIndex]) {
-          handleSpeciesSelect(filteredSpecies[focusedIndex]);
+          onSpeciesSelect(filteredSpecies[focusedIndex]);
+          setIsOpen(false);
+          setFocusedIndex(-1);
         }
         break;
       case 'Escape':
@@ -81,133 +79,111 @@ export const SpeciesSelector = ({ selectedSpecies, onSpeciesSelect }: SpeciesSel
     }
   };
 
-  const handleSpeciesSelect = (species: Species) => {
-    onSpeciesSelect(species);
-    setIsOpen(false);
-    setFilter('');
+  useEffect(() => {
     setFocusedIndex(-1);
-  };
-
-  const handleEmojiFilter = (emoji: string) => {
-    setEmojiFilter(emojiFilter === emoji ? '' : emoji);
-    setFocusedIndex(-1);
-  };
+  }, [filter, typeFilter]);
 
   return (
-    <div 
-      className="fixed top-19 left-1/2 transform -translate-x-1/2 z-50"
-      ref={dropdownRef}
-    >
-      <Card className="p-0 border-0 shadow-none bg-transparent">
-        {/* Species Display Button */}
-        <Button
-          variant="outline"
-          className="px-3 py-2 border border-gray-300 rounded-md bg-[rgba(255,252,239,0.9)] cursor-pointer min-w-[260px] max-w-[360px] text-center text-base"
-          onClick={() => {
-            setIsOpen(!isOpen);
-            if (!isOpen) {
-              setTimeout(() => inputRef.current?.focus(), 100);
-            }
-          }}
-          aria-label="Select a species to display on map"
-          aria-expanded={isOpen}
-          aria-haspopup="listbox"
-          onKeyDown={handleKeyDown}
-        >
-          <span className="flex-1">
-            {selectedSpecies ? selectedSpecies.name : 'Select Species'}
-          </span>
-          <span className="ml-2" aria-hidden="true">▼</span>
-        </Button>
+    <div className="relative w-full max-w-md">
+      <Button
+        onClick={() => setIsOpen(!isOpen)}
+        variant="outline"
+        className="w-full justify-between"
+        aria-label="Select species"
+        aria-expanded={isOpen}
+        aria-haspopup="listbox"
+        onKeyDown={handleKeyDown}
+      >
+        <span className="flex items-center gap-2">
+          {selectedSpecies ? (
+            <>
+              <span>{typeMap[selectedSpecies.type]}</span>
+              <span>{selectedSpecies.name}</span>
+            </>
+          ) : (
+            'Select a species...'
+          )}
+        </span>
+        <ChevronDown className="w-4 h-4" />
+      </Button>
 
-        {/* Dropdown */}
-        {isOpen && (
-          <Card 
-            className="absolute top-full left-1/2 transform -translate-x-1/2 mt-1 bg-[rgba(255,252,239,0.95)] border border-gray-300 rounded-lg p-3 shadow-lg min-w-[260px] max-w-[360px] max-h-[65vh] overflow-y-auto z-50"
-            role="listbox"
-            aria-label="Species selection"
-          >
-            {/* Filter Input */}
-            <div className="flex justify-center mb-3">
-              <Input
-                ref={inputRef}
-                type="text"
-                placeholder="🔍 Type to filter..."
-                value={filter}
-                onChange={(e) => {
-                  setFilter(e.target.value);
-                  setFocusedIndex(-1);
-                }}
-                className="text-base"
-                aria-label="Filter species by name or scientific name"
-                onKeyDown={handleKeyDown}
-              />
+      {isOpen && (
+        <Card className="absolute top-full left-0 right-0 mt-1 p-4 max-h-96 overflow-y-auto z-50">
+          {/* Search Input */}
+          <div className="relative mb-3">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+            <Input
+              placeholder="Search species..."
+              value={filter}
+              onChange={(e) => setFilter(e.target.value)}
+              className="pl-10"
+              onKeyDown={handleKeyDown}
+            />
+          </div>
+
+          {/* Type Filter */}
+          <div className="mb-3">
+            <div className="flex items-center gap-2 mb-2">
+              <Filter className="w-4 h-4" />
+              <span className="text-sm font-medium">Filter by type:</span>
             </div>
-
-            {/* Emoji Filters */}
-            <div className="text-center mb-2" role="group" aria-label="Filter by species type">
-              {Object.entries(emojiMap).map(([emoji, type]) => (
-                <button
-                  key={emoji}
-                  className={`text-xl px-2 py-1 cursor-pointer rounded-md mx-1 transition-colors ${
-                    emojiFilter === emoji ? 'bg-[#ffe]' : 'hover:bg-[#ffe]'
-                  }`}
-                  onClick={() => handleEmojiFilter(emoji)}
-                  aria-label={`Filter by ${type} species`}
-                  aria-pressed={emojiFilter === emoji}
-                >
-                  <span aria-hidden="true">{emoji}</span>
-                </button>
-              ))}
-              <button
-                className={`text-xl px-2 py-1 cursor-pointer rounded-md mx-1 transition-colors ${
-                  emojiFilter === '' ? 'bg-[#ffe]' : 'hover:bg-[#ffe]'
-                }`}
-                onClick={() => handleEmojiFilter('')}
-                aria-label="Clear species type filter"
-                aria-pressed={emojiFilter === ''}
+            <div className="flex flex-wrap gap-2">
+              <Button
+                variant={typeFilter === '' ? 'default' : 'outline'}
+                size="sm"
+                onClick={() => setTypeFilter('')}
+                className="text-sm"
               >
-                <span aria-hidden="true">✖️</span>
-              </button>
+                All
+              </Button>
+              {Object.entries(typeMap).map(([type, emoji]) => (
+                <Button
+                  key={type}
+                  variant={typeFilter === type ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => setTypeFilter(type)}
+                  className="text-sm"
+                >
+                  {emoji} {type}
+                </Button>
+              ))}
             </div>
+          </div>
 
-            {/* Species List */}
-            <div className="space-y-1">
-              {isLoading ? (
-                <div className="text-center py-4" role="status" aria-live="polite">
-                  Loading species...
-                </div>
-              ) : filteredSpecies.length === 0 ? (
-                <div className="text-center py-4 text-gray-500" role="status" aria-live="polite">
-                  No species found
-                </div>
-              ) : (
-                filteredSpecies.map((species, index) => (
-                  <Button
-                    key={species.id}
-                    variant="ghost"
-                    className={`w-full justify-start text-base py-2 px-3 hover:bg-[#fff4dd] rounded-md ${
-                      index === focusedIndex ? 'bg-[#fff4dd] ring-2 ring-blue-500' : ''
-                    }`}
-                    onClick={() => handleSpeciesSelect(species)}
-                    role="option"
-                    aria-selected={index === focusedIndex}
-                    onMouseEnter={() => setFocusedIndex(index)}
-                  >
-                    <span className="mr-2" aria-hidden="true">
-                      {Object.entries(emojiMap).find(([, type]) => type === species.type)?.[0] || '🌿'}
-                    </span>
-                    <div className="text-left">
+          {/* Species List */}
+          <div role="listbox" aria-label="Species selection">
+            {isLoading ? (
+              <div className="text-center py-4 text-gray-500">Loading species...</div>
+            ) : filteredSpecies.length === 0 ? (
+              <div className="text-center py-4 text-gray-500">No species found</div>
+            ) : (
+              filteredSpecies.map((species, index) => (
+                <button
+                  key={species.id}
+                  onClick={() => {
+                    onSpeciesSelect(species);
+                    setIsOpen(false);
+                    setFocusedIndex(-1);
+                  }}
+                  className={`w-full text-left p-3 rounded-lg hover:bg-gray-100 focus:bg-gray-100 focus:outline-none ${
+                    focusedIndex === index ? 'bg-gray-100' : ''
+                  }`}
+                  role="option"
+                  aria-selected={focusedIndex === index}
+                >
+                  <div className="flex items-center gap-3">
+                    <span className="text-lg">{typeMap[species.type]}</span>
+                    <div>
                       <div className="font-medium">{species.name}</div>
-                      <div className="text-sm text-gray-600">{species.scientificName}</div>
+                      <div className="text-sm text-gray-500 italic">{species.scientificName}</div>
                     </div>
-                  </Button>
-                ))
-              )}
-            </div>
-          </Card>
-        )}
-      </Card>
+                  </div>
+                </button>
+              ))
+            )}
+          </div>
+        </Card>
+      )}
     </div>
   );
 }; 

@@ -78,8 +78,8 @@ PLEASE: Ask for clarification if any functionality or data structure is unclear
 
 ## 10. Icons
 
-- [ ] Install **Lucide Icons**
-- [ ] Replace legacy icons with `<Icon />` components from Lucide
+- [x] Install **Lucide Icons**
+- [x] Replace legacy icons with `<Icon />` components from Lucide
 
 ## 11. Internationalization (i18n)
 

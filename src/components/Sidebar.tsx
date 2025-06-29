@@ -1,5 +1,14 @@
 import { Button } from './ui/button';
 import { useState, useRef, useEffect } from 'react';
+import {
+  Camera,
+  Navigation,
+  Moon,
+  Hash,
+  Users,
+  Heart,
+  Globe
+} from 'lucide-react';
 
 interface SidebarProps {
   onImageUpload: () => void;
@@ -28,6 +37,8 @@ export const Sidebar = ({
     { id: 'WE_south', name: 'West Europe South' },
     { id: 'NE_north', name: 'North Europe North' },
     { id: 'NE_south', name: 'North Europe South' },
+    { id: 'CE_north', name: 'Central Europe North' },
+    { id: 'CE_south', name: 'Central Europe South' },
     { id: 'EE_north', name: 'East Europe North' },
     { id: 'EE_south', name: 'East Europe South' },
   ];
@@ -57,175 +68,130 @@ export const Sidebar = ({
   };
 
   return (
-    <aside 
-      className="fixed top-0 left-0 h-[calc(100vh-40px)] w-20 bg-[rgba(255,252,239,0.9)] flex flex-col items-center py-2 shadow-md overflow-y-auto overflow-x-visible z-40"
+    <aside
+      className="fixed left-0 top-0 h-full w-20 bg-[rgba(255,252,239,0.95)] flex flex-col items-center py-4 gap-4 z-50 shadow-sm"
       role="complementary"
-      aria-label="Toolbar"
+      aria-label="Main controls sidebar"
     >
       {/* Logo */}
-      <div className="mb-4">
+      <div className="mb-8">
         <img
-          src="https://raw.githubusercontent.com/lodist/funges/main/icons/logo_1.webp"
+          src="https://raw.githubusercontent.com/lodist/funges/main/icons/logo_funges.webp"
           alt="Fung.es Logo"
-          className="w-16 h-auto"
-          loading="lazy"
+          className="w-12 h-12"
         />
       </div>
 
       {/* Image Upload Button */}
       <Button
+        onClick={onImageUpload}
         variant="ghost"
         size="icon"
-        className="mb-3 w-10 h-10 p-0"
-        onClick={onImageUpload}
-        aria-label="Identify mushroom or plant from image"
-        title="Identify Mushroom"
+        className="w-12 h-12 rounded-lg hover:bg-[#f0eada] transition-colors"
+        aria-label="Upload image for identification"
+        title="Upload image for identification"
       >
-        <img
-          src="https://raw.githubusercontent.com/lodist/funges/main/icons/id_mushroom.webp"
-          alt=""
-          className="w-10 h-auto"
-          loading="lazy"
-          aria-hidden="true"
-        />
+        <Camera className="w-6 h-6" />
       </Button>
 
-      {/* Region Selection Button */}
-      <div className="relative mb-3" ref={dropdownRef}>
+      {/* Region Selection */}
+      <div className="relative" ref={dropdownRef}>
         <Button
+          onClick={() => setShowRegionDropdown(!showRegionDropdown)}
           variant="ghost"
           size="icon"
-          className="w-10 h-10 p-0"
-          onClick={() => setShowRegionDropdown(!showRegionDropdown)}
-          aria-label="Select foraging region"
+          className="w-12 h-12 rounded-lg hover:bg-[#f0eada] transition-colors"
+          aria-label="Select region"
           aria-expanded={showRegionDropdown}
           aria-haspopup="listbox"
-          title="Select Region"
+          title="Select region"
+          onKeyDown={handleKeyDown}
         >
-          <img
-            src="https://raw.githubusercontent.com/lodist/funges/main/icons/region_1.webp"
-            alt=""
-            className="w-10 h-auto"
-            loading="lazy"
-            aria-hidden="true"
-          />
+          <Globe className="w-6 h-6" />
         </Button>
 
-        {/* Region Dropdown */}
         {showRegionDropdown && (
-          <div 
-            className="absolute left-full top-0 ml-2 bg-[rgba(255,252,239,0.9)] rounded-lg shadow-lg p-1 min-w-[170px] z-50"
+          <div
+            className="absolute left-16 top-0 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50"
             role="listbox"
-            aria-label="Select region"
-            onKeyDown={handleKeyDown}
+            aria-label="Region selection"
           >
             {regions.map((region) => (
-              <Button
+              <button
                 key={region.id}
-                variant="ghost"
-                className="w-full justify-start text-sm h-auto py-2 px-3 hover:bg-[rgba(255,252,239,1)]"
                 onClick={() => {
                   onRegionSelect(region.id);
                   setShowRegionDropdown(false);
                 }}
+                className="w-full text-left px-4 py-2 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none"
                 role="option"
-                aria-selected={false}
+                aria-selected="false"
               >
                 {region.name}
-              </Button>
+              </button>
             ))}
           </div>
         )}
       </div>
 
-      {/* Nearby Edibles Button */}
-      <Button
-        variant="ghost"
-        size="icon"
-        className="mb-3 w-10 h-10 p-0"
-        onClick={onToggleNearby}
-        aria-label="Show nearby edible plants and mushrooms"
-        title="Nearby Edibles"
-      >
-        <img
-          src="https://raw.githubusercontent.com/lodist/funges/main/icons/cooking_1.webp"
-          alt=""
-          className="w-10 h-auto"
-          loading="lazy"
-          aria-hidden="true"
-        />
-      </Button>
-
       {/* Locate User Button */}
       <Button
+        onClick={onLocateUser}
         variant="ghost"
         size="icon"
-        className="mb-3 w-10 h-10 p-0"
-        onClick={onLocateUser}
-        aria-label="Use my current location"
-        title="Locate Me"
+        className="w-12 h-12 rounded-lg hover:bg-[#f0eada] transition-colors"
+        aria-label="Locate my position"
+        title="Locate my position"
       >
-        <img
-          src="https://raw.githubusercontent.com/lodist/funges/main/icons/location_1.webp"
-          alt=""
-          className="w-10 h-auto"
-          loading="lazy"
-          aria-hidden="true"
-        />
+        <Navigation className="w-6 h-6" />
       </Button>
 
       {/* Dark Mode Toggle */}
       <Button
+        onClick={onToggleDarkMode}
         variant="ghost"
         size="icon"
-        className="mb-3 w-10 h-10 p-0"
-        onClick={onToggleDarkMode}
+        className="w-12 h-12 rounded-lg hover:bg-[#f0eada] transition-colors"
         aria-label="Toggle dark mode"
-        title="Toggle Dark Mode"
+        title="Toggle dark mode"
       >
-        <img
-          src="https://raw.githubusercontent.com/lodist/funges/main/icons/darkmode_1.webp"
-          alt=""
-          className="w-10 h-auto"
-          loading="lazy"
-          aria-hidden="true"
-        />
+        <Moon className="w-6 h-6" />
       </Button>
 
       {/* Numbers Toggle */}
       <Button
+        onClick={onToggleNumbers}
         variant="ghost"
         size="icon"
-        className="mb-3 w-10 h-10 p-0"
-        onClick={onToggleNumbers}
+        className="w-12 h-12 rounded-lg hover:bg-[#f0eada] transition-colors"
         aria-label="Toggle numbers display"
-        title="Toggle Numbers"
+        title="Toggle numbers display"
       >
-        <img
-          src="https://raw.githubusercontent.com/lodist/funges/main/icons/numbers_1.webp"
-          alt=""
-          className="w-10 h-auto"
-          loading="lazy"
-          aria-hidden="true"
-        />
+        <Hash className="w-6 h-6" />
+      </Button>
+
+      {/* Nearby Toggle */}
+      <Button
+        onClick={onToggleNearby}
+        variant="ghost"
+        size="icon"
+        className="w-12 h-12 rounded-lg hover:bg-[#f0eada] transition-colors"
+        aria-label="Toggle nearby spots"
+        title="Toggle nearby spots"
+      >
+        <Users className="w-6 h-6" />
       </Button>
 
       {/* Support Button */}
       <Button
+        onClick={onToggleSupport}
         variant="ghost"
         size="icon"
-        className="mb-3 w-10 h-10 p-0"
-        onClick={onToggleSupport}
-        aria-label="Support Fung.es project"
-        title="Support"
+        className="w-12 h-12 rounded-lg hover:bg-[#f0eada] transition-colors"
+        aria-label="Support Fung.es"
+        title="Support Fung.es"
       >
-        <img
-          src="https://raw.githubusercontent.com/lodist/funges/main/icons/support_1.webp"
-          alt=""
-          className="w-10 h-auto"
-          loading="lazy"
-          aria-hidden="true"
-        />
+        <Heart className="w-6 h-6" />
       </Button>
     </aside>
   );
