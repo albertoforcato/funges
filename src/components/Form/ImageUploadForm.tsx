@@ -6,9 +6,12 @@ import { useZodForm } from '../../lib/forms';
 const imageUploadSchema = z.object({
   image: z
     .instanceof(File)
-    .refine((file) => file.size <= 5 * 1024 * 1024, 'File size must be less than 5MB')
     .refine(
-      (file) => ['image/jpeg', 'image/png', 'image/webp'].includes(file.type),
+      file => file.size <= 5 * 1024 * 1024,
+      'File size must be less than 5MB'
+    )
+    .refine(
+      file => ['image/jpeg', 'image/png', 'image/webp'].includes(file.type),
       'Only JPEG, PNG and WebP images are allowed'
     )
     .optional(),
@@ -22,7 +25,10 @@ interface ImageUploadFormProps {
   onImageDrop?: (file: File) => void;
 }
 
-export function ImageUploadForm({ onImageUpload, onImageDrop }: ImageUploadFormProps) {
+export function ImageUploadForm({
+  onImageUpload,
+  onImageDrop,
+}: ImageUploadFormProps) {
   const form = useZodForm(imageUploadSchema, {
     defaultValues: {
       image: undefined,
@@ -30,7 +36,13 @@ export function ImageUploadForm({ onImageUpload, onImageDrop }: ImageUploadFormP
     },
   });
 
-  const { register, handleSubmit, setValue, watch, formState: { errors } } = form;
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    watch,
+    formState: { errors },
+  } = form;
   const selectedFile = watch('image');
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -47,7 +59,7 @@ export function ImageUploadForm({ onImageUpload, onImageDrop }: ImageUploadFormP
     cameraInput.type = 'file';
     cameraInput.accept = 'image/*';
     cameraInput.capture = 'environment';
-    cameraInput.onchange = (e) => {
+    cameraInput.onchange = e => {
       const file = (e.target as HTMLInputElement).files?.[0];
       if (file) {
         setValue('image', file);
@@ -74,33 +86,33 @@ export function ImageUploadForm({ onImageUpload, onImageDrop }: ImageUploadFormP
   };
 
   return (
-    <div className="image-upload-form">
+    <div className='image-upload-form'>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="upload-area">
+        <div className='upload-area'>
           <div
-            className="drop-zone"
+            className='drop-zone'
             onDrop={handleDrop}
             onDragOver={handleDragOver}
           >
             <p>Drag an image here or use the camera</p>
-            
-            <div className="upload-buttons">
+
+            <div className='upload-buttons'>
               <button
-                type="button"
+                type='button'
                 onClick={handleCameraClick}
-                className="camera-button"
+                className='camera-button'
               >
                 📷 Camera
               </button>
-              
+
               <input
-                type="file"
-                accept="image/*"
+                type='file'
+                accept='image/*'
                 onChange={handleFileChange}
                 style={{ display: 'none' }}
-                id="file-input"
+                id='file-input'
               />
-              <label htmlFor="file-input" className="file-button">
+              <label htmlFor='file-input' className='file-button'>
                 📁 Choose File
               </label>
             </div>
@@ -108,22 +120,20 @@ export function ImageUploadForm({ onImageUpload, onImageDrop }: ImageUploadFormP
         </div>
 
         {selectedFile && (
-          <div className="selected-file">
+          <div className='selected-file'>
             <p>Selected: {selectedFile.name}</p>
             <p>Size: {(selectedFile.size / 1024 / 1024).toFixed(2)} MB</p>
           </div>
         )}
 
         {errors.image && (
-          <div className="error-message">
-            {errors.image.message}
-          </div>
+          <div className='error-message'>{errors.image.message}</div>
         )}
 
-        <button type="submit" className="upload-submit">
+        <button type='submit' className='upload-submit'>
           Upload Image
         </button>
       </form>
     </div>
   );
-} 
+}

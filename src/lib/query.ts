@@ -10,7 +10,7 @@ export const queryClient = new QueryClient({
       // Retry failed requests 3 times
       retry: 3,
       // Retry with exponential backoff
-      retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
+      retryDelay: attemptIndex => Math.min(1000 * 2 ** attemptIndex, 30000),
       // Stale time - data is considered fresh for 5 minutes
       staleTime: 5 * 60 * 1000,
       // Cache time - keep data in cache for 10 minutes
@@ -35,7 +35,8 @@ export const queryKeys = {
   species: {
     all: ['species'] as const,
     lists: () => [...queryKeys.species.all, 'list'] as const,
-    list: (filters: string) => [...queryKeys.species.lists(), { filters }] as const,
+    list: (filters: string) =>
+      [...queryKeys.species.lists(), { filters }] as const,
     details: () => [...queryKeys.species.all, 'detail'] as const,
     detail: (id: string) => [...queryKeys.species.details(), id] as const,
   },
@@ -43,7 +44,8 @@ export const queryKeys = {
   recipes: {
     all: ['recipes'] as const,
     lists: () => [...queryKeys.recipes.all, 'list'] as const,
-    list: (filters: string) => [...queryKeys.recipes.lists(), { filters }] as const,
+    list: (filters: string) =>
+      [...queryKeys.recipes.lists(), { filters }] as const,
     details: () => [...queryKeys.recipes.all, 'detail'] as const,
     detail: (id: string) => [...queryKeys.recipes.details(), id] as const,
   },
@@ -51,13 +53,15 @@ export const queryKeys = {
   map: {
     all: ['map'] as const,
     regions: () => [...queryKeys.map.all, 'regions'] as const,
-    weather: (region: string) => [...queryKeys.map.all, 'weather', region] as const,
+    weather: (region: string) =>
+      [...queryKeys.map.all, 'weather', region] as const,
     soil: (region: string) => [...queryKeys.map.all, 'soil', region] as const,
   },
   // AI classification
   classification: {
     all: ['classification'] as const,
-    result: (imageHash: string) => [...queryKeys.classification.all, 'result', imageHash] as const,
+    result: (imageHash: string) =>
+      [...queryKeys.classification.all, 'result', imageHash] as const,
   },
 } as const;
 
@@ -107,4 +111,4 @@ export const useSpeciesBySeason = (season: string) => {
     queryFn: () => api.species.getBySeason(season),
     enabled: !!season,
   });
-}; 
+};

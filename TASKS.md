@@ -96,18 +96,19 @@ PLEASE: Ask for clarification if any functionality or data structure is unclear
 
 ## 12. Maps
 
-- [ ] Install **Mapbox GL JS** and set up map component
-- [ ] Configure **Mapbox Access Token** via environment variable (`.env`)
-- [ ] Use **Mapbox tiles** with custom styling
-- [ ] Integrate **Mapbox Geocoding API** for address search/autocomplete
-- [ ] Add support for:
+- [x] Install **Mapbox GL JS** and set up map component
+- [x] Configure **Mapbox Access Token** via environment variable (`.env`)
+- [x] Use **Mapbox tiles** with custom styling
+- [x] Integrate **Mapbox Geocoding API** for address search/autocomplete
+- [x] Add support for:
 
-  - [ ] Rendering **GeoJSON Polygons**
-  - [ ] **Current user location** via Geolocation API
-  - [ ] Address **autocomplete/search** with Mapbox geocoder
+  - [x] Rendering **GeoJSON Polygons**
+  - [x] **Current user location** via Geolocation API
+  - [x] Address **autocomplete/search** with Mapbox geocoder
 
-- [ ] Style map and polygons according to project SCSS/Tailwind theme
-- [ ] Add map fallback or graceful error UI if API fails
+- [x] Style map and polygons according to project SCSS/Tailwind theme
+- [x] Add map fallback or graceful error UI if API fails
+- [x] Exctract the map functionality of the old project to the new one
 
 ## 13. Storybook
 

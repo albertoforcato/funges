@@ -1,4 +1,9 @@
-import { useForm, type UseFormReturn, type FieldValues, type Path } from 'react-hook-form';
+import {
+  useForm,
+  type UseFormReturn,
+  type FieldValues,
+  type Path,
+} from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 
@@ -56,4 +61,4 @@ export const commonSchemas = {
   optional: z.string().optional(),
   number: z.number().min(0, 'Must be a positive number'),
   url: z.string().url('Please enter a valid URL'),
-} as const; 
+} as const;

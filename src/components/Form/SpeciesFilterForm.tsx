@@ -44,7 +44,7 @@ export function SpeciesFilterForm({ onFilterChange }: SpeciesFilterFormProps) {
 
   // Update parent when form changes
   React.useEffect(() => {
-    const subscription = watch((value) => {
+    const subscription = watch(value => {
       onFilterChange(value as SpeciesFilterData);
     });
     return () => subscription.unsubscribe();
@@ -64,27 +64,28 @@ export function SpeciesFilterForm({ onFilterChange }: SpeciesFilterFormProps) {
   // Filter species by emoji/type and search term
   const filteredSpecies = React.useMemo(() => {
     if (!speciesList) return [];
-    return speciesList.filter((sp) => {
+    return speciesList.filter(sp => {
       const emoji = emojiMap[sp.type];
       const matchesEmoji = !emojiFilter || emoji === emojiFilter;
-      const matchesSearch = !searchTerm || sp.name.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesSearch =
+        !searchTerm || sp.name.toLowerCase().includes(searchTerm.toLowerCase());
       return matchesEmoji && matchesSearch;
     });
   }, [speciesList, emojiFilter, searchTerm]);
 
   return (
-    <div className="species-filter-form">
-      <div className="filter-wrapper">
+    <div className='species-filter-form'>
+      <div className='filter-wrapper'>
         <input
-          type="text"
-          placeholder="🔍 Type to filter..."
+          type='text'
+          placeholder='🔍 Type to filter...'
           value={searchTerm || ''}
-          onChange={(e) => setValue('searchTerm', e.target.value)}
-          className="species-filter-input"
+          onChange={e => setValue('searchTerm', e.target.value)}
+          className='species-filter-input'
         />
       </div>
-      <div className="emoji-filters">
-        {Object.values(emojiMap).map((emoji) => (
+      <div className='emoji-filters'>
+        {Object.values(emojiMap).map(emoji => (
           <span
             key={emoji}
             className={`emoji-filter ${emojiFilter === emoji ? 'active' : ''}`}
@@ -100,24 +101,26 @@ export function SpeciesFilterForm({ onFilterChange }: SpeciesFilterFormProps) {
           ✖️
         </span>
       </div>
-      <div className="species-list">
+      <div className='species-list'>
         {isLoading && <div>Loading species...</div>}
         {error && <div>Error loading species.</div>}
-        {!isLoading && !error && filteredSpecies.map((sp) => (
-          <div key={sp.id} className="species-option">
-            <input
-              type="checkbox"
-              id={sp.id}
-              value={sp.id}
-              checked={selectedSpecies.includes(sp.id)}
-              onChange={() => handleSpeciesToggle(sp.id)}
-            />
-            <label htmlFor={sp.id}>
-              {emojiMap[sp.type] || ''} {sp.name}
-            </label>
-          </div>
-        ))}
+        {!isLoading &&
+          !error &&
+          filteredSpecies.map(sp => (
+            <div key={sp.id} className='species-option'>
+              <input
+                type='checkbox'
+                id={sp.id}
+                value={sp.id}
+                checked={selectedSpecies.includes(sp.id)}
+                onChange={() => handleSpeciesToggle(sp.id)}
+              />
+              <label htmlFor={sp.id}>
+                {emojiMap[sp.type] || ''} {sp.name}
+              </label>
+            </div>
+          ))}
       </div>
     </div>
   );
-} 
+}

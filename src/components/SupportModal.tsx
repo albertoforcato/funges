@@ -1,4 +1,9 @@
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
 import { Card } from '@/components/ui/card';
 import { Heart, ExternalLink } from 'lucide-react';
 
@@ -52,56 +57,57 @@ export const SupportModal = ({ isOpen, onClose }: SupportModalProps) => {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-lg">
+      <DialogContent className='sm:max-w-lg'>
         <DialogHeader>
-          <DialogTitle className="flex items-center gap-2">
-            <Heart className="w-5 h-5 text-red-500" />
+          <DialogTitle className='flex items-center gap-2'>
+            <Heart className='w-5 h-5 text-red-500' />
             Support Fung.es
           </DialogTitle>
         </DialogHeader>
 
-        <div className="space-y-4">
-          <p className="text-gray-600">
-            Help us keep Fung.es free and continue developing new features for the foraging community.
+        <div className='space-y-4'>
+          <p className='text-gray-600'>
+            Help us keep Fung.es free and continue developing new features for
+            the foraging community.
           </p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {donationOptions.map((option) => (
+          <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
+            {donationOptions.map(option => (
               <Card
                 key={option.name}
-                className="p-4 hover:shadow-md transition-shadow cursor-pointer"
+                className='p-4 hover:shadow-md transition-shadow cursor-pointer'
                 onClick={() => handleDonationClick(option.url)}
-                role="button"
+                role='button'
                 tabIndex={0}
                 aria-label={`Donate via ${option.name}`}
-                onKeyDown={(e) => {
+                onKeyDown={e => {
                   if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault();
                     handleDonationClick(option.url);
                   }
                 }}
               >
-                <div className="flex items-center gap-3">
-                  <div className="flex-shrink-0">
+                <div className='flex items-center gap-3'>
+                  <div className='flex-shrink-0'>
                     <img
                       src={option.icon}
                       alt={`${option.name} QR code`}
-                      className="w-12 h-12 rounded"
-                      loading="lazy"
+                      className='w-12 h-12 rounded'
+                      loading='lazy'
                     />
                   </div>
-                  <div className="flex-1">
-                    <h3 className="font-medium">{option.name}</h3>
-                    <p className="text-sm text-gray-500">Click to donate</p>
+                  <div className='flex-1'>
+                    <h3 className='font-medium'>{option.name}</h3>
+                    <p className='text-sm text-gray-500'>Click to donate</p>
                   </div>
-                  <ExternalLink className="w-4 h-4 text-gray-400" />
+                  <ExternalLink className='w-4 h-4 text-gray-400' />
                 </div>
               </Card>
             ))}
           </div>
 
-          <div className="text-center pt-4 border-t">
-            <p className="text-sm text-gray-500">
+          <div className='text-center pt-4 border-t'>
+            <p className='text-sm text-gray-500'>
               Thank you for supporting the foraging community! 🌿
             </p>
           </div>
@@ -109,4 +115,4 @@ export const SupportModal = ({ isOpen, onClose }: SupportModalProps) => {
       </DialogContent>
     </Dialog>
   );
-}; 
+};

@@ -1,5 +1,6 @@
 // API base URL and configuration
-export const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://api.fung.es';
+export const API_BASE_URL =
+  import.meta.env.VITE_API_URL || 'https://api.fung.es';
 
 // Common API response types
 export interface ApiResponse<T> {
@@ -169,4 +170,4 @@ export interface WeatherForecast {
     precipitation: number;
     description: string;
   }>;
-} 
+}

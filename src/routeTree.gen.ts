@@ -13,6 +13,7 @@ import { Route as TermsuseRouteImport } from './routes/termsuse'
 import { Route as SpeciesRouteImport } from './routes/species'
 import { Route as RecipesRouteImport } from './routes/recipes'
 import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
+import { Route as MapRouteImport } from './routes/map'
 import { Route as InstructionsRouteImport } from './routes/instructions'
 import { Route as ImpressumRouteImport } from './routes/impressum'
 import { Route as IndexRouteImport } from './routes/index'
@@ -37,6 +38,11 @@ const PrivacyPolicyRoute = PrivacyPolicyRouteImport.update({
   path: '/privacy-policy',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MapRoute = MapRouteImport.update({
+  id: '/map',
+  path: '/map',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const InstructionsRoute = InstructionsRouteImport.update({
   id: '/instructions',
   path: '/instructions',
@@ -57,6 +63,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/impressum': typeof ImpressumRoute
   '/instructions': typeof InstructionsRoute
+  '/map': typeof MapRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/recipes': typeof RecipesRoute
   '/species': typeof SpeciesRoute
@@ -66,6 +73,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/impressum': typeof ImpressumRoute
   '/instructions': typeof InstructionsRoute
+  '/map': typeof MapRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/recipes': typeof RecipesRoute
   '/species': typeof SpeciesRoute
@@ -76,6 +84,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/impressum': typeof ImpressumRoute
   '/instructions': typeof InstructionsRoute
+  '/map': typeof MapRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/recipes': typeof RecipesRoute
   '/species': typeof SpeciesRoute
@@ -87,6 +96,7 @@ export interface FileRouteTypes {
     | '/'
     | '/impressum'
     | '/instructions'
+    | '/map'
     | '/privacy-policy'
     | '/recipes'
     | '/species'
@@ -96,6 +106,7 @@ export interface FileRouteTypes {
     | '/'
     | '/impressum'
     | '/instructions'
+    | '/map'
     | '/privacy-policy'
     | '/recipes'
     | '/species'
@@ -105,6 +116,7 @@ export interface FileRouteTypes {
     | '/'
     | '/impressum'
     | '/instructions'
+    | '/map'
     | '/privacy-policy'
     | '/recipes'
     | '/species'
@@ -115,6 +127,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ImpressumRoute: typeof ImpressumRoute
   InstructionsRoute: typeof InstructionsRoute
+  MapRoute: typeof MapRoute
   PrivacyPolicyRoute: typeof PrivacyPolicyRoute
   RecipesRoute: typeof RecipesRoute
   SpeciesRoute: typeof SpeciesRoute
@@ -151,6 +164,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PrivacyPolicyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/map': {
+      id: '/map'
+      path: '/map'
+      fullPath: '/map'
+      preLoaderRoute: typeof MapRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/instructions': {
       id: '/instructions'
       path: '/instructions'
@@ -179,6 +199,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ImpressumRoute: ImpressumRoute,
   InstructionsRoute: InstructionsRoute,
+  MapRoute: MapRoute,
   PrivacyPolicyRoute: PrivacyPolicyRoute,
   RecipesRoute: RecipesRoute,
   SpeciesRoute: SpeciesRoute,

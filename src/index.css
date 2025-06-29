@@ -2,7 +2,7 @@
 
 /* Import global SCSS styles */
 @import './styles/globals.scss';
-@import "tw-animate-css";
+@import 'tw-animate-css';
 
 @custom-variant dark (&:is(.dark *));
 

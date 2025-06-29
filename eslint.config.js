@@ -6,9 +6,9 @@ import globals from 'globals';
 import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
 import react from 'eslint-plugin-react';
-import tailwindcss from 'eslint-plugin-tailwindcss';
 import prettier from 'eslint-plugin-prettier';
 import tseslint from 'typescript-eslint';
+import i18next from 'eslint-plugin-i18next';
 
 export default tseslint.config(
   { ignores: ['dist'] },
@@ -28,8 +28,8 @@ export default tseslint.config(
       react: react,
       'react-hooks': reactHooks,
       'react-refresh': reactRefresh,
-      tailwindcss: tailwindcss,
       prettier: prettier,
+      i18next,
     },
     rules: {
       ...reactHooks.configs.recommended.rules,
@@ -46,15 +46,27 @@ export default tseslint.config(
       'react/jsx-no-undef': 'error',
       'react/no-array-index-key': 'warn',
       'react/no-unescaped-entities': 'warn',
-      // Tailwind rules
-      'tailwindcss/classnames-order': 'warn',
-      'tailwindcss/no-custom-classname': 'warn',
-      'tailwindcss/no-contradicting-classname': 'error',
       // Prettier integration
       'prettier/prettier': 'error',
       // Disable conflicting rules
       'arrow-body-style': 'off',
       'prefer-arrow-callback': 'off',
+      'i18next/no-literal-string': [
+        'error',
+        {
+          markupOnly: true, // Only warn inside JSX (not in code, logs, etc.)
+          ignoreAttribute: [
+            'id',
+            'key',
+            'data-testid',
+            'to',
+            'href',
+            'src',
+            'alt',
+            // add any other JSX attributes where string is allowed
+          ],
+        },
+      ],
     },
     settings: {
       react: {

@@ -7,7 +7,7 @@ import {
   Hash,
   Users,
   Heart,
-  Globe
+  Globe,
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -46,7 +46,10 @@ export const Sidebar = ({
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setShowRegionDropdown(false);
       }
     };
@@ -69,63 +72,63 @@ export const Sidebar = ({
 
   return (
     <aside
-      className="fixed left-0 top-0 h-full w-20 bg-[rgba(255,252,239,0.95)] flex flex-col items-center py-4 gap-4 z-50 shadow-sm"
-      role="complementary"
-      aria-label="Main controls sidebar"
+      className='fixed left-0 top-0 h-full w-20 bg-[rgba(255,252,239,0.95)] flex flex-col items-center py-4 gap-4 z-50 shadow-sm'
+      role='complementary'
+      aria-label='Main controls sidebar'
     >
       {/* Logo */}
-      <div className="mb-8">
+      <div className='mb-8'>
         <img
-          src="https://raw.githubusercontent.com/lodist/funges/main/icons/logo_funges.webp"
-          alt="Fung.es Logo"
-          className="w-12 h-12"
+          src='https://raw.githubusercontent.com/lodist/funges/main/icons/logo_funges.webp'
+          alt='Fung.es Logo'
+          className='w-12 h-12'
         />
       </div>
 
       {/* Image Upload Button */}
       <Button
         onClick={onImageUpload}
-        variant="ghost"
-        size="icon"
-        className="w-12 h-12 rounded-lg hover:bg-[#f0eada] transition-colors"
-        aria-label="Upload image for identification"
-        title="Upload image for identification"
+        variant='ghost'
+        size='icon'
+        className='w-12 h-12 rounded-lg hover:bg-[#f0eada] transition-colors'
+        aria-label='Upload image for identification'
+        title='Upload image for identification'
       >
-        <Camera className="w-6 h-6" />
+        <Camera className='w-6 h-6' />
       </Button>
 
       {/* Region Selection */}
-      <div className="relative" ref={dropdownRef}>
+      <div className='relative' ref={dropdownRef}>
         <Button
           onClick={() => setShowRegionDropdown(!showRegionDropdown)}
-          variant="ghost"
-          size="icon"
-          className="w-12 h-12 rounded-lg hover:bg-[#f0eada] transition-colors"
-          aria-label="Select region"
+          variant='ghost'
+          size='icon'
+          className='w-12 h-12 rounded-lg hover:bg-[#f0eada] transition-colors'
+          aria-label='Select region'
           aria-expanded={showRegionDropdown}
-          aria-haspopup="listbox"
-          title="Select region"
+          aria-haspopup='listbox'
+          title='Select region'
           onKeyDown={handleKeyDown}
         >
-          <Globe className="w-6 h-6" />
+          <Globe className='w-6 h-6' />
         </Button>
 
         {showRegionDropdown && (
           <div
-            className="absolute left-16 top-0 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50"
-            role="listbox"
-            aria-label="Region selection"
+            className='absolute left-16 top-0 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50'
+            role='listbox'
+            aria-label='Region selection'
           >
-            {regions.map((region) => (
+            {regions.map(region => (
               <button
                 key={region.id}
                 onClick={() => {
                   onRegionSelect(region.id);
                   setShowRegionDropdown(false);
                 }}
-                className="w-full text-left px-4 py-2 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none"
-                role="option"
-                aria-selected="false"
+                className='w-full text-left px-4 py-2 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none'
+                role='option'
+                aria-selected='false'
               >
                 {region.name}
               </button>
@@ -137,62 +140,62 @@ export const Sidebar = ({
       {/* Locate User Button */}
       <Button
         onClick={onLocateUser}
-        variant="ghost"
-        size="icon"
-        className="w-12 h-12 rounded-lg hover:bg-[#f0eada] transition-colors"
-        aria-label="Locate my position"
-        title="Locate my position"
+        variant='ghost'
+        size='icon'
+        className='w-12 h-12 rounded-lg hover:bg-[#f0eada] transition-colors'
+        aria-label='Locate my position'
+        title='Locate my position'
       >
-        <Navigation className="w-6 h-6" />
+        <Navigation className='w-6 h-6' />
       </Button>
 
       {/* Dark Mode Toggle */}
       <Button
         onClick={onToggleDarkMode}
-        variant="ghost"
-        size="icon"
-        className="w-12 h-12 rounded-lg hover:bg-[#f0eada] transition-colors"
-        aria-label="Toggle dark mode"
-        title="Toggle dark mode"
+        variant='ghost'
+        size='icon'
+        className='w-12 h-12 rounded-lg hover:bg-[#f0eada] transition-colors'
+        aria-label='Toggle dark mode'
+        title='Toggle dark mode'
       >
-        <Moon className="w-6 h-6" />
+        <Moon className='w-6 h-6' />
       </Button>
 
       {/* Numbers Toggle */}
       <Button
         onClick={onToggleNumbers}
-        variant="ghost"
-        size="icon"
-        className="w-12 h-12 rounded-lg hover:bg-[#f0eada] transition-colors"
-        aria-label="Toggle numbers display"
-        title="Toggle numbers display"
+        variant='ghost'
+        size='icon'
+        className='w-12 h-12 rounded-lg hover:bg-[#f0eada] transition-colors'
+        aria-label='Toggle numbers display'
+        title='Toggle numbers display'
       >
-        <Hash className="w-6 h-6" />
+        <Hash className='w-6 h-6' />
       </Button>
 
       {/* Nearby Toggle */}
       <Button
         onClick={onToggleNearby}
-        variant="ghost"
-        size="icon"
-        className="w-12 h-12 rounded-lg hover:bg-[#f0eada] transition-colors"
-        aria-label="Toggle nearby spots"
-        title="Toggle nearby spots"
+        variant='ghost'
+        size='icon'
+        className='w-12 h-12 rounded-lg hover:bg-[#f0eada] transition-colors'
+        aria-label='Toggle nearby spots'
+        title='Toggle nearby spots'
       >
-        <Users className="w-6 h-6" />
+        <Users className='w-6 h-6' />
       </Button>
 
       {/* Support Button */}
       <Button
         onClick={onToggleSupport}
-        variant="ghost"
-        size="icon"
-        className="w-12 h-12 rounded-lg hover:bg-[#f0eada] transition-colors"
-        aria-label="Support Fung.es"
-        title="Support Fung.es"
+        variant='ghost'
+        size='icon'
+        className='w-12 h-12 rounded-lg hover:bg-[#f0eada] transition-colors'
+        aria-label='Support Fung.es'
+        title='Support Fung.es'
       >
-        <Heart className="w-6 h-6" />
+        <Heart className='w-6 h-6' />
       </Button>
     </aside>
   );
-}; 
+};

@@ -31,7 +31,9 @@ export const api = {
     },
 
     async search(query: string): Promise<Species[]> {
-      const response = await fetch(`${API_BASE_URL}/species/search?q=${encodeURIComponent(query)}`);
+      const response = await fetch(
+        `${API_BASE_URL}/species/search?q=${encodeURIComponent(query)}`
+      );
       if (!response.ok) {
         throw new Error('Failed to search species');
       }
@@ -47,7 +49,9 @@ export const api = {
     },
 
     async getByRegion(region: string): Promise<Species[]> {
-      const response = await fetch(`${API_BASE_URL}/species/region/${encodeURIComponent(region)}`);
+      const response = await fetch(
+        `${API_BASE_URL}/species/region/${encodeURIComponent(region)}`
+      );
       if (!response.ok) {
         throw new Error(`Failed to fetch species by region ${region}`);
       }
@@ -55,7 +59,9 @@ export const api = {
     },
 
     async getBySeason(season: string): Promise<Species[]> {
-      const response = await fetch(`${API_BASE_URL}/species/season/${encodeURIComponent(season)}`);
+      const response = await fetch(
+        `${API_BASE_URL}/species/season/${encodeURIComponent(season)}`
+      );
       if (!response.ok) {
         throw new Error(`Failed to fetch species by season ${season}`);
       }
@@ -82,7 +88,9 @@ export const api = {
     },
 
     async getByIngredient(ingredient: string): Promise<Recipe[]> {
-      const response = await fetch(`${API_BASE_URL}/recipes/by-ingredient/${encodeURIComponent(ingredient)}`);
+      const response = await fetch(
+        `${API_BASE_URL}/recipes/by-ingredient/${encodeURIComponent(ingredient)}`
+      );
       if (!response.ok) {
         throw new Error('Failed to fetch recipes by ingredient');
       }
@@ -90,7 +98,9 @@ export const api = {
     },
 
     async getByDifficulty(difficulty: Recipe['difficulty']): Promise<Recipe[]> {
-      const response = await fetch(`${API_BASE_URL}/recipes/difficulty/${difficulty}`);
+      const response = await fetch(
+        `${API_BASE_URL}/recipes/difficulty/${difficulty}`
+      );
       if (!response.ok) {
         throw new Error(`Failed to fetch recipes by difficulty ${difficulty}`);
       }
@@ -98,7 +108,9 @@ export const api = {
     },
 
     async search(query: string): Promise<Recipe[]> {
-      const response = await fetch(`${API_BASE_URL}/recipes/search?q=${encodeURIComponent(query)}`);
+      const response = await fetch(
+        `${API_BASE_URL}/recipes/search?q=${encodeURIComponent(query)}`
+      );
       if (!response.ok) {
         throw new Error('Failed to search recipes');
       }
@@ -106,9 +118,13 @@ export const api = {
     },
 
     async getSuggested(speciesId: string): Promise<Recipe[]> {
-      const response = await fetch(`${API_BASE_URL}/recipes/suggested/${speciesId}`);
+      const response = await fetch(
+        `${API_BASE_URL}/recipes/suggested/${speciesId}`
+      );
       if (!response.ok) {
-        throw new Error(`Failed to fetch suggested recipes for species ${speciesId}`);
+        throw new Error(
+          `Failed to fetch suggested recipes for species ${speciesId}`
+        );
       }
       return response.json();
     },
@@ -141,7 +157,7 @@ export const api = {
     },
 
     async getForagingSpots(regionId?: string): Promise<ForagingSpot[]> {
-      const url = regionId 
+      const url = regionId
         ? `${API_BASE_URL}/map/spots?regionId=${regionId}`
         : `${API_BASE_URL}/map/spots`;
       const response = await fetch(url);
@@ -151,16 +167,23 @@ export const api = {
       return response.json();
     },
 
-    async getNearbySpots(coordinates: [number, number], radius: number = 10): Promise<ForagingSpot[]> {
+    async getNearbySpots(
+      coordinates: [number, number],
+      radius: number = 10
+    ): Promise<ForagingSpot[]> {
       const [lat, lng] = coordinates;
-      const response = await fetch(`${API_BASE_URL}/map/spots/nearby?lat=${lat}&lng=${lng}&radius=${radius}`);
+      const response = await fetch(
+        `${API_BASE_URL}/map/spots/nearby?lat=${lat}&lng=${lng}&radius=${radius}`
+      );
       if (!response.ok) {
         throw new Error('Failed to fetch nearby foraging spots');
       }
       return response.json();
     },
 
-    async addSpot(spot: Omit<ForagingSpot, 'id' | 'userReports'>): Promise<ForagingSpot> {
+    async addSpot(
+      spot: Omit<ForagingSpot, 'id' | 'userReports'>
+    ): Promise<ForagingSpot> {
       const response = await fetch(`${API_BASE_URL}/map/spots`, {
         method: 'POST',
         headers: {
@@ -174,14 +197,20 @@ export const api = {
       return response.json();
     },
 
-    async reportSpot(spotId: string, report: ForagingSpot['userReports'][0]): Promise<void> {
-      const response = await fetch(`${API_BASE_URL}/map/spots/${spotId}/reports`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(report),
-      });
+    async reportSpot(
+      spotId: string,
+      report: ForagingSpot['userReports'][0]
+    ): Promise<void> {
+      const response = await fetch(
+        `${API_BASE_URL}/map/spots/${spotId}/reports`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(report),
+        }
+      );
       if (!response.ok) {
         throw new Error('Failed to report foraging spot');
       }
@@ -276,11 +305,17 @@ export const api = {
       return response.json();
     },
 
-    async toggleFavorite(type: 'species' | 'recipes' | 'spots', id: string): Promise<void> {
-      const response = await fetch(`${API_BASE_URL}/user/favorites/${type}/${id}`, {
-        method: 'POST',
-        credentials: 'include',
-      });
+    async toggleFavorite(
+      type: 'species' | 'recipes' | 'spots',
+      id: string
+    ): Promise<void> {
+      const response = await fetch(
+        `${API_BASE_URL}/user/favorites/${type}/${id}`,
+        {
+          method: 'POST',
+          credentials: 'include',
+        }
+      );
       if (!response.ok) {
         throw new Error(`Failed to toggle favorite ${type}`);
       }
@@ -291,16 +326,22 @@ export const api = {
   weather: {
     async getForecast(coordinates: [number, number]): Promise<WeatherForecast> {
       const [lat, lng] = coordinates;
-      const response = await fetch(`${API_BASE_URL}/weather/forecast?lat=${lat}&lng=${lng}`);
+      const response = await fetch(
+        `${API_BASE_URL}/weather/forecast?lat=${lat}&lng=${lng}`
+      );
       if (!response.ok) {
         throw new Error('Failed to fetch weather forecast');
       }
       return response.json();
     },
 
-    async getCurrent(coordinates: [number, number]): Promise<WeatherForecast['current']> {
+    async getCurrent(
+      coordinates: [number, number]
+    ): Promise<WeatherForecast['current']> {
       const [lat, lng] = coordinates;
-      const response = await fetch(`${API_BASE_URL}/weather/current?lat=${lat}&lng=${lng}`);
+      const response = await fetch(
+        `${API_BASE_URL}/weather/current?lat=${lat}&lng=${lng}`
+      );
       if (!response.ok) {
         throw new Error('Failed to fetch current weather');
       }
@@ -345,4 +386,4 @@ export const api = {
       return response.json();
     },
   },
-}; 
+};

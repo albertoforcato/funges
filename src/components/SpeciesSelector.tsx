@@ -11,7 +11,10 @@ interface SpeciesSelectorProps {
   onSpeciesSelect: (species: Species) => void;
 }
 
-export const SpeciesSelector = ({ selectedSpecies, onSpeciesSelect }: SpeciesSelectorProps) => {
+export const SpeciesSelector = ({
+  selectedSpecies,
+  onSpeciesSelect,
+}: SpeciesSelectorProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [filter, setFilter] = useState('');
   const [typeFilter, setTypeFilter] = useState<string>('');
@@ -21,15 +24,16 @@ export const SpeciesSelector = ({ selectedSpecies, onSpeciesSelect }: SpeciesSel
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const typeMap: Record<string, string> = {
-    'mushroom': '🍄',
-    'plant': '🌿',
-    'berry': '🫐',
-    'nut': '🌰',
-    'flower': '🌸',
+    mushroom: '🍄',
+    plant: '🌿',
+    berry: '🫐',
+    nut: '🌰',
+    flower: '🌸',
   };
 
-  const filteredSpecies = species.filter((s) => {
-    const matchesFilter = s.name.toLowerCase().includes(filter.toLowerCase()) ||
+  const filteredSpecies = species.filter(s => {
+    const matchesFilter =
+      s.name.toLowerCase().includes(filter.toLowerCase()) ||
       s.scientificName.toLowerCase().includes(filter.toLowerCase());
     const matchesType = !typeFilter || s.type === typeFilter;
     return matchesFilter && matchesType;
@@ -38,7 +42,10 @@ export const SpeciesSelector = ({ selectedSpecies, onSpeciesSelect }: SpeciesSel
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setIsOpen(false);
         setFocusedIndex(-1);
       }
@@ -84,17 +91,17 @@ export const SpeciesSelector = ({ selectedSpecies, onSpeciesSelect }: SpeciesSel
   }, [filter, typeFilter]);
 
   return (
-    <div className="relative w-full max-w-md">
+    <div className='relative w-full max-w-md'>
       <Button
         onClick={() => setIsOpen(!isOpen)}
-        variant="outline"
-        className="w-full justify-between"
-        aria-label="Select species"
+        variant='outline'
+        className='w-full justify-between'
+        aria-label='Select species'
         aria-expanded={isOpen}
-        aria-haspopup="listbox"
+        aria-haspopup='listbox'
         onKeyDown={handleKeyDown}
       >
-        <span className="flex items-center gap-2">
+        <span className='flex items-center gap-2'>
           {selectedSpecies ? (
             <>
               <span>{typeMap[selectedSpecies.type]}</span>
@@ -104,35 +111,35 @@ export const SpeciesSelector = ({ selectedSpecies, onSpeciesSelect }: SpeciesSel
             'Select a species...'
           )}
         </span>
-        <ChevronDown className="w-4 h-4" />
+        <ChevronDown className='w-4 h-4' />
       </Button>
 
       {isOpen && (
-        <Card className="absolute top-full left-0 right-0 mt-1 p-4 max-h-96 overflow-y-auto z-50">
+        <Card className='absolute top-full left-0 right-0 mt-1 p-4 max-h-96 overflow-y-auto z-50'>
           {/* Search Input */}
-          <div className="relative mb-3">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+          <div className='relative mb-3'>
+            <Search className='absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400' />
             <Input
-              placeholder="Search species..."
+              placeholder='Search species...'
               value={filter}
-              onChange={(e) => setFilter(e.target.value)}
-              className="pl-10"
+              onChange={e => setFilter(e.target.value)}
+              className='pl-10'
               onKeyDown={handleKeyDown}
             />
           </div>
 
           {/* Type Filter */}
-          <div className="mb-3">
-            <div className="flex items-center gap-2 mb-2">
-              <Filter className="w-4 h-4" />
-              <span className="text-sm font-medium">Filter by type:</span>
+          <div className='mb-3'>
+            <div className='flex items-center gap-2 mb-2'>
+              <Filter className='w-4 h-4' />
+              <span className='text-sm font-medium'>Filter by type:</span>
             </div>
-            <div className="flex flex-wrap gap-2">
+            <div className='flex flex-wrap gap-2'>
               <Button
                 variant={typeFilter === '' ? 'default' : 'outline'}
-                size="sm"
+                size='sm'
                 onClick={() => setTypeFilter('')}
-                className="text-sm"
+                className='text-sm'
               >
                 All
               </Button>
@@ -140,9 +147,9 @@ export const SpeciesSelector = ({ selectedSpecies, onSpeciesSelect }: SpeciesSel
                 <Button
                   key={type}
                   variant={typeFilter === type ? 'default' : 'outline'}
-                  size="sm"
+                  size='sm'
                   onClick={() => setTypeFilter(type)}
-                  className="text-sm"
+                  className='text-sm'
                 >
                   {emoji} {type}
                 </Button>
@@ -151,11 +158,15 @@ export const SpeciesSelector = ({ selectedSpecies, onSpeciesSelect }: SpeciesSel
           </div>
 
           {/* Species List */}
-          <div role="listbox" aria-label="Species selection">
+          <div role='listbox' aria-label='Species selection'>
             {isLoading ? (
-              <div className="text-center py-4 text-gray-500">Loading species...</div>
+              <div className='text-center py-4 text-gray-500'>
+                Loading species...
+              </div>
             ) : filteredSpecies.length === 0 ? (
-              <div className="text-center py-4 text-gray-500">No species found</div>
+              <div className='text-center py-4 text-gray-500'>
+                No species found
+              </div>
             ) : (
               filteredSpecies.map((species, index) => (
                 <button
@@ -165,16 +176,19 @@ export const SpeciesSelector = ({ selectedSpecies, onSpeciesSelect }: SpeciesSel
                     setIsOpen(false);
                     setFocusedIndex(-1);
                   }}
-                  className={`w-full text-left p-3 rounded-lg hover:bg-gray-100 focus:bg-gray-100 focus:outline-none ${focusedIndex === index ? 'bg-gray-100' : ''
-                    }`}
-                  role="option"
+                  className={`w-full text-left p-3 rounded-lg hover:bg-gray-100 focus:bg-gray-100 focus:outline-none ${
+                    focusedIndex === index ? 'bg-gray-100' : ''
+                  }`}
+                  role='option'
                   aria-selected={focusedIndex === index}
                 >
-                  <div className="flex items-center gap-3">
-                    <span className="text-lg">{typeMap[species.type]}</span>
+                  <div className='flex items-center gap-3'>
+                    <span className='text-lg'>{typeMap[species.type]}</span>
                     <div>
-                      <div className="font-medium">{species.name}</div>
-                      <div className="text-sm text-gray-500 italic">{species.scientificName}</div>
+                      <div className='font-medium'>{species.name}</div>
+                      <div className='text-sm text-gray-500 italic'>
+                        {species.scientificName}
+                      </div>
                     </div>
                   </div>
                 </button>
@@ -185,4 +199,4 @@ export const SpeciesSelector = ({ selectedSpecies, onSpeciesSelect }: SpeciesSel
       )}
     </div>
   );
-}; 
+};

@@ -6,11 +6,11 @@ import { useZodForm } from '../../lib/forms';
 const regionSelectionSchema = z.object({
   region: z.enum([
     'WE_north',
-    'WE_south', 
+    'WE_south',
     'NE_north',
     'NE_south',
     'EE_north',
-    'EE_south'
+    'EE_south',
   ]),
 });
 
@@ -31,19 +31,26 @@ interface RegionSelectionFormProps {
   currentRegion?: string;
 }
 
-export function RegionSelectionForm({ onRegionChange, currentRegion }: RegionSelectionFormProps) {
+export function RegionSelectionForm({
+  onRegionChange,
+  currentRegion,
+}: RegionSelectionFormProps) {
   const form = useZodForm(regionSelectionSchema, {
     defaultValues: {
       region: (currentRegion as any) || 'WE_north',
     },
   });
 
-  const { watch, setValue, formState: { errors } } = form;
+  const {
+    watch,
+    setValue,
+    formState: { errors },
+  } = form;
   const selectedRegion = watch('region');
 
   // Update parent when region changes
   React.useEffect(() => {
-    const subscription = watch((value) => {
+    const subscription = watch(value => {
       if (value.region) {
         onRegionChange(value as RegionSelectionData);
       }
@@ -56,20 +63,21 @@ export function RegionSelectionForm({ onRegionChange, currentRegion }: RegionSel
   };
 
   return (
-    <div className="region-selection-form">
-      <div className="region-dropdown">
-        <div className="region-display">
-          <span className="current-region">
-            {regionOptions.find(opt => opt.value === selectedRegion)?.label || 'Select Region'}
+    <div className='region-selection-form'>
+      <div className='region-dropdown'>
+        <div className='region-display'>
+          <span className='current-region'>
+            {regionOptions.find(opt => opt.value === selectedRegion)?.label ||
+              'Select Region'}
           </span>
-          <span className="dropdown-arrow">▼</span>
+          <span className='dropdown-arrow'>▼</span>
         </div>
-        
-        <div className="region-options">
-          {regionOptions.map((option) => (
+
+        <div className='region-options'>
+          {regionOptions.map(option => (
             <button
               key={option.value}
-              type="button"
+              type='button'
               className={`region-option ${selectedRegion === option.value ? 'selected' : ''}`}
               onClick={() => handleRegionChange(option.value)}
             >
@@ -80,10 +88,8 @@ export function RegionSelectionForm({ onRegionChange, currentRegion }: RegionSel
       </div>
 
       {errors.region && (
-        <div className="error-message">
-          {errors.region.message}
-        </div>
+        <div className='error-message'>{errors.region.message}</div>
       )}
     </div>
   );
-} 
+}
