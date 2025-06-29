@@ -8,6 +8,7 @@ import {
   Users,
   Heart,
   Globe,
+  Leaf,
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -78,11 +79,9 @@ export const Sidebar = ({
     >
       {/* Logo */}
       <div className='mb-8'>
-        <img
-          src='https://raw.githubusercontent.com/lodist/funges/main/icons/logo_funges.webp'
-          alt='Fung.es Logo'
-          className='w-12 h-12'
-        />
+        <div className='w-12 h-12 bg-green-600 rounded-lg flex items-center justify-center'>
+          <Leaf className='w-8 h-8 text-white' />
+        </div>
       </div>
 
       {/* Image Upload Button */}

@@ -70,7 +70,57 @@
     "description": "Descrizione",
     "cookingTips": "Consigli di Cucina",
     "safetyNotes": "Note di Sicurezza",
-    "preparation": "Preparazione"
+    "preparation": "Preparazione",
+    "chanterelle": {
+      "name": "Finferlo",
+      "description": "Un fungo giallo dorato con una forma a imbuto distintiva e aroma fruttato simile all'albicocca. Molto apprezzato per il suo eccellente sapore e consistenza carnosa.",
+      "howTo": "Cerca i finferli nei boschi misti, in particolare sotto querce e pini. Crescono in gruppi e preferiscono terreni umidi e ben drenati. Raccogli girando e tirando delicatamente dalla base."
+    },
+    "porcini": {
+      "name": "Porcino",
+      "description": "Un fungo grande e carnoso con un gambo spesso e cappello marrone. Conosciuto per il suo sapore ricco e nocciolato e consistenza ferma. Uno dei funghi selvatici più ricercati.",
+      "howTo": "Trova i porcini nei boschi di latifoglie e conifere, spesso vicino a querce, faggi e pini. Preferiscono terreni ben drenati e possono crescere abbastanza grandi. Taglia alla base per raccogliere."
+    },
+    "morel": {
+      "name": "Spugnola",
+      "description": "Un fungo distintivo con cappello a nido d'ape e gambo cavo. Molto apprezzato per il suo sapore e consistenza unici. Spesso trovato in primavera dopo incendi boschivi.",
+      "howTo": "Cerca le spugnole in aree disturbate, foreste bruciate e vicino ad alberi morti o morenti. Appaiono in primavera e inizio estate. Taglia alla base e cuoci sempre accuratamente."
+    },
+    "blackberry": {
+      "name": "Mora",
+      "description": "Una bacca dolce e succosa che cresce su cespugli spinosi. Ricca di antiossidanti e vitamine. Disponibile in tarda estate e inizio autunno.",
+      "howTo": "Cerca cespugli di more in aree aperte, lungo i sentieri e ai margini della foresta. Raccogli solo bacche completamente mature e scure. Indossa guanti per evitare le spine."
+    },
+    "elderberry": {
+      "name": "Sambuco",
+      "description": "Piccole bacche viola scuro che crescono in grappoli sui sambuchi. Usato per marmellate, sciroppi e medicina tradizionale. Deve essere cotto prima del consumo.",
+      "howTo": "Trova alberi di sambuco in aree umide, lungo i torrenti e ai margini della foresta. Raccogli interi grappoli quando le bacche sono completamente mature. Rimuovi i gambi e cuoci accuratamente."
+    },
+    "nettle": {
+      "name": "Ortica",
+      "description": "Una pianta verde nutriente con peli urticanti. Ricca di ferro, vitamine e minerali. Usata in zuppe, tè e come sostituto degli spinaci.",
+      "howTo": "Indossa guanti quando raccogli le ortiche. Raccogli foglie giovani e tenere in primavera. Evita piante in fiore. Sbollenta o cuoci per rimuovere le proprietà urticanti."
+    },
+    "dandelion": {
+      "name": "Tarassaco",
+      "description": "Un'erbaccia comune con fiori gialli brillanti e foglie nutrienti. Tutte le parti sono commestibili e ricche di vitamine e minerali.",
+      "howTo": "Raccogli foglie giovani in primavera per insalate, o usa foglie mature per cucinare. Scava le radici in autunno per il tè. Raccogli fiori per vino o frittelle."
+    },
+    "hazelnut": {
+      "name": "Nocciola",
+      "description": "Gherigli dolci e nocciolati racchiusi in gusci duri. Ricca di proteine, grassi sani e vitamine. Disponibile in tarda estate e autunno.",
+      "howTo": "Cerca alberi di nocciolo ai margini della foresta e in aree aperte. Raccogli quando le noci cadono a terra. Rimuovi i gusci e asciuga accuratamente prima di conservare."
+    },
+    "wildGarlic": {
+      "name": "Aglio Orsino",
+      "description": "Un'erba pungente con foglie larghe e fiori bianchi. Forte sapore e aroma di aglio. Usato come condimento e nel pesto.",
+      "howTo": "Trova l'aglio orsino in aree umide e ombreggiate e sui pavimenti forestali. Raccogli foglie prima della fioritura per il miglior sapore. Usa fresco o conserva in olio."
+    },
+    "chickenOfTheWoods": {
+      "name": "Grifola Frondosa",
+      "description": "Un fungo a mensola arancione o giallo brillante che cresce sugli alberi. Chiamato così per la sua consistenza simile al pollo quando cotto. Eccellente sostituto della carne.",
+      "howTo": "Cerca questo fungo su alberi morti o morenti, in particolare querce. Raccogli esemplari giovani e teneri. Taglia dall'albero e pulisci accuratamente."
+    }
   },
   "identification": {
     "title": "Identificazione IA",
@@ -98,7 +148,22 @@
     "ingredients": "Ingredienti",
     "instructions": "Istruzioni",
     "tips": "Consigli",
-    "warnings": "Avvertimenti"
+    "warnings": "Avvertimenti",
+    "chanterellePasta": {
+      "title": "Pasta ai Finferli"
+    },
+    "morelRisotto": {
+      "title": "Risotto alle Spugnole"
+    },
+    "nettleSoup": {
+      "title": "Zuppa di Ortiche"
+    },
+    "elderberryJam": {
+      "title": "Marmellata di Sambuco"
+    },
+    "wildGarlicPesto": {
+      "title": "Pesto di Aglio Orsino"
+    }
   },
   "support": {
     "title": "Supporta Fung.es",
@@ -107,10 +172,35 @@
     "donate": "Dona",
     "patreon": "Supporta su Patreon",
     "crypto": "Criptovaluta",
-    "bitcoin": "Bitcoin",
-    "ethereum": "Ethereum",
-    "iota": "IOTA",
-    "thankYou": "Grazie per il tuo supporto!"
+    "thankYou": "Grazie per il tuo supporto!",
+    "bitcoin": {
+      "name": "Bitcoin",
+      "description": "Supportaci con la criptovaluta Bitcoin"
+    },
+    "ethereum": {
+      "name": "Ethereum",
+      "description": "Supportaci con la criptovaluta Ethereum"
+    },
+    "iota": {
+      "name": "IOTA",
+      "description": "Supportaci con la criptovaluta IOTA"
+    },
+    "koFi": {
+      "name": "Ko-fi",
+      "description": "Offrici un caffè su Ko-fi"
+    },
+    "githubSponsors": {
+      "name": "GitHub Sponsors",
+      "description": "Supportaci attraverso GitHub Sponsors"
+    },
+    "liberapay": {
+      "name": "Liberapay",
+      "description": "Supportaci attraverso Liberapay"
+    },
+    "paypal": {
+      "name": "PayPal",
+      "description": "Supportaci attraverso PayPal"
+    }
   },
   "footer": {
     "madeWith": "Fatto con ❤️ per la comunità di raccolta",

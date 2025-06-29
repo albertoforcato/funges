@@ -419,11 +419,13 @@ export const AdvancedMap: React.FC<AdvancedMapProps> = ({
       }
 
       // Create new marker
-      const pinElement = document.createElement('img');
-      pinElement.src =
-        'https://raw.githubusercontent.com/lodist/funges/main/icons/pin_1.webp';
-      pinElement.style.width = '40px';
-      pinElement.style.height = 'auto';
+      const pinElement = document.createElement('div');
+      pinElement.style.width = '20px';
+      pinElement.style.height = '20px';
+      pinElement.style.backgroundColor = '#3b82f6';
+      pinElement.style.borderRadius = '50%';
+      pinElement.style.border = '3px solid white';
+      pinElement.style.boxShadow = '0 2px 4px rgba(0,0,0,0.3)';
 
       userMarker.current = new mapboxgl.Marker({ element: pinElement })
         .setLngLat(coords)

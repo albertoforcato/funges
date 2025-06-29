@@ -6,6 +6,8 @@ import {
 } from '@/components/ui/dialog';
 import { Card } from '@/components/ui/card';
 import { Heart, ExternalLink } from 'lucide-react';
+import { useSupportMethods } from '@/data/support';
+import { useTranslation } from 'react-i18next';
 
 interface SupportModalProps {
   isOpen: boolean;
@@ -13,103 +15,64 @@ interface SupportModalProps {
 }
 
 export const SupportModal = ({ isOpen, onClose }: SupportModalProps) => {
-  const donationOptions = [
-    {
-      name: 'Patreon',
-      icon: 'https://raw.githubusercontent.com/lodist/funges/main/QR/patreon.webp',
-      url: 'https://www.patreon.com/funges',
-      color: '#ff424d',
-      textColor: 'white',
-    },
-    {
-      name: 'Buy Me a Coffee',
-      icon: 'https://raw.githubusercontent.com/lodist/funges/main/QR/buymeacoffee.webp',
-      url: 'https://www.buymeacoffee.com/funges',
-      color: '#ffdd00',
-      textColor: 'black',
-    },
-    {
-      name: 'Bitcoin',
-      icon: 'https://raw.githubusercontent.com/lodist/funges/main/QR/bitcoin_qr.webp',
-      url: 'bitcoin:bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh',
-      color: '#f7931a',
-      textColor: 'white',
-    },
-    {
-      name: 'Ethereum',
-      icon: 'https://raw.githubusercontent.com/lodist/funges/main/QR/ethereum_qr.webp',
-      url: 'ethereum:0x742d35Cc6634C0532925a3b8D4C9db96C4b4d8b6',
-      color: '#627eea',
-      textColor: 'white',
-    },
-    {
-      name: 'IOTA',
-      icon: 'https://raw.githubusercontent.com/lodist/funges/main/QR/iota_qr.webp',
-      url: 'iota:atoi1qzt0nhsf38nh6rs4p6zs5knqp6psgha9wgd74a8u7cgstkcj5jl3y7x0r8',
-      color: '#131f37',
-      textColor: 'white',
-    },
-  ];
+  const { t } = useTranslation('support');
+  const supportMethods = useSupportMethods();
 
-  const handleDonationClick = (url: string) => {
-    window.open(url, '_blank', 'noopener,noreferrer');
+  const handleDonationClick = (method: (typeof supportMethods)[0]) => {
+    if (method.url) {
+      window.open(method.url, '_blank', 'noopener,noreferrer');
+    } else if (method.address) {
+      // For crypto addresses, we could copy to clipboard or show QR code
+      navigator.clipboard.writeText(method.address);
+      // You could add a toast notification here
+    }
   };
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className='sm:max-w-lg'>
+      <DialogContent className='max-w-md'>
         <DialogHeader>
           <DialogTitle className='flex items-center gap-2'>
-            <Heart className='w-5 h-5 text-red-500' />
-            Support Fung.es
+            <Heart className='h-5 w-5 text-red-500' />
+            {t('support.title')}
           </DialogTitle>
         </DialogHeader>
-
         <div className='space-y-4'>
-          <p className='text-gray-600'>
-            Help us keep Fung.es free and continue developing new features for
-            the foraging community.
+          <p className='text-sm text-muted-foreground'>
+            {t('support.description')}
           </p>
-
-          <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
-            {donationOptions.map(option => (
+          <div className='grid gap-3'>
+            {supportMethods.map(method => (
               <Card
-                key={option.name}
-                className='p-4 hover:shadow-md transition-shadow cursor-pointer'
-                onClick={() => handleDonationClick(option.url)}
-                role='button'
-                tabIndex={0}
-                aria-label={`Donate via ${option.name}`}
-                onKeyDown={e => {
-                  if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    handleDonationClick(option.url);
-                  }
-                }}
+                key={method.id}
+                className='p-4 cursor-pointer hover:bg-accent transition-colors'
+                onClick={() => handleDonationClick(method)}
               >
-                <div className='flex items-center gap-3'>
-                  <div className='flex-shrink-0'>
-                    <img
-                      src={option.icon}
-                      alt={`${option.name} QR code`}
-                      className='w-12 h-12 rounded'
-                      loading='lazy'
-                    />
+                <div className='flex items-center justify-between'>
+                  <div className='flex items-center gap-3'>
+                    <div
+                      className='p-2 rounded-lg'
+                      style={{
+                        backgroundColor: method.color
+                          ? `${method.color}20`
+                          : 'var(--accent)',
+                      }}
+                    >
+                      <method.icon className='h-5 w-5' />
+                    </div>
+                    <div>
+                      <h3 className='font-medium'>{method.name}</h3>
+                      <p className='text-sm text-muted-foreground'>
+                        {method.description}
+                      </p>
+                    </div>
                   </div>
-                  <div className='flex-1'>
-                    <h3 className='font-medium'>{option.name}</h3>
-                    <p className='text-sm text-gray-500'>Click to donate</p>
-                  </div>
-                  <ExternalLink className='w-4 h-4 text-gray-400' />
+                  {method.url && (
+                    <ExternalLink className='h-4 w-4 text-muted-foreground' />
+                  )}
                 </div>
               </Card>
             ))}
-          </div>
-
-          <div className='text-center pt-4 border-t'>
-            <p className='text-sm text-gray-500'>
-              Thank you for supporting the foraging community! 🌿
-            </p>
           </div>
         </div>
       </DialogContent>

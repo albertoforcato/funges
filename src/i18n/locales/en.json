@@ -70,7 +70,57 @@
     "description": "Description",
     "cookingTips": "Cooking Tips",
     "safetyNotes": "Safety Notes",
-    "preparation": "Preparation"
+    "preparation": "Preparation",
+    "chanterelle": {
+      "name": "Chanterelle",
+      "description": "A golden-yellow mushroom with a distinctive funnel shape and fruity apricot-like aroma. Highly prized for its excellent flavor and meaty texture.",
+      "howTo": "Look for chanterelles in mixed forests, particularly under oak and pine trees. They grow in clusters and prefer moist, well-drained soil. Harvest by gently twisting and pulling from the base."
+    },
+    "porcini": {
+      "name": "Porcini",
+      "description": "A large, meaty mushroom with a thick stem and brown cap. Known for its rich, nutty flavor and firm texture. One of the most sought-after wild mushrooms.",
+      "howTo": "Find porcini in deciduous and coniferous forests, often near oak, beech, and pine trees. They prefer well-drained soil and can grow quite large. Cut at the base to harvest."
+    },
+    "morel": {
+      "name": "Morel",
+      "description": "A distinctive mushroom with a honeycomb-like cap and hollow stem. Highly prized for its unique flavor and texture. Often found in spring after forest fires.",
+      "howTo": "Search for morels in disturbed areas, burned forests, and near dead or dying trees. They appear in spring and early summer. Cut at the base and always cook thoroughly."
+    },
+    "blackberry": {
+      "name": "Blackberry",
+      "description": "A sweet, juicy berry that grows on thorny bushes. Rich in antioxidants and vitamins. Available in late summer and early fall.",
+      "howTo": "Look for blackberry bushes in open areas, along trails, and in forest edges. Pick only fully ripe, dark berries. Wear gloves to avoid thorns."
+    },
+    "elderberry": {
+      "name": "Elderberry",
+      "description": "Small, dark purple berries that grow in clusters on elder trees. Used for jams, syrups, and traditional medicine. Must be cooked before consumption.",
+      "howTo": "Find elder trees in moist areas, along streams, and in forest edges. Harvest entire clusters when berries are fully ripe. Remove stems and cook thoroughly."
+    },
+    "nettle": {
+      "name": "Stinging Nettle",
+      "description": "A nutritious green plant with stinging hairs. Rich in iron, vitamins, and minerals. Used in soups, teas, and as a spinach substitute.",
+      "howTo": "Wear gloves when harvesting nettles. Pick young, tender leaves in spring. Avoid flowering plants. Blanch or cook to remove stinging properties."
+    },
+    "dandelion": {
+      "name": "Dandelion",
+      "description": "A common weed with bright yellow flowers and nutritious leaves. All parts are edible and rich in vitamins and minerals.",
+      "howTo": "Harvest young leaves in spring for salads, or use mature leaves for cooking. Dig roots in fall for tea. Pick flowers for wine or fritters."
+    },
+    "hazelnut": {
+      "name": "Hazelnut",
+      "description": "Sweet, nutty kernels encased in hard shells. Rich in protein, healthy fats, and vitamins. Available in late summer and fall.",
+      "howTo": "Look for hazelnut trees in forest edges and open areas. Harvest when nuts fall to the ground. Remove husks and dry thoroughly before storing."
+    },
+    "wildGarlic": {
+      "name": "Wild Garlic",
+      "description": "A pungent herb with broad leaves and white flowers. Strong garlic flavor and aroma. Used as a seasoning and in pesto.",
+      "howTo": "Find wild garlic in moist, shady areas and forest floors. Harvest leaves before flowering for best flavor. Use fresh or preserve in oil."
+    },
+    "chickenOfTheWoods": {
+      "name": "Chicken of the Woods",
+      "description": "A bright orange or yellow shelf mushroom that grows on trees. Named for its chicken-like texture when cooked. Excellent meat substitute.",
+      "howTo": "Look for this mushroom on dead or dying trees, particularly oak. Harvest young, tender specimens. Cut from the tree and clean thoroughly."
+    }
   },
   "identification": {
     "title": "AI Identification",
@@ -98,7 +148,22 @@
     "ingredients": "Ingredients",
     "instructions": "Instructions",
     "tips": "Tips",
-    "warnings": "Warnings"
+    "warnings": "Warnings",
+    "chanterellePasta": {
+      "title": "Chanterelle Pasta"
+    },
+    "morelRisotto": {
+      "title": "Morel Risotto"
+    },
+    "nettleSoup": {
+      "title": "Nettle Soup"
+    },
+    "elderberryJam": {
+      "title": "Elderberry Jam"
+    },
+    "wildGarlicPesto": {
+      "title": "Wild Garlic Pesto"
+    }
   },
   "support": {
     "title": "Support Fung.es",
@@ -110,7 +175,35 @@
     "bitcoin": "Bitcoin",
     "ethereum": "Ethereum",
     "iota": "IOTA",
-    "thankYou": "Thank you for your support!"
+    "thankYou": "Thank you for your support!",
+    "bitcoin": {
+      "name": "Bitcoin",
+      "description": "Support us with Bitcoin cryptocurrency"
+    },
+    "ethereum": {
+      "name": "Ethereum",
+      "description": "Support us with Ethereum cryptocurrency"
+    },
+    "iota": {
+      "name": "IOTA",
+      "description": "Support us with IOTA cryptocurrency"
+    },
+    "koFi": {
+      "name": "Ko-fi",
+      "description": "Buy us a coffee on Ko-fi"
+    },
+    "githubSponsors": {
+      "name": "GitHub Sponsors",
+      "description": "Support us through GitHub Sponsors"
+    },
+    "liberapay": {
+      "name": "Liberapay",
+      "description": "Support us through Liberapay"
+    },
+    "paypal": {
+      "name": "PayPal",
+      "description": "Support us through PayPal"
+    }
   },
   "footer": {
     "madeWith": "Made with ❤️ for the foraging community",

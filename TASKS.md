@@ -135,7 +135,7 @@ PLEASE: Ask for clarification if any functionality or data structure is unclear
 
 ## 14.1. Export the old project into the new one
 
-- [ ] Export the old project into the new one
+- [x] Export the old project into the new one
 
 ## 15. GitHub Pages Deployment
 
