@@ -184,7 +184,7 @@ PLEASE: Ask for clarification if any functionality or data structure is unclear
 
 ### PWA Features
 
-- [ ] Setup Vite PWA plugin
+- [x] Setup Vite PWA plugin
 - [ ] Add service worker for caching & offline support
 - [ ] Add splash screen + mobile home screen support
 - [ ] Ensure app functions fully offline
