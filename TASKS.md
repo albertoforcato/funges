@@ -112,9 +112,9 @@ PLEASE: Ask for clarification if any functionality or data structure is unclear
 
 ## 13. Storybook
 
-- [ ] Create stories for each UI component (Buttons, Inputs, Forms, Cards, etc.)
-- [ ] Include variant examples (e.g., disabled, loading, with icon)
-- [ ] Include documentation with controls and props
+- [x] Create stories for each UI component (Buttons, Inputs, Forms, Cards, etc.)
+- [x] Include variant examples (e.g., disabled, loading, with icon)
+- [x] Include documentation with controls and props
 
 ## 14. Makefile Setup
 
@@ -131,6 +131,7 @@ PLEASE: Ask for clarification if any functionality or data structure is unclear
   - [ ] `make analyze` – run bundle analyzer if needed
   - [ ] `make deploy` – build and push to GitHub Pages
   - [ ] `make docker-build` – build Docker image of the frontend
+  - [ ] Add other commands to the Makefile
 
 ## 15. GitHub Pages Deployment
 

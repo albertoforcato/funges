@@ -1,112 +1,247 @@
-import type { Meta, StoryObj } from '@storybook/react';
-
-interface ButtonProps {
-  label: string;
-  variant?: 'primary' | 'secondary' | 'outline';
-  size?: 'sm' | 'md' | 'lg';
-  disabled?: boolean;
-  onClick?: () => void;
-}
-
-const Button = ({
-  label,
-  variant = 'primary',
-  size = 'md',
-  disabled = false,
-  onClick,
-}: ButtonProps) => {
-  const baseClasses =
-    'font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2';
-
-  const variantClasses = {
-    primary: 'bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500',
-    secondary: 'bg-gray-600 text-white hover:bg-gray-700 focus:ring-gray-500',
-    outline:
-      'border-2 border-blue-600 text-blue-600 hover:bg-blue-50 focus:ring-blue-500',
-  };
-
-  const sizeClasses = {
-    sm: 'px-3 py-1.5 text-sm',
-    md: 'px-4 py-2 text-base',
-    lg: 'px-6 py-3 text-lg',
-  };
-
-  const disabledClasses = disabled
-    ? 'opacity-50 cursor-not-allowed'
-    : 'cursor-pointer';
-
-  const classes = `${baseClasses} ${variantClasses[variant]} ${sizeClasses[size]} ${disabledClasses}`;
-
-  return (
-    <button className={classes} disabled={disabled} onClick={onClick}>
-      {label}
-    </button>
-  );
-};
+import type { Meta, StoryObj } from '@storybook/react-vite';
+import { Button } from '@/components/ui/button';
+import { Search, Download, Heart, Settings } from 'lucide-react';
 
 const meta: Meta<typeof Button> = {
-  title: 'Components/Button',
+  title: 'UI/Button',
   component: Button,
   parameters: {
     layout: 'centered',
+    docs: {
+      description: {
+        component:
+          'A versatile button component with multiple variants, sizes, and states. Built on top of Radix UI primitives with full accessibility support.',
+      },
+    },
   },
   tags: ['autodocs'],
   argTypes: {
     variant: {
       control: { type: 'select' },
-      options: ['primary', 'secondary', 'outline'],
+      options: [
+        'default',
+        'destructive',
+        'outline',
+        'secondary',
+        'ghost',
+        'link',
+      ],
+      description: 'The visual style variant of the button',
     },
     size: {
       control: { type: 'select' },
-      options: ['sm', 'md', 'lg'],
+      options: ['default', 'sm', 'lg', 'icon'],
+      description: 'The size of the button',
     },
     disabled: {
       control: { type: 'boolean' },
+      description: 'Whether the button is disabled',
     },
+    asChild: {
+      control: { type: 'boolean' },
+      description: 'Whether to render as a child component using Radix Slot',
+    },
+    children: {
+      control: { type: 'text' },
+      description: 'The content inside the button',
+    },
+  },
+  args: {
+    children: 'Button',
+    disabled: false,
+    asChild: false,
   },
 };
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Primary: Story = {
+// Basic Variants
+export const Default: Story = {
   args: {
-    label: 'Button',
-    variant: 'primary',
+    variant: 'default',
+    children: 'Default Button',
   },
 };
 
 export const Secondary: Story = {
   args: {
-    label: 'Button',
     variant: 'secondary',
+    children: 'Secondary Button',
   },
 };
 
 export const Outline: Story = {
   args: {
-    label: 'Button',
     variant: 'outline',
+    children: 'Outline Button',
   },
 };
 
+export const Ghost: Story = {
+  args: {
+    variant: 'ghost',
+    children: 'Ghost Button',
+  },
+};
+
+export const Link: Story = {
+  args: {
+    variant: 'link',
+    children: 'Link Button',
+  },
+};
+
+export const Destructive: Story = {
+  args: {
+    variant: 'destructive',
+    children: 'Destructive Button',
+  },
+};
+
+// Sizes
 export const Small: Story = {
   args: {
-    label: 'Small Button',
     size: 'sm',
+    children: 'Small Button',
   },
 };
 
 export const Large: Story = {
   args: {
-    label: 'Large Button',
     size: 'lg',
+    children: 'Large Button',
   },
 };
 
+export const Icon: Story = {
+  args: {
+    size: 'icon',
+    children: <Settings />,
+    'aria-label': 'Settings',
+  },
+};
+
+// States
 export const Disabled: Story = {
   args: {
-    label: 'Disabled Button',
     disabled: true,
+    children: 'Disabled Button',
+  },
+};
+
+export const Loading: Story = {
+  args: {
+    disabled: true,
+    children: (
+      <>
+        <div className='animate-spin rounded-full h-4 w-4 border-b-2 border-current' />
+        Loading...
+      </>
+    ),
+  },
+};
+
+// With Icons
+export const WithIcon: Story = {
+  args: {
+    children: (
+      <>
+        <Search />
+        Search
+      </>
+    ),
+  },
+};
+
+export const IconOnly: Story = {
+  args: {
+    size: 'icon',
+    children: <Heart />,
+    'aria-label': 'Like',
+  },
+};
+
+export const WithTrailingIcon: Story = {
+  args: {
+    children: (
+      <>
+        Download
+        <Download />
+      </>
+    ),
+  },
+};
+
+// Interactive Examples
+export const Interactive: Story = {
+  args: {
+    children: 'Click me!',
+    onClick: () => alert('Button clicked!'),
+  },
+};
+
+// All Variants Grid
+export const AllVariants: Story = {
+  render: () => (
+    <div className='grid grid-cols-2 gap-4 w-full max-w-2xl'>
+      <Button variant='default'>Default</Button>
+      <Button variant='secondary'>Secondary</Button>
+      <Button variant='outline'>Outline</Button>
+      <Button variant='ghost'>Ghost</Button>
+      <Button variant='link'>Link</Button>
+      <Button variant='destructive'>Destructive</Button>
+    </div>
+  ),
+  parameters: {
+    docs: {
+      description: {
+        story: 'All available button variants displayed in a grid layout.',
+      },
+    },
+  },
+};
+
+// All Sizes Grid
+export const AllSizes: Story = {
+  render: () => (
+    <div className='flex items-center gap-4'>
+      <Button size='sm'>Small</Button>
+      <Button size='default'>Default</Button>
+      <Button size='lg'>Large</Button>
+      <Button size='icon'>
+        <Settings />
+      </Button>
+    </div>
+  ),
+  parameters: {
+    docs: {
+      description: {
+        story: 'All available button sizes displayed in a row.',
+      },
+    },
+  },
+};
+
+// With Different Content
+export const WithLongText: Story = {
+  args: {
+    children: 'This is a button with very long text that might wrap',
+  },
+};
+
+export const WithEmoji: Story = {
+  args: {
+    children: '🚀 Launch App',
+  },
+};
+
+export const WithHTML: Story = {
+  args: {
+    children: (
+      <>
+        <strong>Bold</strong> and <em>italic</em> text
+      </>
+    ),
   },
 };
