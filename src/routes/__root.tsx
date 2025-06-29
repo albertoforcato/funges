@@ -9,7 +9,7 @@ export const Route = createRootRoute({
 
 function RootComponent() {
   return (
-    <div className='app-root'>
+    <div className='app-root h-screen flex'>
       {/* Sidebar */}
       <Sidebar
         onImageUpload={() => {}}
@@ -21,16 +21,19 @@ function RootComponent() {
         onToggleSupport={() => {}}
       />
 
-      {/* Header */}
-      <Header />
+      {/* Main content area */}
+      <div className='flex-1 flex flex-col'>
+        {/* Header */}
+        <Header />
 
-      {/* Main content */}
-      <main className='main-content pt-12 pb-10 pl-20'>
-        <Outlet />
-      </main>
+        {/* Scrollable content */}
+        <main className='flex-1 overflow-y-auto pt-12 pb-10 pl-20'>
+          <Outlet />
+        </main>
 
-      {/* Footer */}
-      <Footer />
+        {/* Footer */}
+        <Footer />
+      </div>
     </div>
   );
 }
