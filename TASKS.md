@@ -68,7 +68,7 @@ PLEASE: Ask for clarification if any functionality or data structure is unclear
 - [x] Install **shadcn/ui** (based on Radix + Tailwind)
 - [x] Use shadcn components for buttons, dialogs, inputs, etc.
 - [x] Decompose existing HTML UI into composable React components
-- [ ] Ensure accessibility (labels, ARIA, keyboard support)
+- [x] Ensure accessibility (labels, ARIA, keyboard support)
 
 ## 9. Animations
 

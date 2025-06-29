@@ -17,11 +17,25 @@ export const ImageUploadModal = ({ isOpen, onClose, onImageUpload }: ImageUpload
   const handleFileSelect = useCallback((file: File) => {
     if (file && file.type.startsWith('image/')) {
       onImageUpload(file);
-      setResult('Processing image...');
+      setResult('Image uploaded successfully!');
+      setTimeout(() => {
+        onClose();
+        setResult('');
+      }, 2000);
     } else {
       setResult('Please select a valid image file.');
     }
-  }, [onImageUpload]);
+  }, [onImageUpload, onClose]);
+
+  const handleDrop = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragOver(false);
+    
+    const files = Array.from(e.dataTransfer.files);
+    if (files.length > 0) {
+      handleFileSelect(files[0]);
+    }
+  }, [handleFileSelect]);
 
   const handleDragOver = useCallback((e: React.DragEvent) => {
     e.preventDefault();
@@ -33,84 +47,109 @@ export const ImageUploadModal = ({ isOpen, onClose, onImageUpload }: ImageUpload
     setIsDragOver(false);
   }, []);
 
-  const handleDrop = useCallback((e: React.DragEvent) => {
-    e.preventDefault();
-    setIsDragOver(false);
-    
-    const files = e.dataTransfer.files;
-    if (files.length > 0) {
-      handleFileSelect(files[0]);
-    }
-  }, [handleFileSelect]);
-
   const handleFileInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (files && files.length > 0) {
-      handleFileSelect(files[0]);
+    const file = e.target.files?.[0];
+    if (file) {
+      handleFileSelect(file);
     }
   }, [handleFileSelect]);
 
-  const handleCameraClick = useCallback(() => {
-    fileInputRef.current?.click();
+  const handleCameraCapture = useCallback(() => {
+    // This would integrate with device camera
+    setResult('Camera capture not yet implemented');
   }, []);
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="bg-white p-6 rounded-lg text-center max-w-md w-[90%]">
+      <DialogContent 
+        className="sm:max-w-md"
+        onKeyDown={(e) => {
+          if (e.key === 'Escape') {
+            onClose();
+          }
+        }}
+      >
         <DialogHeader>
-          <DialogTitle className="text-lg font-semibold mb-4">
-            Identify Mushroom
-          </DialogTitle>
+          <DialogTitle>Upload Image for Identification</DialogTitle>
         </DialogHeader>
-
+        
         <div className="space-y-4">
-          <p className="text-gray-600">
-            Drag an image here or use the camera
-          </p>
-
-          {/* Camera Button */}
-          <Button
-            onClick={handleCameraClick}
-            className="text-2xl p-4 rounded-full bg-gray-100 hover:bg-gray-200"
-            variant="ghost"
+          {/* Drag & Drop Area */}
+          <Card
+            className={`p-8 text-center border-2 border-dashed transition-colors ${
+              isDragOver 
+                ? 'border-blue-500 bg-blue-50' 
+                : 'border-gray-300 hover:border-gray-400'
+            }`}
+            onDrop={handleDrop}
+            onDragOver={handleDragOver}
+            onDragLeave={handleDragLeave}
+            role="button"
+            tabIndex={0}
+            aria-label="Drag and drop image here or click to select file"
+            onClick={() => fileInputRef.current?.click()}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                fileInputRef.current?.click();
+              }
+            }}
           >
-            📷
-          </Button>
+            <div className="space-y-2">
+              <div className="text-4xl" aria-hidden="true">📷</div>
+              <p className="text-lg font-medium">
+                Drag & drop your image here
+              </p>
+              <p className="text-sm text-gray-500">
+                or click to browse files
+              </p>
+            </div>
+          </Card>
 
-          {/* Hidden File Input */}
+          {/* File Input (Hidden) */}
           <input
             ref={fileInputRef}
             type="file"
             accept="image/*"
-            capture="environment"
             onChange={handleFileInputChange}
             className="hidden"
+            aria-label="Select image file"
           />
 
-          {/* Drop Zone */}
-          <Card
-            className={`w-full h-36 border-2 border-dashed flex items-center justify-center transition-colors ${
-              isDragOver
-                ? 'border-blue-400 bg-blue-50'
-                : 'border-gray-300 hover:border-gray-400'
-            }`}
-            onDragOver={handleDragOver}
-            onDragLeave={handleDragLeave}
-            onDrop={handleDrop}
-          >
-            <div className="text-center">
-              <div className="text-gray-500 text-base">
-                {isDragOver ? 'Drop image here' : 'Drop Image Here'}
-              </div>
-            </div>
-          </Card>
+          {/* Action Buttons */}
+          <div className="flex gap-2 justify-center">
+            <Button
+              onClick={() => fileInputRef.current?.click()}
+              aria-label="Browse for image file"
+            >
+              Browse Files
+            </Button>
+            <Button
+              onClick={handleCameraCapture}
+              variant="outline"
+              aria-label="Capture image with camera"
+            >
+              📸 Camera
+            </Button>
+          </div>
 
-          {/* Result Display */}
+          {/* Result Message */}
           {result && (
-            <div className="mt-4 p-3 bg-gray-100 rounded-md">
-              <p className="text-sm font-semibold text-gray-700">{result}</p>
+            <div 
+              className="p-3 text-center rounded-md bg-blue-50 text-blue-800"
+              role="status"
+              aria-live="polite"
+            >
+              {result}
             </div>
           )}
+
+          {/* Instructions */}
+          <div className="text-sm text-gray-600 space-y-2">
+            <p><strong>Supported formats:</strong> JPG, PNG, GIF, WebP</p>
+            <p><strong>Maximum size:</strong> 10MB</p>
+            <p><strong>Tip:</strong> Clear, well-lit photos work best for identification</p>
+          </div>
         </div>
       </DialogContent>
     </Dialog>

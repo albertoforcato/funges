@@ -23,6 +23,13 @@ export const SupportModal = ({ isOpen, onClose }: SupportModalProps) => {
       color: '#ffdd00',
       textColor: 'black',
     },
+    {
+      name: 'PayPal',
+      icon: 'https://raw.githubusercontent.com/lodist/funges/main/QR/paypal.webp',
+      url: 'https://www.paypal.com/donate/?hosted_button_id=YOUR_PAYPAL_ID',
+      color: '#0070ba',
+      textColor: 'white',
+    },
   ];
 
   const cryptoOptions = [
@@ -49,90 +56,94 @@ export const SupportModal = ({ isOpen, onClose }: SupportModalProps) => {
     alert(`${name} address copied to clipboard!`);
   };
 
+  const handleDonationClick = (url: string, name: string) => {
+    window.open(url, '_blank', 'noopener,noreferrer');
+    // Track donation click if needed
+    console.log(`Donation clicked: ${name}`);
+  };
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="bg-[#fffdf6] p-6 rounded-xl text-center max-w-lg w-[90%] max-h-[90vh] overflow-y-auto">
+      <DialogContent 
+        className="sm:max-w-md"
+        onKeyDown={(e) => {
+          if (e.key === 'Escape') {
+            onClose();
+          }
+        }}
+      >
         <DialogHeader>
-          <DialogTitle className="text-xl font-bold mb-4">
-            Support Fung.es Development
-          </DialogTitle>
+          <DialogTitle>Support Fung.es</DialogTitle>
         </DialogHeader>
-
-        <div className="space-y-6">
-          <p className="text-gray-700">
-            Help us keep Fung.es free and improve the foraging experience for everyone!
+        
+        <div className="space-y-4">
+          <p className="text-center text-gray-600">
+            Help us keep Fung.es free and improve our services. Choose your preferred way to support:
           </p>
 
-          {/* Support Buttons */}
+          {/* Donation Options */}
           <div className="space-y-3">
             {donationOptions.map((option) => (
-              <a
+              <Card
                 key={option.name}
-                href={option.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 font-bold no-underline px-4 py-2 rounded-lg transition-colors"
-                style={{
-                  backgroundColor: option.color,
-                  color: option.textColor,
+                className="p-4 hover:shadow-md transition-shadow cursor-pointer"
+                onClick={() => handleDonationClick(option.url, option.name)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    handleDonationClick(option.url, option.name);
+                  }
                 }}
+                role="button"
+                tabIndex={0}
+                aria-label={`Support via ${option.name}`}
               >
-                <img
-                  src={option.icon}
-                  alt={option.name}
-                  className="w-6 h-auto"
-                />
-                {option.name}
-              </a>
+                <div className="flex items-center space-x-3">
+                  <img
+                    src={option.icon}
+                    alt={`${option.name} QR code`}
+                    className="w-12 h-12 rounded"
+                    loading="lazy"
+                  />
+                  <div className="flex-1">
+                    <h3 className="font-medium">{option.name}</h3>
+                    <p className="text-sm text-gray-500">Click to donate</p>
+                  </div>
+                  <Button
+                    size="sm"
+                    style={{
+                      backgroundColor: option.color,
+                      color: option.textColor,
+                    }}
+                    className="hover:opacity-90"
+                    aria-label={`Donate via ${option.name}`}
+                  >
+                    Donate
+                  </Button>
+                </div>
+              </Card>
             ))}
           </div>
 
-          {/* QR Codes Section - Desktop */}
-          <div className="hidden md:block">
-            <h3 className="text-lg font-semibold mb-4">Crypto Donations</h3>
-            <div className="grid grid-cols-3 gap-4">
-              {cryptoOptions.map((crypto) => (
-                <div key={crypto.name} className="text-center">
-                  <img
-                    src={crypto.icon}
-                    alt={`${crypto.name} QR Code`}
-                    className="w-24 h-24 mx-auto rounded-lg mb-2"
-                  />
-                  <p className="text-sm font-medium">{crypto.name}</p>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="mt-1 text-xs"
-                    onClick={() => handleCopyAddress(crypto.address, crypto.name)}
-                  >
-                    Copy Address
-                  </Button>
-                </div>
-              ))}
-            </div>
+          {/* Additional Support Info */}
+          <div className="text-center text-sm text-gray-500 space-y-2">
+            <p>
+              Your support helps us maintain and improve the Fung.es platform.
+            </p>
+            <p>
+              Thank you for helping us keep foraging knowledge accessible to everyone!
+            </p>
           </div>
 
-          {/* Crypto Buttons - Mobile */}
-          <div className="md:hidden">
-            <h3 className="text-lg font-semibold mb-4">Crypto Donations</h3>
-            <div className="space-y-3">
-              {cryptoOptions.map((crypto) => (
-                <div key={crypto.name} className="text-center">
-                  <p className="text-sm font-medium mb-2">{crypto.name}</p>
-                  <Button
-                    variant="outline"
-                    className="w-full"
-                    onClick={() => handleCopyAddress(crypto.address, crypto.name)}
-                  >
-                    Copy {crypto.name} Address
-                  </Button>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="text-sm text-gray-600">
-            Thank you for supporting independent development! 🙏
+          {/* Close Button */}
+          <div className="flex justify-center">
+            <Button
+              variant="outline"
+              onClick={onClose}
+              aria-label="Close support modal"
+            >
+              Close
+            </Button>
           </div>
         </div>
       </DialogContent>

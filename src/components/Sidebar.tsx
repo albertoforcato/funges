@@ -1,5 +1,5 @@
 import { Button } from './ui/button';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 interface SidebarProps {
   onImageUpload: () => void;
@@ -21,6 +21,7 @@ export const Sidebar = ({
   onToggleSupport,
 }: SidebarProps) => {
   const [showRegionDropdown, setShowRegionDropdown] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   const regions = [
     { id: 'WE_north', name: 'West Europe North' },
@@ -31,8 +32,36 @@ export const Sidebar = ({
     { id: 'EE_south', name: 'East Europe South' },
   ];
 
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setShowRegionDropdown(false);
+      }
+    };
+
+    if (showRegionDropdown) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showRegionDropdown]);
+
+  // Handle keyboard navigation for dropdown
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    if (event.key === 'Escape') {
+      setShowRegionDropdown(false);
+    }
+  };
+
   return (
-    <aside className="fixed top-0 left-0 h-[calc(100vh-40px)] w-20 bg-[rgba(255,252,239,0.9)] flex flex-col items-center py-2 shadow-md overflow-y-auto overflow-x-visible z-40">
+    <aside 
+      className="fixed top-0 left-0 h-[calc(100vh-40px)] w-20 bg-[rgba(255,252,239,0.9)] flex flex-col items-center py-2 shadow-md overflow-y-auto overflow-x-visible z-40"
+      role="complementary"
+      aria-label="Toolbar"
+    >
       {/* Logo */}
       <div className="mb-4">
         <img
@@ -49,36 +78,47 @@ export const Sidebar = ({
         size="icon"
         className="mb-3 w-10 h-10 p-0"
         onClick={onImageUpload}
+        aria-label="Identify mushroom or plant from image"
         title="Identify Mushroom"
       >
         <img
           src="https://raw.githubusercontent.com/lodist/funges/main/icons/id_mushroom.webp"
-          alt="Mushroom ID"
+          alt=""
           className="w-10 h-auto"
           loading="lazy"
+          aria-hidden="true"
         />
       </Button>
 
       {/* Region Selection Button */}
-      <div className="relative mb-3">
+      <div className="relative mb-3" ref={dropdownRef}>
         <Button
           variant="ghost"
           size="icon"
           className="w-10 h-10 p-0"
           onClick={() => setShowRegionDropdown(!showRegionDropdown)}
+          aria-label="Select foraging region"
+          aria-expanded={showRegionDropdown}
+          aria-haspopup="listbox"
           title="Select Region"
         >
           <img
             src="https://raw.githubusercontent.com/lodist/funges/main/icons/region_1.webp"
-            alt="Region"
+            alt=""
             className="w-10 h-auto"
             loading="lazy"
+            aria-hidden="true"
           />
         </Button>
 
         {/* Region Dropdown */}
         {showRegionDropdown && (
-          <div className="absolute left-full top-0 ml-2 bg-[rgba(255,252,239,0.9)] rounded-lg shadow-lg p-1 min-w-[170px] z-50">
+          <div 
+            className="absolute left-full top-0 ml-2 bg-[rgba(255,252,239,0.9)] rounded-lg shadow-lg p-1 min-w-[170px] z-50"
+            role="listbox"
+            aria-label="Select region"
+            onKeyDown={handleKeyDown}
+          >
             {regions.map((region) => (
               <Button
                 key={region.id}
@@ -88,6 +128,8 @@ export const Sidebar = ({
                   onRegionSelect(region.id);
                   setShowRegionDropdown(false);
                 }}
+                role="option"
+                aria-selected={false}
               >
                 {region.name}
               </Button>
@@ -102,13 +144,15 @@ export const Sidebar = ({
         size="icon"
         className="mb-3 w-10 h-10 p-0"
         onClick={onToggleNearby}
+        aria-label="Show nearby edible plants and mushrooms"
         title="Nearby Edibles"
       >
         <img
           src="https://raw.githubusercontent.com/lodist/funges/main/icons/cooking_1.webp"
-          alt="Nearby Edibles"
+          alt=""
           className="w-10 h-auto"
           loading="lazy"
+          aria-hidden="true"
         />
       </Button>
 
@@ -118,13 +162,15 @@ export const Sidebar = ({
         size="icon"
         className="mb-3 w-10 h-10 p-0"
         onClick={onLocateUser}
+        aria-label="Use my current location"
         title="Locate Me"
       >
         <img
           src="https://raw.githubusercontent.com/lodist/funges/main/icons/location_1.webp"
-          alt="Locate Me"
+          alt=""
           className="w-10 h-auto"
           loading="lazy"
+          aria-hidden="true"
         />
       </Button>
 
@@ -134,13 +180,15 @@ export const Sidebar = ({
         size="icon"
         className="mb-3 w-10 h-10 p-0"
         onClick={onToggleDarkMode}
+        aria-label="Toggle dark mode"
         title="Toggle Dark Mode"
       >
         <img
           src="https://raw.githubusercontent.com/lodist/funges/main/icons/darkmode_1.webp"
-          alt="Dark Mode"
+          alt=""
           className="w-10 h-auto"
           loading="lazy"
+          aria-hidden="true"
         />
       </Button>
 
@@ -150,13 +198,15 @@ export const Sidebar = ({
         size="icon"
         className="mb-3 w-10 h-10 p-0"
         onClick={onToggleNumbers}
+        aria-label="Toggle numbers display"
         title="Toggle Numbers"
       >
         <img
           src="https://raw.githubusercontent.com/lodist/funges/main/icons/numbers_1.webp"
-          alt="Numbers"
+          alt=""
           className="w-10 h-auto"
           loading="lazy"
+          aria-hidden="true"
         />
       </Button>
 
@@ -166,13 +216,15 @@ export const Sidebar = ({
         size="icon"
         className="mb-3 w-10 h-10 p-0"
         onClick={onToggleSupport}
+        aria-label="Support Fung.es project"
         title="Support"
       >
         <img
           src="https://raw.githubusercontent.com/lodist/funges/main/icons/support_1.webp"
-          alt="Support"
+          alt=""
           className="w-10 h-auto"
           loading="lazy"
+          aria-hidden="true"
         />
       </Button>
     </aside>
