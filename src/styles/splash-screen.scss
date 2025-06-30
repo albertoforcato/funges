@@ -14,49 +14,49 @@
   justify-content: center;
   z-index: 9999;
   transition: opacity 0.3s ease-out;
-  
+
   &.fade-out {
     opacity: 0;
     pointer-events: none;
   }
-  
+
   .splash-logo {
     width: 120px;
     height: 120px;
     margin-bottom: 2rem;
     animation: pulse 2s ease-in-out infinite;
-    
+
     @media (max-width: 768px) {
       width: 80px;
       height: 80px;
       margin-bottom: 1.5rem;
     }
   }
-  
+
   .splash-title {
     font-size: 2.5rem;
     font-weight: 700;
     color: #1f2937;
     margin-bottom: 0.5rem;
     text-align: center;
-    
+
     @media (max-width: 768px) {
       font-size: 2rem;
     }
   }
-  
+
   .splash-subtitle {
     font-size: 1.125rem;
     color: #16a34a;
     text-align: center;
     margin-bottom: 2rem;
-    
+
     @media (max-width: 768px) {
       font-size: 1rem;
       margin-bottom: 1.5rem;
     }
   }
-  
+
   .splash-loader {
     width: 40px;
     height: 40px;
@@ -65,7 +65,7 @@
     border-radius: 50%;
     animation: spin 1s linear infinite;
   }
-  
+
   .splash-progress {
     width: 200px;
     height: 4px;
@@ -73,7 +73,7 @@
     border-radius: 2px;
     overflow: hidden;
     margin-top: 1rem;
-    
+
     .splash-progress-bar {
       height: 100%;
       background-color: #16a34a;
@@ -88,23 +88,23 @@
 @media (prefers-color-scheme: dark) {
   .splash-screen {
     background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
-    
+
     .splash-title {
       color: #f9fafb;
     }
-    
+
     .splash-subtitle {
       color: #10b981;
     }
-    
+
     .splash-loader {
       border-color: #374151;
       border-top-color: #10b981;
     }
-    
+
     .splash-progress {
       background-color: #374151;
-      
+
       .splash-progress-bar {
         background-color: #10b981;
       }
@@ -114,7 +114,8 @@
 
 // Animations
 @keyframes pulse {
-  0%, 100% {
+  0%,
+  100% {
     transform: scale(1);
   }
   50% {
@@ -160,10 +161,10 @@
     // Additional styles for installed PWA
     .splash-title {
       font-size: 2.25rem;
-      
+
       @media (max-width: 768px) {
         font-size: 1.75rem;
       }
     }
   }
-} 
+}

@@ -59,12 +59,12 @@ export default {
         'text-secondary': 'var(--text-secondary)',
         'text-tertiary': 'var(--text-tertiary)',
         'text-inverse': 'var(--text-inverse)',
-        
+
         'bg-primary': 'var(--background-primary)',
         'bg-secondary': 'var(--background-secondary)',
         'bg-tertiary': 'var(--background-tertiary)',
         'bg-overlay': 'var(--background-overlay)',
-        
+
         'hover-primary': 'var(--hover-primary)',
         'hover-secondary': 'var(--hover-secondary)',
       },

@@ -278,7 +278,9 @@ const RealTimeDataOverlay: React.FC<RealTimeDataOverlayProps> = ({
               {weatherQuery.data.forecast &&
                 weatherQuery.data.forecast.length > 0 && (
                   <div className='mt-2'>
-                    <p className='text-xs text-text-secondary mb-1'>24h Forecast:</p>
+                    <p className='text-xs text-text-secondary mb-1'>
+                      24h Forecast:
+                    </p>
                     <div className='flex gap-1'>
                       {weatherQuery.data.forecast
                         .slice(0, 4)

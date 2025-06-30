@@ -20,7 +20,8 @@ export default defineConfig({
         runtimeCaching: [
           // TensorFlow Lite models caching
           {
-            urlPattern: /^https:\/\/pub-92765923660e431daff3170fbef6471d\.r2\.dev\/.*\.tflite$/i,
+            urlPattern:
+              /^https:\/\/pub-92765923660e431daff3170fbef6471d\.r2\.dev\/.*\.tflite$/i,
             handler: 'CacheFirst',
             options: {
               cacheName: 'tensorflow-models-cache',

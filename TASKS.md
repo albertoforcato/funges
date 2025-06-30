@@ -169,6 +169,7 @@ PLEASE: Ask for clarification if any functionality or data structure is unclear
 - [x] Display confidence scores + visual feedback
 
 ### Fix routes
+
 - [x] Take all the components defined in routes folder and extract them into a pages folder
 
 ### Species Database
@@ -191,7 +192,6 @@ PLEASE: Ask for clarification if any functionality or data structure is unclear
 ### UX & Accessibility
 
 - [x] Implement dark mode (based on existing icon state)
-
 
 --- DO NOT PROCEED WITH THESE TASKS UNTIL THE MENU AND THE SIDEBAR IS COMPLETED---
 
